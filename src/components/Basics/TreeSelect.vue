@@ -1,7 +1,8 @@
 <template>
   <div class="zeus-tree-select">
+    <!-- @blur="changeTree" -->
     <div class="el-select">
-      <el-input v-model="selectName" :disabled="!disabled" size="mini" suffix-icon="el-select__caret el-icon-arrow-up" @focus.stop="selectShow = true" @blur="changeTree" />
+      <el-input v-model="selectName" :disabled="!disabled" size="mini" suffix-icon="el-select__caret el-icon-arrow-up" @focus.stop="selectShow = true" />
     </div>
     <div v-if="selectShow" class="el-select-dropdown zeus-tree-option">
       <div class="el-scrollbar">
@@ -84,6 +85,25 @@ export default {
     padding: 6px;
     max-height: 274px;
     overflow-y: auto;
+  }
+  .el-select-dropdown__list{
+    background: #242E42;
+  }
+}
+::v-deep.el-select-dropdown{
+  background-color: #242E42;
+}
+::v-deep.el-tree{
+  background: #242E42;
+  color: #ffffff;
+  .el-tree-node:focus>.el-tree-node__content{
+    background: #36435C;
+  }
+  .el-tree-node__content:hover{
+    background: #36435C;
+  }
+  .el-tree-node__content:focus{
+    background: #36435C;
   }
 }
 </style>

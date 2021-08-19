@@ -30,12 +30,14 @@ export default {
 
 <style lang="scss" scoped>
 .InputTemplate {
+  width: 280px;
   ::v-deep.el-input__inner{
     border-radius: 20px!important;
     padding: 6px 30px;
     background: #E6EDF4;
     border: 1px solid #E6EDF4;
     font-weight: 400;
+    width: 280px;
   }
   ::v-deep.el-input__inner::placeholder{
     color: #5F708A;

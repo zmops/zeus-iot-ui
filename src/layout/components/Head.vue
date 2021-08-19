@@ -187,4 +187,13 @@ export default {
   border: none;
   line-height: 33px;
 }
+::v-deep.user-dropdown{
+  background-color: #FFFFFF !important;
+  .el-dropdown-menu__item{
+    color: #606266 !important;
+  }
+  .el-dropdown-menu__item:hover{
+    background: #f5f7fa !important;
+  }
+}
 </style>

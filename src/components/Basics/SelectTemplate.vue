@@ -68,9 +68,8 @@ export default {
 <style lang="scss" scoped>
 .SelectTemplate {
  ::v-deep.el-input__inner{
-  border-radius: 20px!important;
-  background: #E6EDF4;
-  border: 1px solid #E6EDF4;
+  background: #ffffff;
+  border: 1px solid #ABB4BE;
   font-weight: 400;
  }
   ::v-deep.el-input__inner::placeholder{
@@ -78,7 +77,8 @@ export default {
   }
  ::v-deep.el-input__inner:focus{
     background: #FFFFFF;
-    border: 1px solid #79879C !important;
+    border: 1px solid #1A84F9 !important;
+    box-shadow: 0px 0px 4px 0px #BADDFF;
   }
   ::v-deep.el-input__inner:hover{
     border: 1px solid #79879C;
