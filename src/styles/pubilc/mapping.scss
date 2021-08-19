@@ -1,0 +1,35 @@
+.zeus-mapping-con{
+  position: relative;
+}
+
+.zeus-mapping-body{
+  .zeus-mapping-dialog{
+    box-shadow: none;
+    border: none;
+  }
+}
+
+.zeus-map{
+  width: 100%;
+  background: #fff;
+  border: 1px solid #abb4be;
+  border-radius: 4px;
+  .zeus-map_prepend{
+    color: #242e42;
+    padding: 0 8px;
+    background: #F5F7FA;
+    font-size: 12px;
+    border-radius: 4px 0 0 4px;
+    border-right: 1px solid #abb4be;
+  }
+  .zeus-map_content{
+    flex: 1;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+}
+.zeus-map-value{
+  align-items: stretch;
+}
