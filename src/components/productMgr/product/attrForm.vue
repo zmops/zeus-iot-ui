@@ -146,9 +146,16 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :append-to-body="true"
+      :show-close="false"
       :width="'700px'"
     >
-      <div slot="title" class="dialog-title">Java Script</div>
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">Java Script</div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="jsVisible = false" />
+        </div>
+      </div>
       <div class="dialog-body">
         <p>function (value) {</p>
         <json-editor ref="JsonEditor" :json="jsValue" @change="handleJsonChange1" />

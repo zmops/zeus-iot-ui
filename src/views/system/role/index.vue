@@ -25,9 +25,16 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
+      :show-close="false"
       @close="close"
     >
-      <div slot="title" class="dialog-title">{{ state }}角色</div>
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">{{ state }}角色</div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+        </div>
+      </div>
       <div class="dialog-body">
         <el-form ref="roleForm" :rules="roleRules" :model="item" label-width="80px" label-position="top" class="dialog-form">
           <el-form-item label="角色名" prop="name">
@@ -50,9 +57,16 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
+      :show-close="false"
       @close="menuClose"
     >
-      <div slot="title" class="dialog-title">授权菜单</div>
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">授权菜单</div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogMenu = false" />
+        </div>
+      </div>
       <div class="dialog-body dialog-tree">
         <el-tree ref="menuTree" :data="menuTree" node-key="id" :props="TreeProps" :default-expand-all="true" show-checkbox :check-strictly="checkStrictly" />
       </div>

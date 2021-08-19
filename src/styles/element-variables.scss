@@ -39,7 +39,19 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
       .closeicon{
         font-size: 18px;
         position: relative;
-        top: 1px
+        top: 1px;
+        display: none;
+      }
+      .closeicon:first-child{
+        display: block;
+      }
+    }
+    .right:hover{
+      .closeicon:first-child{
+        display: none;
+      }
+      .closeicon:last-child{
+        display: block;
       }
     }
   }
@@ -88,6 +100,13 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   border-radius: 0 0 4px 4px;
   background: #eff4f9;
   text-align: right;
+  .el-button--default{
+    background: #EFF4F9;
+    border-color: #CCD3DB;
+  }
+  .el-button--default:hover{
+    background: #E3E9EF;
+  }
 }
 
 .dialog-form{

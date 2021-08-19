@@ -31,9 +31,16 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
+      :show-close="false"
       @close="close"
     >
-      <div slot="title" class="dialog-title">修改密码</div>
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">修改密码</div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+        </div>
+      </div>
       <div class="dialog-body">
         <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-position="top" class="dialog-form">
           <el-form-item label="旧密码" prop="oldPassword">

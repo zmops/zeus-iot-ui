@@ -13,8 +13,8 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
-      @detail="detail"
       :icon="$route.meta.icon24"
+      @detail="detail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
@@ -23,9 +23,16 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
+      :show-close="false"
       @close="close"
     >
-      <div slot="title" class="dialog-title">{{ state }}</div>
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">{{ state }}</div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+        </div>
+      </div>
       <div class="dialog-body">
         <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
           <el-form-item label="设备名称" prop="name">

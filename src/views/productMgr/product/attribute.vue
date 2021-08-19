@@ -17,9 +17,16 @@
         :destroy-on-close="true"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
+        :show-close="false"
         :width="'700px'"
       >
-        <div slot="title" class="dialog-title">{{ state }}属性</div>
+        <div slot="title" class="dialog-title zeus-flex-between">
+          <div class="left">{{ state }}属性</div>
+          <div class="right">
+            <svg-icon icon-class="dialog_close" class="closeicon" />
+            <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+          </div>
+        </div>
         <AttrForm :items="item" @close="dialogVisible = false" @closeDialog="closeDialog" />
       </el-dialog>
     </div>

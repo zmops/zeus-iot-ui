@@ -24,8 +24,15 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
+      :show-close="false"
     >
-      <div slot="title" class="dialog-title">{{ state }}产品</div>
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">{{ state }}产品</div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+        </div>
+      </div>
       <div>
         <ProductForm @close="dialogVisible = false" @closeDialog="closeDialog" />
       </div>
