@@ -129,24 +129,6 @@ export default {
 <style lang="scss" scoped>
 .zeus-mapping-con{
   position: relative;
-  .zeus-mapping-dialog{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px 0 rgb(36 46 66 / 20%);
-    border: 1px solid #79879c;
-    background: #fff;
-    .dialog-form{
-      width: 100%;
-    }
-    .zeus-form-btns{
-      width: 100%;
-      margin-top: 22px;
-    }
-  }
 }
 
 .zeus-mapping-body{
