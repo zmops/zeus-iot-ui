@@ -154,3 +154,42 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 .is-error  .el-form-item-tips{
   display: none;
 }
+
+.el-select-dropdown{
+  .el-select-dropdown__list{
+    background: #242E42;
+  }
+  .el-select-dropdown__item{
+    background: #242E42;
+    color: #FFFFFF;
+  }
+  .el-select-dropdown__item.hover{
+    background: #242E42;
+  }
+  .el-select-dropdown__item:hover{
+    background: #36435C;
+  }
+  .el-select-dropdown__item.selected{
+    color: #ffffff;
+    background: #36435C;
+  }
+  .popper__arrow::after{
+    border-bottom-color: #242E42 !important;
+  }
+} 
+.el-dropdown-menu{
+  background-color: #242E42 !important;
+  .el-dropdown-menu__item{
+    color: #ffffff;
+  }
+  .el-dropdown-menu__item:hover{
+    color: #ffffff !important;
+    background: #36435C !important;
+  }
+  .dropdown-title{
+    color: #ffffff !important;
+  }
+  .popper__arrow::after{
+    border-bottom-color: #242E42 !important;
+  }
+}

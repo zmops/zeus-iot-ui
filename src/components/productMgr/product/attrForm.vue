@@ -551,3 +551,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.zeus-attr-js .el-input__inner{
+  cursor: default !important;
+}
+</style>

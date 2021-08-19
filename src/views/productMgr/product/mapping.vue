@@ -125,3 +125,60 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.zeus-mapping-con{
+  position: relative;
+  .zeus-mapping-dialog{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgb(36 46 66 / 20%);
+    border: 1px solid #79879c;
+    background: #fff;
+    .dialog-form{
+      width: 100%;
+    }
+    .zeus-form-btns{
+      width: 100%;
+      margin-top: 22px;
+    }
+  }
+}
+
+.zeus-mapping-body{
+  .zeus-mapping-dialog{
+    box-shadow: none;
+    border: none;
+  }
+}
+
+.zeus-map{
+  width: 100%;
+  background: #fff;
+  border: 1px solid #abb4be;
+  border-radius: 4px;
+  .zeus-map_prepend{
+    color: #242e42;
+    padding: 0 8px;
+    background: #F5F7FA;
+    font-size: 12px;
+    border-radius: 4px 0 0 4px;
+    border-right: 1px solid #abb4be;
+  }
+  .zeus-map_content{
+    flex: 1;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+}
+.zeus-map-value{
+  align-items: stretch;
+}
+
+</style>
