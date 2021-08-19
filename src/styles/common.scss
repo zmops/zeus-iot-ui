@@ -1,0 +1,423 @@
+/**
+*公共基础样式
+*以zeus开头
+**/
+.zeus-f12 {
+  font-size: 12px;
+}
+
+.zeus-f14 {
+  font-size: 14px;
+}
+
+.zeus-f16 {
+  font-size: 16px;
+}
+
+.zeus-f18 {
+  font-size: 18px;
+}
+
+.zeus-bold {
+  font-weight: bold;
+}
+
+.zeus-w100 {
+  width: 100%;
+}
+
+/*******************************/
+
+.zeus-text-align-r {
+  text-align: right;
+}
+
+.zeus-text-align-l {
+  text-align: left;
+}
+
+.zeus-text-align-c {
+  text-align: center;
+}
+
+.zeus-right {
+  float: right;
+}
+
+.zeus-block {
+  display: block;
+}
+
+.zeus-inline-block {
+  display: inline-block;
+}
+
+.zeus-flex {
+  display: flex;
+}
+
+.zeus-relative {
+  position: relative
+}
+
+.zeus-absolute {
+  position: absolute;
+}
+
+.zeus-radius-2 {
+  border-radius: 2px;
+}
+
+.zeus-radius-4 {
+  border-radius: 4px;
+}
+
+.zeus-border-s {
+  border: 1px solid #B6BEC6; //深色边框
+}
+
+.zeus-border-q {
+  border: 1px solid #DEE5ED; //浅色边框
+}
+
+.zeus-c-h{
+  color: #12191F;
+}
+
+.zeus-c-b{
+  color: #03A9E5;
+}
+
+.zeus-c-link{
+  color: #2178B3;
+}
+
+.zeus-cursor-pointer{
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+/*******************************/
+
+.zeus-mt-5 {
+  margin-top: 5px;
+}
+
+.zeus-mt-10 {
+  margin-top: 10px;
+}
+
+.zeus-mt-15 {
+  margin-top: 15px;
+}
+
+.zeus-mt-20 {
+  margin-top: 20px;
+}
+
+.zeus-mt-25 {
+  margin-top: 25px;
+}
+
+.zeus-mr-5 {
+  margin-right: 5px;
+}
+
+.zeus-mr-10 {
+  margin-right: 10px;
+}
+
+.zeus-mr-15 {
+  margin-right: 15px;
+}
+
+.zeus-mr-20 {
+  margin-right: 20px;
+}
+
+.zeus-mr-25 {
+  margin-right: 25px;
+}
+
+.zeus-mb-5 {
+  margin-bottom: 5px;
+}
+
+.zeus-mb-10 {
+  margin-bottom: 10px;
+}
+
+.zeus-mb-15 {
+  margin-bottom: 15px;
+}
+
+.zeus-mb-20 {
+  margin-bottom: 20px;
+}
+
+.zeus-mb-25 {
+  margin-bottom: 25px;
+}
+
+.zeus-ml-5 {
+  margin-left: 5px;
+}
+
+.zeus-ml-10 {
+  margin-left: 10px;
+}
+
+.zeus-ml-15 {
+  margin-left: 15px;
+}
+
+.zeus-ml-20 {
+  margin-left: 20px;
+}
+
+.zeus-ml-25 {
+  margin-left: 25px;
+}
+
+/************************************/
+
+.zeus-pt-5 {
+  padding-top: 5px;
+}
+
+.zeus-pt-10 {
+  padding-top: 10px;
+}
+
+.zeus-pt-15 {
+  padding-top: 15px;
+}
+
+.zeus-pt-20 {
+  padding-top: 20px;
+}
+
+.zeus-pt-25 {
+  padding-top: 25px;
+}
+
+.zeus-pr-5 {
+  padding-right: 5px;
+}
+
+.zeus-pr-10 {
+  padding-right: 10px;
+}
+
+.zeus-pr-15 {
+  padding-right: 15px;
+}
+
+.zeus-pr-20 {
+  padding-right: 20px;
+}
+
+.zeus-pr-25 {
+  padding-right: 25px;
+}
+
+.zeus-pb-5 {
+  padding-bottom: 5px;
+}
+
+.zeus-pb-10 {
+  padding-bottom: 10px;
+}
+
+.zeus-pb-15 {
+  padding-bottom: 15px;
+}
+
+.zeus-pb-20 {
+  padding-bottom: 20px;
+}
+
+.zeus-pb-25 {
+  padding-bottom: 25px;
+}
+
+.zeus-pl-5 {
+  padding-left: 5px;
+}
+
+.zeus-pl-10 {
+  padding-left: 10px;
+}
+
+.zeus-pl-15 {
+  padding-left: 15px;
+}
+
+.zeus-pl-20 {
+  padding-left: 20px;
+}
+
+.zeus-pl-25 {
+  padding-left: 25px;
+}
+
+.zeus-flex-between{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.zeus-flex-around{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.zeus-flex-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zeus-flex-default{
+  display: flex;
+  align-items: center;
+}
+
+.zeus-list-conten{
+  position: relative;
+  padding: 6px 17px;
+  border-radius: 30px;
+  background: #eff4f9;
+  border: 1px solid #ccd3db;
+  margin: 5px auto;
+  .left{
+    flex: 1;
+  }
+  .zeus-list-item{
+    padding: 0 5px;
+    flex: 1;
+    position: relative;
+    .tips{
+      position: absolute;
+      top: 0;
+      z-index: 9;
+    }
+    .zeus-left-tips{
+      left: 38px;
+    }
+    .zeus-right-tips{
+      right: 8px;
+    }
+    .el-input--mini{
+      margin: 0 2px;
+      .el-input__inner{
+        border: 1px solid #abb4be;
+        border-radius: 0px 4px 4px 0px;
+      }
+    }
+    .el-input-group__append, .el-input-group__prepend{
+      border: 1px solid #abb4be;
+      color: #242e42;
+      border-right: none;
+      padding: 0 8px;
+    }
+  }
+  .zeus-icon{
+    padding: 5px 0px;
+    padding-left: 17px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+.zeus-product{
+  background: #fff;
+  padding: 20px;
+  .el-form--label-top .el-form-item__label{
+    font-weight: 600;
+  }
+  .dialog-form{
+    width: 600px;
+    .form-btns{
+      .el-button + .el-button{
+        margin-left: 30px;
+      }
+    }
+  }
+  .el-input.is-disabled .el-input__inner,
+  .el-textarea.is-disabled .el-textarea__inner{
+    background: #ffffff;
+  }
+}
+
+.zeus-product-tit{
+  color: #36435c;
+  line-height: 20px;
+  font-size: 12px;
+  margin-bottom: 4px;
+  padding: 0;
+  font-weight: bold;
+}
+
+.zeus-form-btns{
+  width: 600px;
+}
+
+.zeus-mapping-con{
+  position: relative;
+  .zeus-mapping-dialog{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgb(36 46 66 / 20%);
+    border: 1px solid #79879c;
+    background: #fff;
+    .dialog-form{
+      width: 100%;
+    }
+    .zeus-form-btns{
+      width: 100%;
+      margin-top: 22px;
+    }
+  }
+}
+
+.zeus-mapping-body{
+  .zeus-mapping-dialog{
+    box-shadow: none;
+    border: none;
+  }
+}
+
+.zeus-map{
+  width: 100%;
+  background: #fff;
+  border: 1px solid #abb4be;
+  border-radius: 4px;
+  .zeus-map_prepend{
+    color: #242e42;
+    padding: 0 8px;
+    background: #F5F7FA;
+    font-size: 12px;
+    border-radius: 4px 0 0 4px;
+    border-right: 1px solid #abb4be;
+  }
+  .zeus-map_content{
+    flex: 1;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+}
+.zeus-map-value{
+  align-items: stretch;
+}
+
+.zeus-attr-js .el-input__inner{
+  cursor: default !important;
+}

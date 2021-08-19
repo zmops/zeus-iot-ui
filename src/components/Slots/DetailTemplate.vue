@@ -1,0 +1,241 @@
+<!-- 详情页面插槽 -->
+<template>
+  <div class="detail-template">
+    <div class="detail-template-left">
+      <div class="detail-template-left-title">
+        <span class="zeus-cursor-pointer zeus-inline-block back" @click="goBack">
+          <i class="el-icon-arrow-left zeus-cursor-pointer zeus-bold" />
+          {{ up }}
+        </span>
+        <div class="title">
+          <svg-icon :icon-class="icon" />
+          {{ title }}
+        </div>
+        <div class="zeus-f12">{{ subhead }}</div>
+      </div>
+      <div class="detail-template-left-detail">
+        <div class="detail-title">详情</div>
+        <div v-for="(item, index) in detailList" :key="index" class="detail-list zeus-flex-default">
+          <div class="detail-list-l">{{ item.key }}</div>
+          <div class="detail-list-r">{{ item.value || '-' }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-template-right">
+      <div class="detail-template-head">
+        <el-button v-for="(item, index) in tabs" :key="index" :class="item.name === activity ? 'activity' : ''" type="primary" plain @click="change(item.name)">{{ item.label }}</el-button>
+      </div>
+      <div class="detail-template-main">
+        <slot name="main" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'DetailTemplate',
+  props: {
+    to: {
+      type: String,
+      default: ''
+    },
+    up: {
+      type: String,
+      default: '上一页'
+    },
+    icon: {
+      type: String,
+      default: 'asset-04'
+    },
+    title: {
+      type: String,
+      default: 'ks-controller-manager'
+    },
+    subhead: {
+      type: String,
+      default: 'ks-controller-manager'
+    },
+    detailList: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    tabs: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
+  data() {
+    return {
+      activity: this.tabs.length ? this.tabs[0].name : null
+    }
+  },
+  created() {
+    if (this.$route.query.tabsName) {
+      this.activity = this.$route.query.tabsName
+    }
+  },
+  methods: {
+    /* 返回上一页 */
+    goBack() {
+      if (this.to) {
+        this.$router.push({ path: this.to })
+      } else {
+        this.$router.go(-1)
+      }
+    },
+    /* 点击按钮修改tabs */
+    change(name) {
+      this.activity = name
+      this.$emit('changeTabs', name)
+      const { path, query } = this.$route
+      this.$router.replace({
+        path,
+        query: {
+          ...query,
+          tabsName: name
+        }
+      })
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import "~@/styles/variables.scss";
+
+.detail-template {
+  width: 100%;
+  height: calc(100vh - 90px);
+  padding: 20px;
+  background-color: #EFF4F9;
+  display: flex;
+
+  .detail-template-left {
+    width: 348px;
+    margin-right: 20px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgb(36 46 66 / 6%);
+
+    .detail-template-left-title {
+      width: 100%;
+      height: 100px;
+      padding: 12px;
+      background-color: #f9fbfd;
+      background-image: url(https://demo.kubesphere.io/assets/detail-info.svg);
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+      border-radius: 4px 4px 0 0;
+
+      .back {
+        height: 24px;
+        line-height: 24px;
+        font-size: 12px;
+        font-weight: 600;
+        font-style: normal;
+        font-stretch: normal;
+        margin-bottom: 12px;
+
+        &:hover {
+          color: $themeText;
+        }
+
+        i {
+          color: $themeText;
+        }
+      }
+
+      .title {
+        height: 28px;
+        margin-bottom: 4px;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        overflow: hidden;
+        font-size: 20px;
+        line-height: 1.4;
+        font-family: Roboto, PingFang SC, Lantinghei SC, Helvetica Neue, Helvetica, Arial, Microsoft YaHei, 微软雅黑, STHeitiSC-Light, simsun, 宋体, WenQuanYi Zen Hei, WenQuanYi Micro Hei, sans-serif;
+        font-style: normal;
+        font-stretch: normal;
+        letter-spacing: normal;
+        font-weight: 600;
+        color: #36435c;
+      }
+    }
+
+    .detail-template-left-detail {
+      padding: 12px;
+
+      .detail-title {
+        margin-bottom: 12px;
+        line-height: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        font-style: normal;
+        color: #242e42;
+        text-shadow: 0 4px 8px rgb(36 46 66 / 10%);
+      }
+
+      .detail-list {
+        padding: 6px 0;
+        font-size: 12px;
+
+        .detail-list-l {
+          // float: left;
+          width: 108px;
+          padding: 0 5px 0 0;
+          color: #5f708a;
+          vertical-align: top;
+          word-break: break-all;
+          white-space: normal;
+          line-height: 20px;
+        }
+
+        .detail-list-r {
+          line-height: 20px;
+          display: block;
+          // margin-left: 111px;
+          color: #242e42;
+          word-break: break-all;
+          white-space: pre-wrap;
+        }
+      }
+    }
+  }
+
+  .detail-template-right {
+    width: calc(100% - 368px);
+
+    .detail-template-head {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      padding: 0 14px;
+      border-radius: 4px;
+      background-color: #242e42;
+      margin: 0 0 12px;
+
+      ::v-deep.el-button{
+        padding: 8px 20px;
+      }
+
+      ::v-deep.el-button--primary {
+        background: #242e42;
+        border-color: transparent;
+        color: #fff;
+      }
+
+      .activity::v-deep.el-button--primary {
+        background: $themeText;
+        color: #fff;
+      }
+    }
+  }
+}
+</style>

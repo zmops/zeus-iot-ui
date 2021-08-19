@@ -1,0 +1,156 @@
+/* 改变主题色变量 */
+$--color-primary: #242e42;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+
+/*搜索栏按钮样式*/
+.el-button--mini.is-round{
+  padding: 5px 23px;
+  height: 30px;
+  font-weight: bold;
+}
+.setting-form .btns .el-button--mini.is-round{
+  min-width: 96px;
+}
+
+/*弹框样式*/
+.v-modal{
+  opacity: 0.7;
+  background: rgba(35, 45, 65, 1);
+}
+.el-dialog{
+  border-radius: 4px;
+}
+.el-dialog__header{
+  background: #f9fbfd;
+  padding: 10px 40px 10px 20px;
+  color: #36435c;
+  border-bottom: 1px solid #ccd3db;
+  border-radius: 4px 4px 0px 0px;
+  line-height: 40px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.el-dialog__headerbtn{
+  top: 14px;
+  border-radius: 4px;
+  padding: 3px;
+  background: #242e42;
+  border: 1px solid #242e42;
+  box-shadow: 0 8px 16px 0 rgb(35 45 65 / 28%);
+}
+.el-dialog__headerbtn .el-dialog__close{
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff !important;
+}
+.el-dialog__headerbtn:hover{
+  box-shadow: none;
+}
+.el-dialog__body{
+  padding: 0px;
+  padding-bottom: 60px;
+  position: relative;
+}
+.el-dialog__body .dialog-body{
+  padding: 20px;
+  max-height: calc(100vh - 370px);
+  overflow: auto;
+}
+.el-dialog__body .dialog-footer-btn{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.el-dialog__body .dialog-tree{
+  padding-left: 50px;
+}
+
+.dialog-footer-btn{
+  padding: 16px 20px;
+  border-radius: 0 0 4px 4px;
+  background: #eff4f9;
+  text-align: right;
+}
+
+.dialog-form{
+  width: 600px;
+}
+.el-form-item{
+  margin-bottom: 18px;
+}
+.el-dialog__body .el-form-item:last-child{
+  margin-bottom: 0px;
+}
+.el-form--label-top .el-form-item__label{
+  color: #36435c;
+  line-height: 20px;
+  font-size: 12px;
+  margin-bottom: 4px;
+  padding: 0;
+  font-weight: normal;
+}
+.el-form-item__content{
+  line-height: 32px;
+}
+.el-select--mini{
+  width: 100%;
+}
+.el-input--mini .el-input__inner{
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #abb4be;
+  color: #36435c;
+  font-weight: 600;
+  line-height: 32px;
+  height: 32px;
+}
+.el-input--mini .el-textarea__inner{
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #abb4be;
+  color: #36435c;
+  font-weight: 600;
+}
+.el-form-item__content .add-btn{
+  width: 100%;
+  border-style: dashed; 
+}
+
+/*操作栏按钮*/
+.setting-buttons .setting-button {
+  padding: 5px 15px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.setting-buttons .el-button.is-round:hover {
+  background: #eff4f9;
+  border: 1px solid #ccd3db;
+}
+
+/* form表单提示 */
+.el-form-item__error{
+  position: relative;
+  line-height: 18px;
+}
+.el-form-item-tips{
+  font-size: 12px;
+  color: #79879c;
+  line-height: 18px;
+  i{
+    font-size: 14px;
+    margin-right: 5px;
+  }
+}
+.is-error  .el-form-item-tips{
+  display: none;
+}
