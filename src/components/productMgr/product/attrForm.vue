@@ -191,7 +191,8 @@ export default {
   },
   props: {
     items: {
-      type: String
+      type: String,
+      default: ''
     }
   },
   data() {

@@ -16,10 +16,16 @@
 export default {
   props: {
     defaultProps: {
-      type: Object
+      type: Object,
+      default() {
+        return {}
+      }
     },
     data: {
-      type: Array
+      type: Array,
+      default() {
+        return []
+      }
     },
     id: {
       type: String,

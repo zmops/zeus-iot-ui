@@ -36,7 +36,10 @@ import { updateValuemap } from '@/api/porductMgr'
 export default {
   props: {
     item: {
-      type: Object
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   data() {
