@@ -27,7 +27,11 @@
       @close="close"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">{{ state }}</div>
+        <div class="left">
+          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
+          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
+          {{ state }}设备
+        </div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon" />
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
@@ -290,7 +294,7 @@ export default {
       this.getList()
     },
     add() {
-      this.state = '创建设备'
+      this.state = '创建'
       this.dialogVisible = true
     },
     edit(id) {
@@ -301,7 +305,7 @@ export default {
       if (this.dialogForm.groupIds) {
         this.dialogForm.deviceGroupIds = this.dialogForm.groupIds.split(',')
       }
-      this.state = '编辑设备'
+      this.state = '编辑'
       this.dialogVisible = true
     },
     detail(item) {

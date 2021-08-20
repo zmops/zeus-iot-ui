@@ -35,7 +35,10 @@
       @close="close"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">修改密码</div>
+        <div class="left">
+          <svg-icon icon-class="dialog_edit" />
+          修改密码
+        </div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon" />
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />

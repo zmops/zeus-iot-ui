@@ -38,7 +38,10 @@
       :close-on-press-escape="false"
       :width="'700px'"
     >
-      <div slot="title" class="dialog-title">更新值映射</div>
+      <div slot="title" class="dialog-title">
+        <svg-icon icon-class="dialog_edit" />
+        更新值映射
+      </div>
       <div class="zeus-mapping-con zeus-mapping-body">
         <MapForm :item="mapItem" @handleCancle="handleCancle" />
       </div>

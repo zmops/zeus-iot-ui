@@ -158,7 +158,10 @@
       :width="'700px'"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">Java Script</div>
+        <div class="left">
+          <svg-icon icon-class="dialog_edit" />
+          Java Script
+        </div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon" />
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="jsVisible = false" />
