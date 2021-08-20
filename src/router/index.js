@@ -8,14 +8,27 @@ Router.prototype.push = function push(location) {
 
 /* 不设权限的路由 */
 import constantRouter from '@/router/modules/constant'
+/* 统计分析 */
+import analyseRouter from '@/router/modules/analyse'
 /* 设备管理 */
 import deviceMgrRouter from '@/router/modules/deviceMgr'
 /* 产品管理 */
 import productMgrRouter from '@/router/modules/productMgr'
+/* 规则引擎 */
+import ruleRouter from '@/router/modules/rule'
+/* 可视化 */
+import viewRouter from '@/router/modules/visual'
 /* 系统管理 */
 import systemRouter from '@/router/modules/system'
+/* 告警管理 */
+import alarmRouter from '@/router/modules/alarm'
+/* 平台授权 */
+import authRouter from '@/router/modules/auth'
 /* 日志查询 */
 import logRouter from '@/router/modules/log'
+/* 关于我们 */
+import aboutRouter from '@/router/modules/about'
+
 import Layout from '@/layout/index'
 
 Vue.use(Router)
@@ -23,10 +36,16 @@ window.axiosCancel = []
 
 export const constantRouters = constantRouter
 export const asyncRoutes = [
+  analyseRouter,
   deviceMgrRouter,
   productMgrRouter,
+  ruleRouter,
+  viewRouter,
   systemRouter,
-  logRouter
+  alarmRouter,
+  authRouter,
+  logRouter,
+  aboutRouter
 ]
 export const errorRouters = [
   {

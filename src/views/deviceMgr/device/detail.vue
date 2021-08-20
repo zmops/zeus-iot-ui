@@ -32,40 +32,32 @@ export default {
           name: '基础信息'
         },
         {
-          label: '元数据',
-          name: '元数据'
-        },
-        {
           label: '属性',
           name: '属性'
         },
         {
-          label: '记录',
-          name: '记录'
+          label: '事件',
+          name: '事件'
         },
         {
-          label: '属性管理',
-          name: '属性管理'
-        },
-        {
-          label: '事件管理',
-          name: '事件管理'
-        },
-        {
-          label: '服务管理',
-          name: '服务管理'
-        },
-        {
-          label: '上下线规则',
-          name: '上下线规则'
+          label: '服务',
+          name: '服务'
         },
         {
           label: '告警规则',
           name: '告警规则'
         },
         {
-          label: '值映射方案',
-          name: '值映射方案'
+          label: '标签',
+          name: '标签'
+        },
+        {
+          label: '变量',
+          name: '变量'
+        },
+        {
+          label: '值映射',
+          name: '值映射'
         },
         {
           label: '子设备',

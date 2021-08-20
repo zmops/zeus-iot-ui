@@ -16,7 +16,11 @@ export function recursionRouter(userRouter = [], allRouter = []) {
         if (v.path && item.url === v.path) {
           let { children, ...x } = v
           children = recursionRouter(userRouter, children)
-          realRoutes.push({ children, ...x })
+          if (children.length) {
+            realRoutes.push({ children, ...x })
+          } else {
+            realRoutes.push(x)
+          }
         }
       })
     }
