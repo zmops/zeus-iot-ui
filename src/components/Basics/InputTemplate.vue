@@ -22,7 +22,7 @@ export default {
     },
     w: {
       type: Number,
-      default: 200
+      default: 280
     }
   }
 }
