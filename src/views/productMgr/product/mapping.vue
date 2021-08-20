@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import MapForm from '@/components/productMgr/product/mapForm.vue'
+import MapForm from './mapForm.vue'
 import { getValueMapList, deleteValuemap } from '@/api/porductMgr'
 export default {
   components: {

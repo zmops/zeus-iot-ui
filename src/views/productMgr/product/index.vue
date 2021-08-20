@@ -46,7 +46,7 @@
 <script>
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import SearchForm from '@/components/Basics/SearchForm'
-import ProductForm from '@/components/productMgr/product/addForm.vue'
+import ProductForm from './addForm.vue'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import Pagination from '@/components/Basics/Pagination'
 import { getProductByPage, DeleteProduct } from '@/api/porductMgr'

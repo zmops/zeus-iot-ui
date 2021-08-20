@@ -41,7 +41,7 @@
 import SearchForm from '@/components/Basics/SearchForm'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import Pagination from '@/components/Basics/Pagination'
-import AttrForm from '@/components/productMgr/product/attrForm.vue'
+import AttrForm from './attrForm.vue'
 import { getAttrTrapperByPage, deleteAttrTrapper } from '@/api/porductMgr'
 export default {
   provide() {
