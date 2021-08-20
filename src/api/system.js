@@ -90,11 +90,11 @@ export function deleteUserGroup(data) {
 }
 
 // 角色列表
-export function getRoleList(data) {
+export function getRoleList(params) {
   return request({
     url: '/sys/role/list',
-    method: 'post',
-    data
+    method: 'get',
+    params
   })
 }
 

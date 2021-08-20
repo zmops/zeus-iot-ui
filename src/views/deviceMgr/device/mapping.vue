@@ -26,7 +26,7 @@
           <div class="el-form-item-tips">
             <i class="el-icon-info" />供产品内的属性选用。若属性上进行了配置，则实际保存的依然是原始值。只是让展现数据的可读性更好。
           </div>
-          <MapForm v-if="showMap" :item="mapItem" @handleCancle="handleCancle" />
+          <mapForm v-if="showMap" :item="mapItem" @handleCancle="handleCancle" />
         </div>
       </el-form-item>
     </el-form>
@@ -43,23 +43,22 @@
         更新值映射
       </div>
       <div class="zeus-mapping-con zeus-mapping-body">
-        <MapForm :item="mapItem" @handleCancle="handleCancle" />
+        <mapForm :item="mapItem" @handleCancle="handleCancle" />
       </div>
-
     </el-dialog>
   </div>
 </template>
 
 <script>
-import MapForm from '@/components/productMgr/product/mapForm.vue'
-import { getValueMapList, deleteValuemap } from '@/api/porductMgr'
+import mapForm from '@/views/productMgr/product/mapForm'
+import { getValueMapList, deleteValuemap } from '@/api/deviceMgr'
 export default {
   components: {
-    MapForm
+    mapForm
   },
   data() {
     return {
-      prodId: '',
+      deviceId: '',
       mapItem: {},
       showMap: false,
       dialogVisible: false,
@@ -68,13 +67,13 @@ export default {
   },
   async created() {
     if (this.$route.query.id) {
-      this.prodId = this.$route.query.id
+      this.deviceId = this.$route.query.id
       await this.getMapList()
     }
   },
   methods: {
     getMapList() {
-      getValueMapList({ prodId: this.prodId }).then(res => {
+      getValueMapList({ deviceId: this.deviceId }).then(res => {
         if (res.code == 200) {
           for (const item of res.data) {
             for (const map of item.mappings) {
@@ -87,7 +86,7 @@ export default {
     },
     add() {
       this.mapItem = {
-        productId: this.prodId,
+        deviceId: this.deviceId,
         valueMapName: '',
         valueMaps: [],
         valuemapid: ''
@@ -96,7 +95,7 @@ export default {
     },
     edit(item) {
       this.mapItem = {
-        productId: this.prodId,
+        deviceId: this.deviceId,
         valueMapName: item.name,
         valueMaps: item.mappings,
         valuemapid: item.valuemapid

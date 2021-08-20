@@ -106,3 +106,66 @@ export function getAttrTrapperByPage(data) {
     data
   })
 }
+
+// 设备属性创建
+export function createAttrTrapper(data) {
+  return request({
+    url: '/device/model/attr/trapper/create',
+    method: 'post',
+    data
+  })
+}
+
+// 设备属性修改
+export function updateAttrTrapper(data) {
+  return request({
+    url: '/device/model/attr/trapper/update',
+    method: 'post',
+    data
+  })
+}
+
+// 设备属性删除
+export function deleteAttrTrapper(data) {
+  return request({
+    url: '/device/model/attr/trapper/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 设备属性详情
+export function detailAttrTrapper(params) {
+  return request({
+    url: '/device/model/detail',
+    method: 'get',
+    params
+  })
+}
+
+// 设备值映射列表
+export function getValueMapList(params) {
+  return request({
+    url: '/device/valueMap/list',
+    method: 'get',
+    params
+  })
+}
+
+// 设备值映射修改
+export function updateValuemap(data) {
+  return request({
+    url: '/device/valuemap/update',
+    method: 'post',
+    data
+  })
+}
+
+// 设备值映射删除
+export function deleteValuemap(data) {
+  return request({
+    url: '/device/valuemap/delete',
+    method: 'post',
+    data
+  })
+}
