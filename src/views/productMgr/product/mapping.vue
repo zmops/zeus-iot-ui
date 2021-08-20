@@ -86,7 +86,10 @@ export default {
       this.mapItem = {
         productId: this.prodId,
         valueMapName: '',
-        valueMaps: [],
+        valueMaps: [{
+          value: '',
+          newvalue: ''
+        }],
         valuemapid: ''
       }
       this.showMap = true

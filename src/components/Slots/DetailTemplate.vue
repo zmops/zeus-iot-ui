@@ -16,7 +16,7 @@
       <div class="detail-template-left-detail">
         <div class="detail-title">详情</div>
         <div v-for="(item, index) in detailList" :key="index" class="detail-list zeus-flex-default">
-          <div class="detail-list-l">{{ item.key }}</div>
+          <div class="detail-list-l">{{ item.key + '：' }}</div>
           <div class="detail-list-r">{{ item.value || '-' }}</div>
         </div>
       </div>

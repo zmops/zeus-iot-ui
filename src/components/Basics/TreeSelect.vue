@@ -88,6 +88,7 @@ export default {
   }
   .el-select-dropdown__list{
     background: #242E42;
+    border-radius: 4px;
   }
 }
 ::v-deep.el-select-dropdown{

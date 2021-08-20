@@ -36,7 +36,10 @@ export default {
   data() {
     return {
       prodId: '',
-      tagList: []
+      tagList: [{
+        tag: '',
+        value: ''
+      }]
     }
   },
   async created() {
@@ -79,18 +82,15 @@ export default {
       }
     },
     delItem(type, i) {
-      this.$confirm('是否确认删除当前数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.tagList.splice(i, 1)
-      })
+      this.tagList.splice(i, 1)
     },
     async handleCancle() {
       await this.getTagList()
     },
     handleSubmit() {
+      if (this.tagList.length == 1 && this.tagList[0].tag == '' && this.tagList[0].value == '') {
+        this.tagList = []
+      }
       if (this.tagList.length > 0) {
         let rule = true
         for (const item of this.tagList) {

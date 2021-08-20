@@ -43,7 +43,10 @@ export default {
   data() {
     return {
       prodId: '',
-      variableList: []
+      variableList: [{
+        tag: '',
+        value: ''
+      }]
     }
   },
   async created() {
@@ -81,21 +84,18 @@ export default {
       }
     },
     delItem(i) {
-      this.$confirm('是否确认删除当前数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.variableList.splice(i, 1)
-      })
+      this.variableList.splice(i, 1)
     },
     async handleCancle() {
       await this.getVariableList()
     },
     handleSubmit() {
-      if (this.tagList.length > 0) {
+      if (this.variableList.length == 1 && this.variableList[0].tag == '' && this.variableList[0].value == '') {
+        this.variableList = []
+      }
+      if (this.variableList.length > 0) {
         let rule = true
-        for (const item of this.tagList) {
+        for (const item of this.variableList) {
           if (item.tag === '') {
             rule = false
           }

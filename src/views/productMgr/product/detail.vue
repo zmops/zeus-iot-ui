@@ -90,6 +90,9 @@ export default {
     if (this.$route.query.id) {
       await this.getDetail(this.$route.query.id)
     }
+    if (this.$route.query.tabsName) {
+      this.tabName = this.$route.query.tabsName
+    }
   },
   methods: {
     changeTabs(name) {

@@ -56,7 +56,6 @@ export default {
     item: {
       immediate: true,
       handler(val) {
-        console.log(val)
         this.mapItem = Object.assign({}, val)
       }
     }
@@ -87,13 +86,7 @@ export default {
       }
     },
     del(i) {
-      this.$confirm('是否确认删除当前数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.mapItem.valueMaps.splice(i, 1)
-      })
+      this.mapItem.valueMaps.splice(i, 1)
     },
     handleSubmit() {
       this.$refs.mappingForm.validate(async(valid, errorFields) => {

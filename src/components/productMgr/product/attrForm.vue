@@ -9,7 +9,9 @@
         <el-form-item label="标识符" prop="key">
           <el-input v-model="form.key" size="mini" />
           <div class="el-form-item-tips">
-            <i class="el-icon-info" />只能输入数字和字母
+            <i class="el-icon-info" />
+            <span>可以包含数字、字母、-_.。更多特殊形式请见文档</span>
+            <span v-if="false">标识符内可使用本产品 变量 的 键，且必须包含在{$}内；若变量的键为 PWD，则完整标识符可以为 xx{$PWD}xxx</span>
           </div>
         </el-form-item>
         <el-form-item label="来源类型" prop="source">
@@ -41,6 +43,9 @@
               :value="item.code"
             />
           </el-select>
+          <div class="el-form-item-tips">
+            <i class="el-icon-info" />想要枚举？使用下面的值映射或数据预处理。
+          </div>
         </el-form-item>
         <el-form-item label="单位">
           <el-select v-model="form.units" size="mini" placeholder="请选择单位">
@@ -112,6 +117,9 @@
               :value="item.valuemapid"
             />
           </el-select>
+          <div class="el-form-item-tips">
+            <i class="el-icon-info" />若配置，则实际保存的依然是原始值。只是方便让展现数据的可读性更好。
+          </div>
         </el-form-item>
         <el-form-item label="标签">
           <div v-for="(item,index) in form.tags" :key="'tag'+index" class="zeus-list-conten zeus-flex-between">
@@ -193,9 +201,12 @@ export default {
         remark: '',
         productId: '',
         valueType: '',
-        processStepList: [],
+        processStepList: null,
         valuemapid: '',
-        tags: []
+        tags: [{
+          tag: '',
+          value: ''
+        }]
       },
       attrRules: {
         attrName: [
@@ -214,7 +225,11 @@ export default {
           { required: true, message: '请选择数据类型', trigger: 'change' }
         ]
       },
-      processStepList: [],
+      processStepList: [{
+        type: '',
+        value: '',
+        value2: ''
+      }],
       mapList: [],
       sourceList: [],
       attrList: [],
@@ -440,18 +455,12 @@ export default {
       }
     },
     delItem(type, i) {
-      this.$confirm('是否确认删除当前数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        if (type === 'pre') {
-          this.processStepList.splice(i, 1)
-        }
-        if (type === 'tag') {
-          this.form.tags.splice(i, 1)
-        }
-      })
+      if (type === 'pre') {
+        this.processStepList.splice(i, 1)
+      }
+      if (type === 'tag') {
+        this.form.tags.splice(i, 1)
+      }
     },
     handleCancle() {
       this.$emit('close')
@@ -461,72 +470,81 @@ export default {
         if (valid) {
           let pre = true
           let tag = true
-          if (this.processStepList && this.processStepList.length > 0) {
-            let rule = true
-            for (const item of this.processStepList) {
-              if (item.type) {
-                if (item.type === '25') {
-                  if (item.value === '' || item.value2 === '') {
-                    rule = false
-                  }
-                } else {
-                  if (item.type !== '7' && item.type !== '8') {
-                    if (item.value === '') {
+          if (this.processStepList.length == 1 && this.processStepList[0].type == '' && this.processStepList[0].value == '' && this.processStepList[0].value2 == '') {
+            this.processStepList = []
+            this.form.processStepList = null
+          } else {
+            if (this.processStepList && this.processStepList.length > 0) {
+              let rule = true
+              for (const item of this.processStepList) {
+                if (item.type) {
+                  if (item.type === '25') {
+                    if (item.value === '' || item.value2 === '') {
                       rule = false
                     }
+                  } else {
+                    if (item.type !== '7' && item.type !== '8') {
+                      if (item.value === '') {
+                        rule = false
+                      }
+                    }
                   }
+                } else {
+                  rule = false
                 }
+              }
+              if (rule) {
+                pre = true
+                const list = []
+                for (const item of this.processStepList) {
+                  const obj = {
+                    type: item.type,
+                    params: []
+                  }
+                  switch (item.type) {
+                    case '25':
+                      obj.params.push(item.value)
+                      obj.params.push(item.value2)
+                      break
+                    case '7':
+                    case '8':
+                      obj.params = []
+                      break
+                    default:
+                      obj.params.push(item.value)
+                      break
+                  }
+                  list.push(obj)
+                }
+                this.form.processStepList = list
               } else {
-                rule = false
+                pre = false
+                this.$message({
+                  message: '请填写完整当前预处理步骤',
+                  type: 'warning'
+                })
               }
-            }
-            if (rule) {
-              pre = true
-              const list = []
-              for (const item of this.processStepList) {
-                const obj = {
-                  type: item.type,
-                  params: []
-                }
-                switch (item.type) {
-                  case '25':
-                    obj.params.push(item.value)
-                    obj.params.push(item.value2)
-                    break
-                  case '7':
-                  case '8':
-                    obj.params = []
-                    break
-                  default:
-                    obj.params.push(item.value)
-                    break
-                }
-                list.push(obj)
-              }
-              this.form.processStepList = list
-            } else {
-              pre = false
-              this.$message({
-                message: '请填写完整当前预处理步骤',
-                type: 'warning'
-              })
             }
           }
-          if (this.form.tags && this.form.tags.length > 0) {
-            let rule = true
-            for (const item of this.form.tags) {
-              if (item.tag === '') {
-                rule = false
+          if (this.form.tags.length == 1 && this.form.tags[0].tag == '' && this.form.tags[0].value == '') {
+            this.form.tags = []
+          } else {
+            if (this.form.tags && this.form.tags.length > 0) {
+              let rule = true
+              for (const item of this.form.tags) {
+                if (item.tag === '') {
+                  rule = false
+                }
               }
-            }
-            if (rule) {
-              tag = true
-            } else {
-              tag = false
-              this.$message({
-                message: '请填写完整当前标签的键值',
-                type: 'warning'
-              })
+              if (rule) {
+                tag = true
+              } else {
+                tag = false
+                this.$message({
+                  message: '请填写完整当前标签的键值',
+                  type: 'warning'
+                })
+              }
             }
           }
           if (pre && tag) {
