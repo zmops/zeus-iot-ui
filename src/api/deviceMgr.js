@@ -98,6 +98,15 @@ export function getDeviceTag(params) {
   })
 }
 
+// 更新设备标签
+export function updateTag(data) {
+  return request({
+    url: '/device/tag/update',
+    method: 'post',
+    data
+  })
+}
+
 // 设备属性列表
 export function getAttrTrapperByPage(data) {
   return request({
