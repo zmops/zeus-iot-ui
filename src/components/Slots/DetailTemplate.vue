@@ -124,10 +124,10 @@ export default {
 
     .detail-template-left-title {
       width: 100%;
-      height: 100px;
+      min-height: 100px;
       padding: 12px;
       background-color: #f9fbfd;
-      background-image: url(https://demo.kubesphere.io/assets/detail-info.svg);
+      background-image: url('../../assets/detail-info.png');
       background-repeat: no-repeat;
       background-size: 100% auto;
       border-radius: 4px 4px 0 0;
