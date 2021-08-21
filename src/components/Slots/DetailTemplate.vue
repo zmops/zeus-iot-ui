@@ -8,13 +8,13 @@
           {{ up }}
         </span>
         <div class="title">
-          <svg-icon :icon-class="icon" style="font-size: 20px" />
+          <svg-icon :icon-class="icon" style="font-size: 20px;margin-right: 16px;" />
           {{ title }}
         </div>
         <div class="zeus-f12">{{ subhead }}</div>
       </div>
       <div class="detail-template-left-detail">
-        <div class="detail-title">详情</div>
+        <div class="detail-title">{{ up }}详情</div>
         <div v-for="(item, index) in detailList" :key="index" class="detail-list zeus-flex-default">
           <div class="detail-list-l">{{ item.key + '：' }}</div>
           <div class="detail-list-r">{{ item.value || '-' }}</div>
@@ -118,7 +118,7 @@ export default {
   .detail-template-left {
     width: 348px;
     margin-right: 20px;
-    border-radius: 4px;
+    border-radius: 6px;
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgb(36 46 66 / 6%);
 
@@ -171,6 +171,11 @@ export default {
         letter-spacing: normal;
         font-weight: 600;
         color: #36435c;
+        margin-bottom: 12px;
+      }
+      .zeus-f12{
+        font-size: 12px;
+        color: #79879C;
       }
     }
 
@@ -197,7 +202,7 @@ export default {
           // float: left;
           width: 108px;
           padding: 0 5px 0 0;
-          color: #5f708a;
+          color: #79879C;
           vertical-align: top;
           word-break: break-all;
           white-space: normal;
