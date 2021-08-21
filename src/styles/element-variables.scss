@@ -205,6 +205,13 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   .popper__arrow::after{
     border-bottom-color: #242E42 !important;
   }
+  .el-select-dropdown__item.selected.hover{
+    background: #242E42;
+  }
+  .el-select-dropdown__item.selected{
+    color: #ffffff !important;
+    background: #36435C !important;
+  }
 } 
 .el-dropdown-menu{
   background-color: #242E42 !important;
