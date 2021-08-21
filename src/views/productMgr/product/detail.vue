@@ -1,6 +1,6 @@
 <template>
   <div class="product-detail">
-    <DetailTemplate :up="'产品'" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
+    <DetailTemplate :up="'产品'" icon="product24" :title="detailInfo.prodName" :subhead="detailInfo.remark" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
         <div v-if="tabName === 'basics'">
           <Basics @edit="edit" />
@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       detailList: [],
+      detailInfo: '',
       prodId: '',
       tabName: 'basics',
       // 右边tab切换
@@ -102,6 +103,7 @@ export default {
       this.prodId = id
       await productDetail({ prodId: id }).then(res => {
         if (res.code == 200) {
+          this.detailInfo = res.data
           this.detailList = [
             {
               key: '产品ID',

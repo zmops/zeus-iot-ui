@@ -8,7 +8,7 @@
           {{ up }}
         </span>
         <div class="title">
-          <svg-icon :icon-class="icon" />
+          <svg-icon :icon-class="icon" style="font-size: 20px" />
           {{ title }}
         </div>
         <div class="zeus-f12">{{ subhead }}</div>
@@ -133,13 +133,17 @@ export default {
       border-radius: 4px 4px 0 0;
 
       .back {
-        height: 24px;
-        line-height: 24px;
+        width: 100px;
+        padding: 0 14px;
+        height: 30px;
+        line-height: 30px;
         font-size: 12px;
-        font-weight: 600;
+        font-weight: 500;
         font-style: normal;
         font-stretch: normal;
         margin-bottom: 12px;
+        background: #ffffff;
+        border-radius: 16px;
 
         &:hover {
           color: $themeText;
@@ -147,6 +151,7 @@ export default {
 
         i {
           color: $themeText;
+          font-weight: bold;
         }
       }
 
