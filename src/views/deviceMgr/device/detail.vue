@@ -3,7 +3,7 @@
   <div class="device-detail">
     <DetailTemplate :up="'设备'" :title="title" :subhead="subhead" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
-        <info v-if="activity === '基础信息'" />
+        <info v-if="activity === '基础信息'" :info-data="info" />
         <attribute v-else-if="activity === '属性'" />
         <tag v-else-if="activity === '标签'" />
         <div v-else-if="activity === '值映射'" class="zeus-product">
@@ -72,7 +72,8 @@ export default {
       ],
       subhead: '',
       title: '',
-      activity: '基础信息'
+      activity: '基础信息',
+      info: {}
     }
   },
   created() {
@@ -96,6 +97,7 @@ export default {
     getDetail(deviceId) {
       deviceDetail({ deviceId }).then((res) => {
         if (res.code == 200) {
+          this.info = res.data
           this.detailList = [
             {
               key: '设备ID',
