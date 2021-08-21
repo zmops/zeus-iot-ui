@@ -13,7 +13,7 @@
           <el-input v-model="form.prodName" size="mini" />
         </el-form-item>
         <el-form-item label="产品分类" prop="groupId">
-          <TreeSelect ref="tree" :default-props="treeProps" :data="treeData" @changeGroupId="changeGroupId" />
+          <TreeSelect :id="prodId ? form.groupId : ''" ref="tree" :name="prodId ? form.groupIdName : ''" :default-props="treeProps" :data="treeData" @changeGroupId="changeGroupId" />
         </el-form-item>
         <el-form-item label="设备类型" prop="prodType">
           <el-select v-model="form.prodType" placeholder="请选择设备类型" size="mini">
@@ -45,11 +45,17 @@
 
 <script>
 import TreeSelect from '@/components/Basics/TreeSelect.vue'
-import { getProductTypeTree, createProduct } from '@/api/porductMgr'
+import { getProductTypeTree, createProduct, productDetail, UpdateProduct } from '@/api/porductMgr'
 import { getDictListByCode } from '@/api/system'
 export default {
   components: {
     TreeSelect
+  },
+  props: {
+    prodId: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -88,6 +94,9 @@ export default {
   async created() {
     await this.getDictList()
     await this.getTypeTree()
+    if (this.prodId) {
+      this.getDetail()
+    }
   },
   methods: {
     getDictList() {
@@ -104,21 +113,40 @@ export default {
         }
       })
     },
+    async getDetail() {
+      await productDetail({ prodId: this.prodId }).then(res => {
+        if (res.code == 200) {
+          this.form = res.data
+        }
+      })
+    },
     handleCancle() {
       this.$emit('close')
     },
     handleSubmit() {
       this.$refs.productForm.validate(async(valid, errorFields) => {
         if (valid) {
-          createProduct(this.form).then(async(res) => {
-            if (res.code == 200) {
-              this.$message({
-                message: '添加成功',
-                type: 'success'
-              })
-              this.$emit('closeDialog')
-            }
-          })
+          if (this.prodId) {
+            UpdateProduct(this.form).then(async(res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.$emit('closeDialog')
+              }
+            })
+          } else {
+            createProduct(this.form).then(async(res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: '添加成功',
+                  type: 'success'
+                })
+                this.$emit('closeDialog')
+              }
+            })
+          }
         }
       })
     },

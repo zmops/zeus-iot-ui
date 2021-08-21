@@ -1,8 +1,7 @@
 <template>
   <div class="zeus-tree-select">
-    <!-- @blur="changeTree" -->
     <div class="el-select">
-      <el-input v-model="selectName" :disabled="!disabled" size="mini" suffix-icon="el-select__caret el-icon-arrow-up" @focus.stop="selectShow = true" />
+      <el-input v-model="selectName" size="mini" suffix-icon="el-select__caret el-icon-arrow-up" @focus.stop="selectShow = true" @blur="changeTree" />
     </div>
     <div v-if="selectShow" class="el-select-dropdown zeus-tree-option">
       <div class="el-scrollbar">
@@ -34,10 +33,6 @@ export default {
     name: {
       type: String,
       default: ''
-    },
-    basicChange: {
-      type: Boolean,
-      default: true
     }
   },
   data() {
@@ -54,14 +49,13 @@ export default {
       deep: true,
       handler(val) {
         this.selectName = val
-        this.selectId = this.id
       }
     },
-    basicChange: {
+    id: {
       immediate: true,
       deep: true,
       handler(val) {
-        this.disabled = val
+        this.selectId = val
       }
     }
   },

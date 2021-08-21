@@ -171,6 +171,8 @@ export default {
 
     .detail-template-left-detail {
       padding: 12px;
+      height: calc(100% - 100px);
+      overflow-y: auto;
 
       .detail-title {
         margin-bottom: 12px;

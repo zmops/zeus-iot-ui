@@ -2,7 +2,7 @@
   <div class="product-detail">
     <DetailTemplate :up="'产品'" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
-        <div v-if="tabName === 'basics'" class="zeus-product">
+        <div v-if="tabName === 'basics'">
           <Basics @edit="edit" />
         </div>
         <div v-if="tabName === 'attribute'">
@@ -109,7 +109,7 @@ export default {
             },
             {
               key: '产品分类',
-              value: res.data.groupName
+              value: res.data.groupIdName
             },
             {
               key: '设备类型',

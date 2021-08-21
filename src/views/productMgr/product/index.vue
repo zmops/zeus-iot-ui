@@ -90,13 +90,13 @@ export default {
       columns: [
         {
           label: '产品名称',
-          prop: 'name',
+          prop: 'prodName',
           event: true,
           show: true
         },
         {
           label: '产品ID',
-          prop: 'productCode',
+          prop: 'prodCode',
           show: true
         },
         {
@@ -106,7 +106,7 @@ export default {
         },
         {
           label: '设备类型',
-          prop: 'typeName',
+          prop: 'prodTypeName',
           show: true
         },
         {

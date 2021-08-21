@@ -1,105 +1,108 @@
 <template>
   <div>
-    <el-form ref="productForm" :rules="productRules" :model="form" label-width="80px" label-position="top" class="dialog-form">
-      <el-form-item label="产品ID" prop="prodCode">
-        <el-input v-model="form.prodCode" :disabled="!basicChange" size="mini" />
-        <div class="el-form-item-tips">
-          <i class="el-icon-info" />输入产品ID
-        </div>
-      </el-form-item>
-      <el-form-item label="产品名称" prop="prodName">
-        <el-input v-model="form.prodName" :disabled="!basicChange" size="mini" />
-      </el-form-item>
-      <el-form-item label="产品分类" prop="groupId">
-        <TreeSelect :id="form.groupId" ref="tree" :basic-change="basicChange" :name="form.groupName" :default-props="treeProps" :data="treeData" @changeGroupId="changeGroupId" />
-      </el-form-item>
-      <el-form-item label="设备类型" prop="prodType">
-        <el-select v-model="form.prodType" :disabled="!basicChange" size="mini">
-          <el-option
-            v-for="item in dictlist"
-            :key="item.code"
-            :label="item.name"
-            :value="item.code"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="厂商">
-        <el-input v-model="form.manufacturer" :disabled="!basicChange" size="mini" />
-      </el-form-item>
-      <el-form-item label="型号">
-        <el-input v-model="form.model" :disabled="!basicChange" size="mini" />
-      </el-form-item>
-      <el-form-item label="描述">
-        <el-input v-model="form.remark" :disabled="!basicChange" type="textarea" rows="2" size="mini" />
-      </el-form-item>
-    </el-form>
-    <div class="zeus-form-btns zeus-flex-center">
-      <el-button v-if="!basicChange" type="primary" size="mini" round @click="basicChange = true">修 改</el-button>
-      <el-button v-if="basicChange" size="mini" round @click="handleCancle">取 消</el-button>
-      <el-button v-if="basicChange" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+    <div class="zeus-product-tit">基本信息</div>
+    <div class="zeus-product basics">
+      <div class="left">
+        <svg-icon icon-class="bigproduct" style="font-size: 46px" />
+      </div>
+      <div class="content">
+        <el-row :gutter="18" class="row">
+          <el-col :span="6">
+            <div class="info">
+              <div class="con">{{ form.prodCode || '-' }}</div>
+              <div class="tit">产品ID</div>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="info">
+              <div class="con">{{ form.prodName || '-' }}</div>
+              <div class="tit">产品名称</div>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="info">
+              <div class="con">{{ form.groupIdName || '-' }}</div>
+              <div class="tit">产品分类</div>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="info">
+              <div class="con">{{ form.prodTypeName || '-' }}</div>
+              <div class="tit">设备类型</div>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="18" class="row">
+          <el-col :span="6">
+            <div class="info">
+              <div class="con">{{ form.manufacturer || '-' }}</div>
+              <div class="tit">厂商</div>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="info">
+              <div class="con">{{ form.model || '-' }}</div>
+              <div class="tit">型号</div>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="info">
+              <div class="con">{{ form.remark || '-' }}</div>
+              <div class="tit">描述</div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="right">
+        <el-button size="mini" round @click="eidt"><svg-icon icon-class="dialog_edit" style="margin-right: 5px" />编辑</el-button>
+      </div>
     </div>
+    <el-dialog
+      v-if="dialogVisible"
+      :visible.sync="dialogVisible"
+      :destroy-on-close="true"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :width="'700px'"
+      :show-close="false"
+    >
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">
+          <svg-icon icon-class="dialog_edit" />
+          编辑产品
+        </div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+        </div>
+      </div>
+      <div>
+        <ProductForm :prod-id="prodId" @close="dialogVisible = false" @closeDialog="closeDialog" />
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import TreeSelect from '@/components/Basics/TreeSelect.vue'
-import { getProductTypeTree, productDetail, UpdateProduct } from '@/api/porductMgr'
-import { getDictListByCode } from '@/api/system'
+import { productDetail } from '@/api/porductMgr'
+import ProductForm from './addForm.vue'
 export default {
   components: {
-    TreeSelect
+    ProductForm
   },
   data() {
     return {
       form: {},
-      dictlist: [],
-      basicChange: false,
-      treeData: [],
       prodId: '',
-      // 基础信息表单验证
-      productRules: {
-        prodCode: [
-          { required: true, message: '请输入产品ID', trigger: 'blur' }
-        ],
-        prodName: [
-          { required: true, message: '请输入产品名称', trigger: 'blur' }
-        ],
-        groupId: [
-          { required: true, message: '请选择产品分类', trigger: 'blur' }
-        ],
-        prodType: [
-          { required: true, message: '请输入设备类型', trigger: 'blur' }
-        ]
-      },
-      // 基础信息产品分类树
-      treeProps: {
-        children: 'childrenNodes',
-        label: 'name'
-      }
+      dialogVisible: false
     }
   },
   async created() {
-    this.getDictList()
     if (this.$route.query.id) {
       await this.getDetail(this.$route.query.id)
     }
-    this.getTypeTree()
   },
   methods: {
-    getDictList() {
-      getDictListByCode({ dictTypeCode: 'DEVICE_TYPE' }).then(res => {
-        if (res.code == 200) {
-          this.dictlist = res.data
-        }
-      })
-    },
-    getTypeTree() {
-      getProductTypeTree().then(res => {
-        if (res.code == 200) {
-          this.treeData = res.data
-        }
-      })
-    },
     async getDetail(id) {
       this.prodId = id
       await productDetail({ prodId: id }).then(res => {
@@ -108,30 +111,72 @@ export default {
         }
       })
     },
-    changeGroupId(id) {
-      this.form.groupId = id
+    eidt() {
+      this.dialogVisible = true
     },
-    handleCancle() {
-      this.basicChange = false
+    closeDialog() {
+      this.dialogVisible = false
       this.getDetail(this.prodId)
-    },
-    handleSubmit() {
-      this.$refs.productForm.validate(async(valid, errorFields) => {
-        if (valid) {
-          UpdateProduct(this.form).then(async(res) => {
-            if (res.code == 200) {
-              this.$message({
-                message: '修改成功',
-                type: 'success'
-              })
-              this.handleCancle()
-              this.$emit('edit')
-            }
-          })
-        }
-      })
+      this.$emit('edit')
     }
   }
 
 }
 </script>
+
+<style lang="scss" scoped>
+.basics{
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  .left{
+    flex: 0 0 84px;
+    background: #F9FBFD;
+    border-radius: 4px;
+    padding: 15px 19px;
+  }
+  .content{
+    flex: 1;
+    margin: 0 14px;
+    .row{
+      height: 64px;
+      border-radius: 4px;
+      background: #F9FBFD;
+      border: 1px solid #EFF4F9;
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+      .info{
+        padding: 0 9px;
+        .con{
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          font-size: 13px;
+          color: #242E42;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+        .tit{
+          font-size: 12px;
+          color: #79879C;
+        }
+      }
+    }
+  }
+  .right{
+    flex: 0 0 62px;
+    .el-button{
+      padding: 5px 9px;
+      border: 1px solid #EFF4F9;
+      background: #EFF4F9;
+    }
+    .el-button:hover{
+      border: 1px solid #CCD3DB;
+      background: #E3E9EF;
+    }
+  }
+}
+</style>
