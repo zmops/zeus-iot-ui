@@ -4,7 +4,8 @@
     <DetailTemplate :up="'设备'" :title="title" :subhead="subhead" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
         <info v-if="activity === '基础信息'" />
-        <attribute v-else-if="activity === '属性'"></attribute>
+        <attribute v-else-if="activity === '属性'" />
+        <tag v-else-if="activity === '标签'" />
         <div v-else-if="activity === '值映射'" class="zeus-product">
           <mapping />
         </div>
@@ -16,6 +17,7 @@
 import DetailTemplate from '@/components/Slots/DetailTemplate.vue'
 import attribute from '@/views/deviceMgr/device/attribute'
 import mapping from '@/views/deviceMgr/device/mapping'
+import tag from '@/views/deviceMgr/device/tag'
 import info from '@/views/deviceMgr/device/info'
 import { deviceDetail, getDeviceTag } from '@/api/deviceMgr'
 export default {
@@ -24,7 +26,8 @@ export default {
     DetailTemplate,
     attribute,
     mapping,
-    info
+    info,
+    tag
   },
   data() {
     return {

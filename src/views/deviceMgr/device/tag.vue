@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { getProdTagList, updateTag } from '@/api/porductMgr'
+import { getDeviceTag, updateTag } from '@/api/deviceMgr'
 export default {
   data() {
     return {
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     getTagList() {
-      getProdTagList({ prodId: this.prodId }).then(res => {
+      getDeviceTag({ deviceId: this.prodId }).then(res => {
         if (res.code == 200) {
           this.tagList = res.data
         }
