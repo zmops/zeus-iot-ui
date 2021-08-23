@@ -28,7 +28,9 @@
           </el-col>
           <el-col :span="6">
             <div class="info">
-              <div class="con">{{ infoData.groupName || '-' }}</div>
+              <div class="con">
+                <span v-for="(item, index) in dialogForm.groupList" :key="index" class="group-item">{{ item }}</span>
+              </div>
               <div class="tit">设备组</div>
             </div>
           </el-col>
@@ -42,7 +44,10 @@
           </el-col>
           <el-col :span="6">
             <div class="info">
-              <div class="con">{{ infoData.position || '-' }}</div>
+              <div class="con">
+                {{ infoData.position || '-' }}
+                <a class="show-map zeus-ml-5" @click="dialogMap = true">查看地图</a>
+              </div>
               <div class="tit">坐标信息</div>
             </div>
           </el-col>
@@ -61,6 +66,38 @@
         </el-button>
       </div>
     </div>
+    <el-dialog
+      :visible.sync="dialogMap"
+      :destroy-on-close="true"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :width="'700px'"
+      :show-close="false"
+    >
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">
+          <svg-icon icon-class="dialog_edit"/>
+          查看地图
+        </div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogMap = false"/>
+        </div>
+      </div>
+      <div class="dialog-body">
+        <baidu-map
+          class="bm-view2 zeus-mt-20"
+          :zoom="15"
+          :center="center"
+          :ak="selfKey"
+          inertial-dragging
+          :scroll-wheel-zoom="true"
+          @ready="mapReady"
+        >
+          <bm-marker :position="point" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"/>
+        </baidu-map>
+      </div>
+    </el-dialog>
     <el-dialog
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
@@ -187,6 +224,9 @@ export default {
           if (this.dialogForm.groupIds) {
             this.dialogForm.deviceGroupIds = this.dialogForm.groupIds.split(',')
           }
+          if (this.dialogForm.groupName) {
+            this.dialogForm.groupList = this.dialogForm.groupName.split(',')
+          }
         }
       }
     }
@@ -213,7 +253,8 @@ export default {
         ]
       },
       productList: [],
-      deviceGroup: []
+      deviceGroup: [],
+      dialogMap: false
     }
   },
   created() {
@@ -231,26 +272,38 @@ export default {
   methods: {
     selectPoint({ type, target, point, pixel, overlay }) {
       this.point = point
-      this.dialogForm.position = point.lat + ',' + point.lng
+      this.dialogForm.position = point.lng + ',' + point.lat
     },
     mapReady({ BMap, map }) {
       const _this = this
-      // 获取自动定位方法
-      const geolocation = new BMap.Geolocation()
-      // 获取自动定位获取的坐标信息
-      geolocation.getCurrentPosition(
-        function(r) {
-          _this.center = {
-            lng: r.point.lng,
-            lat: r.point.lat
-          }
-          _this.point = {
-            lng: r.point.lng,
-            lat: r.point.lat
-          }
-        },
-        { enableHighAccuracy: true }
-      )
+      if (_this.dialogForm.position) {
+        const arr = _this.dialogForm.position.split(',')
+        _this.center = {
+          lng: arr[0],
+          lat: arr[1]
+        }
+        _this.point = {
+          lng: arr[0],
+          lat: arr[1]
+        }
+      } else {
+        // 获取自动定位方法
+        const geolocation = new BMap.Geolocation()
+        // 获取自动定位获取的坐标信息
+        geolocation.getCurrentPosition(
+          function(r) {
+            _this.center = {
+              lng: r.point.lng,
+              lat: r.point.lat
+            }
+            _this.point = {
+              lng: r.point.lng,
+              lat: r.point.lat
+            }
+          },
+          { enableHighAccuracy: true }
+        )
+      }
     },
     search(e) {
       // console.log(e)
@@ -279,6 +332,11 @@ export default {
 .info {
   .bm-view {
     width: 600px;
+    height: 500px;
+  }
+
+  .bm-view2{
+    width: 100%;
     height: 500px;
   }
 
@@ -324,6 +382,17 @@ export default {
             color: #242E42;
             font-weight: bold;
             margin-bottom: 5px;
+          }
+
+          .group-item{
+            display: inline-block;
+            background-color: #E3E9EF;
+            padding: 4px 5px;
+            margin-right: 5px;
+          }
+
+          .show-map{
+            color: #1A84F9;
           }
 
           .tit {

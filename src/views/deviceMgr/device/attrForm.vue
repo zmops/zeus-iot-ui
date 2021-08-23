@@ -2,14 +2,15 @@
 <template>
   <div class="form-content">
     <div class="dialog-body">
-      <el-form ref="attrForm" :rules="attrRules" :model="form" label-width="80px" label-position="top" class="dialog-form">
+      <el-form ref="attrForm" :rules="attrRules" :model="form" label-width="80px" label-position="top"
+               class="dialog-form">
         <el-form-item label="属性名称" prop="attrName">
-          <el-input v-model="form.attrName" size="mini" />
+          <el-input v-model="form.attrName" size="mini"/>
         </el-form-item>
         <el-form-item label="标识符" prop="key">
-          <el-input v-model="form.key" size="mini" />
+          <el-input v-model="form.key" size="mini"/>
           <div class="el-form-item-tips">
-            <i class="el-icon-info" />
+            <i class="el-icon-info"/>
             <span>可以包含数字、字母、-_.。更多特殊形式请见文档</span>
             <span v-if="false">标识符内可使用本产品 变量 的 键，且必须包含在{$}内；若变量的键为 PWD，则完整标识符可以为 xx{$PWD}xxx</span>
           </div>
@@ -44,7 +45,7 @@
             />
           </el-select>
           <div class="el-form-item-tips">
-            <i class="el-icon-info" />想要枚举？使用下面的值映射或数据预处理。
+            <i class="el-icon-info"/>想要枚举？使用下面的值映射或数据预处理。
           </div>
         </el-form-item>
         <el-form-item label="单位">
@@ -67,7 +68,7 @@
           <el-input v-model="form.key" size="mini" />
         </el-form-item> -->
         <el-form-item label="描述">
-          <el-input v-model="form.remark" type="textarea" rows="2" size="mini" />
+          <el-input v-model="form.remark" type="textarea" rows="2" size="mini"/>
         </el-form-item>
         <el-form-item label="数据预处理">
           <div v-for="(item,index) in processStepList" :key="'pre'+index" class="zeus-list-conten zeus-flex-between">
@@ -88,24 +89,25 @@
                   </el-option-group>
                 </el-select>
               </div>
-              <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21'" class="zeus-list-item">
-                <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)" />
+              <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21'"
+                   class="zeus-list-item">
+                <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)"/>
               </div>
               <div v-if="item.type === '25'" class="zeus-list-item">
-                <el-input v-model="item.value" size="mini" placeholder="被替换文本" />
+                <el-input v-model="item.value" size="mini" placeholder="被替换文本"/>
               </div>
               <div v-if="item.type === '25'" class="zeus-list-item">
-                <el-input v-model="item.value2" size="mini" placeholder="替换为" />
+                <el-input v-model="item.value2" size="mini" placeholder="替换为"/>
               </div>
               <div v-if="item.type === '21'" class="zeus-list-item" @click="changeJs(index)">
-                <el-input v-model="item.value" class="zeus-attr-js" size="mini" disabled placeholder="script" suffix-icon="el-icon-edit-outline" />
+                <el-input v-model="item.value" class="zeus-attr-js" size="mini" disabled placeholder="script" suffix-icon="el-icon-edit-outline"/>
               </div>
             </div>
-            <i class="el-icon-delete zeus-icon" @click="delItem('pre',index)" />
+            <i class="el-icon-delete zeus-icon" @click="delItem('pre',index)"/>
           </div>
           <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="preAdd">增加预处理步骤</el-button>
           <div class="el-form-item-tips">
-            <i class="el-icon-info" />若配置，则最终保存的是预处理后的数据。
+            <i class="el-icon-info"/>若配置，则最终保存的是预处理后的数据。
           </div>
         </el-form-item>
         <el-form-item label="值映射">
@@ -118,7 +120,7 @@
             />
           </el-select>
           <div class="el-form-item-tips">
-            <i class="el-icon-info" />若配置，则实际保存的依然是原始值。只是方便让展现数据的可读性更好。
+            <i class="el-icon-info"/>若配置，则实际保存的依然是原始值。只是方便让展现数据的可读性更好。
           </div>
         </el-form-item>
         <el-form-item label="标签">
@@ -135,11 +137,11 @@
                 </el-input>
               </div>
             </div>
-            <i class="el-icon-delete zeus-icon" @click="delItem('tag',index)" />
+            <i class="el-icon-delete zeus-icon" @click="delItem('tag',index)"/>
           </div>
           <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="tagAdd">增加标签</el-button>
           <div class="el-form-item-tips">
-            <i class="el-icon-info" />可在属性上增加自定义标签，以方便统计分析。
+            <i class="el-icon-info"/>可在属性上增加自定义标签，以方便统计分析。
           </div>
         </el-form-item>
       </el-form>
@@ -159,17 +161,17 @@
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
-          <svg-icon icon-class="dialog_edit" />
+          <svg-icon icon-class="dialog_edit"/>
           Java Script
         </div>
         <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="jsVisible = false" />
+          <svg-icon icon-class="dialog_close" class="closeicon"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="jsVisible = false"/>
         </div>
       </div>
       <div class="dialog-body">
         <p>function (value) {</p>
-        <json-editor ref="JsonEditor" :json="jsValue" @change="handleJsonChange1" />
+        <json-editor ref="JsonEditor" :json="jsValue" @change="handleJsonChange1"/>
         <!-- <el-input v-model="jsValue" type="textarea" placeholder="return value" maxlength="65535" show-word-limit :autosize="{ minRows: 3, maxRows: 15}" /> -->
         <p>}</p>
       </div>
@@ -182,9 +184,16 @@
 </template>
 
 <script>
-import { getValueMapList, getAttrTrapperByPage, createAttrTrapper, updateAttrTrapper, detailAttrTrapper } from '@/api/deviceMgr'
+import {
+  getValueMapList,
+  getAttrTrapperByPage,
+  createAttrTrapper,
+  updateAttrTrapper,
+  detailAttrTrapper
+} from '@/api/deviceMgr'
 import JsonEditor from '@/components/Basics/JsonEditor.vue'
 import { getDictListByCode, groupDictByCode } from '@/api/system'
+
 export default {
   components: {
     JsonEditor
@@ -252,6 +261,26 @@ export default {
       handler(val) {
         if (val) {
           this.getDetail()
+        } else {
+          this.processStepList = null
+          this.form = {
+            attrName: '',
+            key: '',
+            units: '',
+            source: '',
+            remark: '',
+            productId: '',
+            valueType: '',
+            processStepList: null,
+            valuemapid: '',
+            tags: [{
+              tag: '',
+              value: ''
+            }]
+          }
+          this.$nextTick(() => {
+            this.$refs.attrForm.resetFields()
+          })
         }
       }
     },
@@ -582,7 +611,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.zeus-attr-js .el-input__inner{
+.zeus-attr-js .el-input__inner {
   cursor: default !important;
 }
 </style>

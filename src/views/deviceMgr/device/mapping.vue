@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import mapForm from '@/views/productMgr/product/mapForm'
+import mapForm from '@/views/deviceMgr/device/mapForm'
 import { getValueMapList, deleteValuemap } from '@/api/deviceMgr'
 export default {
   components: {
@@ -86,7 +86,7 @@ export default {
     },
     add() {
       this.mapItem = {
-        deviceId: this.deviceId,
+        productId: this.deviceId,
         valueMapName: '',
         valueMaps: [],
         valuemapid: ''
@@ -95,7 +95,7 @@ export default {
     },
     edit(item) {
       this.mapItem = {
-        deviceId: this.deviceId,
+        productId: this.deviceId,
         valueMapName: item.name,
         valueMaps: item.mappings,
         valuemapid: item.valuemapid

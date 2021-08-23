@@ -5,10 +5,14 @@
       <template v-slot:main>
         <info v-if="activity === '基础信息'" :info-data="info" />
         <attribute v-else-if="activity === '属性'" />
+        <incident v-else-if="activity ==='事件'" />
+        <serve v-else-if="activity === '服务'" />
+        <alarm v-else-if="activity === '告警规则'" />
         <tag v-else-if="activity === '标签'" />
         <div v-else-if="activity === '值映射'" class="zeus-product">
           <mapping />
         </div>
+        <subset v-else-if="activity === '子设备'" />
       </template>
     </DetailTemplate>
   </div>
@@ -19,6 +23,10 @@ import attribute from '@/views/deviceMgr/device/attribute'
 import mapping from '@/views/deviceMgr/device/mapping'
 import tag from '@/views/deviceMgr/device/tag'
 import info from '@/views/deviceMgr/device/info'
+import incident from '@/views/deviceMgr/device/incident'
+import serve from '@/views/deviceMgr/device/serve'
+import alarm from '@/views/deviceMgr/device/alarm'
+import subset from '@/views/deviceMgr/device/subset'
 import { deviceDetail, getDeviceTag } from '@/api/deviceMgr'
 export default {
   name: 'DeviceDetail',
@@ -27,7 +35,11 @@ export default {
     attribute,
     mapping,
     info,
-    tag
+    tag,
+    incident,
+    serve,
+    subset,
+    alarm
   },
   data() {
     return {

@@ -183,10 +183,6 @@ export default {
           fixed: 'right',
           buttons: [
             {
-              label: '编辑',
-              event: 'edit'
-            },
-            {
               label: '删除',
               event: 'delete'
             }
@@ -317,7 +313,7 @@ export default {
       })
     },
     delete(deviceId) {
-      this.$confirm('是否确认删除该数据数据?', '提示', {
+      this.$confirm('是否确认删除该数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

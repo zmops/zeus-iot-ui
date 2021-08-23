@@ -36,10 +36,7 @@ export default {
   data() {
     return {
       prodId: '',
-      tagList: [{
-        tag: '',
-        value: ''
-      }]
+      tagList: []
     }
   },
   async created() {

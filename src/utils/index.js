@@ -128,3 +128,18 @@ export function nextFirstLink(router) {
     }
   }
 }
+// 时间戳转换为年-月-日 时:分
+export function ftimestampToData(ftimestamp) {
+  if (!ftimestamp) return ''
+  const date = new Date(ftimestamp)
+  const Y = date.getFullYear() + '-'
+  const M =
+    (date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1) + '-'
+  const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' '
+  const h =
+    (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':'
+  const m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+  return Y + M + D + h + m
+}
