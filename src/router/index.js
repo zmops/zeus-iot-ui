@@ -16,8 +16,6 @@ import deviceMgrRouter from '@/router/modules/deviceMgr'
 import productMgrRouter from '@/router/modules/productMgr'
 /* 规则引擎 */
 import ruleRouter from '@/router/modules/rule'
-/* 可视化 */
-import viewRouter from '@/router/modules/visual'
 /* 系统管理 */
 import systemRouter from '@/router/modules/system'
 /* 告警管理 */
@@ -40,7 +38,6 @@ export const asyncRoutes = [
   deviceMgrRouter,
   productMgrRouter,
   ruleRouter,
-  viewRouter,
   systemRouter,
   alarmRouter,
   authRouter,
