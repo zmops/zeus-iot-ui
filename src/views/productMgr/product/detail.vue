@@ -101,7 +101,7 @@ export default {
     },
     async getDetail(id) {
       this.prodId = id
-      await productDetail({ prodId: id }).then(res => {
+      await productDetail({ productId: id }).then(res => {
         if (res.code == 200) {
           this.detailInfo = res.data
           this.detailList = [

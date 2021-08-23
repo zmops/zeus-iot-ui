@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     getTagList() {
-      getProdTagList({ prodId: this.prodId }).then(res => {
+      getProdTagList({ productId: this.prodId }).then(res => {
         if (res.code == 200) {
           this.tagList = res.data
         }

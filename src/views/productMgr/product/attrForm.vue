@@ -383,7 +383,7 @@ export default {
       return list
     },
     getMapList() {
-      getValueMapList({ prodId: this.prodId }).then(res => {
+      getValueMapList({ productId: this.prodId }).then(res => {
         if (res.code == 200) {
           this.mapList = res.data
         }

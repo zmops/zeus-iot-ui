@@ -114,7 +114,7 @@ export default {
       })
     },
     async getDetail() {
-      await productDetail({ prodId: this.prodId }).then(res => {
+      await productDetail({ productId: this.prodId }).then(res => {
         if (res.code == 200) {
           this.form = res.data
         }

@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     getMapList() {
-      getValueMapList({ prodId: this.prodId }).then(res => {
+      getValueMapList({ productId: this.prodId }).then(res => {
         if (res.code == 200) {
           for (const item of res.data) {
             for (const map of item.mappings) {
