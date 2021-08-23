@@ -44,6 +44,16 @@
           <el-form-item label="用户组名" prop="groupName">
             <el-input v-model="item.groupName" size="mini" />
           </el-form-item>
+          <el-form-item label="设备组" prop="deviceGroupIds">
+            <el-select v-model="item.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini">
+              <el-option
+                v-for="i in deviceGroup"
+                :key="i.deviceGroupId"
+                :label="i.name"
+                :value="i.deviceGroupId.toString()"
+              />
+            </el-select>
+          </el-form-item>
           <el-form-item label="备注">
             <el-input v-model="item.remark" type="textarea" rows="2" size="mini" />
           </el-form-item>
@@ -64,6 +74,7 @@ import SearchForm from '@/components/Basics/SearchForm'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import Pagination from '@/components/Basics/Pagination'
 import { getUsrGrpByPage, createUserGroup, updateUserGroup, deleteUserGroup } from '@/api/system'
+import { getDeviceGrpList } from '@/api/deviceMgr'
 export default {
   provide() {
     return {
@@ -85,6 +96,7 @@ export default {
         page: 1
       },
       tableData: [],
+      deviceGroup: [],
       loading: false,
       total: 0,
       ids: [],
@@ -149,6 +161,12 @@ export default {
   },
   created() {
     this.getList()
+    // 获取设备组列表
+    getDeviceGrpList({}).then((res) => {
+      if (res.code == 200) {
+        this.deviceGroup = res.data
+      }
+    })
   },
   methods: {
     search() {
@@ -186,6 +204,9 @@ export default {
         if (id === item.userGroupId) {
           this.item = Object.assign({}, item)
         }
+      }
+      if (this.dialogForm.groupIds) {
+        this.dialogForm.deviceGroupIds = this.dialogForm.groupIds.split(',')
       }
       this.state = '编辑'
       this.dialogVisible = true

@@ -9,6 +9,7 @@
         <serve v-else-if="activity === '服务'" />
         <alarm v-else-if="activity === '告警规则'" />
         <tag v-else-if="activity === '标签'" />
+        <variable v-else-if="activity === '变量'" />
         <div v-else-if="activity === '值映射'" class="zeus-product">
           <mapping />
         </div>
@@ -27,6 +28,7 @@ import incident from '@/views/deviceMgr/device/incident'
 import serve from '@/views/deviceMgr/device/serve'
 import alarm from '@/views/deviceMgr/device/alarm'
 import subset from '@/views/deviceMgr/device/subset'
+import variable from '@/views/deviceMgr/device/variable'
 import { deviceDetail, getDeviceTag } from '@/api/deviceMgr'
 export default {
   name: 'DeviceDetail',
@@ -39,7 +41,8 @@ export default {
     incident,
     serve,
     subset,
-    alarm
+    alarm,
+    variable
   },
   data() {
     return {
