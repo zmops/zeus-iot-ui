@@ -9,8 +9,8 @@
           </el-input>
         </div>
         <div class="zeus-list-item">
-          <span class="zeus-left-tips tips">{$</span>
-          <span class="zeus-right-tips tips">}</span>
+<!--          <span class="zeus-left-tips tips">{$</span>-->
+<!--          <span class="zeus-right-tips tips">}</span>-->
           <el-input v-model="item.tag" size="mini">
             <template slot="prepend">键</template>
           </el-input>

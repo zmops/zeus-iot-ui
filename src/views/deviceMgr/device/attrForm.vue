@@ -262,7 +262,11 @@ export default {
         if (val) {
           this.getDetail()
         } else {
-          this.processStepList = null
+          this.processStepList = [{
+            type: '',
+            value: '',
+            value2: ''
+          }]
           this.form = {
             attrName: '',
             key: '',
@@ -271,7 +275,11 @@ export default {
             remark: '',
             productId: '',
             valueType: '',
-            processStepList: null,
+            processStepList: [{
+              type: '',
+              value: '',
+              value2: ''
+            }],
             valuemapid: '',
             tags: [{
               tag: '',

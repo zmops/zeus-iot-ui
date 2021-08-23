@@ -84,6 +84,7 @@ export default {
   width: 100%;
   background-color: #fff;
   padding: 17px 16px 4px 16px;
+  box-shadow: 6px 8px 16px #E2EAF2;
 
   .variable-item{
     font-size: 12px;
