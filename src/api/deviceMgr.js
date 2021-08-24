@@ -53,6 +53,15 @@ export function getDeviceByPage(data) {
   })
 }
 
+// 设备列表-不分页
+export function getDeviceList(data) {
+  return request({
+    url: '/device/list',
+    method: 'post',
+    data
+  })
+}
+
 // 设备新增
 export function createDevice(data) {
   return request({

@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <Tag :tag-list="tagList" @change="change" />
+        <Tag v-model="tagList" />
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -64,9 +64,9 @@ export default {
         }
       })
     },
-    change(list) {
-      this.tagList = list
-    },
+    // change(list) {
+    //   this.tagList = list
+    // },
     edit() {
       this.dialogVisible = true
       this.tagList = JSON.parse(JSON.stringify(this.viewList))

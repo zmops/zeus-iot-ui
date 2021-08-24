@@ -24,22 +24,34 @@
 export default {
   name: 'Tag',
   props: {
-    tagList: {
+    value: {
       type: Array,
       default() {
-        return []
+        return [
+          {
+            tag: '',
+            value: ''
+          }
+        ]
       }
     }
   },
   data() {
     return {
-      list: this.tagList
+      list: this.value
+    }
+  },
+  watch: {
+    list: {
+      deep: true,
+      handler(val) {
+        this.$emit('input', val)
+      }
     }
   },
   methods: {
     del(i) {
       this.list.splice(i, 1)
-      this.change()
     },
     add() {
       for (const item of this.list) {
@@ -55,10 +67,6 @@ export default {
         tag: '',
         value: ''
       })
-      this.change()
-    },
-    change() {
-      this.$emit('change', this.list)
     }
   }
 }
