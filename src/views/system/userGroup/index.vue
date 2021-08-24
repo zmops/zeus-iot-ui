@@ -205,8 +205,8 @@ export default {
           this.item = Object.assign({}, item)
         }
       }
-      if (this.dialogForm.groupIds) {
-        this.dialogForm.deviceGroupIds = this.dialogForm.groupIds.split(',')
+      if (this.item.groupIds) {
+        this.item.deviceGroupIds = this.item.groupIds.split(',')
       }
       this.state = '编辑'
       this.dialogVisible = true
