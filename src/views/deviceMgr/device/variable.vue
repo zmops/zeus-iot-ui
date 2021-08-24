@@ -82,6 +82,7 @@ export default {
 <style lang="scss" scoped>
 .variable {
   width: 100%;
+  min-height: 70px;
   background-color: #fff;
   padding: 17px 16px 4px 16px;
   box-shadow: 6px 8px 16px #E2EAF2;

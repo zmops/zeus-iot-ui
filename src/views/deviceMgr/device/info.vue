@@ -46,7 +46,7 @@
             <div class="info">
               <div class="con">
                 {{ infoData.position || '-' }}
-                <a class="show-map zeus-ml-5" @click="dialogMap = true">查看地图</a>
+                <a v-if="infoData.position" class="show-map zeus-ml-5" @click="dialogMap = true">查看地图</a>
               </div>
               <div class="tit">坐标信息</div>
             </div>
