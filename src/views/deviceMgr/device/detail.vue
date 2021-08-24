@@ -88,13 +88,14 @@ export default {
       subhead: '',
       title: '',
       activity: '基础信息',
-      info: {}
+      info: {},
+      tagList: []
     }
   },
-  created() {
+  async created() {
     if (this.$route.query.id) {
-      this.getTag(this.$route.query.id)
-      this.getDetail(this.$route.query.id)
+      await this.getTag(this.$route.query.id)
+      await this.getDetail(this.$route.query.id)
     }
     if (this.$route.query.tabsName) {
       this.activity = this.$route.query.tabsName
@@ -106,7 +107,9 @@ export default {
     },
     getTag(deviceId) {
       getDeviceTag({ deviceId }).then((res) => {
-
+        if (res.code == 200) {
+          this.tagList = res.data
+        }
       })
     },
     getDetail(deviceId) {
@@ -120,6 +123,7 @@ export default {
             },
             {
               key: '产品',
+              link: { path: '/productMgr/product/detail', query: { id: res.data.productId }},
               value: res.data.productName
             },
             {
@@ -132,6 +136,7 @@ export default {
             },
             {
               key: '标签',
+              tag: this.tagList,
               value: 'tage'
             },
             {

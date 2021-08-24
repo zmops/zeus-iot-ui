@@ -1,6 +1,6 @@
 <template>
   <div class="product-detail">
-    <DetailTemplate :up="'产品'" icon="product24" :title="detailInfo.prodName" :subhead="detailInfo.remark" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
+    <DetailTemplate :up="'产品'" :to="'/productMgr/product'" icon="product24" :title="detailInfo.prodName" :subhead="detailInfo.remark" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
         <div v-if="tabName === 'basics'">
           <Basics @edit="edit" />

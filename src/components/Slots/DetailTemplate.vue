@@ -17,7 +17,18 @@
         <div class="detail-title">{{ up }}详情</div>
         <div v-for="(item, index) in detailList" :key="index" class="detail-list zeus-flex-default">
           <div class="detail-list-l">{{ item.key + '：' }}</div>
-          <div class="detail-list-r">{{ item.value || '-' }}</div>
+          <div v-if="item.link" class="detail-list-r">
+            <router-link :to="item.link" class="link">
+              {{ item.value || '-' }}
+            </router-link>
+          </div>
+          <div v-else-if="item.tag" class="detail-list-r">
+            <div v-for="(item, index) in item.tag" :key="index" class="tag-item zeus-inline-block">
+              <span class="tag-item-l zeus-inline-block">{{ item.tag }}</span>
+              <span class="tag-item-r zeus-inline-block">{{ item.value }}</span>
+            </div>
+          </div>
+          <div v-else class="detail-list-r">{{ item.value || '-' }}</div>
         </div>
       </div>
     </div>
@@ -204,18 +215,48 @@ export default {
           padding: 0 5px 0 0;
           color: #79879C;
           vertical-align: top;
-          word-break: break-all;
-          white-space: normal;
+          //word-break: break-all;
+          //white-space: normal;
           line-height: 20px;
         }
 
         .detail-list-r {
+          width: calc(100% - 108px);
+          vertical-align: top;
           line-height: 20px;
           display: block;
+          word-wrap:break-word;
           // margin-left: 111px;
           color: #242e42;
-          word-break: break-all;
-          white-space: pre-wrap;
+          //word-break: break-all;
+          //white-space: pre-wrap;
+
+          .link{
+            color: #1A84F9;
+          }
+
+          .tag-item{
+            font-size: 12px;
+            line-height: 12px!important;
+            background-color: #E3E9EF;
+            border-radius: 2px;
+            margin-right: 10px;
+            margin-bottom: 3px;
+            margin-top: 3px;
+
+            .tag-item-l{
+              background-color: #3C435B;
+              color: #fff;
+              padding: 4px 8px;
+              margin-left: 2px;
+              border-radius: 2px;
+            }
+
+            .tag-item-r{
+              padding: 6px;
+              color: #242E42;
+            }
+          }
         }
       }
     }
