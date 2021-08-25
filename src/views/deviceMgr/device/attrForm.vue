@@ -89,8 +89,7 @@
                   </el-option-group>
                 </el-select>
               </div>
-              <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21'"
-                   class="zeus-list-item">
+              <div v-if= "item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21'" class="zeus-list-item">
                 <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)"/>
               </div>
               <div v-if="item.type === '25'" class="zeus-list-item">

@@ -19,8 +19,8 @@
         v-model="form.status"
         active-value="ENABLE"
         inactive-value="DISABLE"
-        active-text="启用"
-        inactive-text="禁用"
+        active-text="ENABLE"
+        inactive-text="DISABLE"
         active-color="#242E42"
         inactive-color="#ff4949">
       </el-switch>

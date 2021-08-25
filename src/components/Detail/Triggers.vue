@@ -43,8 +43,6 @@
 </template>
 
 <script>
-import { getDeviceList } from '@/api/deviceMgr'
-
 export default {
   name: 'Triggers',
   props: {

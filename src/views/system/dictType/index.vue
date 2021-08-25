@@ -61,8 +61,8 @@
           </el-form-item>
           <el-form-item v-if="state === '编辑字典项' || state === '编辑字典类型'" label="状态" prop="status">
             <el-select v-model="dialogForm.status" placeholder="请选择" size="mini" class="zeus-w100">
-              <el-option label="启用" value="ENABLE" />
-              <el-option label="禁用" value="DISABLE" />
+              <el-option label="ENABLE" value="ENABLE" />
+              <el-option label="DISABLE" value="DISABLE" />
             </el-select>
           </el-form-item>
           <el-form-item label="备注" prop="remark">
