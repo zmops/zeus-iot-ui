@@ -8,7 +8,8 @@
           <el-card class="box-card" shadow="hover">
             <div slot="header" class="clearfix">
               <span>{{ item.attrName }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-pie-chart" @click="history(item)">历史数据
+              <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-pie-chart"
+                         @click="history(item)">历史数据
               </el-button>
             </div>
             <div class="body zeus-bold">待定{{ item.unitsName }}</div>
@@ -42,8 +43,15 @@
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
         </div>
       </div>
-      <attrForm :items="item" @closeDialog="closeDialog" @close="dialogVisible = false"/>
+      <div class="dialog-body">
+        <attributeForm v-model="dialogForm"/>
+      </div>
+      <el-footer class="dialog-footer-btn">
+        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+      </el-footer>
     </el-dialog>
+    <!--历史数据-->
     <el-dialog
       :visible.sync="dialogVisible2"
       :destroy-on-close="true"
@@ -73,7 +81,8 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
-        <el-radio-group v-if="itemData.valueType == 3 || itemData.valueType == 0" v-model="dialogRadio" size="mini" class="zeus-right">
+        <el-radio-group v-if="itemData.valueType == 3 || itemData.valueType == 0" v-model="dialogRadio" size="mini"
+                        class="zeus-right">
           <el-radio-button label="趋势图"></el-radio-button>
           <el-radio-button label="表格"></el-radio-button>
         </el-radio-group>
@@ -92,7 +101,7 @@
           :table-data="tableData2"
           :columns="columns"
           :loading="loading2"
-         />
+        />
         <Pagination :total="total2" :size="size2" :current-page="page2" @handleCurrentChange="handleCurrentChange2"/>
       </div>
     </el-dialog>
@@ -103,8 +112,15 @@
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import attrForm from '@/views/deviceMgr/device/attrForm'
+import attributeForm from '@/views/deviceMgr/device/attributeForm'
 import LineChart from '@/components/Basics/LineChart'
-import { getAttrTrapperByPage, deleteAttrTrapper } from '@/api/deviceMgr'
+import {
+  getAttrTrapperByPage,
+  deleteAttrTrapper,
+  detailAttrTrapper,
+  updateAttrTrapper,
+  createAttrTrapper
+} from '@/api/deviceMgr'
 import BusinessTable from '@/components/Basics/BusinessTable'
 
 export default {
@@ -117,9 +133,9 @@ export default {
   components: {
     SearchForm,
     Pagination,
-    attrForm,
+    attributeForm,
     LineChart,
-    BusinessTable,
+    BusinessTable
   },
   data() {
     return {
@@ -141,7 +157,8 @@ export default {
       size2: 10,
       page2: 1,
       itemData: {},
-      item: '',
+      item: {},
+      dialogForm: {},
       charts: [[1629619200000, null], [1629622800000, 18], [1629626400000, 17], [1629630000000, 16], [1629633600000, 18], [1629637200000, 18], [1629640800000, 18], [1629644400000, 20], [1629648000000, 15], [1629651600000, 15], [1629655200000, 15], [1629658800000, 15], [1629662400000, 15], [1629666000000, 15], [1629669600000, 15], [1629673200000, 15], [1629676800000, 16], [1629680400000, 21], [1629684000000, 20], [1629687600000, 20], [1629691200000, 22], [1629694800000, 20], [1629698400000, 20], [1629702000000, 22], [1629705600000, null]],
       dialogTime: [],
       dialogRadio: '趋势图',
@@ -219,12 +236,15 @@ export default {
       this.getList()
     },
     add() {
-      this.item = ''
       this.state = '创建'
       this.dialogVisible = true
     },
-    edit(id) {
-      this.item = id
+    edit(attrId) {
+      detailAttrTrapper({ attrId }).then(res => {
+        if (res.code == 200) {
+          this.dialogForm = res.data
+        }
+      })
       this.state = '编辑'
       this.dialogVisible = true
     },
@@ -236,9 +256,34 @@ export default {
       this.page2 = val
       this.getList2()
     },
-    closeDialog() {
-      this.dialogVisible = false
-      this.getList()
+    submit() {
+      // this.$refs.dialogForm.validate(async(valid) => {
+      //   if (valid) {
+      if (this.dialogForm.attrId) {
+        updateAttrTrapper(this.dialogForm).then(async(res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+            this.dialogVisible = false
+            this.getList()
+          }
+        })
+      } else {
+        createAttrTrapper(this.dialogForm).then(async(res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+            this.dialogVisible = false
+            this.getList()
+          }
+        })
+      }
+      //   }
+      // })
     },
     del(id) {
       this.$confirm('是否确认删除该数据?', '提示', {
