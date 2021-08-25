@@ -5,7 +5,7 @@ const ruleRouter = {
   component: Layout,
   name: 'rule',
   alwaysShow: true,
-  redirect: '/rule/screen',
+  redirect: '/rule/scene',
   meta: {
     title: '规则引擎',
     icon: 'undevice',
@@ -13,9 +13,9 @@ const ruleRouter = {
   },
   children: [
     {
-      path: '/rule/screen',
+      path: '/rule/scene',
       component: () => import('@/views/401'),
-      name: '/rule/screen',
+      name: '/rule/scene',
       meta: {
         title: '场景联动',
         icon24: 'device24',
