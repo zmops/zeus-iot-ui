@@ -13,10 +13,12 @@ const analyseRouter = {
   children: [
     {
       path: '/analyse/latest',
-      component: () => import('@/views/401'),
+      component: () => import('@/views/analyse/latest'),
       name: '/analyse/latest',
       meta: {
-        title: '最新数据'
+        title: '最新数据',
+        icon24: 'device24',
+        icon48: 'device48'
       }
     },
     {
