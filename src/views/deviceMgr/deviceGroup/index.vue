@@ -19,7 +19,6 @@
     />
     <Pagination :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
-      v-if="dialogVisible"
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
       :close-on-click-modal="false"

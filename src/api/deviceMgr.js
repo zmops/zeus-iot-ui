@@ -187,3 +187,11 @@ export function deleteValuemap(data) {
     data
   })
 }
+
+// 获取Cookie
+export function getCookie() {
+  return request({
+    url: '/getCookie',
+    method: 'get'
+  })
+}
