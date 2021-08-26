@@ -1,29 +1,26 @@
 import { asyncRoutes, constantRouters, errorRouters } from '@/router'
 import router from '@/router'
 import { nextFirstLink } from '@/utils'
+
 /**
  * Filter router
  * @param userRouter asyncRoutes
  * @param allRouter
  */
 export function recursionRouter(userRouter = [], allRouter = []) {
-  var realRoutes = []
+  const realRoutes = []
   allRouter.forEach((v) => {
-    if (v.meta && v.meta.noPermission) {
-      realRoutes.push(v)
-    } else {
-      userRouter.forEach((item) => {
-        if (v.path && item.url === v.path) {
-          let { children, ...x } = v
-          children = recursionRouter(userRouter, children)
-          if (children.length) {
-            realRoutes.push({ children, ...x })
-          } else {
-            realRoutes.push(x)
-          }
+    userRouter.forEach((item) => {
+      if (v.path && item.url === v.path) {
+        const { children, ...x } = v
+        if (children && children.length) {
+          recursionRouter(userRouter, children)
+          realRoutes.push({ children, ...x })
+        } else {
+          realRoutes.push(x)
         }
-      })
-    }
+      }
+    })
   })
   return [...realRoutes]
 }
