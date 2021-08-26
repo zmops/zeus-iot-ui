@@ -8,7 +8,7 @@
         <div v-if="tabName === 'attribute'">
           <Attribute />
         </div>
-        <div v-if="tabName === 'label'" class="zeus-product">
+        <div v-if="tabName === 'tag'" class="zeus-product">
           <LabelDate />
         </div>
         <div v-if="tabName === 'variable'" class="zeus-product">
@@ -70,7 +70,7 @@ export default {
         },
         {
           label: '标签',
-          name: 'label'
+          name: 'tag'
         },
         {
           label: '变量',

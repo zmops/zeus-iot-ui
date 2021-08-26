@@ -44,9 +44,9 @@ const actions = {
       }).catch(error => {
         reject(error)
       })
-      getCookie().then((r) => {
-        localStorage.setItem('zbx_session', r.data)
-      })
+      // getCookie().then((r) => {
+      //   localStorage.setItem('zbx_session', r.data)
+      // })
     })
   },
 

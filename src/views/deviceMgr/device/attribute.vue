@@ -121,8 +121,7 @@ import {
   deleteAttrTrapper,
   detailAttrTrapper,
   updateAttrTrapper,
-  createAttrTrapper,
-  getCookie
+  createAttrTrapper
 } from '@/api/deviceMgr'
 import BusinessTable from '@/components/Basics/BusinessTable'
 
@@ -208,10 +207,10 @@ export default {
       this.form.prodId = this.$route.query.id
       this.getList()
     }
-    axios.get('http://172.16.60.98:8871/zabbix/chart.php?from=now-1h&to=now&itemids%5B0%5D=36816&type=0&profileIdx=web.item.graph.filter&profileIdx2=36816&width=1607&height=200&_=v148353k')
-      .then(response => {
-        console.log(response)
-      })
+    // axios.get('http://172.16.60.98:8871/zabbix/chart.php?from=now-1h&to=now&itemids%5B0%5D=36816&type=0&profileIdx=web.item.graph.filter&profileIdx2=36816&width=1607&height=200&_=v148353k')
+    //   .then(response => {
+    //     console.log(response)
+    //   })
   },
   methods: {
     getList() {
