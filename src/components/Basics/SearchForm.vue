@@ -25,7 +25,7 @@
       </el-form>
       <div class="line-button-wrapper setting-buttons">
         <el-button v-if="params && params.length" size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_refresh" /></el-button>
-        <el-dropdown v-if="columns.length" :placement="'bottom'" @command="columnsChange">
+        <el-dropdown v-if="columns.length > 1" :placement="'bottom'" @command="columnsChange">
           <el-button size="mini" class="setting-button" round><svg-icon icon-class="list_edit" /></el-button>
           <el-dropdown-menu slot="dropdown">
             <div class="zeus-text-align-c dropdown-title">列表定制</div>
@@ -104,7 +104,9 @@ export default {
   computed: {
     /* 过滤列表字段 */
     newColumns() {
-      return this.columns.filter(item => item.label)
+      const arr = JSON.parse(JSON.stringify(this.columns))
+      arr.shift()
+      return arr.filter(item => item.label)
     }
   },
   methods: {
