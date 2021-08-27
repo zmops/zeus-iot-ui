@@ -6,6 +6,7 @@
       size="mini"
       :placeholder="'请选择'+label"
       :style="{width:w +'px'}"
+      :multiple="multiple"
       clearable
     >
       <el-option
@@ -56,6 +57,11 @@ export default {
     optionName: {
       type: String,
       default: null
+    },
+    /* 是否多选 */
+    multiple: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

@@ -125,6 +125,15 @@ export function getAttrTrapperByPage(data) {
   })
 }
 
+// 设备属性列表--不分页
+export function getAttrTrapperList(data) {
+  return request({
+    url: '/device/model/list',
+    method: 'post',
+    data
+  })
+}
+
 // 设备属性创建
 export function createAttrTrapper(data) {
   return request({

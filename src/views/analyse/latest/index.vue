@@ -25,7 +25,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import { getLatestList } from '@/api/analyse'
-import { getDeviceList } from '@/api/deviceMgr'
+import { getDeviceList, getAttrTrapperList } from '@/api/deviceMgr'
 import { getDictListByCode } from '@/api/system'
 import { getProductList } from '@/api/porductMgr'
 
@@ -44,7 +44,26 @@ export default {
   },
   data() {
     return {
-      formParams: [],
+      formParams: [
+        {
+          componentName: 'SelectTemplate',
+          keyName: 'deviceId',
+          label: '设备',
+          optionId: 'deviceId',
+          optionName: 'name',
+          options: this.deviceList
+        },
+        {
+          componentName: 'SelectTemplate',
+          keyName: 'attrIds',
+          multiple: true,
+          label: '属性',
+          w: 300,
+          optionId: 'attrId',
+          optionName: 'name',
+          options: this.attrList
+        }
+      ],
       tableData: [],
       loading: false,
       total: 0,
@@ -73,10 +92,67 @@ export default {
         }
       ],
       deviceList: [],
+      attrList: [],
       attributeList: [],
       form: {
         deviceId: '',
         attrIds: []
+      }
+    }
+  },
+  watch: {
+    'form.deviceId': {
+      immediate: true,
+      handler(val) {
+        this.form.attrIds = []
+        if (val === '') {
+          this.formParams = [
+            {
+              componentName: 'SelectTemplate',
+              keyName: 'deviceId',
+              label: '设备',
+              optionId: 'deviceId',
+              optionName: 'name',
+              options: this.deviceList
+            },
+            {
+              componentName: 'SelectTemplate',
+              keyName: 'attrIds',
+              multiple: true,
+              label: '属性',
+              w: 300,
+              optionId: 'attrId',
+              optionName: 'name',
+              options: []
+            }
+          ]
+        } else {
+          getAttrTrapperList({ prodId: val }).then((res) => {
+            if (res.code == 200) {
+              this.attrList = res.data
+              this.formParams = [
+                {
+                  componentName: 'SelectTemplate',
+                  keyName: 'deviceId',
+                  label: '设备',
+                  optionId: 'deviceId',
+                  optionName: 'name',
+                  options: this.deviceList
+                },
+                {
+                  componentName: 'SelectTemplate',
+                  keyName: 'attrIds',
+                  multiple: true,
+                  label: '属性',
+                  w: 300,
+                  optionId: 'attrId',
+                  optionName: 'name',
+                  options: this.attrList
+                }
+              ]
+            }
+          })
+        }
       }
     }
   },
@@ -101,16 +177,6 @@ export default {
       //     this.attributeList = res.data
       //   }
       // })
-      this.formParams = [
-        {
-          componentName: 'SelectTemplate',
-          keyName: 'deviceId',
-          label: '设备',
-          optionId: 'deviceId',
-          optionName: 'name',
-          options: this.deviceList
-        },
-      ]
     },
     search() {
       this.page = 1
