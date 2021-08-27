@@ -8,11 +8,10 @@
           <el-card class="box-card" shadow="hover">
             <div slot="header" class="clearfix">
               <span>{{ item.attrName }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-pie-chart"
-                         @click="history(item)">历史数据
+              <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-pie-chart" @click="history(item)">历史数据
               </el-button>
             </div>
-            <div class="body zeus-bold">待定{{ item.unitsName }}</div>
+            <div class="body zeus-bold">{{ item.value || '-' }} {{item.unitsName}}</div>
             <div class="footer">
               <span>sth</span>&nbsp;|&nbsp;
               <span>{{ item.valueTypeName }}</span>&nbsp;|&nbsp;
@@ -60,7 +59,7 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :show-close="false"
-      :width="'700px'"
+      :width="'900px'"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">属性历史数据</div>
@@ -80,23 +79,21 @@
           size="mini"
           type="datetimerange"
           range-separator="-"
+          value-format="timestamp"
           start-placeholder="开始日期"
-          end-placeholder="结束日期">
+          end-placeholder="结束日期"
+          @change="changeTime"
+        >
         </el-date-picker>
         <el-radio-group v-if="itemData.valueType == 3 || itemData.valueType == 0" v-model="dialogRadio" size="mini" class="zeus-right">
           <el-radio-button label="趋势图"></el-radio-button>
           <el-radio-button label="表格"></el-radio-button>
         </el-radio-group>
       </div>
-      <LineChart
-        v-if=" dialogRadio === '趋势图' && (itemData.valueType == 3 || itemData.valueType == 0)"
-        class="zeus-mt-15 zeus-pl-15 zeus-pr-15"
-        data-zoom-bol
-        :unit="itemData.unitsName"
-        :height="'400px'"
-        :line-data="charts"
-        :line-color="'#242E42'"
-        :color="'#adb9c6'"/>
+      <div v-if="dialogRadio === '趋势图' && (itemData.valueType == 3 || itemData.valueType == 0)" v-loading="loading2" class="zeus-relative">
+        <img class="chart-img" :src="img">
+        <div class="zeus-absolute img-title"></div>
+      </div>
       <div v-if="dialogRadio === '表格' || !(itemData.valueType == 3 || itemData.valueType == 0)">
         <BusinessTable
           :table-data="tableData2"
@@ -110,19 +107,20 @@
 </template>
 
 <script>
-import axios from 'axios'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import attrForm from '@/views/deviceMgr/device/attrForm'
 import attributeForm from '@/views/deviceMgr/device/attributeForm'
-import LineChart from '@/components/Basics/LineChart'
 import {
   getAttrTrapperByPage,
   deleteAttrTrapper,
   detailAttrTrapper,
   updateAttrTrapper,
-  createAttrTrapper
+  createAttrTrapper,
+  getHistory,
+  getCharts
 } from '@/api/deviceMgr'
+import { ftimestampToData } from '@/utils/index'
 import BusinessTable from '@/components/Basics/BusinessTable'
 
 export default {
@@ -136,7 +134,6 @@ export default {
     SearchForm,
     Pagination,
     attributeForm,
-    LineChart,
     BusinessTable
   },
   data() {
@@ -146,6 +143,7 @@ export default {
         key: ''
       },
       tableData: [],
+      img: null,
       loading: false,
       tableData2: [],
       loading2: false,
@@ -161,8 +159,10 @@ export default {
       itemData: {},
       item: {},
       dialogForm: {},
-      charts: [[1629619200000, null], [1629622800000, 18], [1629626400000, 17], [1629630000000, 16], [1629633600000, 18], [1629637200000, 18], [1629640800000, 18], [1629644400000, 20], [1629648000000, 15], [1629651600000, 15], [1629655200000, 15], [1629658800000, 15], [1629662400000, 15], [1629666000000, 15], [1629669600000, 15], [1629673200000, 15], [1629676800000, 16], [1629680400000, 21], [1629684000000, 20], [1629687600000, 20], [1629691200000, 22], [1629694800000, 20], [1629698400000, 20], [1629702000000, 22], [1629705600000, null]],
-      dialogTime: [],
+      dialogTime: [
+        new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
+        new Date().getTime()
+      ],
       dialogRadio: '趋势图',
       buttons: [
         {
@@ -179,12 +179,12 @@ export default {
         },
         {
           label: '值',
-          prop: 'deviceId',
+          prop: 'value',
           show: true
         },
         {
           label: '提示信息',
-          prop: 'productName',
+          prop: 'unitsName',
           show: true
         }
       ],
@@ -207,10 +207,6 @@ export default {
       this.form.prodId = this.$route.query.id
       this.getList()
     }
-    // axios.get('http://172.16.60.98:8871/zabbix/chart.php?from=now-1h&to=now&itemids%5B0%5D=36816&type=0&profileIdx=web.item.graph.filter&profileIdx2=36816&width=1607&height=200&_=v148353k')
-    //   .then(response => {
-    //     console.log(response)
-    //   })
   },
   methods: {
     getList() {
@@ -227,7 +223,30 @@ export default {
     },
     getList2() {
       this.loading2 = true
-      getAttrTrapperByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+      const from = ftimestampToData(this.dialogTime[0]) + ':00'
+      const to = ftimestampToData(this.dialogTime[1]) + ':00'
+      const data = {
+        timeFrom: from,
+        timeTill: to,
+        deviceId: this.$route.query.id,
+        attrIds: [this.itemData.attrId],
+        maxRow: this.size2,
+        page: this.page2
+      }
+      const data2 = {
+        from,
+        to,
+        attrIds: this.itemData.attrId,
+        width: 780,
+        height: 400
+      }
+      getCharts(data2).then((res) => {
+        this.loading2 = false
+        if (res) {
+          this.img = window.URL.createObjectURL(new Blob([res]))
+        }
+      })
+      getHistory(data).then((res) => {
         this.loading2 = false
         if (res.code == 200) {
           this.tableData2 = res.data
@@ -236,6 +255,10 @@ export default {
       }).catch(() => {
         this.loading2 = false
       })
+    },
+    changeTime() {
+      this.page2 = 1
+      this.getList2()
     },
     search() {
       this.page = 1
@@ -315,9 +338,9 @@ export default {
       })
     },
     history(item) {
+      this.itemData = item
       this.getList2()
       this.dialogVisible2 = true
-      this.itemData = item
     }
   }
 }
@@ -348,5 +371,14 @@ export default {
       }
     }
   }
+}
+.chart-img{
+  min-height: 172px;
+}
+.img-title{
+  width: 100%;
+  height: 25px;
+  top: 0;
+  background-color: #fff;
 }
 </style>

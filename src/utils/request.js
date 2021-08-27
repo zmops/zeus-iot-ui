@@ -19,7 +19,6 @@ service.interceptors.request.use(
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['Authorization'] = getToken()
-      config.headers['zbx_session'] = localStorage.getItem('zbx_session')
     }
 
     return config
@@ -46,26 +45,30 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code != 200) {
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code == 1502) {
-        // to re-login
-        MessageBox.confirm('当前登录信息已过期或失效,请重新登录', '提示', {
-          confirmButtonText: '重新登录',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
+    if (res.code) {
+      if (res.code != 200) {
+        // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+        if (res.code == 1502) {
+          // to re-login
+          MessageBox.confirm('当前登录信息已过期或失效,请重新登录', '提示', {
+            confirmButtonText: '重新登录',
+            type: 'warning'
+          }).then(() => {
+            store.dispatch('user/resetToken').then(() => {
+              location.reload()
+            })
           })
-        })
+        } else {
+          Message({
+            message: res.message || 'Error',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        }
+        return res
       } else {
-        Message({
-          message: res.message || 'Error',
-          type: 'error',
-          duration: 5 * 1000
-        })
+        return res
       }
-      return res
     } else {
       return res
     }

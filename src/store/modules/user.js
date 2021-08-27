@@ -1,7 +1,6 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
-import { getCookie } from '@/api/deviceMgr'
 
 const getDefaultState = () => {
   return {
@@ -44,9 +43,6 @@ const actions = {
       }).catch(error => {
         reject(error)
       })
-      // getCookie().then((r) => {
-      //   localStorage.setItem('zbx_session', r.data)
-      // })
     })
   },
 

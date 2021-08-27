@@ -170,6 +170,25 @@ export function detailAttrTrapper(params) {
   })
 }
 
+// 设备属性历史数据
+export function getHistory(data) {
+  return request({
+    url: '/history/query',
+    method: 'post',
+    data
+  })
+}
+
+// 设备属性-历史数据-趋势图
+export function getCharts(params) {
+  return request({
+    url: '/home/getCharts',
+    method: 'get',
+    responseType: 'blob',
+    params
+  })
+}
+
 // 设备值映射列表
 export function getValueMapList(params) {
   return request({
@@ -194,13 +213,5 @@ export function deleteValuemap(data) {
     url: '/device/valuemap/delete',
     method: 'post',
     data
-  })
-}
-
-// 获取Cookie
-export function getCookie() {
-  return request({
-    url: '/getCookie',
-    method: 'get'
   })
 }
