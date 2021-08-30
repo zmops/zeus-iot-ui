@@ -87,7 +87,7 @@ export default {
   },
   data() {
     return {
-      formData: this.value,
+      formData: null,
       preTypeList: [],
       jsVisible: false,
       jsValue: '',
@@ -154,6 +154,34 @@ export default {
   },
   created() {
     this.getDict()
+  },
+  mounted() {
+    const arr = []
+    if (this.value && this.value.length) {
+      this.value.forEach((item) => {
+        if (item.type == '25') {
+          const a = item.params.split('\\\\n')
+          arr.push({
+            type: item.type,
+            value: a[0],
+            value2: a[1]
+          })
+        } else if (item.type == '7' || item.type == '8') {
+          arr.push({
+            type: item.type,
+            value: '',
+            value2: ''
+          })
+        } else {
+          arr.push({
+            type: item.type,
+            value: item.params,
+            value2: ''
+          })
+        }
+      })
+    }
+    this.formData = arr
   },
   methods: {
     tipsText(type) {

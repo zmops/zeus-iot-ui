@@ -178,3 +178,39 @@ export function deleteValuemap(data) {
     data
   })
 }
+
+// 产品服务列表
+export function getServiceByPage(data) {
+  return request({
+    url: '/product/service/getServiceByPage',
+    method: 'post',
+    data
+  })
+}
+
+// 产品服务创建
+export function createService(data) {
+  return request({
+    url: '/product/service/create',
+    method: 'post',
+    data
+  })
+}
+
+// 产品服务修改
+export function updateService(data) {
+  return request({
+    url: '/product/service/update',
+    method: 'post',
+    data
+  })
+}
+
+// 产品服务删除
+export function deleteService(data) {
+  return request({
+    url: '/product/service/delete',
+    method: 'post',
+    data
+  })
+}

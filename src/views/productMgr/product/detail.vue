@@ -2,21 +2,22 @@
   <div class="product-detail">
     <DetailTemplate :up="'产品'" :to="'/productMgr/product'" icon="product24" :title="detailInfo.prodName" :subhead="detailInfo.remark" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
-        <div v-if="tabName === 'basics'">
+        <div v-if="tabName === '基础信息'">
           <Basics @edit="edit" />
         </div>
-        <div v-if="tabName === 'attribute'">
+        <div v-if="tabName === '属性'">
           <Attribute />
         </div>
-        <div v-if="tabName === 'tag'" class="zeus-product">
+        <div v-if="tabName === '标签'" class="zeus-product">
           <LabelDate />
         </div>
-        <div v-if="tabName === 'variable'" class="zeus-product">
+        <div v-if="tabName === '变量'" class="zeus-product">
           <Variable />
         </div>
-        <div v-if="tabName === 'mapping'" class="zeus-product">
+        <div v-if="tabName === '值映射'" class="zeus-product">
           <Mapping />
         </div>
+        <serve v-if="tabName === '服务'" />
       </template>
     </DetailTemplate>
   </div>
@@ -29,6 +30,7 @@ import Attribute from './attribute.vue'
 import LabelDate from './labeldate.vue'
 import Variable from './variable.vue'
 import Mapping from './mapping.vue'
+import serve from '@/views/productMgr/product/serve'
 
 import { productDetail } from '@/api/porductMgr'
 export default {
@@ -38,7 +40,8 @@ export default {
     Attribute,
     LabelDate,
     Variable,
-    Mapping
+    Mapping,
+    serve
   },
   data() {
     return {
@@ -50,39 +53,39 @@ export default {
       tabs: [
         {
           label: '基础信息',
-          name: 'basics'
+          name: '基础信息'
         },
         {
           label: '属性',
-          name: 'attribute'
+          name: '属性'
         },
         {
           label: '事件',
-          name: 'event'
+          name: '事件'
         },
         {
           label: '服务',
-          name: 'service'
+          name: '服务'
         },
         {
           label: '告警规则',
-          name: 'alarm'
+          name: '告警规则'
         },
         {
           label: '标签',
-          name: 'tag'
+          name: '标签'
         },
         {
           label: '变量',
-          name: 'variable'
+          name: '变量'
         },
         {
           label: '值映射',
-          name: 'mapping'
+          name: '值映射'
         },
         {
           label: '设备',
-          name: 'equipment'
+          name: '设备'
         }
       ]
     }
