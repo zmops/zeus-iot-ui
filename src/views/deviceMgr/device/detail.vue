@@ -3,7 +3,7 @@
   <div class="device-detail">
     <DetailTemplate :up="'设备'" :title="title" :subhead="subhead" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
-        <info v-if="activity === '基础信息'" :info-data="info" />
+        <info v-if="activity === '基础信息'" :info-data="info" @updata="getDetail" />
         <attribute v-else-if="activity === '属性'" />
         <incident v-else-if="activity ==='事件'" />
         <serve v-else-if="activity === '服务'" />
@@ -89,13 +89,15 @@ export default {
       title: '',
       activity: '基础信息',
       info: {},
-      tagList: []
+      tagList: [],
+      deviceId: ''
     }
   },
   async created() {
     if (this.$route.query.id) {
+      this.deviceId = this.$route.query.id
       await this.getTag(this.$route.query.id)
-      await this.getDetail(this.$route.query.id)
+      await this.getDetail()
     }
     if (this.$route.query.tabsName) {
       this.activity = this.$route.query.tabsName
@@ -112,8 +114,8 @@ export default {
         }
       })
     },
-    getDetail(deviceId) {
-      deviceDetail({ deviceId }).then((res) => {
+    getDetail() {
+      deviceDetail({ deviceId: this.deviceId }).then((res) => {
         if (res.code == 200) {
           this.info = res.data
           this.detailList = [

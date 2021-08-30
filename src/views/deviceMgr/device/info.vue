@@ -67,6 +67,7 @@
       </div>
     </div>
     <el-dialog
+      v-if="dialogMap"
       :visible.sync="dialogMap"
       :destroy-on-close="true"
       :close-on-click-modal="false"
@@ -94,7 +95,7 @@
           :scroll-wheel-zoom="true"
           @ready="mapReady"
         >
-          <bm-marker :position="point" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"/>
+          <bm-marker :position="point" animation="BMAP_ANIMATION_BOUNCE"/>
         </baidu-map>
       </div>
     </el-dialog>
@@ -105,6 +106,7 @@
       :close-on-press-escape="false"
       :width="'700px'"
       :show-close="false"
+      @close="keyword = ''"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
@@ -155,6 +157,7 @@
           </el-form-item>
         </el-form>
         <baidu-map
+          v-if="dialogVisible"
           class="bm-view zeus-mt-20"
           :zoom="15"
           :center="center"
@@ -164,17 +167,17 @@
           @ready="mapReady"
           @click="selectPoint"
         >
-          <bm-marker :position="point" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"/>
+          <bm-marker :position="point" animation="BMAP_ANIMATION_BOUNCE"/>
           <bm-geolocation
             anchor="BMAP_ANCHOR_BOTTOM_RIGHT"
             :show-address-bar="true"
             :auto-location="true"/>
           <bm-control class="map-input zeus-pl-10 zeus-pr-10 zeus-pt-10">
-            <bm-auto-complete v-model="keyword" :sug-style="{zIndex: 1}">
+            <bm-auto-complete v-model="keyword" :sug-style="{zIndex: 99999}">
               <el-input v-model="keyword" placeholder="请输入关键字" class="map-input"/>
             </bm-auto-complete>
           </bm-control>
-          <bm-local-search :keyword="keyword" :auto-viewport="true" :panel="false" @searchcomplete="search"/>
+          <bm-local-search :keyword="keyword" :auto-viewport="true" :panel="false"/>
         </baidu-map>
       </div>
       <el-footer class="dialog-footer-btn">
@@ -306,19 +309,19 @@ export default {
       }
     },
     search(e) {
-      // console.log(e)
+      console.log(e)
     },
     submit() {
       this.$refs.dialogForm.validate(async(valid) => {
         if (valid) {
-          updateDevice(this.dialogForm).then(async(res) => {
+          updateDevice(this.dialogForm).then((res) => {
             if (res.code == 200) {
               this.$message({
                 message: '修改成功',
                 type: 'success'
               })
               this.dialogVisible = false
-              await this.getList()
+              this.$emit('updata')
             }
           })
         }
