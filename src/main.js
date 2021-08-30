@@ -23,12 +23,12 @@ import '@/permission' // permission control
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
-Vue.prototype.$getRsaCode = function(str) {
-  // 公钥
-  const pubKey = `MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCwgmYk5tASrKzbjPwYffD9eAt1WRjBL2oN8x0FSff0YBrwdaozUFX0uU6z/gkfcjHwdvEJ7PJAt3ELNZ2xyOcUyeLbS0ds7Yx4pMT7kOYGod4IQDRqjXx0NZIe+f8cijYp9Myg37gL1ptXKV7mWX5cOUfP0g9qI0XLqf3dPSJ77wIDAQAB`
-  const encryptStr = new JsEncrypt()
-  encryptStr.setPublicKey(pubKey) // 设置 加密公钥
-  return encryptStr.encrypt(str.toString()) // 进行加密
+Vue.prototype.$stringToHex = function(str) {
+  const arr = []
+  for (let i = 0; i < str.length; i++) {
+    arr.push((str.charCodeAt(i)).toString(16))
+  }
+  return arr.join('')
 }
 new Vue({
   el: '#app',

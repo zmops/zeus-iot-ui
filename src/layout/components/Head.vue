@@ -97,7 +97,7 @@ export default {
       this.$refs.dialogForm.validate(async(valid, errorFields) => {
         if (valid) {
           const { oldPassword, newPassword } = this.dialogForm
-          changePwd({ oldPassword: this.$getRsaCode(oldPassword), newPassword: this.$getRsaCode(newPassword) }).then(async(res) => {
+          changePwd({ oldPassword: this.$stringToHex(oldPassword), newPassword: this.$stringToHex(newPassword) }).then(async(res) => {
             if (res.code == 200) {
               this.$message({
                 message: '修改成功',

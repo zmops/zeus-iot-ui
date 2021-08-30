@@ -342,7 +342,7 @@ export default {
         if (valid) {
           const { pass } = this.item
           if (this.item.userId) {
-            updateUser({ ...this.item, password: this.$getRsaCode(pass) }).then(async(res) => {
+            updateUser({ ...this.item, password: this.$stringToHex(pass) }).then(async(res) => {
               if (res.code == 200) {
                 this.$message({
                   message: '修改成功',
@@ -353,7 +353,7 @@ export default {
               }
             })
           } else {
-            createUser({ ...this.item, password: this.$getRsaCode(pass) }).then(async(res) => {
+            createUser({ ...this.item, password: this.$stringToHex(pass) }).then(async(res) => {
               if (res.code == 200) {
                 this.$message({
                   message: '添加成功',

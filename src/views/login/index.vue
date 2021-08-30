@@ -95,7 +95,7 @@ export default {
         if (valid) {
           this.loading = true
           const { username, password } = this.loginForm
-          this.$store.dispatch('user/login', { username, password: this.$getRsaCode(password) }).then(async(r) => {
+          this.$store.dispatch('user/login', { username, password: this.$stringToHex(password) }).then(async(r) => {
             if (r) {
               await this.$store.dispatch('user/getMember').then(() => {
                 const path = nextFirstLink(
