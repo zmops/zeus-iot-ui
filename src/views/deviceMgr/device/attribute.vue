@@ -374,6 +374,7 @@ export default {
 }
 .chart-img{
   min-height: 172px;
+  max-width: 900px;
 }
 .img-title{
   width: 100%;

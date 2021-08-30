@@ -43,7 +43,7 @@
 
 <script>
 import { nextFirstLink } from '@/utils'
-
+import EventBus from '@/utils/event-bus'
 export default {
   name: 'Login',
   data() {
@@ -79,6 +79,9 @@ export default {
       immediate: true
     }
   },
+  mounted() {
+    EventBus.$emit('closeSocket', 'app')
+  },
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {
@@ -104,6 +107,7 @@ export default {
                 this.$router.push({
                   path
                 })
+                EventBus.$emit('openSocket', 'app')
               })
             }
             // this.$router.push({ path: this.redirect || '/' })

@@ -64,7 +64,7 @@
 
 <script>
 import { changePwd } from '@/api/user'
-
+import EventBus from '@/utils/event-bus'
 export default {
   name: 'Head',
   data() {
@@ -91,6 +91,7 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch('user/logout')
+      EventBus.$emit('closeSocket', 'app')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     handleSubmit() {
