@@ -19,8 +19,7 @@
             </el-option-group>
           </el-select>
         </div>
-        <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21'"
-             class="zeus-list-item">
+        <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21'" class="zeus-list-item">
           <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)"/>
         </div>
         <div v-if="item.type === '25'" class="zeus-list-item">
@@ -30,8 +29,7 @@
           <el-input v-model="item.value2" size="mini" placeholder="替换为"/>
         </div>
         <div v-if="item.type === '21'" class="zeus-list-item" @click="changeJs(index)">
-          <el-input v-model="item.value" class="zeus-attr-js" size="mini" disabled placeholder="script"
-                    suffix-icon="el-icon-edit-outline"/>
+          <el-input v-model="item.value" class="attr-js" size="mini" disabled placeholder="script" suffix-icon="el-icon-edit-outline"/>
         </div>
       </div>
       <i class="el-icon-delete zeus-icon" @click="formData.splice(index, 1)"/>
@@ -45,6 +43,7 @@
       :append-to-body="true"
       :show-close="false"
       :width="'700px'"
+      @close = "jsValue = ''"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
@@ -235,7 +234,6 @@ export default {
       this.jsValue = this.formData[i].value
     },
     jsCancle() {
-      this.jsValue = ''
       this.jsSeat = null
       this.jsVisible = false
     },
@@ -269,5 +267,9 @@ export default {
     width: 100%;
     border-style: dashed;
   }
+  ::v-deep.attr-js .el-input__inner{
+    cursor: text !important;
+  }
 }
+
 </style>

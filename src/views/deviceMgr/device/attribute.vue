@@ -28,7 +28,6 @@
       <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     </div>
     <el-dialog
-      v-if="dialogVisible"
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
       :close-on-click-modal="false"
@@ -45,7 +44,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <attributeForm v-model="dialogForm"/>
+        <attributeForm v-if="dialogVisible" v-model="dialogForm"/>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -109,7 +108,6 @@
 <script>
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import attrForm from '@/views/deviceMgr/device/attrForm'
 import attributeForm from '@/views/deviceMgr/device/attributeForm'
 import {
   getAttrTrapperByPage,
@@ -272,10 +270,10 @@ export default {
       detailAttrTrapper({ attrId }).then(res => {
         if (res.code == 200) {
           this.dialogForm = res.data
+          this.state = '编辑'
+          this.dialogVisible = true
         }
       })
-      this.state = '编辑'
-      this.dialogVisible = true
     },
     handleCurrentChange(val) {
       this.page = val
