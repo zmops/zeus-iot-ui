@@ -5,12 +5,12 @@
       <template v-slot:main>
         <info v-if="activity === '基础信息'" :info-data="info" @updata="getDetail" />
         <attribute v-else-if="activity === '属性'" />
-        <incident v-else-if="activity ==='事件'" />
-        <serve v-else-if="activity === '服务'" />
+        <incident v-else-if="activity ==='事件管理'" />
+        <serve v-else-if="activity === '服务管理'" />
         <alarm v-else-if="activity === '告警规则'" />
         <tag v-else-if="activity === '标签'" />
         <variable v-else-if="activity === '变量'" />
-        <div v-else-if="activity === '值映射'" class="zeus-product">
+        <div v-else-if="activity === '值映射方案'" class="zeus-product">
           <mapping />
         </div>
         <subset v-else-if="activity === '子设备'" />
@@ -57,12 +57,24 @@ export default {
           name: '属性'
         },
         {
-          label: '事件',
-          name: '事件'
+          label: '记录',
+          name: '记录'
         },
         {
-          label: '服务',
-          name: '服务'
+          label: '属性管理',
+          name: '属性管理'
+        },
+        {
+          label: '事件管理',
+          name: '事件管理'
+        },
+        {
+          label: '服务管理',
+          name: '服务管理'
+        },
+        {
+          label: '上下线规则',
+          name: '上下线规则'
         },
         {
           label: '告警规则',
@@ -77,8 +89,8 @@ export default {
           name: '变量'
         },
         {
-          label: '值映射',
-          name: '值映射'
+          label: '值映射方案',
+          name: '值映射方案'
         },
         {
           label: '子设备',
