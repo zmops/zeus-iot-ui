@@ -8,8 +8,8 @@ const ruleRouter = {
   redirect: '/rule/scene',
   meta: {
     title: '规则引擎',
-    icon: 'undevice',
-    active_icon: 'device'
+    icon: 'menu_rule',
+    active_icon: 'menu_rule_ac'
   },
   children: [
     {

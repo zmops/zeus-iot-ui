@@ -7,8 +7,8 @@ const deviceMgrRouter = {
   redirect: '/deviceMgr/device',
   meta: {
     title: '设备管理',
-    icon: 'undevice',
-    active_icon: 'device'
+    icon: 'menu_device',
+    active_icon: 'menu_device_ac'
   },
   children: [
     {

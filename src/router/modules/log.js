@@ -7,8 +7,8 @@ const logRouter = {
   redirect: '/log/businessLog',
   meta: {
     title: '日志查询',
-    icon: 'unlog',
-    active_icon: 'log'
+    icon: 'menu_log',
+    active_icon: 'menu_log_ac'
   },
   children: [
     {

@@ -7,8 +7,8 @@ const authRouter = {
   alwaysShow: true,
   meta: {
     title: '平台授权',
-    icon: 'undevice',
-    active_icon: 'device'
+    icon: 'menu_auth',
+    active_icon: 'menu_auth_ac'
   },
   children: [
     {

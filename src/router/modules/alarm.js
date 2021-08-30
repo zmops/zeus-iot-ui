@@ -8,8 +8,8 @@ const alarmRouter = {
   alwaysShow: true,
   meta: {
     title: '告警管理',
-    icon: 'undevice',
-    active_icon: 'device'
+    icon: 'menu_alarm',
+    active_icon: 'menu_alarm_ac'
   },
   children: [
     {

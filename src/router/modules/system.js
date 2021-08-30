@@ -7,8 +7,8 @@ const systemRouter = {
   redirect: '/system/user',
   meta: {
     title: '系统管理',
-    icon: 'unsystem',
-    active_icon: 'system'
+    icon: 'menu_system',
+    active_icon: 'menu_system_ac'
   },
   children: [
     {

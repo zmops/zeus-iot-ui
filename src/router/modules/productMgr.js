@@ -7,8 +7,8 @@ const productMgrRouter = {
   redirect: '/productMgr/product',
   meta: {
     title: '产品管理',
-    icon: 'unproduct',
-    active_icon: 'product'
+    icon: 'menu_product',
+    active_icon: 'menu_product_ac'
   },
   children: [
     {

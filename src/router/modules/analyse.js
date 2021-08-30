@@ -7,8 +7,8 @@ const analyseRouter = {
   redirect: '/analyse/device',
   meta: {
     title: '统计分析',
-    icon: 'undevice',
-    active_icon: 'device'
+    icon: 'menu_analyse',
+    active_icon: 'menu_analyse_ac'
   },
   children: [
     {
