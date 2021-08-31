@@ -2,10 +2,10 @@
 <template>
   <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" label-position="top" class="attribute-form">
     <el-form-item label="属性名称" prop="attrName">
-      <el-input v-model="formData.attrName" size="mini"/>
+      <el-input v-model="formData.attrName" size="mini" :disabled="disabled"/>
     </el-form-item>
     <el-form-item label="标识符" prop="key">
-      <el-input v-model="formData.key" size="mini"/>
+      <el-input v-model="formData.key" size="mini" :disabled="disabled"/>
       <div class="el-form-item-tips">
         <i class="el-icon-info"/>
         <span>可以包含数字、字母、-_.。更多特殊形式请见文档</span>
@@ -13,7 +13,7 @@
       </div>
     </el-form-item>
     <el-form-item label="来源类型" prop="source">
-      <el-select v-model="formData.source" size="mini" placeholder="请选择来源类型">
+      <el-select v-model="formData.source" size="mini" placeholder="请选择来源类型" :disabled="disabled">
         <el-option
           v-for="item in sourceList"
           :key="item.code"
@@ -23,7 +23,7 @@
       </el-select>
     </el-form-item>
     <el-form-item v-if="formData.source === '3'" label="来源属性" prop="depAttrId">
-      <el-select v-model="formData.depAttrId" size="mini" placeholder="请选择数据类型">
+      <el-select v-model="formData.depAttrId" size="mini" placeholder="请选择数据类型" :disabled="disabled">
         <el-option
           v-for="item in attrList"
           :key="item.attrId"
@@ -33,7 +33,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="数据类型" prop="valueType">
-      <el-select v-model="formData.valueType" size="mini" placeholder="请选择数据类型">
+      <el-select v-model="formData.valueType" size="mini" placeholder="请选择数据类型" :disabled="disabled">
         <el-option
           v-for="item in valueList"
           :key="item.code"
@@ -46,7 +46,7 @@
       </div>
     </el-form-item>
     <el-form-item label="单位">
-      <el-select v-model="formData.units" size="mini" placeholder="请选择单位">
+      <el-select v-model="formData.units" size="mini" placeholder="请选择单位" :disabled="disabled">
         <el-option-group
           v-for="group in unitsList"
           :key="group.label"
@@ -65,10 +65,10 @@
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
     <el-form-item label="数据预处理">
-      <Pretreatment v-model="formData.processStepList" />
+      <Pretreatment v-model="formData.processStepList" :disabled="disabled" />
     </el-form-item>
     <el-form-item label="值映射">
-      <el-select v-model="formData.valuemapid" size="mini" placeholder="请选择值映射">
+      <el-select v-model="formData.valuemapid" size="mini" placeholder="请选择值映射" :disabled="disabled">
         <el-option
           v-for="item in mapList"
           :key="item.valuemapid"
@@ -143,6 +143,15 @@ export default {
       unitsList: [],
       mapList: [],
       prodId: null
+    }
+  },
+  computed: {
+    disabled() {
+      if (this.formData.attrId && this.formData.templateId !== '') {
+        return true
+      } else {
+        return false
+      }
     }
   },
   watch: {

@@ -67,6 +67,11 @@
             {{ item.pro[scope.row[ item.prop ]] }}
           </span>
         </template>
+        <template v-else-if="item.label === '来自产品'">
+          <span>
+            {{ scope.row[ item.prop ] ? '是' : '否' }}
+          </span>
+        </template>
         <template v-else>
           <span :class="{event: item.event,weight: item.bold}" @click="detail(scope.row,item.event)">
             {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}

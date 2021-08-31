@@ -4,7 +4,7 @@
     <div v-for="(item,index) in formData" :key="index" class="zeus-list-conten zeus-flex-between">
       <div class="left zeus-flex-default">
         <div class="zeus-list-item">
-          <el-select v-model="item.type" size="mini" placeholder="请选择方法名称" @change="proChange(index)">
+          <el-select v-model="item.type" size="mini" placeholder="请选择方法名称" :disabled="disabled" @change="proChange(index)">
             <el-option-group
               v-for="group in preTypeList"
               :key="group.label"
@@ -20,21 +20,21 @@
           </el-select>
         </div>
         <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21'" class="zeus-list-item">
-          <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)"/>
+          <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)" :disabled="disabled"/>
         </div>
         <div v-if="item.type === '25'" class="zeus-list-item">
-          <el-input v-model="item.value" size="mini" placeholder="被替换文本"/>
+          <el-input v-model="item.value" size="mini" placeholder="被替换文本" :disabled="disabled"/>
         </div>
         <div v-if="item.type === '25'" class="zeus-list-item">
-          <el-input v-model="item.value2" size="mini" placeholder="替换为"/>
+          <el-input v-model="item.value2" size="mini" placeholder="替换为" :disabled="disabled"/>
         </div>
         <div v-if="item.type === '21'" class="zeus-list-item" @click="changeJs(index)">
           <el-input v-model="item.value" class="attr-js" size="mini" disabled placeholder="script" suffix-icon="el-icon-edit-outline"/>
         </div>
       </div>
-      <i class="el-icon-delete zeus-icon" @click="formData.splice(index, 1)"/>
+      <i v-if="!disabled" class="el-icon-delete zeus-icon" @click="formData.splice(index, 1)"/>
     </div>
-    <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="add">增加预处理步骤</el-button>
+    <el-button class="add-btn" plain icon="el-icon-plus" size="mini" :disabled="disabled" @click="add">增加预处理步骤</el-button>
     <el-dialog
       :visible.sync="jsVisible"
       :destroy-on-close="true"
@@ -82,7 +82,8 @@ export default {
       default() {
         return []
       }
-    }
+    },
+    disabled: Boolean
   },
   data() {
     return {
@@ -229,6 +230,7 @@ export default {
       }
     },
     changeJs(i) {
+      if (this.disabled) return
       this.jsSeat = i
       this.jsVisible = true
       this.jsValue = this.formData[i].value

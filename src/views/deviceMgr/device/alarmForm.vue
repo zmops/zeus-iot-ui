@@ -14,13 +14,13 @@
         />
       </el-select>
     </el-form-item>
-    <el-form-item label="状态" prop="status">
+    <el-form-item label="启用" prop="status">
       <el-switch
         v-model="form.status"
         active-value="ENABLE"
         inactive-value="DISABLE"
-        active-text="ENABLE"
-        inactive-text="DISABLE"
+        active-text="启用"
+        inactive-text="禁用"
         active-color="#242E42"
         inactive-color="#ff4949">
       </el-switch>

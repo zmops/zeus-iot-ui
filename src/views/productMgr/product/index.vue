@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>产品</template>
-      <template v-slot:subhead>产品是一组具有相同属性、服务、事件等定义的设备集合，比如某品牌的某型号的传感器。创建产品是使用平台的第一步，快速创建产品后才可定义产品物模型、告警规则，进而添加相应设备。</template>
+      <template v-slot:subhead>产品是一组具有相同属性、服务、事件等要素的设备集合，比如某品牌的某型号的传感器。创建产品是使用平台的第一步，快速创建产品后才可定义产品下的属性、服务、事件、告警规则等要素，进而添加相应设备。</template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable

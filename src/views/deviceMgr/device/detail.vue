@@ -5,6 +5,8 @@
       <template v-slot:main>
         <info v-if="activity === '基础信息'" :info-data="info" @updata="getDetail" />
         <attribute v-else-if="activity === '属性'" />
+        <record v-else-if="activity === '记录'" />
+        <attributeMgr v-else-if="activity === '属性管理'" />
         <incident v-else-if="activity ==='事件管理'" />
         <serve v-else-if="activity === '服务管理'" />
         <alarm v-else-if="activity === '告警规则'" />
@@ -29,6 +31,8 @@ import serve from '@/views/deviceMgr/device/serve'
 import alarm from '@/views/deviceMgr/device/alarm'
 import subset from '@/views/deviceMgr/device/subset'
 import variable from '@/views/deviceMgr/device/variable'
+import record from '@/views/deviceMgr/device/record'
+import attributeMgr from '@/views/deviceMgr/device/attributeMgr'
 import { deviceDetail, getDeviceTag } from '@/api/deviceMgr'
 export default {
   name: 'DeviceDetail',
@@ -42,7 +46,9 @@ export default {
     serve,
     subset,
     alarm,
-    variable
+    variable,
+    record,
+    attributeMgr
   },
   data() {
     return {

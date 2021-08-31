@@ -1,7 +1,7 @@
 <!-- 设备详情-属性页面 -->
 <template>
   <div class="attribute">
-    <SearchForm :params="formParams" :buttons="buttons" @search="search"/>
+<!--    <SearchForm :params="formParams" :buttons="buttons" @search="search"/>-->
     <div v-loading="loading" class="zeus-mt-10 zeus-pl-10 zeus-pr-10 zeus-pb-10 list">
       <el-row v-if="tableData.length" :gutter="10">
         <el-col v-for="(item, index) in tableData" :key="index" :span="6" class="zeus-mt-10">
@@ -16,10 +16,10 @@
               <span>sth</span>&nbsp;|&nbsp;
               <span>{{ item.valueTypeName }}</span>&nbsp;|&nbsp;
               <span>{{ item.updateTime }}</span>
-              <div class="zeus-right zeus-inline-block">
-                <el-button icon="el-icon-edit-outline" type="text" @click="edit(item.attrId)"></el-button>
-                <el-button icon="el-icon-delete" type="text" @click="del(item.attrId)"></el-button>
-              </div>
+<!--              <div class="zeus-right zeus-inline-block">-->
+<!--                <el-button icon="el-icon-edit-outline" type="text" @click="edit(item.attrId)"></el-button>-->
+<!--                <el-button icon="el-icon-delete" type="text" @click="del(item.attrId)"></el-button>-->
+<!--              </div>-->
             </div>
           </el-card>
         </el-col>
