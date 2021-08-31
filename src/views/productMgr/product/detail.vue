@@ -18,6 +18,7 @@
           <Mapping />
         </div>
         <serve v-if="tabName === '服务'" />
+        <device v-else-if="tabName === '设备'" />
       </template>
     </DetailTemplate>
   </div>
@@ -31,6 +32,7 @@ import LabelDate from './labeldate.vue'
 import Variable from './variable.vue'
 import Mapping from './mapping.vue'
 import serve from '@/views/productMgr/product/serve'
+import device from '@/views/productMgr/product/device'
 
 import { productDetail } from '@/api/porductMgr'
 export default {
@@ -41,7 +43,8 @@ export default {
     LabelDate,
     Variable,
     Mapping,
-    serve
+    serve,
+    device
   },
   data() {
     return {

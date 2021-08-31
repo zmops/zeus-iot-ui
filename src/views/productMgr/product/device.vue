@@ -1,4 +1,4 @@
-<!--设备详情-子设备页面 -->
+<!--产品详情-设备页面 -->
 <template>
   <div class="alarm">
     <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
@@ -22,7 +22,7 @@
         <div class="left">
           <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
           <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}子设备
+          {{ state }}设备
         </div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon" />
@@ -244,6 +244,10 @@ export default {
     }
   },
   created() {
+    if (this.$route.query.id) {
+      this.productId = this.$route.query.id
+      this.form.productId = this.$route.query.id
+    }
     this.searchInit()
     this.getList()
   },
@@ -323,7 +327,7 @@ export default {
       this.$router.push({
         path: '/deviceMgr/device/detail',
         query: {
-          id: item.deviceId
+          id: item
         }
       })
     },

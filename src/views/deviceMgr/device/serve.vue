@@ -139,6 +139,11 @@ export default {
           show: true
         },
         {
+          label: '来自产品',
+          prop: 'templateId',
+          show: true
+        },
+        {
           label: '调用方式',
           prop: 'productName',
           show: true

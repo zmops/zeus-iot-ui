@@ -100,6 +100,11 @@ export default {
           show: true
         },
         {
+          label: '来自产品',
+          prop: 'templateId',
+          show: true
+        },
+        {
           label: '事件级别',
           prop: 'productName',
           show: true
