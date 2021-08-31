@@ -9,6 +9,30 @@
       :icon="$route.meta.icon24"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      :destroy-on-close="true"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :show-close="false"
+      :width="'700px'"
+      @close="dialogForm = {}"
+    >
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">{{ state }}属性</div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
+        </div>
+      </div>
+      <div class="dialog-body">
+        <incidentForm v-if="dialogVisible" v-model="dialogForm"/>
+      </div>
+      <el-footer class="dialog-footer-btn">
+        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+      </el-footer>
+    </el-dialog>
   </div>
 </template>
 
@@ -16,7 +40,8 @@
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import { getDeviceByPage } from '@/api/deviceMgr'
+import incidentForm from '@/views/deviceMgr/device/incidentForm'
+import { createAttrTrapper, getDeviceByPage, updateAttrTrapper } from '@/api/deviceMgr'
 
 export default {
   name: 'Incident',
@@ -28,7 +53,8 @@ export default {
   components: {
     BusinessTable,
     SearchForm,
-    Pagination
+    Pagination,
+    incidentForm
   },
   data() {
     return {
@@ -52,6 +78,9 @@ export default {
       total: 0,
       size: 10,
       page: 1,
+      dialogVisible: false,
+      dialogForm: {},
+      state: '',
       buttons: [
         {
           type: 'primary',
@@ -147,6 +176,39 @@ export default {
     handleCurrentChange(val) {
       this.page = val
       this.getList()
+    },
+    add() {
+      this.state = '创建'
+      this.dialogVisible = true
+    },
+    submit() {
+      // this.$refs.dialogForm.validate(async(valid) => {
+      //   if (valid) {
+      // if (this.dialogForm.attrId) {
+      //   updateAttrTrapper(this.dialogForm).then(async(res) => {
+      //     if (res.code == 200) {
+      //       this.$message({
+      //         message: '修改成功',
+      //         type: 'success'
+      //       })
+      //       this.dialogVisible = false
+      //       this.getList()
+      //     }
+      //   })
+      // } else {
+      //   createAttrTrapper(this.dialogForm).then(async(res) => {
+      //     if (res.code == 200) {
+      //       this.$message({
+      //         message: '添加成功',
+      //         type: 'success'
+      //       })
+      //       this.dialogVisible = false
+      //       this.getList()
+      //     }
+      //   })
+      // }
+      //   }
+      // })
     }
   }
 }
