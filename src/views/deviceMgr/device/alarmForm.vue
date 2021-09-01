@@ -1,11 +1,11 @@
 <!-- 告警规则表单组件 -->
 <template>
-  <el-form ref="dialogForm" :rules="rules" :model="form" label-width="80px" label-position="top" class="alarm-form">
+  <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" label-position="top" class="alarm-form">
     <el-form-item label="告警名称" prop="name">
-      <el-input v-model="form.name" size="mini"/>
+      <el-input v-model="formData.name" size="mini"/>
     </el-form-item>
     <el-form-item label="告警级别" prop="level">
-      <el-select v-model="form.level" placeholder="请选择告警级别" size="mini">
+      <el-select v-model="formData.level" placeholder="请选择告警级别" size="mini">
         <el-option
           v-for="(item, index) in levelList"
           :key="index"
@@ -16,7 +16,7 @@
     </el-form-item>
     <el-form-item label="启用" prop="status">
       <el-switch
-        v-model="form.status"
+        v-model="formData.status"
         active-value="ENABLE"
         inactive-value="DISABLE"
         active-text="启用"
@@ -26,16 +26,16 @@
       </el-switch>
     </el-form-item>
     <el-form-item label="描述" prop="remark">
-      <el-input v-model="form.remark" type="textarea" rows="2" size="mini"/>
+      <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
     <el-form-item label="触发条件" prop="trigger">
-      <Triggers v-model="form.trigger" :device-list="deviceList" />
+      <Triggers v-model="formData.trigger" :device-list="deviceList" />
     </el-form-item>
     <el-form-item label="执行动作">
-      <Action v-model="form.action" :device-list="deviceList" />
+      <Action v-model="formData.action" :device-list="deviceList" />
     </el-form-item>
     <el-form-item label="标签">
-      <Tag v-model="form.tags" />
+      <Tag v-model="formData.tags" />
     </el-form-item>
   </el-form>
 </template>
@@ -57,12 +57,15 @@ export default {
     value: {
       type: Object,
       default() {
-        return {}
+        return {
+          level: '中级',
+          status: 'ENABLE'
+        }
       }
     }
   },
   watch: {
-    form: {
+    formData: {
       deep: true,
       handler(val) {
         this.$emit('input', val)
@@ -71,7 +74,7 @@ export default {
   },
   data() {
     return {
-      form: this.value,
+      formData: JSON.parse(JSON.stringify(this.value)),
       rules: {
         name: [
           { required: true, message: '请输入设备名称', trigger: 'blur' }
@@ -114,8 +117,5 @@ export default {
     width: 100%;
     border-style: dashed;
   }
-
-
-
 }
 </style>

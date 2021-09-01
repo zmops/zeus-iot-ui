@@ -10,7 +10,7 @@
       条件时,出发告警
     </div>
     <div v-for="(item, index) in formData.triggerList" :key="index" class="trigger-item zeus-relative">
-      <el-select v-model="item.deviceId" placeholder="设备列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
+      <el-select v-model="item.deviceId" placeholder="请选择设备" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
         <el-option
           v-for="(i, ind) in deviceList"
           :key="ind"
@@ -18,7 +18,7 @@
           :value="i.deviceId"
         />
       </el-select>
-      <el-select v-model="item.attr" placeholder="设备属性" size="mini" class="select2 zeus-mr-5">
+      <el-select v-model="item.attr" placeholder="请选择设备属性" size="mini" class="select2 zeus-mr-5">
         <el-option
           v-for="(i, ind) in deviceAttribute"
           :key="ind"
@@ -26,7 +26,7 @@
           :value="i.value"
         />
       </el-select>
-      <el-select v-model="item.incident" placeholder="事件列表" size="mini" class="select2 zeus-mr-5">
+      <el-select v-model="item.incident" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">
         <el-option
           v-for="(i, ind) in incidentList"
           :key="ind"
@@ -58,9 +58,11 @@ export default {
       type: Object,
       default() {
         return {
-          condition: '',
+          condition: '||',
           triggerList: [
-            {}
+            {
+              judge: '='
+            }
           ]
         }
       }
