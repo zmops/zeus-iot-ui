@@ -116,7 +116,7 @@ export default {
         name: [
           { required: true, message: '请输入服务名称', trigger: 'blur' }
         ],
-        key: [
+        mark: [
           { required: true, message: '请输入标识符', trigger: 'blur' }
         ],
         async: [

@@ -25,7 +25,7 @@
         <i class="el-icon-info"/>想要枚举？使用下面的值映射或数据预处理。
       </div>
     </el-form-item>
-    <el-form-item label="单位">
+    <el-form-item v-if="formData.valueType == '3' || formData.valueType == '0'" label="单位">
       <el-select v-model="formData.units" size="mini" placeholder="请选择单位" :disabled="disabled">
         <el-option-group
           v-for="group in unitsList"
