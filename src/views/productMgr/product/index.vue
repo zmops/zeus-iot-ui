@@ -137,14 +137,15 @@ export default {
         {
           label: '',
           prop: 'buttons',
-          width: 80,
+          width: 100,
           idName: 'productId',
           show: true,
           fixed: 'right',
           buttons: [
             {
               label: '删除',
-              event: 'del'
+              event: 'del',
+              icon: 'list-del'
             }
           ]
         }

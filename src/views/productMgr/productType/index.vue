@@ -39,7 +39,9 @@
               round
               size="mini"
               @click="edit(scope.row)"
-            >编辑</el-button>
+            >
+              <svg-icon icon-class="list-edit" />
+              编辑</el-button>
           </div>
         </template>
       </el-table-column>

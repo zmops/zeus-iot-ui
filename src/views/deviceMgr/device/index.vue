@@ -184,7 +184,8 @@ export default {
           buttons: [
             {
               label: '删除',
-              event: 'delete'
+              event: 'delete',
+              icon: 'list-del'
             }
           ]
         }

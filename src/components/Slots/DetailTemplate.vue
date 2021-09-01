@@ -275,7 +275,10 @@ export default {
       margin: 0 0 12px;
 
       ::v-deep.el-button{
-        padding: 8px 20px;
+        padding: 8px 0px;
+        width: 96px;
+        margin: 0 6px;
+        box-sizing: content-box;
       }
 
       ::v-deep.el-button--primary {

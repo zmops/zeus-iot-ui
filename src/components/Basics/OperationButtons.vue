@@ -10,7 +10,9 @@
       round
       size="mini"
       @click="handleClick(item.event)"
-    >{{ item.label }}
+    >
+      <svg-icon v-if="item.icon" :icon-class="item.icon" />
+      {{ item.label }}
     </el-button>
   </div>
 </template>
@@ -46,7 +48,7 @@ export default {
     }
   },
   created() {
-
+    console.log(this.buttons)
   },
   methods: {
     handleClick(eventName) {

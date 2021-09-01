@@ -1,14 +1,14 @@
 <!--设备详情-服务页面 -->
 <template>
   <div class="serve">
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
+    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
@@ -39,8 +39,8 @@
           </el-form-item>
           <el-form-item label="调用方式" prop="mode">
             <el-select v-model="dialogForm.mode" placeholder="请选择产品" size="mini">
-              <el-option label="同步" value="同步"/>
-              <el-option label="异步" value="异步"/>
+              <el-option label="同步" value="同步" />
+              <el-option label="异步" value="异步" />
             </el-select>
           </el-form-item>
           <el-form-item label="输入参数" prop="remark">
@@ -163,11 +163,13 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail'
+              event: 'detail',
+              icon: 'list-edit'
             },
             {
               label: '删除',
-              event: 'delete'
+              event: 'delete',
+              icon: 'list-del'
             }
           ]
         }

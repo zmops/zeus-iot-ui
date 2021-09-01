@@ -1,14 +1,14 @@
 <!--设备详情-子设备页面 -->
 <template>
   <div class="alarm">
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
+    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
@@ -32,10 +32,10 @@
       <div class="dialog-body">
         <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
           <el-form-item v-if="state === '编辑'" label="设备ID" prop="deviceId">
-            <el-input v-model="dialogForm.deviceId" size="mini" disabled/>
+            <el-input v-model="dialogForm.deviceId" size="mini" disabled />
           </el-form-item>
           <el-form-item label="设备名称" prop="name">
-            <el-input v-model="dialogForm.name" size="mini"/>
+            <el-input v-model="dialogForm.name" size="mini" />
           </el-form-item>
           <el-form-item label="产品" prop="productId">
             <el-select v-model="dialogForm.productId" :disabled="'deviceId' in dialogForm" filterable placeholder="请选择产品" size="mini">
@@ -58,13 +58,13 @@
             </el-select>
           </el-form-item>
           <el-form-item label="描述" prop="remark">
-            <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini"/>
+            <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" />
           </el-form-item>
           <el-form-item label="坐标" prop="position">
-            <el-input v-model="dialogForm.position" size="mini"/>
+            <el-input v-model="dialogForm.position" size="mini" />
           </el-form-item>
           <el-form-item label="地址" prop="addr">
-            <el-input v-model="dialogForm.addr" size="mini"/>
+            <el-input v-model="dialogForm.addr" size="mini" />
           </el-form-item>
         </el-form>
         <baidu-map
@@ -77,17 +77,18 @@
           @ready="mapReady"
           @click="selectPoint"
         >
-          <bm-marker :position="point" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"/>
+          <bm-marker :position="point" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" />
           <bm-geolocation
             anchor="BMAP_ANCHOR_BOTTOM_RIGHT"
             :show-address-bar="true"
-            :auto-location="true"/>
+            :auto-location="true"
+          />
           <bm-control class="map-input zeus-pl-10 zeus-pr-10 zeus-pt-10">
             <bm-auto-complete v-model="keyword" :sug-style="{zIndex: 1}">
-              <el-input v-model="keyword" placeholder="请输入关键字" class="map-input"/>
+              <el-input v-model="keyword" placeholder="请输入关键字" class="map-input" />
             </bm-auto-complete>
           </bm-control>
-          <bm-local-search :keyword="keyword" :auto-viewport="true" :panel="false" @searchcomplete="search"/>
+          <bm-local-search :keyword="keyword" :auto-viewport="true" :panel="false" @searchcomplete="search" />
         </baidu-map>
       </div>
       <el-footer class="dialog-footer-btn">
@@ -213,11 +214,13 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail'
+              event: 'detail',
+              icon: 'list-edit'
             },
             {
               label: '删除',
-              event: 'delete'
+              event: 'delete',
+              icon: 'list-del'
             }
           ]
         }
@@ -402,7 +405,7 @@ export default {
           { enableHighAccuracy: true }
         )
       }
-    },
+    }
   }
 }
 </script>

@@ -176,7 +176,8 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'edit'
+              event: 'edit',
+              icon: 'list-edit'
             },
             {
               label: '配置',
@@ -216,11 +217,13 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'edit2'
+              event: 'edit2',
+              icon: 'list-edit'
             },
             {
               label: '删除',
-              event: 'del'
+              event: 'del',
+              icon: 'list-del'
             }
           ]
         }

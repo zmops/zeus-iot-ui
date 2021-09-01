@@ -1,14 +1,14 @@
 <!--设备详情-事件页面 -->
 <template>
   <div class="incident">
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
+    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
@@ -21,12 +21,12 @@
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">{{ state }}属性</div>
         <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
+          <svg-icon icon-class="dialog_close" class="closeicon" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
         </div>
       </div>
       <div class="dialog-body">
-        <incidentForm v-if="dialogVisible" v-model="dialogForm"/>
+        <incidentForm v-if="dialogVisible" v-model="dialogForm" />
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -139,11 +139,13 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail'
+              event: 'detail',
+              icon: 'list-edit'
             },
             {
               label: '删除',
-              event: 'delete'
+              event: 'delete',
+              icon: 'list-del'
             }
           ]
         }

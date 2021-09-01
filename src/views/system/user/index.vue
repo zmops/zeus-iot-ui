@@ -147,7 +147,8 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'edit'
+              event: 'edit',
+              icon: 'list-edit'
             },
             {
               label: '重置密码',

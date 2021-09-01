@@ -140,11 +140,13 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail'
+              event: 'detail',
+              icon: 'list-edit'
             },
             {
               label: '删除',
-              event: 'delete'
+              event: 'delete',
+              icon: 'list-del'
             }
           ]
         }

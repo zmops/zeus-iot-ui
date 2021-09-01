@@ -1,14 +1,14 @@
 <!--设备详情-告警页面 -->
 <template>
   <div class="alarm">
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
+    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
@@ -117,11 +117,13 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail'
+              event: 'detail',
+              icon: 'list-edit'
             },
             {
               label: '删除',
-              event: 'delete'
+              event: 'delete',
+              icon: 'list-del'
             }
           ]
         }
