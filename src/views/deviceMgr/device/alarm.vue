@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <alarmForm :form-data="dialogForm" />
+        <alarmForm v-model="dialogForm" />
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>

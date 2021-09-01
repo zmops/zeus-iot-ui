@@ -18,6 +18,14 @@
           :value="i.deviceId"
         />
       </el-select>
+      <el-select v-model="item.attr" placeholder="设备属性" size="mini" class="select2 zeus-mr-5">
+        <el-option
+          v-for="(i, ind) in deviceAttribute"
+          :key="ind"
+          :label="i.label"
+          :value="i.value"
+        />
+      </el-select>
       <el-select v-model="item.incident" placeholder="事件列表" size="mini" class="select2 zeus-mr-5">
         <el-option
           v-for="(i, ind) in incidentList"
@@ -68,6 +76,7 @@ export default {
     return {
       formData: this.value,
       incidentList: [],
+      deviceAttribute: [],
       id: '',
       judgeList: [
         { label: '=', value: '=' },
@@ -102,6 +111,8 @@ export default {
     deviceChange(val) {
       console.log(val)
       // 获取事件列表
+
+      // 设备属性列表
     },
     del(index) {
       this.formData.triggerList.splice(index, 1)

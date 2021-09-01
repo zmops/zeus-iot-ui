@@ -54,16 +54,24 @@ export default {
     Tag
   },
   props: {
-    formData: {
+    value: {
       type: Object,
       default() {
         return {}
       }
     }
   },
+  watch: {
+    form: {
+      deep: true,
+      handler(val) {
+        this.$emit('input', val)
+      }
+    }
+  },
   data() {
     return {
-      form: this.formData,
+      form: this.value,
       rules: {
         name: [
           { required: true, message: '请输入设备名称', trigger: 'blur' }
