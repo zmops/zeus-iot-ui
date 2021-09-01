@@ -48,7 +48,7 @@
           </div>
         </el-form-item>
         <el-form-item v-if="form.valueType == '3' || form.valueType == '0'" label="单位">
-          <el-select v-model="form.units" size="mini" placeholder="请选择单位">
+          <el-select v-model="form.units" filterable size="mini" placeholder="请选择单位">
             <el-option-group
               v-for="group in unitsList"
               :key="group.label"
