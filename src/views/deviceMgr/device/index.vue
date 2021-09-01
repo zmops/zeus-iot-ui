@@ -3,12 +3,12 @@
   <div class="business-log">
     <ListHeadTemplate>
       <template v-slot:logo>
-        <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
+        <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px"/>
       </template>
       <template v-slot:title>设备</template>
       <template v-slot:subhead>设备基本信息</template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
+    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
     <BusinessTable
       :table-data="tableData"
       :columns="columns"
@@ -16,7 +16,7 @@
       :icon="$route.meta.icon24"
       @detail="detail"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
+    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     <el-dialog
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
@@ -24,48 +24,21 @@
       :close-on-press-escape="false"
       :width="'700px'"
       :show-close="false"
-      @close="close"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
+          <svg-icon v-if="state === '创建'" icon-class="dialog_add"/>
+          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit"/>
           {{ state }}设备
         </div>
         <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+          <svg-icon icon-class="dialog_close" class="closeicon"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
         </div>
       </div>
       <div class="dialog-body">
-        <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="设备名称" prop="name">
-            <el-input v-model="dialogForm.name" size="mini" />
-          </el-form-item>
-          <el-form-item label="产品" prop="productId">
-            <el-select v-model="dialogForm.productId" :disabled="'deviceId' in dialogForm" filterable placeholder="请选择产品" size="mini">
-              <el-option
-                v-for="item in productList"
-                :key="item.productId"
-                :label="item.name"
-                :value="item.productId"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="设备组" prop="deviceGroupIds">
-            <el-select v-model="dialogForm.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini">
-              <el-option
-                v-for="item in deviceGroup"
-                :key="item.deviceGroupId"
-                :label="item.name"
-                :value="item.deviceGroupId.toString()"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="描述" prop="remark">
-            <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" />
-          </el-form-item>
-        </el-form>
+        <deviceForm ref="deviceForm" v-model="dialogForm" :state="state" :product-list="productList"
+                    :device-group="deviceGroup"/>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -80,6 +53,7 @@ import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
+import deviceForm from '@/views/deviceMgr/device/deviceForm'
 import {
   getDeviceByPage,
   createDevice,
@@ -89,6 +63,7 @@ import {
 } from '@/api/deviceMgr'
 import { getDictListByCode } from '@/api/system'
 import { getProductList } from '@/api/porductMgr'
+
 export default {
   provide() {
     return {
@@ -100,7 +75,8 @@ export default {
     ListHeadTemplate,
     BusinessTable,
     SearchForm,
-    Pagination
+    Pagination,
+    deviceForm
   },
   data() {
     return {
@@ -345,33 +321,31 @@ export default {
       }
     },
     submit() {
-      this.$refs.dialogForm.validate(async(valid) => {
-        if (valid) {
-          if (this.dialogForm.deviceId) {
-            updateDevice(this.dialogForm).then(async(res) => {
-              if (res.code == 200) {
-                this.$message({
-                  message: '修改成功',
-                  type: 'success'
-                })
-                this.dialogVisible = false
-                await this.getList()
-              }
-            })
-          } else {
-            createDevice(this.dialogForm).then(async(res) => {
-              if (res.code == 200) {
-                this.$message({
-                  message: '添加成功',
-                  type: 'success'
-                })
-                this.dialogVisible = false
-                await this.getList()
-              }
-            })
-          }
-        }
-      })
+      if (this.$refs.deviceForm.validateForm()) {
+        // if (this.dialogForm.deviceId) {
+        //   updateDevice(this.dialogForm).then(async(res) => {
+        //     if (res.code == 200) {
+        //       this.$message({
+        //         message: '修改成功',
+        //         type: 'success'
+        //       })
+        //       this.dialogVisible = false
+        //       await this.getList()
+        //     }
+        //   })
+        // } else {
+          createDevice(this.dialogForm).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
+              this.dialogVisible = false
+              await this.getList()
+            }
+          })
+        // }
+      }
     }
   }
 }

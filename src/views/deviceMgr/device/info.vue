@@ -106,7 +106,6 @@
       :close-on-press-escape="false"
       :width="'700px'"
       :show-close="false"
-      @close="keyword = ''"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
@@ -119,66 +118,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="设备ID" prop="deviceId">
-            <el-input v-model="dialogForm.deviceId" size="mini" disabled/>
-          </el-form-item>
-          <el-form-item label="设备名称" prop="name">
-            <el-input v-model="dialogForm.name" size="mini"/>
-          </el-form-item>
-          <el-form-item label="产品" prop="productId">
-            <el-select v-model="dialogForm.productId" :disabled="'deviceId' in dialogForm" filterable placeholder="请选择产品" size="mini">
-              <el-option
-                v-for="item in productList"
-                :key="item.productId"
-                :label="item.name"
-                :value="item.productId"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="设备组" prop="deviceGroupIds">
-            <el-select v-model="dialogForm.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini">
-              <el-option
-                v-for="item in deviceGroup"
-                :key="item.deviceGroupId"
-                :label="item.name"
-                :value="item.deviceGroupId.toString()"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="描述" prop="remark">
-            <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini"/>
-          </el-form-item>
-          <el-form-item label="坐标" prop="position">
-            <el-input v-model="dialogForm.position" size="mini"/>
-          </el-form-item>
-          <el-form-item label="地址" prop="addr">
-            <el-input v-model="dialogForm.addr" size="mini"/>
-          </el-form-item>
-        </el-form>
-        <baidu-map
-          v-if="dialogVisible"
-          class="bm-view zeus-mt-20"
-          :zoom="15"
-          :center="center"
-          :ak="selfKey"
-          inertial-dragging
-          :scroll-wheel-zoom="true"
-          @ready="mapReady"
-          @click="selectPoint"
-        >
-          <bm-marker :position="point" animation="BMAP_ANIMATION_BOUNCE"/>
-          <bm-geolocation
-            anchor="BMAP_ANCHOR_BOTTOM_RIGHT"
-            :show-address-bar="true"
-            :auto-location="true"/>
-          <bm-control class="map-input zeus-pl-10 zeus-pr-10 zeus-pt-10">
-            <bm-auto-complete v-model="keyword" :sug-style="{zIndex: 99999}">
-              <el-input v-model="keyword" placeholder="请输入关键字" class="map-input"/>
-            </bm-auto-complete>
-          </bm-control>
-          <bm-local-search :keyword="keyword" :auto-viewport="true" :panel="false"/>
-        </baidu-map>
+        <deviceForm ref="deviceForm" v-model="dialogForm" :state="'编辑'" :product-list="productList" :device-group="deviceGroup"/>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -190,7 +130,8 @@
 
 <script>
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
-import { BmGeolocation, BmLocalSearch, BmMarker, BmControl, BmAutoComplete } from 'vue-baidu-map'
+import { BmMarker } from 'vue-baidu-map'
+import deviceForm from '@/views/deviceMgr/device/deviceForm'
 import { getProductList } from '@/api/porductMgr'
 import { getDeviceGrpList, updateDevice } from '@/api/deviceMgr'
 
@@ -199,16 +140,9 @@ export default {
   components: {
     // 地图
     BaiduMap,
-    // 手动定位控件
-    BmGeolocation,
-    // 检索控件
-    BmLocalSearch,
     // marker控件
     BmMarker,
-    // 自定义控件
-    BmControl,
-    // 自动填充
-    BmAutoComplete
+    deviceForm
   },
   props: {
     infoData: {
@@ -312,20 +246,19 @@ export default {
       console.log(e)
     },
     submit() {
-      this.$refs.dialogForm.validate(async(valid) => {
-        if (valid) {
-          updateDevice(this.dialogForm).then((res) => {
-            if (res.code == 200) {
-              this.$message({
-                message: '修改成功',
-                type: 'success'
-              })
-              this.dialogVisible = false
-              this.$emit('updata')
-            }
-          })
-        }
-      })
+      if (this.$refs.deviceForm.validateForm()) {
+        updateDevice(this.dialogForm).then((res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+            this.dialogVisible = false
+            this.$emit('updata')
+          }
+        })
+      }
+
     }
   }
 }
@@ -333,18 +266,9 @@ export default {
 
 <style lang="scss" scoped>
 .info {
-  .bm-view {
-    width: 600px;
-    height: 500px;
-  }
-
-  .bm-view2{
+  .bm-view2 {
     width: 100%;
     height: 500px;
-  }
-
-  .map-input {
-    width: 100%;
   }
 
   .basics {
@@ -387,14 +311,14 @@ export default {
             margin-bottom: 5px;
           }
 
-          .group-item{
+          .group-item {
             display: inline-block;
             background-color: #E3E9EF;
             padding: 4px 5px;
             margin-right: 5px;
           }
 
-          .show-map{
+          .show-map {
             color: #1A84F9;
           }
 
