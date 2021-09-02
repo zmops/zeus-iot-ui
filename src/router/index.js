@@ -40,7 +40,7 @@ export const asyncRoutes = [
   ruleRouter,
   systemRouter,
   alarmRouter,
-  authRouter,
+  // authRouter,
   logRouter,
   aboutRouter
 ]

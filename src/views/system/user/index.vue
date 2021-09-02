@@ -141,7 +141,7 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 160,
+          width: 190,
           idName: 'userId',
           fixed: 'right',
           buttons: [

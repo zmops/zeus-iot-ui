@@ -137,7 +137,7 @@ export default {
         {
           label: '',
           prop: 'buttons',
-          width: 160,
+          width: 200,
           show: true,
           idName: 'roleId',
           fixed: 'right',

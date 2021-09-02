@@ -158,7 +158,6 @@ export default {
   },
   async created() {
     await this.searchInit()
-    await this.getList()
   },
   methods: {
     async searchInit() {
@@ -168,6 +167,7 @@ export default {
           this.deviceList = res.data
           if (res.data.length) {
             this.form.deviceId = res.data.[0].deviceId
+            this.getList()
           }
         }
       })

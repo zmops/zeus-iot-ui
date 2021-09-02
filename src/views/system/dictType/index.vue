@@ -170,7 +170,7 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 160,
+          width: 180,
           idName: 'dictTypeId',
           fixed: 'right',
           buttons: [

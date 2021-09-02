@@ -115,7 +115,7 @@ export default {
         {
           label: '',
           prop: 'buttons',
-          width: 80,
+          width: 100,
           idName: 'userGroupId',
           show: true,
           fixed: 'right',
