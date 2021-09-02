@@ -63,9 +63,21 @@
           </span>
         </template>
         <template v-else-if="item.status">
-          <span :class="{weight: item.bold}">
-            {{ item.pro[scope.row[ item.prop ]] }}
-          </span>
+<!--          <span :class="{weight: item.bold}">-->
+<!--            {{ item.pro[scope.row[ item.prop ]] }}-->
+<!--          </span>-->
+          <el-switch
+            v-model="scope.row[item.prop]"
+            class="zeus-mr-15"
+            active-value="ENABLE"
+            inactive-value="DISABLE"
+            active-color="#242E42"
+            inactive-color="#ff4949"
+            @change="switchChange(scope.row)"
+          >
+          </el-switch>
+          <span v-if="scope.row[item.prop] === 'ENABLE'">启用中</span>
+          <span v-if="scope.row[item.prop] === 'DISABLE'">已禁用</span>
         </template>
         <template v-else-if="item.label === '来自产品'">
           <span>
@@ -180,6 +192,10 @@ export default {
     /* 点击行的点击事件*/
     handleRowClick(r, c, e) {
       this.$emit('rowClick', r, c, e)
+    },
+    /* 切换状态 */
+    switchChange(val) {
+      this.$emit('switchChange', val)
     },
     transTime(time, fmt = 'yyyy-MM-dd HH:mm:ss') {
       if (time) {

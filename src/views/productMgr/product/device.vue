@@ -109,7 +109,7 @@ export default {
         },
         {
           label: '状态',
-          prop: 'status',
+          prop: 'statusName',
           show: true
         },
         {

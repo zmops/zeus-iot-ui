@@ -100,6 +100,7 @@ export default {
         {
           label: '启用状态',
           prop: 'remark',
+          status: true,
           show: true
         },
         {

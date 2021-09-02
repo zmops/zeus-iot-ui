@@ -48,7 +48,7 @@ export default {
     }
   },
   created() {
-    console.log(this.buttons)
+    // console.log(this.buttons)
   },
   methods: {
     handleClick(eventName) {
