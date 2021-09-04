@@ -10,6 +10,10 @@
       条件时,出发告警
     </div>
     <div v-for="(item, index) in formData.triggerList" :key="index" class="trigger-item zeus-relative">
+      <el-select v-model="item.type" size="mini" class="select3 zeus-mr-5">
+        <el-option label="属性" value="属性"/>
+        <el-option label="事件" value="事件"/>
+      </el-select>
       <el-select v-model="item.deviceId" placeholder="请选择设备" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
         <el-option
           v-for="(i, ind) in deviceList"
@@ -18,7 +22,7 @@
           :value="i.deviceId"
         />
       </el-select>
-      <el-select v-model="item.attr" placeholder="请选择设备属性" size="mini" class="select2 zeus-mr-5">
+      <el-select v-if="item.type === '属性'" v-model="item.attr" placeholder="请选择设备属性" size="mini" class="select2 zeus-mr-5">
         <el-option
           v-for="(i, ind) in deviceAttribute"
           :key="ind"
@@ -26,7 +30,7 @@
           :value="i.value"
         />
       </el-select>
-      <el-select v-model="item.incident" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">
+      <el-select v-if="item.type === '事件'" v-model="item.incident" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">
         <el-option
           v-for="(i, ind) in incidentList"
           :key="ind"
@@ -61,7 +65,8 @@ export default {
           condition: '||',
           triggerList: [
             {
-              judge: '='
+              judge: '=',
+              type: '属性'
             }
           ]
         }
@@ -107,7 +112,8 @@ export default {
   methods: {
     addTrigger() {
       this.formData.triggerList.push({
-        deviceId: this.id
+        deviceId: this.id,
+        type: '属性'
       })
     },
     deviceChange(val) {
