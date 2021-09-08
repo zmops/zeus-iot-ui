@@ -8,6 +8,7 @@
       :style="{width:w +'px'}"
       :multiple="multiple"
       clearable
+      filterable
     >
       <el-option
         v-for="(item,index) in options"
