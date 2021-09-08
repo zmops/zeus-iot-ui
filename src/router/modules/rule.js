@@ -14,7 +14,7 @@ const ruleRouter = {
   children: [
     {
       path: '/rule/scene',
-      component: () => import('@/views/401'),
+      component: () => import('@/views/rule/scene'),
       name: '/rule/scene',
       meta: {
         title: '场景联动',
