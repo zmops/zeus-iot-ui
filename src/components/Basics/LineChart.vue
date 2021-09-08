@@ -1,12 +1,8 @@
 <template>
   <div class="myChart" :style="{ width: width, height: height }">
     <div ref="myChart" :style="{ width: width, height: height }"></div>
-    <div v-if="lineShow && lineData.length === 0" class="noData">
-      <div>暂无数据</div>
-    </div>
   </div>
 </template>
-
 <script>
 import echarts from 'echarts'
 import { ftimestampToData } from '@/utils/index'
@@ -22,6 +18,10 @@ export default {
       default: '140px'
     },
     unit: {
+      type: String,
+      default: ''
+    },
+    title: {
       type: String,
       default: ''
     },
@@ -80,10 +80,10 @@ export default {
           this.newData = val
           this.unit2 = this.unit
         } else {
-          let lineData1 = val.map((e) => {
+          const lineData1 = val.map((e) => {
             return e[1]
           })
-          let max = Math.max(...lineData1)
+          const max = Math.max(...lineData1)
           let unit = {}
           if (this.conversion === 1024) {
             unit = this.unitTool2(max)
@@ -91,7 +91,7 @@ export default {
             unit = this.unitTool(max)
           }
           this.unit2 = unit.units + this.unit
-          let newArr1 = []
+          const newArr1 = []
           val.forEach((item) => {
             if (item[1]) {
               newArr1.push([item[0], item[1] / unit.unit])
@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     unitTool(spreadMax) {
-      let obj = {}
+      const obj = {}
       if (spreadMax > 1000000000000) {
         obj.units = 'T'
         obj.unit = 1000000000000
@@ -144,7 +144,7 @@ export default {
       return obj
     },
     unitTool2(spreadMax) {
-      let obj = {}
+      const obj = {}
       if (spreadMax > 1024 * 1024 * 1024 * 1024) {
         obj.units = 'T'
         obj.unit = 1024 * 1024 * 1024 * 1024
@@ -215,18 +215,18 @@ export default {
           //   formatter: '{b} : {c}' + this.unit,
         }
       }
-      let option = {
+      const option = {
         tooltip: tooltip,
         title: {
-          text: '单位:' + unit,
+          text: this.title,
           textStyle: {
             fontSize: 12
           }
         },
         grid: {
-          left: '1%',
-          right: '20',
-          bottom: this.dataZoomBol ? '40px' : '1%',
+          left: '0',
+          right: '0',
+          bottom: this.dataZoomBol ? '40px' : '0px',
           top: '35',
           containLabel: true,
           borderColor: '#fc0c0c'
@@ -260,7 +260,7 @@ export default {
           },
           splitLine: {
             // 坐标轴在 grid 区域中的分隔线。
-            show: this.lineShow,
+            show: false,
             lineStyle: {
               color: '#E5E9ED'
               // 	opacity:0.1
@@ -268,7 +268,7 @@ export default {
           },
           splitArea: {
             // 背景分割样式
-            show: this.lineShow,
+            show: false,
             areaStyle: {
               color: ['#ffffff', '#F9F9FB']
             }
@@ -318,7 +318,7 @@ export default {
               show: false
             },
             splitLine: {
-              show: false,
+              show: this.lineShow,
               lineStyle: {
                 color: '#E5E9ED'
                 // 	opacity:0.1
