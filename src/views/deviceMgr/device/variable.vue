@@ -6,7 +6,10 @@
       <span class="variable-item-c zeus-inline-block">{{ item.tag }}</span>
       <span class="variable-item-r zeus-inline-block">{{ item.value }}</span>
     </div>
-    <el-button type="text" icon="el-icon-edit" class="zeus-right zeus-absolute edit" @click="edit"></el-button>
+    <el-button size="mini" round class="zeus-right zeus-absolute edit" @click="edit">
+      <svg-icon icon-class="dialog_edit" style="margin-right: 5px"/>
+      编辑
+    </el-button>
     <el-dialog
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
@@ -119,6 +122,9 @@ export default {
     right:18px ;
     top: 50%;
     transform: translateY(-50%);
+    padding: 5px 9px;
+    border: 1px solid #EFF4F9;
+    background: #EFF4F9;
   }
 }
 </style>
