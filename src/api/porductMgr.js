@@ -116,6 +116,15 @@ export function getAttrTrapperByPage(data) {
   })
 }
 
+// 产品属性列表-不分页
+export function getProductAttrTrapperList(data) {
+  return request({
+    url: '/product/model/list',
+    method: 'post',
+    data
+  })
+}
+
 // 产品属性详情
 export function detailAttrTrapper(params) {
   return request({

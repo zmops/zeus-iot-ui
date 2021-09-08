@@ -5,10 +5,11 @@
       <template v-slot:main>
         <info v-if="activity === '基础信息'" :info-data="info" @updata="getDetail" />
         <attribute v-else-if="activity === '属性'" />
-        <record v-else-if="activity === '记录'" />
+        <record v-else-if="activity === '日志'" />
         <attributeMgr v-else-if="activity === '属性管理'" />
         <incident v-else-if="activity ==='事件管理'" />
         <serve v-else-if="activity === '服务管理'" />
+        <offLineRule v-else-if="activity === '上下线规则'" />
         <alarm v-else-if="activity === '告警规则'" />
         <tag v-else-if="activity === '标签'" />
         <variable v-else-if="activity === '变量'" />
@@ -33,6 +34,7 @@ import subset from '@/views/deviceMgr/device/subset'
 import variable from '@/views/deviceMgr/device/variable'
 import record from '@/views/deviceMgr/device/record'
 import attributeMgr from '@/views/deviceMgr/device/attributeMgr'
+import offLineRule from '@/views/deviceMgr/device/offLineRule'
 import { deviceDetail, getDeviceTag } from '@/api/deviceMgr'
 export default {
   name: 'DeviceDetail',
@@ -48,7 +50,8 @@ export default {
     alarm,
     variable,
     record,
-    attributeMgr
+    attributeMgr,
+    offLineRule
   },
   data() {
     return {
@@ -63,8 +66,8 @@ export default {
           name: '属性'
         },
         {
-          label: '记录',
-          name: '记录'
+          label: '日志',
+          name: '日志'
         },
         {
           label: '属性管理',
