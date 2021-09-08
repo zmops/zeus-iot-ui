@@ -19,7 +19,7 @@
   <div v-else class="setting-form setting-form-light">
     <div class="condition zeus-flex-between">
       <el-form :inline="true" :model="farther.form">
-        <el-form-item v-for="(item, index) in params" :key="index" size="mini">
+        <el-form-item v-for="(item, index) in params" :key="index" size="mini" class="zeus-mt-10">
           <component :is="item.componentName" v-bind="item" />
         </el-form-item>
       </el-form>
@@ -58,13 +58,15 @@
 import SelectTemplate from '@/components/Basics/SelectTemplate'
 import InputTemplate from '@/components/Basics/InputTemplate'
 import DateTimePickerTemplate from '@/components/Basics/DateTimePickerTemplate'
+import KeyValueTemplate from '@/components/Basics/KeyValueTemplate'
 import EventBus from '@/utils/event-bus'
 export default {
   inject: ['farther'],
   components: {
     SelectTemplate,
     InputTemplate,
-    DateTimePickerTemplate
+    DateTimePickerTemplate,
+    KeyValueTemplate
   },
   props: {
     /* 搜索栏左侧表单 */
@@ -135,7 +137,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 0 20px 10px 20px;
   box-shadow: 0 1px 0 0 #eff4f9;
 
   .condition{
@@ -168,5 +170,8 @@ export default {
 .line-button-wrapper .is-round:hover{
   background: #E3E9EF !important;
   border: none !important;
+}
+.setting-buttons{
+  width: 140px;
 }
 </style>
