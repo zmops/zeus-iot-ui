@@ -22,19 +22,19 @@
             <div class="chunk1 bg zeus-inline-block">
               <el-row class="hang">
                 <el-col :span="12" class="label">在线设备:</el-col>
-                <el-col :span="12">158</el-col>
+                <el-col :span="12">{{ deviceData.online || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">设备总数:</el-col>
-                <el-col :span="12">512</el-col>
+                <el-col :span="12">{{ deviceData.total || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">未启用设备:</el-col>
-                <el-col :span="12">52</el-col>
+                <el-col :span="12">{{ deviceData.disable || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">产品:</el-col>
-                <el-col :span="12">35</el-col>
+                <el-col :span="12">{{ deviceData.product || '--' }}</el-col>
               </el-row>
             </div>
             <div class="chart1 bg zeus-inline-block">
@@ -62,7 +62,7 @@
               </el-row>
             </div>
             <div class="chart1 bg zeus-inline-block">
-              <LineChart :title="'在线设备趋势'" :line-data="chartData" :is-to-fixed="0" :height="'100%'" />
+              <LineChart :title="'在线设备趋势'" :line-data="alarmData" :is-to-fixed="0" :height="'100%'" />
             </div>
           </div>
         </el-card>
@@ -93,7 +93,7 @@
         <el-card class="box-card" shadow="hover">
           <span>取数速率(个/s)</span>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-pl-10 zeus-pr-10 zeus-mt-15">
-            <LineChart :title="'7580'" :line-data="chartData" :line-show="false" :height="'152px'" />
+            <LineChart :line-data="collectonRateData" :line-show="false" :height="'152px'" />
           </div>
         </el-card>
       </el-col>
@@ -146,6 +146,7 @@
 <script>
 import LineChart from '@/components/Basics/LineChart'
 import BarChart from '@/components/Basics/BarChart'
+import { deviceNum, collectonRate, alarmNum} from '@/api/analyse'
 export default {
   name: "globalOverview",
   components: {
@@ -154,14 +155,65 @@ export default {
   },
   data() {
     return {
-      time: [],
-      chartData:[[1630897200000,1],[1630900800000,8],[1630904400000,7],[1630908000000,6],[1630911600000,7],[1630915200000,6],[1630918800000,7],[1630922400000,7],[1630926000000,7],[1630929600000,6],[1630933200000,5],[1630936800000,5],[1630940400000,4],[1630944000000,4],[1630947600000,4],[1630951200000,3],[1630954800000,2],[1630958400000,2],[1630962000000,3],[1630965600000,3],[1630969200000,3],[1630972800000,3],[1630976400000,7],[1630980000000,8],[1630983600000,5]]
+      time: [
+        new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
+        new Date().getTime()
+      ],
+      deviceData: {},
+      collectonRateData: [],
+      alarmData: [],
+      chartData: []
     }
   },
   created() {
-
+    this.init()
   },
-  methods: {}
+  methods: {
+    init() {
+      const timeFrom = Math.ceil(this.time[0] / 1000)
+      const timeTill = Math.ceil(this.time[1] / 1000)
+      // 设备数量统计
+      deviceNum({ timeFrom, timeTill }).then((res) => {
+        if (res.code == 200) {
+          this.deviceData = res.data
+        }
+      })
+      // 告警统计
+      alarmNum({ timeFrom, timeTill }).then((res) => {
+        if (res.code == 200) {
+          this.alarmData = res.data.trends.map((i) => {
+            return {
+              name: i.name,
+              type: 'line',
+              showSymbol: false,
+              data: i.data.map((ii) => {
+                return [
+                  ii.date, Number(ii.val)
+                ]
+              })
+            }
+          })
+        }
+      })
+      // 取数速率
+      collectonRate({ timeFrom, timeTill }).then((res) => {
+        if (res.code == 200) {
+          this.collectonRateData = res.data.map((i) => {
+            return {
+              name: i.name,
+              type: 'line',
+              showSymbol: false,
+              data: i.data.map((ii) => {
+                return [
+                  ii.date, Number(ii.val).toFixed(2)
+                ]
+              })
+            }
+          })
+        }
+      })
+    }
+  }
 }
 </script>
 

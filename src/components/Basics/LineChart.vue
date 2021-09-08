@@ -5,8 +5,6 @@
 </template>
 <script>
 import echarts from 'echarts'
-import { ftimestampToData } from '@/utils/index'
-
 export default {
   props: {
     width: {
@@ -50,24 +48,11 @@ export default {
     dataZoomBol: {
       type: Boolean,
       default: false
-    },
-    maxY: {
-      type: [Number, String],
-      default: 'dataMax'
-    },
-    isToFixed: { // 是否保留小数,保留几位小数就传几,不做处理则传0
-      type: Number,
-      default: 2
-    },
-    conversion: { // 是否进行单位换算,默认不转换
-      type: Number,
-      default: 0
     }
   },
   data() {
     return {
       chart: null,
-      newData: [],
       unit2: ''
     }
   },
@@ -76,163 +61,42 @@ export default {
       immediate: true,
       deep: true,
       handler: function(val) {
-        if (this.conversion === 0) {// 不做单位换算
-          this.newData = val
-          this.unit2 = this.unit
-        } else {
-          const lineData1 = val.map((e) => {
-            return e[1]
-          })
-          const max = Math.max(...lineData1)
-          let unit = {}
-          if (this.conversion === 1024) {
-            unit = this.unitTool2(max)
-          } else if (this.conversion === 1000) {
-            unit = this.unitTool(max)
-          }
-          this.unit2 = unit.units + this.unit
-          const newArr1 = []
-          val.forEach((item) => {
-            if (item[1]) {
-              newArr1.push([item[0], item[1] / unit.unit])
-            } else {
-              newArr1.push([item[0], item[1]])
-            }
-          })
-          this.newData = newArr1
-        }
         this.$nextTick(() => {
           this.initChart()
         })
       }
     }
   },
-  mounted() {
-    // this.timer = setInterval(() => {
-    //   this.chart && this.chart.resize()
-    // }, 500)
-    // this.$nextTick(() => {
-    //     this.initChart()
-    // })
-  },
-  beforeDestroy() {
-    // if (!this.chart) {
-    //   return
-    // }
-    // this.chart.dispose()
-    // this.chart = null
-  },
   methods: {
-    unitTool(spreadMax) {
-      const obj = {}
-      if (spreadMax > 1000000000000) {
-        obj.units = 'T'
-        obj.unit = 1000000000000
-      } else if (spreadMax > 1000000000) {
-        obj.units = 'G'
-        obj.unit = 1000000000
-      } else if (spreadMax > 1000000) {
-        obj.units = 'M'
-        obj.unit = 1000000
-      } else if (spreadMax > 1000) {
-        obj.units = 'K'
-        obj.unit = 1000
-      } else {
-        obj.units = ''
-        obj.unit = 1
-      }
-      return obj
-    },
-    unitTool2(spreadMax) {
-      const obj = {}
-      if (spreadMax > 1024 * 1024 * 1024 * 1024) {
-        obj.units = 'T'
-        obj.unit = 1024 * 1024 * 1024 * 1024
-      } else if (spreadMax > 1024 * 1024 * 1024) {
-        obj.units = 'G'
-        obj.unit = 1024 * 1024 * 1024
-      } else if (spreadMax > 1024 * 1024) {
-        obj.units = 'M'
-        obj.unit = 1024 * 1024
-      } else if (spreadMax > 1024) {
-        obj.units = 'K'
-        obj.unit = 1024
-      } else {
-        obj.units = ''
-        obj.unit = 1
-      }
-      return obj
-    },
-    // 判断是否有数据,无数据是不加载
-    // judge(){
-    //     let _this=this
-    //     if (_this.lineData.length>0){
-    //         this.initChart()
-    //     }
-    // },
     initChart() {
-      const chart = echarts.init(this.$refs.myChart)
-      // 数据
-      const vm = this
-      let tooltip = {
-        show: false
-      }
-      let unit = ''
-      if (this.unit2) {
-        if (this.unit2 !== 'null') {
-          unit = this.unit2
-        }
-        tooltip = {
-          trigger: 'axis',
-          backgroundColor: '#ffffff',
-          borderColor: '#EBEEF5',
-          borderWidth: 1,
-          extraCssText: 'box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);',
-          axisPointer: {
-            type: 'line'
-          },
-          formatter: function(params) {
-            let items = params[0]
-            let i = items.dataIndex
-            let time = ftimestampToData(vm.newData[i][0])
-            let val = '--'
-            if (items.value[1] !== null) {
-              if (vm.isToFixed) {
-                val = items.value[1].toFixed(vm.isToFixed) + unit
-              } else {
-                val = items.value[1] + unit
-              }
-            }
-            let str = ''
-            str +=
-              '<div style="color: #12191f; line-height:24px;">' +
-              time +
-              ' ' +
-              val +
-              '</div>'
-            return str
-          }
-          //   formatter: '{b} : {c}' + this.unit,
-        }
-      }
+      const chart = echarts.init(this.$refs.myChart, 'light')
       const option = {
-        tooltip: tooltip,
         title: {
           text: this.title,
           textStyle: {
             fontSize: 12
           }
         },
+        tooltip: {
+          trigger: 'axis',
+          type: 'line'
+        },
         grid: {
           left: '0',
           right: '0',
           bottom: this.dataZoomBol ? '40px' : '0px',
-          top: '35',
+          top: '55',
           containLabel: true,
           borderColor: '#fc0c0c'
         },
+        legend: {
+          icon: 'circle'
+          // data: [
+          //   'character','avg','log','not supported','numeric (float)','text','numeric (unsigned)'
+          // ]
+        },
         xAxis: {
-          type: 'time',
+          type: 'category',
           boundaryGap: false, // 坐标轴两边留白
           axisLabel: {
             // 坐标轴刻度标签的相关设置。
@@ -301,19 +165,11 @@ export default {
                 fontFamily: '微软雅黑',
                 fontSize: 12
               },
-              interval: 20,
-              formatter: function(value, index) {
-                if (vm.isToFixed) {
-                  return value.toFixed(vm.isToFixed)
-                } else {
-                  return value
-                }
-              }
+              interval: 20
             },
             axisLine: {
               show: false
             },
-            max: this.maxY,
             axisTick: {
               show: false
             },
@@ -326,30 +182,7 @@ export default {
             }
           }
         ],
-        series: [
-          {
-            name: '',
-            type: 'line',
-            symbolSize: 1, // 折线折点的大小
-            showSymbol: false,// 是否显示折点,不影响鼠标选中的效果
-            itemStyle: {
-              normal: {
-                color: this.lineColor,
-                lineStyle: {
-                  color: this.lineColor,
-                  width: 1
-                },
-                areaStyle: {
-                  color: this.color
-                }
-              }
-            },
-            // data: this.lineData.map((v) => {
-            //   return Number(v).toFixed(2)
-            // }),
-            data: this.newData
-          }
-        ]
+        series: this.lineData
       }
       chart.clear()
       chart.setOption(option)
@@ -360,26 +193,5 @@ export default {
 
 <style lang="scss" scoped>
 .myChart {
-  position: relative;
-
-  .noData {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 10;
-    background-color: #ffffff;
-    text-align: center;
-    margin-top: -60px;
-    margin-left: -50px;
-
-    .noData-icon {
-      font-size: 80px;
-    }
-
-    div {
-      font-size: 14px;
-      font-weight: 400;
-    }
-  }
 }
 </style>
