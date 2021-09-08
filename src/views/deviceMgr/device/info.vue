@@ -95,7 +95,7 @@
           :scroll-wheel-zoom="true"
           @ready="mapReady"
         >
-          <bm-marker :position="point" animation="BMAP_ANIMATION_BOUNCE"/>
+          <bm-marker :position="point"/>
         </baidu-map>
       </div>
     </el-dialog>
