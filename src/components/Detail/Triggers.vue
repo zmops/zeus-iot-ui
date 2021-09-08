@@ -7,13 +7,9 @@
         <el-option label="任意" value="||" />
         <el-option label="所有" value="&&" />
       </el-select>
-      条件时,出发告警
+      条件时,触发告警
     </div>
     <div v-for="(item, index) in formData.triggerList" :key="index" class="trigger-item zeus-relative">
-      <el-select v-model="item.type" size="mini" class="select3 zeus-mr-5">
-        <el-option label="属性" value="属性"/>
-        <el-option label="事件" value="事件"/>
-      </el-select>
       <el-select v-model="item.deviceId" placeholder="请选择设备" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
         <el-option
           v-for="(i, ind) in deviceList"
@@ -21,6 +17,10 @@
           :label="i.name"
           :value="i.deviceId"
         />
+      </el-select>
+      <el-select v-model="item.type" size="mini" class="select3 zeus-mr-5">
+        <el-option label="属性" value="属性"/>
+        <el-option label="事件" value="事件"/>
       </el-select>
       <el-select v-if="item.type === '属性'" v-model="item.attr" placeholder="请选择设备属性" size="mini" class="select2 zeus-mr-5">
         <el-option

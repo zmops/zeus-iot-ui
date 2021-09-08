@@ -22,7 +22,8 @@
         />
       </el-select>
     </el-form-item>
-    <el-form-item v-if="formData.source === '3'" label="来源属性" prop="depAttrId">
+
+    <el-form-item v-if="formData.source === '18'" label="来源属性" prop="depAttrId">
       <el-select v-model="formData.depAttrId" size="mini" placeholder="请选择数据类型" :disabled="disabled">
         <el-option
           v-for="item in attrList"

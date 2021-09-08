@@ -63,6 +63,16 @@ export default {
           return false
         }
       }
+      const key = this.list.map((i) => {
+        return i.tag
+      })
+      if (new Set(key).size !== key.length) {
+        this.$message({
+          message: '不能存在相同的键',
+          type: 'warning'
+        })
+        return false
+      }
       this.list.push({
         tag: '',
         value: ''

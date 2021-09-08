@@ -5,9 +5,6 @@
       <el-form ref="productForm" :rules="productRules" :model="form" label-width="80px" label-position="top" class="dialog-form">
         <el-form-item label="产品ID" prop="prodCode">
           <el-input v-model="form.prodCode" size="mini" />
-          <div class="el-form-item-tips">
-            <i class="el-icon-info" />输入产品ID
-          </div>
         </el-form-item>
         <el-form-item label="产品名称" prop="prodName">
           <el-input v-model="form.prodName" size="mini" />

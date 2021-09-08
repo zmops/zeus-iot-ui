@@ -61,11 +61,21 @@ export default {
       for (const item of this.list) {
         if (item.tag === '' || item.value === '') {
           this.$message({
-            message: '请填写完整当前标签的键值',
+            message: '请填写完整当前变量的键值',
             type: 'warning'
           })
           return false
         }
+      }
+      const key = this.list.map((i) => {
+        return i.tag
+      })
+      if (new Set(key).size !== key.length) {
+        this.$message({
+          message: '不能存在相同的键',
+          type: 'warning'
+        })
+        return false
       }
       this.list.push({
         tag: '',

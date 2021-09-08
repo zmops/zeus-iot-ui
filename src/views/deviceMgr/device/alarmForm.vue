@@ -17,6 +17,7 @@
     <el-form-item label="启用" prop="status">
       <el-switch
         v-model="formData.status"
+        size="mini"
         active-value="ENABLE"
         inactive-value="DISABLE"
         active-text="启用"
@@ -74,7 +75,10 @@ export default {
   },
   data() {
     return {
-      formData: JSON.parse(JSON.stringify(this.value)),
+      formData: {
+        level: '中级',
+        status: 'ENABLE'
+      },
       rules: {
         name: [
           { required: true, message: '请输入设备名称', trigger: 'blur' }
@@ -97,6 +101,7 @@ export default {
     }
   },
   created() {
+    // this.formData = JSON.parse(JSON.stringify(this.value))
     // 获取设备列表
     getDeviceList({}).then((res) => {
       if (res.code == 200) {
@@ -116,6 +121,12 @@ export default {
   .add-btn {
     width: 100%;
     border-style: dashed;
+  }
+
+  ::v-deep{
+    .el-switch__label *{
+      font-size: 12px!important;
+    }
   }
 }
 </style>
