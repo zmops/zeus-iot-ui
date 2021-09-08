@@ -14,7 +14,7 @@ const alarmRouter = {
   children: [
     {
       path: '/alarm/alarmList',
-      component: () => import('@/views/401'),
+      component: () => import('@/views/alarm/alarmList'),
       name: '/alarm/alarmList',
       meta: {
         title: '告警记录',
