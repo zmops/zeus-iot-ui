@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>业务日志</template>
-      <template v-slot:subhead>业务日志基本信息</template>
+      <template v-slot:subhead></template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :columns="columns" @search="search" />
     <BusinessTable

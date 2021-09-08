@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px"/>
       </template>
       <template v-slot:title>设备</template>
-      <template v-slot:subhead>设备基本信息</template>
+      <template v-slot:subhead>物理设备要连接到平台，需要先在平台创建设备(支持单个或批量导入创建)，并获取连接到平台的鉴权信息(待定)。设备列表支持灵活的搜索和导出。</template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
     <BusinessTable

@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>最新数据</template>
-      <template v-slot:subhead>这里是最新数据</template>
+      <template v-slot:subhead></template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :columns="columns" @search="search" />
     <BusinessTable
@@ -156,27 +156,22 @@ export default {
       }
     }
   },
-  async created() {
-    await this.searchInit()
+  created() {
+    this.searchInit()
   },
   methods: {
-    async searchInit() {
+    searchInit() {
       // 获取设备列表
-      await getDeviceList({}).then((res) => {
+      getDeviceList({}).then((res) => {
         if (res.code == 200) {
-          this.deviceList = res.data
-          if (res.data.length) {
-            this.form.deviceId = res.data.[0].deviceId
+          const data = res.data
+          this.deviceList = data
+          if (data.length) {
+            this.form.deviceId = data[0].deviceId
             this.getList()
           }
         }
       })
-      // 获取属性列表
-      // await getDictListByCode({ dictTypeCode: 'DEVICE_TYPE' }).then((res) => {
-      //   if (res.code == 200) {
-      //     this.attributeList = res.data
-      //   }
-      // })
     },
     search() {
       this.page = 1
@@ -197,7 +192,7 @@ export default {
     handleCurrentChange(val) {
       this.page = val
       this.getList()
-    },
+    }
   }
 }
 </script>

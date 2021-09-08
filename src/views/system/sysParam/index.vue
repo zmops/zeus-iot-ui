@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>系统参数</template>
-      <template v-slot:subhead>这里是系统参数</template>
+      <template v-slot:subhead></template>
     </ListHeadTemplate>
     <el-form ref="paramForm" v-loading="loading" label-width="230px" label-position="left" class="dialog-form zeus-ml-20">
       <el-form-item v-for="(item, index) in list" :key="index" :label="item.name" :rules="{required: true,message: '请输入', trigger: 'blur'}">

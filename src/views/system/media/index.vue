@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>通知配置</template>
-      <template v-slot:subhead>这里是通知配置</template>
+      <template v-slot:subhead></template>
     </ListHeadTemplate>
     <div class="head">
       <el-button v-for="(item, index) in list" :key="index" :class="item.id === activity ? 'activity' : ''" type="primary" plain @click="tabsChange(item)">{{ typeList[item.type] || item.type }}</el-button>
