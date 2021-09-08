@@ -23,16 +23,16 @@ const analyseRouter = {
     },
     {
       path: '/analyse/devLog',
-      component: () => import('@/views/401'),
+      component: () => import('@/views/analyse/devLog'),
       name: '/analyse/devLog',
       meta: {
         title: '设备日志'
       }
     },
     {
-      path: '/analyse/home',
-      component: () => import('@/views/401'),
-      name: '/analyse/home',
+      path: '/analyse/globalOverview',
+      component: () => import('@/views/analyse/globalOverview'),
+      name: '/analyse/globalOverview',
       meta: {
         title: '全局概览'
       }
