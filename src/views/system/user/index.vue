@@ -41,7 +41,7 @@
       <div class="dialog-body">
         <el-form ref="userForm" :rules="rules" :model="item" label-width="80px" label-position="top" class="dialog-form">
           <el-form-item label="帐号" prop="account">
-            <el-input v-model="item.account" size="mini" :disabled="item.userId" />
+            <el-input v-model="item.account" size="mini" :disabled="state === '编辑'" />
           </el-form-item>
           <el-form-item label="昵称" prop="name">
             <el-input v-model="item.name" size="mini" />
@@ -357,7 +357,7 @@ export default {
         if (valid) {
           const { pass } = this.item
           if (this.item.userId) {
-            updateUser({ ...this.item, password: this.$stringToHex(pass) }).then(async(res) => {
+            updateUser(this.item).then(async(res) => {
               if (res.code == 200) {
                 this.$message({
                   message: '修改成功',
