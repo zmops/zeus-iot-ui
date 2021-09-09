@@ -122,7 +122,7 @@ export default {
               label: '属性',
               w: 300,
               optionId: 'attrId',
-              optionName: 'name',
+              optionName: 'attrName',
               options: []
             }
           ]
@@ -146,7 +146,7 @@ export default {
                   label: '属性',
                   w: 300,
                   optionId: 'attrId',
-                  optionName: 'name',
+                  optionName: 'attrName',
                   options: this.attrList
                 }
               ]

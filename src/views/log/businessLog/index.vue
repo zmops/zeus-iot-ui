@@ -60,6 +60,11 @@ export default {
           show: true
         },
         {
+          label: '操作人',
+          prop: 'userIdName',
+          show: true
+        },
+        {
           label: '类型',
           prop: 'logType',
           show: true

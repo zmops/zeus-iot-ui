@@ -188,6 +188,12 @@ export default {
         pass: [
           { required: true, message: '请输入密码', trigger: 'blur' }
         ],
+        userGroupId: [
+          { required: true, message: '请选择用户组', trigger: 'change' }
+        ],
+        roleId: [
+          { required: true, message: '请请选择角色', trigger: 'change' }
+        ],
         password1: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { validator: validatePass2, trigger: 'blur' }

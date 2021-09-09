@@ -58,6 +58,11 @@ export default {
           show: true
         },
         {
+          label: '操作人',
+          prop: 'userIdName',
+          show: true
+        },
+        {
           label: 'IP地址',
           prop: 'ipAddress',
           show: true

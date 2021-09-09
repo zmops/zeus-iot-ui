@@ -12,6 +12,7 @@
         range-separator="-"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
+        @change="init()"
       />
     </div>
     <el-row :gutter="20" class="zeus-mt-10">

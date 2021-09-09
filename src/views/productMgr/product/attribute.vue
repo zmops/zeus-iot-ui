@@ -120,7 +120,7 @@ export default {
         },
         {
           label: '单位',
-          prop: 'unitName',
+          prop: 'unitsName',
           show: true
         },
         {

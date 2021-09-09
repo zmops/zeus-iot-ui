@@ -197,11 +197,6 @@ export default {
             this.ids = []
             // 删除后重新请求数据
             await this.getList()
-          } else {
-            this.$message({
-              message: res.msg,
-              type: 'error'
-            })
           }
         })
       })

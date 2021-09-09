@@ -137,7 +137,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px 10px 20px;
+  padding: 10px 20px;
   box-shadow: 0 1px 0 0 #eff4f9;
 
   .condition{

@@ -172,7 +172,7 @@ export default {
       columns: [
         {
           label: '时间',
-          prop: 'name',
+          prop: 'clock',
           show: true
         },
         {
@@ -220,6 +220,7 @@ export default {
       })
     },
     getList2() {
+      if (this.dialogTime === null) return false
       this.loading2 = true
       const from = ftimestampToData(this.dialogTime[0]) + ':00'
       const to = ftimestampToData(this.dialogTime[1]) + ':00'
@@ -254,9 +255,11 @@ export default {
         this.loading2 = false
       })
     },
-    changeTime() {
-      this.page2 = 1
-      this.getList2()
+    changeTime(val) {
+      if (val) {
+        this.page2 = 1
+        this.getList2()
+      }
     },
     search() {
       this.page = 1

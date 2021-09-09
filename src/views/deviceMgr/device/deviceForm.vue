@@ -22,7 +22,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="设备组" prop="deviceGroupIds">
-        <el-select v-model="dialogForm.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini">
+        <el-select v-model="dialogForm.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini" @change="changeDevGroup">
           <el-option
             v-for="item in deviceGroup"
             :key="item.deviceGroupId"
@@ -201,6 +201,9 @@ export default {
         flag = valid
       })
       return flag
+    },
+    changeDevGroup(val) {
+      this.$forceUpdate()
     }
   }
 }
