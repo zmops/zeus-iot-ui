@@ -12,7 +12,7 @@
         <el-input v-model="dialogForm.name" size="mini"/>
       </el-form-item>
       <el-form-item label="产品" prop="productId">
-        <el-select v-model="dialogForm.productId" :disabled="state === '编辑'" filterable placeholder="请选择产品" size="mini">
+        <el-select v-model="dialogForm.productId" :disabled="state === '编辑' || isProduct" filterable placeholder="请选择产品" size="mini">
           <el-option
             v-for="item in productList"
             :key="item.productId"
@@ -119,7 +119,8 @@ export default {
       default() {
         return []
       }
-    }
+    },
+    isProduct: Boolean
   },
   data() {
     return {

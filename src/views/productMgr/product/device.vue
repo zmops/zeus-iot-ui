@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <deviceForm ref="deviceForm" v-model="dialogForm" :state="state" :product-list="productList" :device-group="deviceGroup" />
+        <deviceForm ref="deviceForm" v-model="dialogForm" is-product :state="state" :product-list="productList" :device-group="deviceGroup" />
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -178,6 +178,7 @@ export default {
     if (this.$route.query.id) {
       this.productId = this.$route.query.id
       this.form.productId = this.$route.query.id
+      this.dialogForm.productId = this.$route.query.id
     }
     this.searchInit()
     this.getList()
