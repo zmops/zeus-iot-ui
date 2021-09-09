@@ -52,6 +52,12 @@
           <el-form-item label="电话" prop="phone">
             <el-input v-model.number="item.phone" size="mini" />
           </el-form-item>
+          <el-form-item label="状态" prop="status">
+            <el-select v-model="item.status" placeholder="请选择" size="mini" class="zeus-w100">
+              <el-option label="启用" value="ENABLE" />
+              <el-option label="禁用" value="DISABLE" />
+            </el-select>
+          </el-form-item>
           <el-form-item label="角色" prop="roleId">
             <el-select v-model="item.roleId" placeholder="请选择角色" size="mini" class="zeus-w100">
               <el-option v-for="( i, index) in roleData" :key="index" :label="i.name" :value="i.roleId" />
@@ -209,6 +215,7 @@ export default {
         email: '',
         roleId: '',
         phone: '',
+        status: 'ENABLE',
         password1: '',
         pass: '',
         userGroupId: ''
@@ -278,6 +285,7 @@ export default {
         roleId: '',
         phone: '',
         password1: '',
+        status: 'ENABLE',
         pass: '',
         userGroupId: ''
       }
