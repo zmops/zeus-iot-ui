@@ -339,12 +339,15 @@ export default {
         await roleBindMenu({
           roleId: this.menuId,
           menuIds: menuIdList
+        }).then((res) => {
+          if (res.code == '200') {
+            this.$message({
+              type: 'success',
+              message: '编辑菜单成功'
+            })
+            this.menuClose()
+          }
         })
-        this.$message({
-          type: 'success',
-          message: '编辑菜单成功'
-        })
-        this.menuClose()
       }
     }
   }
