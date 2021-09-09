@@ -34,7 +34,7 @@
     </div>
     <div class="detail-template-right">
       <div class="detail-template-head">
-        <el-button v-for="(item, index) in tabs" :key="index" :class="item.name === activity ? 'activity' : ''" type="primary" plain @click="change(item.name)">{{ item.label }}</el-button>
+        <el-button v-for="(item, index) in tabs" :key="index" :class="item.name === activity ? 'activity' : ''" class="but" type="primary" plain @click="change(item.name)">{{ item.label }}</el-button>
       </div>
       <div class="detail-template-main">
         <slot name="main" />
@@ -288,8 +288,14 @@ export default {
       }
 
       .activity::v-deep.el-button--primary {
-        background: $themeText;
-        color: #fff;
+        background: $themeText!important;
+        color: #fff!important;
+      }
+      .but{
+        &:hover{
+          background-color: #35415A;
+          color: #1A84F9;
+        }
       }
     }
   }
