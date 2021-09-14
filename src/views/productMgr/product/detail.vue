@@ -1,74 +1,73 @@
+<!--产品详情页面 -->
 <template>
   <div class="product-detail">
-    <DetailTemplate :up="'产品'" :to="'/productMgr/product'" icon="product24" :title="detailInfo.prodName" :subhead="detailInfo.remark" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
+    <DetailTemplate :up="'产品'" :title="title" :subhead="subhead" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
-        <div v-if="tabName === '基础信息'">
-          <Basics @edit="edit" />
-        </div>
-        <div v-if="tabName === '属性'">
-          <Attribute />
-        </div>
-        <div v-if="tabName === '标签'" class="zeus-product">
-          <LabelDate />
-        </div>
-        <div v-if="tabName === '变量'" class="zeus-product">
-          <Variable />
-        </div>
-        <div v-if="tabName === '值映射'" class="zeus-product">
-          <Mapping />
-        </div>
-        <serve v-if="tabName === '服务'" />
-        <device v-else-if="tabName === '设备'" />
+        <info v-if="activity === '基础信息'" :info-data="info" @updata="getDetail" />
+        <attributeMgr v-else-if="activity === '属性管理'" />
+        <incident v-else-if="activity ==='事件管理'" />
+        <serve v-else-if="activity === '服务管理'" />
+        <offLineRule v-else-if="activity === '上下线规则'" />
+        <alarm v-else-if="activity === '告警规则'" />
+        <tag v-else-if="activity === '标签'" />
+        <variable v-else-if="activity === '变量'" />
+        <mapping v-else-if="activity === '值映射方案'" />
+        <device v-else-if="activity === '设备'" />
       </template>
     </DetailTemplate>
   </div>
 </template>
-
 <script>
 import DetailTemplate from '@/components/Slots/DetailTemplate.vue'
-import Basics from './basics.vue'
-import Attribute from './attribute.vue'
-import LabelDate from './labeldate.vue'
-import Variable from './variable.vue'
-import Mapping from './mapping.vue'
+import mapping from '@/views/deviceMgr/device/mapping'
+import tag from '@/views/deviceMgr/device/tag'
+import info from '@/views/productMgr/product/info'
+import incident from '@/views/productMgr/product/incident'
 import serve from '@/views/productMgr/product/serve'
+import alarm from '@/views/productMgr/product/alarm'
 import device from '@/views/productMgr/product/device'
-
-import { productDetail } from '@/api/porductMgr'
+import variable from '@/views/deviceMgr/device/variable'
+import attributeMgr from '@/views/productMgr/product/attributeMgr'
+import offLineRule from '@/views/deviceMgr/device/offLineRule'
+import { getProdTagList, productDetail } from '@/api/porductMgr'
 export default {
+  name: 'ProductDetail',
   components: {
     DetailTemplate,
-    Basics,
-    Attribute,
-    LabelDate,
-    Variable,
-    Mapping,
+    mapping,
+    info,
+    tag,
+    incident,
     serve,
+    alarm,
+    variable,
+    attributeMgr,
+    offLineRule,
     device
   },
   data() {
     return {
       detailList: [],
-      detailInfo: '',
-      prodId: '',
-      tabName: 'basics',
-      // 右边tab切换
       tabs: [
         {
           label: '基础信息',
           name: '基础信息'
         },
         {
-          label: '属性',
-          name: '属性'
+          label: '属性管理',
+          name: '属性管理'
         },
         {
-          label: '事件',
-          name: '事件'
+          label: '事件管理',
+          name: '事件管理'
         },
         {
-          label: '服务',
-          name: '服务'
+          label: '服务管理',
+          name: '服务管理'
+        },
+        {
+          label: '上下线规则',
+          name: '上下线规则'
         },
         {
           label: '告警规则',
@@ -83,37 +82,51 @@ export default {
           name: '变量'
         },
         {
-          label: '值映射',
-          name: '值映射'
+          label: '值映射方案',
+          name: '值映射方案'
         },
         {
           label: '设备',
           name: '设备'
         }
-      ]
+      ],
+      subhead: '',
+      title: '',
+      activity: '基础信息',
+      info: {},
+      tagList: [],
+      prodId: ''
     }
   },
   async created() {
     if (this.$route.query.id) {
-      await this.getDetail(this.$route.query.id)
+      this.prodId = this.$route.query.id
+      await this.getTag(this.$route.query.id)
+      await this.getDetail()
     }
     if (this.$route.query.tabsName) {
-      this.tabName = this.$route.query.tabsName
+      this.activity = this.$route.query.tabsName
     }
   },
   methods: {
     changeTabs(name) {
-      this.tabName = name
+      this.activity = name
     },
-    async getDetail(id) {
-      this.prodId = id
-      await productDetail({ productId: id }).then(res => {
+    getTag(productId) {
+      getProdTagList({ productId }).then((res) => {
         if (res.code == 200) {
-          this.detailInfo = res.data
+          this.tagList = res.data
+        }
+      })
+    },
+    getDetail() {
+      productDetail({ productId: this.prodId }).then((res) => {
+        if (res.code == 200) {
+          this.info = res.data
           this.detailList = [
             {
               key: '产品ID',
-              value: res.data.prodCode
+              value: res.data.productId
             },
             {
               key: '产品分类',
@@ -133,7 +146,8 @@ export default {
             },
             {
               key: '标签',
-              value: ''
+              tag: this.tagList,
+              value: 'tage'
             },
             {
               key: '创建时间',
@@ -148,17 +162,17 @@ export default {
               value: res.data.createUser
             }
           ]
+          this.subhead = res.data.remark
+          this.title = res.data.prodName
         }
       })
-    },
-    edit() {
-      this.getDetail(this.prodId)
     }
   }
 }
 </script>
-<style scoped>
-.product-detail{
-  background: #ffffff;
+
+<style lang="scss" scoped>
+.product-detail {
+
 }
 </style>

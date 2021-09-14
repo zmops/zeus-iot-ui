@@ -15,6 +15,7 @@
         <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
+    <img src="@/assets/menu_bg.png" class="menu-bg">
   </div>
 </template>
 

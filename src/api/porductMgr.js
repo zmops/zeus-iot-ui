@@ -92,14 +92,14 @@ export function DeleteProduct(data) {
 // 产品标签列表
 export function getProdTagList(params) {
   return request({
-    url: '/product/prodTag/list',
+    url: '/product/tag/list',
     method: 'get',
     params
   })
 }
 
 // 更新产品标签
-export function updateTag(data) {
+export function updateProdTag(data) {
   return request({
     url: '/product/tag/update',
     method: 'post',
@@ -173,7 +173,7 @@ export function getValueMapList(params) {
 // 产品值映射修改
 export function updateValuemap(data) {
   return request({
-    url: '/product/valuemap/update',
+    url: '/product/valueMap/update',
     method: 'post',
     data
   })
@@ -221,5 +221,32 @@ export function deleteService(data) {
     url: '/product/service/delete',
     method: 'post',
     data
+  })
+}
+
+// 上下线规则创建
+export function createTrigger(data) {
+  return request({
+    url: '/product/trigger/status/create',
+    method: 'post',
+    data
+  })
+}
+
+// 上下线规则修改
+export function updateTrigger(data) {
+  return request({
+    url: '/product/trigger/status/update',
+    method: 'post',
+    data
+  })
+}
+
+// 上下线规则详情
+export function getTrigger(params) {
+  return request({
+    url: '/product/trigger/status/detail',
+    method: 'get',
+    params
   })
 }

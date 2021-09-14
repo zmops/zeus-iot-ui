@@ -2,12 +2,20 @@
 <template>
   <div class="Action">
     <div v-for="(item, index) in formData" :key="index">
-      <el-select v-model="item.deviceId" placeholder="设备列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
+      <el-select v-if="isDev" v-model="item.deviceId" placeholder="设备列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
         <el-option
           v-for="(i, ind) in deviceList"
           :key="ind"
           :label="i.name"
           :value="i.deviceId"
+        />
+      </el-select>
+      <el-select v-else v-model="item.deviceId" placeholder="产品列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
+        <el-option
+          v-for="(i, ind) in deviceList"
+          :key="ind"
+          :label="i.name"
+          :value="i.productId"
         />
       </el-select>
       <el-select v-model="item.service" placeholder="服务列表" size="mini" class="select2 zeus-mr-5">
@@ -53,6 +61,10 @@ export default {
       default() {
         return []
       }
+    },
+    isDev: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

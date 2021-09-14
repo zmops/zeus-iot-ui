@@ -275,7 +275,7 @@ export default {
       margin: 0 0 12px;
 
       ::v-deep.el-button{
-        padding: 8px 0px;
+        padding: 8px 0;
         width: 96px;
         margin: 0 6px;
         box-sizing: content-box;
@@ -287,9 +287,12 @@ export default {
         color: #fff;
       }
 
-      .activity::v-deep.el-button--primary {
-        background: $themeText!important;
-        color: #fff!important;
+      .activity{
+        box-shadow: 0 0 10px #1a84f94d;
+        &::v-deep.el-button--primary {
+          background: $themeText!important;
+          color: #fff!important;
+        }
       }
       .but{
         &:hover{

@@ -13,7 +13,7 @@
             </div>
             <div class="body zeus-bold">{{ item.value || '-' }} {{item.unitsName}}</div>
             <div class="footer">
-              <span>sth</span>&nbsp;|&nbsp;
+              <span>{{item.key}}</span>&nbsp;|&nbsp;
               <span>{{ item.valueTypeName }}</span>&nbsp;|&nbsp;
               <span>{{ item.updateTime }}</span>
 <!--              <div class="zeus-right zeus-inline-block">-->
@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <attributeForm v-if="dialogVisible" v-model="dialogForm"/>
+        <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm"/>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -287,33 +287,31 @@ export default {
       this.getList2()
     },
     submit() {
-      // this.$refs.dialogForm.validate(async(valid) => {
-      //   if (valid) {
-      if (this.dialogForm.attrId) {
-        updateAttrTrapper(this.dialogForm).then(async(res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            })
-            this.dialogVisible = false
-            this.getList()
-          }
-        })
-      } else {
-        createAttrTrapper(this.dialogForm).then(async(res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '添加成功',
-              type: 'success'
-            })
-            this.dialogVisible = false
-            this.getList()
-          }
-        })
+      if (this.$refs.attributeForm.validateForm()) {
+        if (this.dialogForm.attrId) {
+          updateAttrTrapper(this.dialogForm).then(async (res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+              this.dialogVisible = false
+              this.getList()
+            }
+          })
+        } else {
+          createAttrTrapper(this.dialogForm).then(async (res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
+              this.dialogVisible = false
+              this.getList()
+            }
+          })
+        }
       }
-      //   }
-      // })
     },
     del(id) {
       this.$confirm('是否确认删除该数据?', '提示', {

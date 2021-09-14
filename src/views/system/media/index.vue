@@ -6,10 +6,10 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>通知配置</template>
-      <template v-slot:subhead></template>
+      <template v-slot:subhead>为实现平台的通知功能，需要进行参数配置。</template>
     </ListHeadTemplate>
     <div class="head">
-      <el-button v-for="(item, index) in list" :key="index" :class="item.id === activity ? 'activity' : ''" type="primary" plain @click="tabsChange(item)">{{ typeList[item.type] || item.type }}</el-button>
+      <el-button v-for="(item, index) in list" :key="index" :class="item.id === activity ? 'activity' : ''" class="but" type="primary" plain @click="tabsChange(item)">{{ typeList[item.type] || item.type }}</el-button>
     </div>
     <div class="detail zeus-pt-5 zeus-pl-20 zeus-pr-20 zeus-pb-20">
       <el-divider content-position="left" class="zeus-mt-10 zeus-mb-20">告警消息模版</el-divider>
@@ -139,7 +139,10 @@ export default {
     margin: 0 0 12px;
 
     ::v-deep.el-button {
-      padding: 8px 20px;
+      padding: 8px 0;
+      width: 96px;
+      margin: 0 6px;
+      box-sizing: content-box;
     }
 
     ::v-deep.el-button--primary {
@@ -148,9 +151,18 @@ export default {
       color: #fff;
     }
 
-    .activity::v-deep.el-button--primary {
-      background: $themeText;
-      color: #fff;
+    .activity{
+      box-shadow: 0 0 10px #1a84f94d;
+      &::v-deep.el-button--primary {
+        background: $themeText!important;
+        color: #fff!important;
+      }
+    }
+    .but{
+      &:hover{
+        background-color: #35415A;
+        color: #1A84F9;
+      }
     }
   }
 

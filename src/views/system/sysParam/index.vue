@@ -8,14 +8,16 @@
       <template v-slot:title>系统参数</template>
       <template v-slot:subhead></template>
     </ListHeadTemplate>
-    <el-form ref="paramForm" v-loading="loading" label-width="230px" label-position="left" class="dialog-form zeus-ml-20">
-      <el-form-item v-for="(item, index) in list" :key="index" :label="item.name" :rules="{required: true,message: '请输入', trigger: 'blur'}">
-        <el-input v-model="item.value" size="mini" />
-      </el-form-item>
-      <el-form-item>
-        <el-button round size="mini" type="primary" @click="submit">保存</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="outside zeus-pt-15 zeus-pb-15 zeus-pl-15 zeus-pr-15">
+      <div class="inside zeus-pt-20 zeus-pb-20 zeus-pl-20 zeus-pr-20">
+        <el-form ref="paramForm" :inline="true" v-loading="loading" label-width="300px" label-position="top" class="form zeus-inline-block">
+          <el-form-item v-for="(item, index) in list" :key="index" :label="item.name" :rules="{required: true,message: '请输入', trigger: 'blur'}">
+            <el-input v-model="item.value" size="mini" class="form-input" />
+          </el-form-item>
+        </el-form>
+        <el-button round size="mini" type="primary" class="zeus-right" @click="submit">保存</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -68,6 +70,21 @@ export default {
 .sys-param {
   width: 100%;
   padding-bottom: 30px;
-  background-color: #fff;
+
+  .outside{
+    background-color: #fff;
+
+    .inside{
+      background-color: #F9FBFD;
+
+      .form{
+        width: calc(100% - 80px);
+
+        .form-input{
+          width: 350px;
+        }
+      }
+    }
+  }
 }
 </style>

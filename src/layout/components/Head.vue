@@ -8,9 +8,15 @@
         <!-- <span class="head-title zeus-bold zeus-ml-10 ">Zeus IOT</span> -->
       </router-link>
       <div class="right-menu">
-        <el-dropdown class="avatar-container" trigger="click">
+        <el-button round size="small" type="text" class="head-but" @click="doc">
+          <svg-icon icon-class="doc" class="zeus-mr-5" />文档
+        </el-button>
+        <el-button round size="small" type="text" class="head-but" @click="dialogAbout = true">
+          <svg-icon icon-class="about" class="zeus-mr-5" />关于
+        </el-button>
+        <el-dropdown class="avatar-container zeus-ml-25" trigger="click">
           <div class="avatar-wrapper zeus-flex-default">
-            <img src="../../assets/avater.png" class="user-avatar">
+            <img src="../../assets/avater.jpg" class="user-avatar">
             <span>{{ username }}</span>
             <i class="el-icon-caret-bottom" />
           </div>
@@ -25,6 +31,49 @@
         </el-dropdown>
       </div>
     </div>
+    <el-dialog
+      :visible.sync="dialogAbout"
+      :width="'680px'"
+      :show-close="false"
+      class="aboutDialog"
+    >
+      <div class="brief">
+        <img src="@/assets/logo-.png">
+        <div class="text">Zeus IoT是一个集设备数据采集、存储、分析、观测为一体的开源物联网平台，全球首创基于Zabbix的物联网分布式数据采集架构，具备超百万级IoT设备的并发监控能力。致力于让设备接入和数据处理变得开箱即用，使物联网企业得以聚焦行业应用开发，极大的缩短物联网系统的开发周期，成为物联网项目提效降本的贴身伴侣。</div>
+        <div class="version">Zeus IoT 版本：v3.1.0</div>
+      </div>
+      <div class="info">
+        <div>
+          <div class="info-t zeus-inline-block zeus-mr-20">
+            <svg-icon icon-class="about-github" class="zeus-mr-10" />
+            <span class="zeus-mr-10">技术请求</span>
+            <a href="https://github.com/zmops/zeus-iot" target="_blank">github.com/zmops/zeus-iot</a>
+          </div>
+          <svg-icon icon-class="about-feedback" class="zeus-mr-10" />
+          <span class="zeus-mr-10">意见反馈</span>
+          <span class="zeus-mr-10">0519-83611968</span>
+          <a href="mailto:support@zmops.com" target="_blank">support@zmops.com</a>
+        </div>
+        <div class="zeus-mt-15">
+          <div class="info-t zeus-inline-block zeus-mr-20">
+            <svg-icon icon-class="about-support" class="zeus-mr-10" />
+            <span class="zeus-mr-10">服务支持</span>
+            <a href="https://www.zmops.com" target="_blank">www.zmops.com</a>
+          </div>
+          <svg-icon icon-class="about-add" class="zeus-mr-10" />
+          <span class="zeus-mr-10">联系地址</span>
+          <span>江苏省常州市新北区府琛商务广场2幢1227-1229室</span>
+        </div>
+        <div class="qr-code zeus-inline-block">
+          <img src="@/assets/about-qq.png">
+          <div class="zeus-mt-10">官方技术交流群</div>
+        </div>
+        <div class="qr-code zeus-ml-20 zeus-inline-block">
+          <img src="@/assets/about-wechat.jpg">
+          <div class="zeus-mt-10">Zeus IoT官方公众号</div>
+        </div>
+      </div>
+    </el-dialog>
     <el-dialog
       :visible.sync="dialogVisible"
       :destroy-on-close="true"
@@ -70,6 +119,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      dialogAbout: false,
       username: '',
       dialogForm: {
         oldPassword: '',
@@ -116,6 +166,9 @@ export default {
         oldPassword: '',
         newPassword: ''
       }
+    },
+    doc() {
+      window.open('https://www.zmops.com/docs', '_blank')
     }
   }
 }
@@ -147,6 +200,16 @@ export default {
       outline: none;
     }
 
+    .head-but{
+      padding: 10px 15px;
+      font-size: 12px;
+      color: #242E42;
+
+      &:hover{
+        background-color: #EFF4F9;
+      }
+    }
+
     .right-menu-item {
       display: inline-block;
       padding: 0 8px;
@@ -172,6 +235,7 @@ export default {
       .avatar-wrapper {
         // margin-top: 13px;
         position: relative;
+        top: 10px;
 
         .user-avatar {
           cursor: pointer;
@@ -205,6 +269,77 @@ export default {
   }
   .el-dropdown-menu__item:hover{
     background: #f5f7fa !important;
+  }
+}
+
+.aboutDialog{
+  ::v-deep.el-dialog__header{
+    display: none;
+  }
+
+  ::v-deep.el-dialog__body{
+    padding: 0!important;
+  }
+
+  .brief{
+    width: 100%;
+    height: 262px;
+    border-radius: 3px 3px 0 0;
+    padding: 40px 28px 0 28px;
+    background-image: url('../../assets/about-bg.png');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+
+    img{
+      width: 230px;
+      height: 37px;
+    }
+
+    .text{
+      margin-top: 30px;
+      font-size: 12px;
+      color: #242E42;
+      line-height: 28px;
+    }
+
+    .version{
+      margin-top: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #242E42;
+      line-height: 28px;
+    }
+  }
+
+  .info{
+    width: 100%;
+    height: 253px;
+    font-size: 12px;
+    background-color: #fff;
+    padding-top: 28px;
+    padding-left: 28px;
+    border-radius: 0 0 3px 3px;
+
+    a:hover{
+      color: #1A84F9;
+    }
+
+    .qr-code{
+      text-align: center;
+      margin-top: 30px;
+
+      img{
+        width: 100px;
+        height: 100px;
+        padding: 10px;
+        border: 1px #E7EBEF solid;
+      }
+    }
+
+    .info-t{
+      width: 240px;
+      border-right: 2px #E9EDF1 solid;
+    }
   }
 }
 </style>

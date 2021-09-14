@@ -71,8 +71,8 @@
             class="zeus-mr-15"
             active-value="ENABLE"
             inactive-value="DISABLE"
-            active-color="#242E42"
-            inactive-color="#ff4949"
+            active-color="#55BC8A"
+            inactive-color="#AB2F29"
             @change="switchChange(scope.row)"
           >
           </el-switch>

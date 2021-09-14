@@ -1,6 +1,6 @@
-<!--产品详情-服务页面 -->
+<!--产品详情-事件页面 -->
 <template>
-  <div class="serve">
+  <div class="incident">
     <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
       :table-data="tableData"
@@ -14,42 +14,19 @@
       :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :width="'700px'"
       :show-close="false"
-      @close="close"
+      :width="'700px'"
+      @close="dialogForm = {}"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}服务
-        </div>
+        <div class="left">{{ state }}事件</div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon" />
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
         </div>
       </div>
       <div class="dialog-body">
-        <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="服务名称" prop="name">
-            <el-input v-model="dialogForm.name" size="mini" />
-          </el-form-item>
-          <el-form-item label="标识符" prop="key">
-            <el-input v-model="dialogForm.key" size="mini" />
-          </el-form-item>
-          <el-form-item label="调用方式" prop="mode">
-            <el-select v-model="dialogForm.mode" placeholder="请选择产品" size="mini">
-              <el-option label="同步" value="同步" />
-              <el-option label="异步" value="异步" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="输入参数" prop="remark">
-            <Variable :variable-list="dialogForm.list" @change="change" />
-          </el-form-item>
-          <el-form-item label="描述" prop="remark">
-            <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" />
-          </el-form-item>
-        </el-form>
+        <incidentForm v-if="dialogVisible" v-model="dialogForm" />
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -63,11 +40,11 @@
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import Variable from '@/components/Detail/Variable'
-import { getDeviceByPage } from '@/api/deviceMgr'
+import incidentForm from '@/views/deviceMgr/device/incidentForm'
+import { createAttrTrapper, getDeviceByPage, updateAttrTrapper } from '@/api/deviceMgr'
 
 export default {
-  name: 'Serve',
+  name: 'Incident',
   provide() {
     return {
       farther: this
@@ -77,7 +54,7 @@ export default {
     BusinessTable,
     SearchForm,
     Pagination,
-    Variable
+    incidentForm
   },
   data() {
     return {
@@ -85,7 +62,7 @@ export default {
         {
           componentName: 'InputTemplate',
           keyName: 'name',
-          label: '服务名称'
+          label: '事件名称'
         },
         {
           componentName: 'InputTemplate',
@@ -98,28 +75,12 @@ export default {
       },
       tableData: [],
       loading: false,
-      dialogVisible: false,
-      state: '',
       total: 0,
       size: 10,
       page: 1,
-      dialogForm: {
-        name: '',
-        productId: '',
-        deviceGroupIds: [],
-        remark: ''
-      },
-      rules: {
-        name: [
-          { required: true, message: '请输入服务名称', trigger: 'blur' }
-        ],
-        key: [
-          { required: true, message: '请输入标识符', trigger: 'blur' }
-        ],
-        mode: [
-          { required: true, message: '请选择调用方式', trigger: 'change' }
-        ]
-      },
+      dialogVisible: false,
+      dialogForm: {},
+      state: '',
       buttons: [
         {
           type: 'primary',
@@ -129,7 +90,7 @@ export default {
       ],
       columns: [
         {
-          label: '服务名称',
+          label: '事件名称',
           prop: 'name',
           show: true
         },
@@ -139,13 +100,28 @@ export default {
           show: true
         },
         {
-          label: '调用方式',
+          label: '事件级别',
           prop: 'productName',
+          show: true
+        },
+        {
+          label: '数据类型',
+          prop: 'typeName',
+          show: true
+        },
+        {
+          label: '取数间隔',
+          prop: 'status',
           show: true
         },
         {
           label: '描述',
           prop: 'remark',
+          show: true
+        },
+        {
+          label: '修改时间',
+          prop: 'createTime',
           show: true
         },
         {
@@ -180,28 +156,16 @@ export default {
       this.getList()
     },
     getList() {
-      this.loading = true
-      getDeviceByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
-        this.loading = false
-        if (res.code == 200) {
-          this.tableData = res.data
-          this.total = res.count
-        }
-      }).catch(() => {
-        this.loading = false
-      })
-    },
-    add() {
-      this.state = '创建'
-      this.dialogVisible = true
-    },
-    close() {
-      this.dialogForm = {
-        name: '',
-        productId: '',
-        deviceGroupIds: [],
-        remark: ''
-      }
+      // this.loading = true
+      // getDeviceByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+      //   this.loading = false
+      //   if (res.code == 200) {
+      //     this.tableData = res.data
+      //     this.total = res.count
+      //   }
+      // }).catch(() => {
+      //   this.loading = false
+      // })
     },
     detail(item) {
       // this.$router.push({
@@ -215,22 +179,45 @@ export default {
       this.page = val
       this.getList()
     },
-    change(list) {
-      this.dialogForm.list = list
+    add() {
+      this.state = '创建'
+      this.dialogVisible = true
     },
     submit() {
-      this.$refs.dialogForm.validate(async(valid) => {
-        if (valid) {
-          // 判断输入参数是否有键,有值就必须得填写完整,可以不填
-        }
-      })
+      // this.$refs.dialogForm.validate(async(valid) => {
+      //   if (valid) {
+      // if (this.dialogForm.attrId) {
+      //   updateAttrTrapper(this.dialogForm).then(async(res) => {
+      //     if (res.code == 200) {
+      //       this.$message({
+      //         message: '修改成功',
+      //         type: 'success'
+      //       })
+      //       this.dialogVisible = false
+      //       this.getList()
+      //     }
+      //   })
+      // } else {
+      //   createAttrTrapper(this.dialogForm).then(async(res) => {
+      //     if (res.code == 200) {
+      //       this.$message({
+      //         message: '添加成功',
+      //         type: 'success'
+      //       })
+      //       this.dialogVisible = false
+      //       this.getList()
+      //     }
+      //   })
+      // }
+      //   }
+      // })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.serve {
+.incident {
 
 }
 </style>

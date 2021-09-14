@@ -85,7 +85,7 @@ export default {
  ::v-deep.el-input__inner:focus{
     background: #FFFFFF;
     border: 1px solid #1A84F9 !important;
-    box-shadow: 0px 0px 4px 0px #BADDFF;
+    box-shadow: 0 0 4px 0 #BADDFF;
   }
   ::v-deep.el-input__inner:hover{
     border: 1px solid #79879C;

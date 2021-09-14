@@ -118,11 +118,11 @@ export default {
     height: 30px;
     line-height: 30px;
     font-size: 12px;
-    padding: 0 26px 0 15px;
+    padding: 0!important;
     span{
       display: inline-block;
       width: 100%;
-      padding-left: 25px;
+      padding-left: 47px;
       font-weight: 400;
     }
 

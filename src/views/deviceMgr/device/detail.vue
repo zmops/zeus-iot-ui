@@ -9,13 +9,11 @@
         <attributeMgr v-else-if="activity === '属性管理'" />
         <incident v-else-if="activity ==='事件管理'" />
         <serve v-else-if="activity === '服务管理'" />
-        <offLineRule v-else-if="activity === '上下线规则'" />
+        <offLineRule v-else-if="activity === '上下线规则'" is-dev />
         <alarm v-else-if="activity === '告警规则'" />
-        <tag v-else-if="activity === '标签'" />
-        <variable v-else-if="activity === '变量'" />
-        <div v-else-if="activity === '值映射方案'" class="zeus-product">
-          <mapping />
-        </div>
+        <tag v-else-if="activity === '标签'" is-dev />
+        <variable v-else-if="activity === '变量'" is-dev />
+        <mapping v-else-if="activity === '值映射方案'" is-dev />
         <subset v-else-if="activity === '子设备'" />
       </template>
     </DetailTemplate>

@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>用户组管理</template>
-      <template v-slot:subhead></template>
+      <template v-slot:subhead>用户组用来对用户进行分组。可以与设备组相结合，一起对数据权限进行精确控制。</template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
     <BusinessTable

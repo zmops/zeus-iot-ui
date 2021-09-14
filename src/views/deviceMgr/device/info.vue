@@ -1,7 +1,6 @@
 <!-- 设备基础信息页面 -->
 <template>
   <div class="info">
-    <div class="zeus-product-tit">基本信息</div>
     <div class="zeus-product basics">
       <div class="left">
         <svg-icon icon-class="big-device" style="font-size: 46px"/>

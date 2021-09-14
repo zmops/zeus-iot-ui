@@ -213,7 +213,7 @@ export default {
           show: true,
           idName: 'dictId',
           fixed: 'right',
-          width: 140,
+          width: 180,
           buttons: [
             {
               label: '编辑',

@@ -16,16 +16,12 @@ import deviceMgrRouter from '@/router/modules/deviceMgr'
 import productMgrRouter from '@/router/modules/productMgr'
 /* 规则引擎 */
 import ruleRouter from '@/router/modules/rule'
-/* 系统管理 */
-import systemRouter from '@/router/modules/system'
 /* 告警管理 */
 import alarmRouter from '@/router/modules/alarm'
-/* 平台授权 */
-import authRouter from '@/router/modules/auth'
 /* 日志查询 */
 import logRouter from '@/router/modules/log'
-/* 关于我们 */
-import aboutRouter from '@/router/modules/about'
+/* 系统管理 */
+import systemRouter from '@/router/modules/system'
 
 import Layout from '@/layout/index'
 
@@ -38,11 +34,9 @@ export const asyncRoutes = [
   deviceMgrRouter,
   productMgrRouter,
   ruleRouter,
-  systemRouter,
   alarmRouter,
-  // authRouter,
   logRouter,
-  aboutRouter
+  systemRouter,
 ]
 export const errorRouters = [
   {

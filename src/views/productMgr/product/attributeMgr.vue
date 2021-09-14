@@ -1,4 +1,4 @@
-<!--设备详情-属性管理页面 -->
+<!--产品详情-属性管理页面 -->
 <template>
   <div class="attribute-mgr">
     <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm" is-dev/>
+        <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm"/>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -47,7 +47,7 @@ import {
   detailAttrTrapper,
   getAttrTrapperByPage,
   updateAttrTrapper
-} from '@/api/deviceMgr'
+} from '@/api/porductMgr'
 
 export default {
   name: 'AttributeMgr',
@@ -106,11 +106,6 @@ export default {
           show: true
         },
         {
-          label: '来自产品',
-          prop: 'templateId',
-          show: true
-        },
-        {
           label: '来源类型',
           prop: 'sourceName',
           show: true
@@ -166,7 +161,7 @@ export default {
     },
     getList() {
       this.loading = true
-      getAttrTrapperByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+      getAttrTrapperByPage({...this.form, maxRow: this.size, page: this.page}).then((res) => {
         this.loading = false
         if (res.code == 200) {
           this.tableData = res.data
@@ -185,7 +180,7 @@ export default {
       this.dialogVisible = true
     },
     detail(attrId) {
-      detailAttrTrapper({ attrId }).then(res => {
+      detailAttrTrapper({attrId}).then(res => {
         if (res.code == 200) {
           this.dialogForm = res.data
           this.state = '编辑'
@@ -208,7 +203,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteAttrTrapper({ attrIds: [id] }).then(async(res) => {
+          deleteAttrTrapper({attrIds: [id]}).then(async (res) => {
             if (res.code == 200) {
               this.$message({
                 message: '删除成功',

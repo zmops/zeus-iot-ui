@@ -22,8 +22,8 @@
         inactive-value="DISABLE"
         active-text="启用"
         inactive-text="禁用"
-        active-color="#242E42"
-        inactive-color="#ff4949">
+        active-color="#55BC8A"
+        inactive-color="#AB2F29">
       </el-switch>
     </el-form-item>
     <el-form-item label="描述" prop="remark">

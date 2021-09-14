@@ -89,7 +89,8 @@
 
 <script>
 import { getDictListByCode, groupDictByCode } from '@/api/system'
-import { getAttrTrapperByPage, getValueMapList } from '@/api/deviceMgr'
+import { getAttrTrapperList, getDevValueMapList } from '@/api/deviceMgr'
+import { getProductAttrTrapperList, getValueMapList } from '@/api/porductMgr'
 import Pretreatment from '@/components/Detail/Pretreatment'
 import Tag from '@/components/Detail/Tag'
 
@@ -105,15 +106,16 @@ export default {
       default() {
         return {}
       }
-    }
+    },
+    isDev: Boolean
   },
   data() {
     const checkData = (rule, value, callback) => {
       if (value) {
-        if (/[\u4E00-\u9FA5]/g.test(value)) {
-          callback(new Error('请输入数字、字母或符号!'))
-        } else {
+        if (/[0-9a-zA-Z_-]/g.test(value)) {
           callback()
+        } else {
+          callback(new Error('请输入数字、字母或符号!'))
         }
       }
       callback()
@@ -148,11 +150,7 @@ export default {
   },
   computed: {
     disabled() {
-      if (this.formData.attrId && this.formData.templateId !== '') {
-        return true
-      } else {
-        return false
-      }
+      return this.formData.attrId && this.formData.templateId
     }
   },
   watch: {
@@ -187,16 +185,29 @@ export default {
           this.unitsList = this.groupFormat(res.data)
         }
       })
-      getAttrTrapperByPage({ prodId: this.prodId }).then(res => {
-        if (res.code == 200) {
-          this.attrList = res.data
-        }
-      })
-      getValueMapList({ deviceId: this.prodId }).then(res => {
-        if (res.code == 200) {
-          this.mapList = res.data
-        }
-      })
+      if (this.isDev) {
+        getAttrTrapperList({ prodId: this.prodId }).then(res => {
+          if (res.code == 200) {
+            this.attrList = res.data
+          }
+        })
+        getDevValueMapList({ deviceId: this.prodId }).then(res => {
+          if (res.code == 200) {
+            this.mapList = res.data
+          }
+        })
+      } else {
+        getProductAttrTrapperList({ prodId: this.prodId }).then(res => {
+          if (res.code == 200) {
+            this.attrList = res.data
+          }
+        })
+        getValueMapList({ productId: this.prodId }).then(res => {
+          if (res.code == 200) {
+            this.mapList = res.data
+          }
+        })
+      }
     },
     groupFormat(data) {
       const list = []
@@ -208,6 +219,13 @@ export default {
         list.push(item)
       }
       return list
+    },
+    validateForm() {
+      let flag = false
+      this.$refs.dialogForm.validate((valid) => {
+        flag = valid
+      })
+      return flag
     }
   }
 }

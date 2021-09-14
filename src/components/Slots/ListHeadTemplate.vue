@@ -36,6 +36,9 @@ export default {
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgb(36 46 66 / 6%);
   padding: 24px 20px 28px;
+  background-image: url('../../assets/title_bg.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 
   .list-head-template-logo{
     width: 48px;

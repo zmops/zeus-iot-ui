@@ -14,10 +14,12 @@
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background-color: $menuBg;
-    height: calc(100% - 68px);
+    border-right: #E2EAF2 1px solid;
+    padding: 20px 10px 0 10px;
+    height: calc(100% - 90px);
     position: fixed;
     font-size: 0px;
-    top: 88px;
+    top: 68px;
     bottom: 0;
     left: 0;
     z-index: 1001;
@@ -65,6 +67,12 @@
       margin-left: -2px;
     }
 
+    .menu-bg{
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
     .el-menu {
       border: none;
       height: 100%;
@@ -75,15 +83,17 @@
     .submenu-title-noDropdown,
     .el-submenu__title {
       &:hover {
-        color: #FFFFFF !important;
-        background: #242E42 !important;
+        //border-radius: 3px!important;
+        //color: #FFFFFF !important;
+        background: #F2F5FC !important;
         i{
-          color: #FFFFFF !important;
+          //color: #FFFFFF !important;
         }
       }
     }
 
     .is-active>.el-submenu__title {
+      border-radius: 3px!important;
       color: #FFFFFF !important;
       background: #242E42 !important;
       i{

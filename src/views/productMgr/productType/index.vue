@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>产品分类</template>
-      <template v-slot:subhead>产品分类管理页面</template>
+      <template v-slot:subhead>产品分类用来对产品进行分组。当产品比较多时，合理利用产品分类会使产品的管理工作更加高效。</template>
     </ListHeadTemplate>
     <SearchForm :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" @cancel="ids = []" />
     <el-table

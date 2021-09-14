@@ -108,7 +108,7 @@ export function getDeviceTag(params) {
 }
 
 // 更新设备标签
-export function updateTag(data) {
+export function updateDevTag(data) {
   return request({
     url: '/device/tag/update',
     method: 'post',
@@ -190,7 +190,7 @@ export function getCharts(params) {
 }
 
 // 设备值映射列表
-export function getValueMapList(params) {
+export function getDevValueMapList(params) {
   return request({
     url: '/device/valueMap/list',
     method: 'get',
@@ -199,16 +199,16 @@ export function getValueMapList(params) {
 }
 
 // 设备值映射修改
-export function updateValuemap(data) {
+export function updateDevValuemap(data) {
   return request({
-    url: '/device/valuemap/update',
+    url: '/device/valueMap/update',
     method: 'post',
     data
   })
 }
 
 // 设备值映射删除
-export function deleteValuemap(data) {
+export function deleteDevValuemap(data) {
   return request({
     url: '/device/valuemap/delete',
     method: 'post',

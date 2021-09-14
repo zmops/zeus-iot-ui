@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>场景联动</template>
-      <template v-slot:subhead></template>
+      <template v-slot:subhead>对场景联动规则进行管理。可以实现跨设备的业务逻辑。当属性、事件满足设定规则时，自动实现联动功能。</template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search"/>
     <BusinessTable

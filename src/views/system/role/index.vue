@@ -6,7 +6,7 @@
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>角色管理</template>
-      <template v-slot:subhead></template>
+      <template v-slot:subhead>角色用来实现对操作权限的控制。</template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
     <BusinessTable

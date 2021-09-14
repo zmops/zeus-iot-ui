@@ -1,4 +1,4 @@
-<!-- 记录页面 -->
+<!-- 日志页面 -->
 <template>
   <div class="record">
     <SearchForm :params="formParams" :columns="columns" @search="search"/>
@@ -36,13 +36,13 @@ export default {
         {
           componentName: 'SelectTemplate',
           keyName: 'name',
-          label: '记录类型',
-          options: ['事件记录', '服务记录', '告警记录']
+          label: '日志类型',
+          options: ['事件日志', '服务日志', '告警日志']
         },
         {
           componentName: 'DateTimePickerTemplate',
           keyName: 'mark',
-          label: '出发时间'
+          label: '触发时间'
         }
       ],
       form: {
@@ -56,7 +56,7 @@ export default {
       page: 1,
       columns: [
         {
-          label: '记录类型',
+          label: '日志类型',
           prop: 'name',
           show: true
         },

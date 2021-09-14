@@ -13,7 +13,7 @@
       :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :width="'700px'"
+      :width="'750px'"
       :show-close="false"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
@@ -25,6 +25,10 @@
           <svg-icon icon-class="dialog_close" class="closeicon" />
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
         </div>
+      </div>
+      <div class="tips">
+        <i class="el-icon-info"/>
+        <span>可在产品上增加自定义标签，以方便统计分析。设备会在创建时自动获得产品已有的标签，但后续不再与产品标签保持动态同步。</span>
       </div>
       <div class="dialog-body">
         <Tag v-model="tagList" />
@@ -38,11 +42,15 @@
 </template>
 
 <script>
-import { getDeviceTag, updateTag } from '@/api/deviceMgr'
+import { getDeviceTag, updateDevTag } from '@/api/deviceMgr'
+import { getProdTagList, updateProdTag } from '@/api/porductMgr'
 import Tag from '@/components/Detail/Tag'
 export default {
   components: {
     Tag
+  },
+  props: {
+    isDev: Boolean
   },
   data() {
     return {
@@ -60,12 +68,21 @@ export default {
   },
   methods: {
     getTagList() {
-      getDeviceTag({ deviceId: this.prodId }).then(res => {
-        if (res.code == 200) {
-          this.tagList = res.data
-          this.viewList = JSON.parse(JSON.stringify(res.data))
-        }
-      })
+      if (this.isDev) {
+        getDeviceTag({ deviceId: this.prodId }).then(res => {
+          if (res.code == 200) {
+            this.tagList = res.data
+            this.viewList = JSON.parse(JSON.stringify(res.data))
+          }
+        })
+      } else {
+        getProdTagList({ productId: this.prodId }).then(res => {
+          if (res.code == 200) {
+            this.tagList = res.data
+            this.viewList = JSON.parse(JSON.stringify(res.data))
+          }
+        })
+      }
     },
     // change(list) {
     //   this.tagList = list
@@ -84,16 +101,29 @@ export default {
           return false
         }
       }
-      updateTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
-        if (res.code == 200) {
-          this.$message({
-            message: '操作成功',
-            type: 'success'
-          })
-          this.getTagList()
-          this.dialogVisible = false
-        }
-      })
+      if (this.isDev) {
+        updateDevTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
+          if (res.code == 200) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+            this.getTagList()
+            this.dialogVisible = false
+          }
+        })
+      } else {
+        updateProdTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
+          if (res.code == 200) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+            this.getTagList()
+            this.dialogVisible = false
+          }
+        })
+      }
     }
   }
 }
@@ -129,11 +159,26 @@ export default {
 
   .edit{
     right:18px ;
-    top: 50%;
+    top: 30px;
     transform: translateY(-50%);
     padding: 5px 9px;
     border: 1px solid #EFF4F9;
     background: #EFF4F9;
+  }
+
+  .tips{
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    background-color: #CDE5FF;
+    color: #36435C;
+    font-size: 12px;
+    padding-left: 20px;
+
+    i{
+      color: #50A1FB;
+      margin-right: 6px;
+    }
   }
 }
 </style>

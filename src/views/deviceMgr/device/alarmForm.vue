@@ -22,18 +22,18 @@
         inactive-value="DISABLE"
         active-text="启用"
         inactive-text="禁用"
-        active-color="#242E42"
-        inactive-color="#ff4949">
+        active-color="#55BC8A"
+        inactive-color="#AB2F29">
       </el-switch>
     </el-form-item>
     <el-form-item label="描述" prop="remark">
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
     <el-form-item label="触发条件" prop="trigger">
-      <Triggers v-model="formData.trigger" :device-list="deviceList" />
+      <Triggers v-model="formData.trigger" :is-dev="isDev" :device-list="deviceList" />
     </el-form-item>
     <el-form-item label="执行动作">
-      <Action v-model="formData.action" :device-list="deviceList" />
+      <Action v-model="formData.action" :is-dev="isDev" :device-list="deviceList" />
     </el-form-item>
     <el-form-item label="标签">
       <Tag v-model="formData.tags" />
@@ -43,6 +43,7 @@
 
 <script>
 import { getDeviceList } from '@/api/deviceMgr'
+import { getProductList } from '@/api/porductMgr'
 import Triggers from '@/components/Detail/Triggers'
 import Action from '@/components/Detail/Action'
 import Tag from '@/components/Detail/Tag'
@@ -81,7 +82,7 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入设备名称', trigger: 'blur' }
+          { required: true, message: '请输入告警名称', trigger: 'blur' }
         ],
         trigger: [
           { required: true, message: '请选择触发条件', trigger: 'change' }
@@ -97,17 +98,30 @@ export default {
         { label: '高级', value: '高级' },
         { label: '紧急', value: '紧急' }
       ],
-      deviceList: []
+      deviceList: [],
+      isDev: true
     }
   },
   created() {
+    if (this.$route.path.indexOf('/product') > -1) {
+      this.isDev = false
+      // 获取产品列表
+      getProductList({}).then((res) => {
+        if (res.code == 200) {
+          this.deviceList = res.data
+        }
+      })
+    }
+    if (this.$route.path.indexOf('/device') > -1) {
+      this.isDev = true
+      // 获取设备列表
+      getDeviceList({}).then((res) => {
+        if (res.code == 200) {
+          this.deviceList = res.data
+        }
+      })
+    }
     // this.formData = JSON.parse(JSON.stringify(this.value))
-    // 获取设备列表
-    getDeviceList({}).then((res) => {
-      if (res.code == 200) {
-        this.deviceList = res.data
-      }
-    })
   },
   methods: {
 

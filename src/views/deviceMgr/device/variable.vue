@@ -28,6 +28,10 @@
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
         </div>
       </div>
+      <div class="tips">
+        <i class="el-icon-info"/>
+        <span>可在产品上增加自定义变量，适用于同一产品不同设备下，键相同而值可能不同的情况，以方便取用。</span>
+      </div>
       <div class="dialog-body">
         <VariableTemplate :variable-list="variableList" @change="change" />
       </div>
@@ -45,6 +49,9 @@ export default {
   name: 'Variable',
   components: {
     VariableTemplate
+  },
+  props: {
+    isDev: Boolean
   },
   data() {
     return {
@@ -120,11 +127,26 @@ export default {
 
   .edit{
     right:18px ;
-    top: 50%;
+    top: 30px;
     transform: translateY(-50%);
     padding: 5px 9px;
     border: 1px solid #EFF4F9;
     background: #EFF4F9;
+  }
+
+  .tips{
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    background-color: #CDE5FF;
+    color: #36435C;
+    font-size: 12px;
+    padding-left: 20px;
+
+    i{
+      color: #50A1FB;
+      margin-right: 6px;
+    }
   }
 }
 </style>

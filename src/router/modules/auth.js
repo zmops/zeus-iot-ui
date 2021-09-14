@@ -13,12 +13,12 @@ const authRouter = {
   children: [
     {
       path: '/auth',
-      component: () => import('@/views/401'),
+      component: () => import('@/views/auth/release'),
       name: '/auth',
       meta: {
         title: '平台授权',
-        icon24: 'device24',
-        icon48: 'device48'
+        icon24: 'auth24',
+        icon48: 'auth48'
       }
     }
   ]

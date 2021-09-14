@@ -1,6 +1,6 @@
-<!--设备详情-事件页面 -->
+<!--产品详情-告警页面 -->
 <template>
-  <div class="incident">
+  <div class="alarm">
     <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
       :table-data="tableData"
@@ -14,19 +14,23 @@
       :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :show-close="false"
       :width="'700px'"
-      @close="dialogForm = {}"
+      :show-close="false"
+      @close="close"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">{{ state }}事件</div>
+        <div class="left">
+          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
+          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
+          {{ state }}告警规则
+        </div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon" />
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
         </div>
       </div>
       <div class="dialog-body">
-        <incidentForm v-if="dialogVisible" v-model="dialogForm" />
+        <alarmForm v-model="dialogForm" />
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -40,11 +44,11 @@
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import incidentForm from '@/views/deviceMgr/device/incidentForm'
-import { createAttrTrapper, getDeviceByPage, updateAttrTrapper } from '@/api/deviceMgr'
+import alarmForm from '@/views/deviceMgr/device/alarmForm'
+import {getProductAttrTrapperList} from '@/api/porductMgr'
 
 export default {
-  name: 'Incident',
+  name: 'Alarm',
   provide() {
     return {
       farther: this
@@ -54,22 +58,11 @@ export default {
     BusinessTable,
     SearchForm,
     Pagination,
-    incidentForm
+    alarmForm
   },
   data() {
     return {
-      formParams: [
-        {
-          componentName: 'InputTemplate',
-          keyName: 'name',
-          label: '事件名称'
-        },
-        {
-          componentName: 'InputTemplate',
-          keyName: 'name',
-          label: '标识符'
-        }
-      ],
+      formParams: [],
       form: {
         name: ''
       },
@@ -78,8 +71,8 @@ export default {
       total: 0,
       size: 10,
       page: 1,
-      dialogVisible: false,
       dialogForm: {},
+      dialogVisible: false,
       state: '',
       buttons: [
         {
@@ -90,43 +83,29 @@ export default {
       ],
       columns: [
         {
-          label: '事件名称',
+          label: '告警名称',
           prop: 'name',
           show: true
         },
         {
-          label: '标识符',
+          label: '告警级别',
           prop: 'deviceId',
           show: true
         },
         {
-          label: '来自产品',
-          prop: 'templateId',
-          show: true
-        },
-        {
-          label: '事件级别',
+          label: '相关属性',
           prop: 'productName',
           show: true
         },
         {
-          label: '数据类型',
-          prop: 'typeName',
-          show: true
-        },
-        {
-          label: '取数间隔',
-          prop: 'status',
+          label: '启用状态',
+          prop: 'remark',
+          status: true,
           show: true
         },
         {
           label: '描述',
           prop: 'remark',
-          show: true
-        },
-        {
-          label: '修改时间',
-          prop: 'createTime',
           show: true
         },
         {
@@ -149,28 +128,53 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      attrList: []
     }
   },
   created() {
-
+    this.searchInit()
+    this.getList()
   },
   methods: {
+    async searchInit() {
+      // 获取产品列表
+      await getProductAttrTrapperList({}).then((res) => {
+        if (res.code == 200) {
+          this.attrList = res.data
+        }
+      })
+      this.formParams = [
+        {
+          componentName: 'InputTemplate',
+          keyName: 'name',
+          label: '告警名称'
+        },
+        {
+          componentName: 'SelectTemplate',
+          keyName: 'attrId',
+          label: '相关属性',
+          optionId: 'attrId',
+          optionName: 'attrName',
+          options: this.attrList
+        }
+      ]
+    },
     search() {
       this.page = 1
       this.getList()
     },
     getList() {
-      this.loading = true
-      getDeviceByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
-        this.loading = false
-        if (res.code == 200) {
-          this.tableData = res.data
-          this.total = res.count
-        }
-      }).catch(() => {
-        this.loading = false
-      })
+      // this.loading = true
+      // getDeviceByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+      //   this.loading = false
+      //   if (res.code == 200) {
+      //     this.tableData = res.data
+      //     this.total = res.count
+      //   }
+      // }).catch(() => {
+      //   this.loading = false
+      // })
     },
     detail(item) {
       this.$router.push({
@@ -188,41 +192,18 @@ export default {
       this.state = '创建'
       this.dialogVisible = true
     },
+    close() {
+
+    },
     submit() {
-      // this.$refs.dialogForm.validate(async(valid) => {
-      //   if (valid) {
-      // if (this.dialogForm.attrId) {
-      //   updateAttrTrapper(this.dialogForm).then(async(res) => {
-      //     if (res.code == 200) {
-      //       this.$message({
-      //         message: '修改成功',
-      //         type: 'success'
-      //       })
-      //       this.dialogVisible = false
-      //       this.getList()
-      //     }
-      //   })
-      // } else {
-      //   createAttrTrapper(this.dialogForm).then(async(res) => {
-      //     if (res.code == 200) {
-      //       this.$message({
-      //         message: '添加成功',
-      //         type: 'success'
-      //       })
-      //       this.dialogVisible = false
-      //       this.getList()
-      //     }
-      //   })
-      // }
-      //   }
-      // })
+      console.log(this.dialogForm)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.incident {
+.alarm {
 
 }
 </style>
