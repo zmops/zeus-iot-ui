@@ -30,8 +30,8 @@
           <el-dropdown-menu slot="dropdown">
             <div class="zeus-text-align-c dropdown-title">列表定制</div>
             <el-dropdown-item v-for="(item, index) in newColumns" :key="index" :command="index">
-              <svg-icon :icon-class="item.show ? 'eye-open' : 'eye'" />
-              {{ item.label }}
+              <svg-icon v-if="index !== 0" :icon-class="item.show ? 'eye-open' : 'eye'" />
+              <span v-if="index !== 0"> {{ item.label }}</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -106,8 +106,7 @@ export default {
   computed: {
     /* 过滤列表字段 */
     newColumns() {
-      const arr = JSON.parse(JSON.stringify(this.columns))
-      arr.shift()
+      const arr = this.columns
       return arr.filter(item => item.label)
     }
   },

@@ -32,8 +32,8 @@
     </el-drawer>
     <!--  字典类型弹窗  -->
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -326,11 +326,6 @@ export default {
             this.ids = []
             // 删除后重新请求数据
             await this.getList()
-          } else {
-            this.$message({
-              message: res.msg,
-              type: 'error'
-            })
           }
         })
       })
@@ -350,11 +345,6 @@ export default {
             })
             // 删除后重新请求数据
             await this.allocation(this.dictTypeId)
-          } else {
-            this.$message({
-              message: res.msg,
-              type: 'error'
-            })
           }
         })
       })

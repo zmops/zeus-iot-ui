@@ -9,8 +9,8 @@
       编辑
     </el-button>
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'750px'"
@@ -28,7 +28,7 @@
       </div>
       <div class="tips">
         <i class="el-icon-info"/>
-        <span>可在产品上增加自定义标签，以方便统计分析。设备会在创建时自动获得产品已有的标签，但后续不再与产品标签保持动态同步。</span>
+        <span>可设置自定义标签，以方便统计分析。</span>
       </div>
       <div class="dialog-body">
         <Tag v-model="tagList" />

@@ -1,4 +1,4 @@
-<!--设备详情-服务页面 -->
+<!--详情-服务页面 -->
 <template>
   <div class="serve">
     <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
@@ -10,8 +10,8 @@
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -32,22 +32,22 @@
       <div class="dialog-body">
         <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
           <el-form-item label="服务名称" prop="name">
-            <el-input v-model="dialogForm.name" size="mini" />
+            <el-input v-model="dialogForm.name" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
           </el-form-item>
-          <el-form-item label="标识符" prop="key">
-            <el-input v-model="dialogForm.key" size="mini" />
+          <el-form-item label="标识符" prop="mark">
+            <el-input v-model="dialogForm.mark" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
           </el-form-item>
-          <el-form-item label="调用方式" prop="mode">
-            <el-select v-model="dialogForm.mode" placeholder="请选择产品" size="mini">
-              <el-option label="同步" value="同步" />
-              <el-option label="异步" value="异步" />
+          <el-form-item label="调用方式" prop="async">
+            <el-select v-model="dialogForm.async" placeholder="请选择调用方式" size="mini" :disabled="isDev && dialogForm.inherit == '1'">
+              <el-option label="同步" value="0" />
+              <el-option label="异步" value="1" />
             </el-select>
           </el-form-item>
-          <el-form-item label="输入参数" prop="remark">
-            <Variable :variable-list="dialogForm.list" @change="change" />
+          <el-form-item label="输入参数" prop="productServiceParamList">
+            <Variable v-model="dialogForm.productServiceParamList" :name="'输入参数'" :read="isDev && dialogForm.inherit == '1'" />
           </el-form-item>
           <el-form-item label="描述" prop="remark">
-            <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" />
+            <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
           </el-form-item>
         </el-form>
       </div>
@@ -64,7 +64,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import Variable from '@/components/Detail/Variable'
-import { getDeviceByPage } from '@/api/deviceMgr'
+import { getServiceByPage, createService, updateService, deleteService } from '@/api/porductMgr'
 
 export default {
   name: 'Serve',
@@ -79,6 +79,9 @@ export default {
     Pagination,
     Variable
   },
+  props: {
+    isDev: Boolean
+  },
   data() {
     return {
       formParams: [
@@ -89,12 +92,13 @@ export default {
         },
         {
           componentName: 'InputTemplate',
-          keyName: 'name',
+          keyName: 'mark',
           label: '标识符'
         }
       ],
       form: {
-        name: ''
+        name: '',
+        mark: ''
       },
       tableData: [],
       loading: false,
@@ -105,18 +109,19 @@ export default {
       page: 1,
       dialogForm: {
         name: '',
-        productId: '',
-        deviceGroupIds: [],
-        remark: ''
+        mark: '',
+        async: '',
+        remark: '',
+        relationId: ''
       },
       rules: {
         name: [
           { required: true, message: '请输入服务名称', trigger: 'blur' }
         ],
-        key: [
+        mark: [
           { required: true, message: '请输入标识符', trigger: 'blur' }
         ],
-        mode: [
+        async: [
           { required: true, message: '请选择调用方式', trigger: 'change' }
         ]
       },
@@ -135,17 +140,12 @@ export default {
         },
         {
           label: '标识符',
-          prop: 'deviceId',
-          show: true
-        },
-        {
-          label: '来自产品',
-          prop: 'templateId',
+          prop: 'mark',
           show: true
         },
         {
           label: '调用方式',
-          prop: 'productName',
+          prop: 'asyncName',
           show: true
         },
         {
@@ -157,8 +157,8 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 160,
-          idName: 'deviceId',
+          width: 180,
+          idName: 'id',
           fixed: 'right',
           buttons: [
             {
@@ -176,8 +176,64 @@ export default {
       ]
     }
   },
+  watch: {
+    isDev: {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.columns = [
+            {
+              label: '服务名称',
+              prop: 'name',
+              show: true
+            },
+            {
+              label: '标识符',
+              prop: 'mark',
+              show: true
+            },
+            {
+              label: '来自产品',
+              prop: 'inheritName',
+              show: true
+            },
+            {
+              label: '调用方式',
+              prop: 'asyncName',
+              show: true
+            },
+            {
+              label: '描述',
+              prop: 'remark',
+              show: true
+            },
+            {
+              label: '',
+              prop: 'buttons',
+              show: true,
+              width: 180,
+              idName: 'id',
+              fixed: 'right',
+              buttons: [
+                {
+                  label: '编辑',
+                  event: 'detail',
+                  icon: 'list-edit'
+                },
+                {
+                  label: '删除',
+                  event: 'delete',
+                  icon: 'list-del'
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
   created() {
-
+    this.getList()
   },
   methods: {
     search() {
@@ -185,8 +241,9 @@ export default {
       this.getList()
     },
     getList() {
+      this.dialogVisible = false
       this.loading = true
-      getDeviceByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+      getServiceByPage({ ...this.form, prodId: this.$route.query.id, maxRow: this.size, page: this.page }).then((res) => {
         this.loading = false
         if (res.code == 200) {
           this.tableData = res.data
@@ -203,30 +260,67 @@ export default {
     close() {
       this.dialogForm = {
         name: '',
-        productId: '',
-        deviceGroupIds: [],
-        remark: ''
+        mark: '',
+        async: '',
+        remark: '',
+        relationId: '',
+        productServiceParamList: []
       }
     },
-    detail(item) {
-      // this.$router.push({
-      //   path: '/deviceMgr/device/detail',
-      //   query: {
-      //     id: item.deviceId
-      //   }
-      // })
+    detail(id) {
+      const i = this.tableData.find((item) => {
+        return item.id === id
+      })
+      this.dialogForm = JSON.parse(JSON.stringify(i))
+      this.state = '编辑'
+      this.dialogVisible = true
+    },
+    delete(id) {
+      this.$confirm('是否确认删除选中的数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteService({ ids: [id] }).then(async (res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            await this.getList()
+          }
+        })
+      })
     },
     handleCurrentChange(val) {
       this.page = val
       this.getList()
     },
-    change(list) {
-      this.dialogForm.list = list
-    },
     submit() {
       this.$refs.dialogForm.validate(async(valid) => {
         if (valid) {
-          // 判断输入参数是否有键,有值就必须得填写完整,可以不填
+          this.dialogForm.relationId = this.$route.query.id
+          if (this.state === '创建') {
+            createService(this.dialogForm).then((res) =>{
+              if (res.code == 200) {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.getList()
+              }
+            })
+          } else {
+            updateService(this.dialogForm).then((res) =>{
+              if (res.code == 200) {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.getList()
+              }
+            })
+          }
         }
       })
     }

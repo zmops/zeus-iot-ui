@@ -42,7 +42,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="事件级别" prop="valueType">
-      <el-select v-model="formData.valueType" size="mini" placeholder="请选择事件级别" :disabled="disabled">
+      <el-select v-model="formData.eventType" size="mini" placeholder="请选择事件级别" :disabled="disabled">
         <el-option
           v-for="item in levelList"
           :key="item.code"
@@ -78,7 +78,7 @@
 
 <script>
 import { getDictListByCode, groupDictByCode } from '@/api/system'
-import { getAttrTrapperByPage, getValueMapList } from '@/api/deviceMgr'
+import { getAttrTrapperByPage } from '@/api/deviceMgr'
 import Pretreatment from '@/components/Detail/Pretreatment'
 import Tag from '@/components/Detail/Tag'
 
@@ -188,11 +188,11 @@ export default {
           this.attrList = res.data
         }
       })
-      getValueMapList({ deviceId: this.prodId }).then(res => {
-        if (res.code == 200) {
-          this.mapList = res.data
-        }
-      })
+      // getValueMapList({ deviceId: this.prodId }).then(res => {
+      //   if (res.code == 200) {
+      //     this.mapList = res.data
+      //   }
+      // })
     },
     groupFormat(data) {
       const list = []

@@ -29,7 +29,11 @@ export default {
     json: {
       type: String,
       default: ''
-    }
+    },
+    mode: {
+      type: String,
+      default: 'application/json'
+    },
   },
   data() {
     return {
@@ -46,7 +50,7 @@ export default {
   },
   mounted() {
     this.jsonEditor = CodeMirror.fromTextArea(this.$refs.textarea, {
-      mode: 'application/json',
+      mode: this.mode,
       lint: true,
       tabSize: 2,
       smartIndent: true, // 是否智能缩进

@@ -1,11 +1,11 @@
 <!-- 告警规则表单组件 -->
 <template>
   <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" label-position="top" class="alarm-form">
-    <el-form-item label="告警名称" prop="name">
-      <el-input v-model="formData.name" size="mini"/>
+    <el-form-item label="告警名称" prop="eventRuleName">
+      <el-input v-model="formData.eventRuleName" size="mini"/>
     </el-form-item>
-    <el-form-item label="告警级别" prop="level">
-      <el-select v-model="formData.level" placeholder="请选择告警级别" size="mini">
+    <el-form-item label="告警级别" prop="eventLevel">
+      <el-select v-model="formData.eventLevel" placeholder="请选择告警级别" size="mini">
         <el-option
           v-for="(item, index) in levelList"
           :key="index"
@@ -14,7 +14,24 @@
         />
       </el-select>
     </el-form-item>
-    <el-form-item label="启用" prop="status">
+    <el-form-item label="启用通知" prop="eventNotify">
+      <el-switch
+        v-model="formData.eventNotify"
+        size="mini"
+        active-value="1"
+        inactive-value="0"
+        active-text="启用"
+        inactive-text="禁用"
+        :disabled="isDev"
+        active-color="#55BC8A"
+        inactive-color="#AB2F29">
+      </el-switch>
+      <div class="el-form-item-tips zeus-inline-block zeus-ml-15">
+        <i class="el-icon-info" />
+        <span>包括平台内部和外部的所有通知。</span>
+      </div>
+    </el-form-item>
+    <el-form-item label="启用告警规则" prop="status">
       <el-switch
         v-model="formData.status"
         size="mini"
@@ -29,30 +46,41 @@
     <el-form-item label="描述" prop="remark">
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
-    <el-form-item label="触发条件" prop="trigger">
-      <Triggers v-model="formData.trigger" :is-dev="isDev" :device-list="deviceList" />
+    <el-form-item label="触发条件" prop="expList">
+      <div class="zeus-mb-10">
+        满足下列
+        <el-select v-model="formData.expLogic" placeholder="" size="mini" class="select-w50">
+          <el-option label="任意" value="or" />
+          <el-option label="所有" value="and" />
+        </el-select>
+        条件时,触发告警
+      </div>
+      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" v-model="formData.expList[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" @del="del" />
+      <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
     </el-form-item>
     <el-form-item label="执行动作">
-      <Action v-model="formData.action" :is-dev="isDev" :device-list="deviceList" />
+      <action v-for="(item, index) in formData.deviceServices" :key="item.guid" v-model="formData.deviceServices[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" @del="delAction"></action>
+      <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addAction">增加执行动作</el-button>
     </el-form-item>
     <el-form-item label="标签">
-      <Tag v-model="formData.tags" />
+      <Tag ref="tag" v-model="formData.tags" />
     </el-form-item>
   </el-form>
 </template>
 
 <script>
 import { getDeviceList } from '@/api/deviceMgr'
-import { getProductList } from '@/api/porductMgr'
+import { getProductList, getServiceList } from '@/api/porductMgr'
 import Triggers from '@/components/Detail/Triggers'
-import Action from '@/components/Detail/Action'
+import action from '@/views/deviceMgr/device/action'
 import Tag from '@/components/Detail/Tag'
+import { guid } from '@/utils'
 
 export default {
   name: 'AlarmForm',
   components: {
     Triggers,
-    Action,
+    action,
     Tag
   },
   props: {
@@ -60,43 +88,79 @@ export default {
       type: Object,
       default() {
         return {
-          level: '中级',
-          status: 'ENABLE'
+          eventRuleName: '',
+          eventLevel: '3',
+          eventNotify: '1',
+          status: 'ENABLE',
+          remark: '',
+          expLogic: 'or',
+          expList: [
+            {
+              deviceId: '',
+              attr: '',
+              incident: '',
+              condition: '=',
+              type: '属性',
+              function: 'last',
+              timeType: '时间',
+              unit: 'm'
+            }
+          ],
+          deviceServices: []
         }
       }
     }
   },
   watch: {
-    formData: {
+    value: {
       deep: true,
+      immediate: true,
       handler(val) {
-        this.$emit('input', val)
+        this.formData = val
       }
     }
   },
   data() {
+    const checkData = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error('至少要有一个触发条件!'))
+      }
+      for (const item of value) {
+        if (item.type === '属性' && item.attr === '') {
+          callback(new Error('请选择属性!'))
+        }
+        if (item.type === '事件' && item.incident === '') {
+          callback(new Error('请选择事件!'))
+        }
+        if (item.value === undefined || item.value === '') {
+          callback(new Error('请完善触发条件!'))
+        }
+        if ((item.function !== 'last' && item.function !== 'change') && (item.scope === undefined || item.scope === '')) {
+          callback(new Error('请完善触发条件!'))
+        }
+      }
+      callback()
+    }
     return {
-      formData: {
-        level: '中级',
-        status: 'ENABLE'
-      },
+      formData: {},
       rules: {
-        name: [
+        eventRuleName: [
           { required: true, message: '请输入告警名称', trigger: 'blur' }
         ],
-        trigger: [
-          { required: true, message: '请选择触发条件', trigger: 'change' }
+        expList: [
+          { required: true, message: '请选择触发条件' },
+          { validator: checkData }
         ],
-        level: [
-          { required: true, message: '请选择产品', trigger: 'change' }
+        eventLevel: [
+          { required: true, message: '请选择告警级别', trigger: 'change' }
         ]
       },
       levelList: [
-        { label: '提示', value: '提示' },
-        { label: '低级', value: '低级' },
-        { label: '中级', value: '中级' },
-        { label: '高级', value: '高级' },
-        { label: '紧急', value: '紧急' }
+        { label: '信息', value: '1' },
+        { label: '低级', value: '2' },
+        { label: '中级', value: '3' },
+        { label: '高级', value: '4' },
+        { label: '紧急', value: '5' }
       ],
       deviceList: [],
       isDev: true
@@ -124,7 +188,41 @@ export default {
     // this.formData = JSON.parse(JSON.stringify(this.value))
   },
   methods: {
-
+    addTrigger() {
+      this.formData.expList.push({
+        guid: guid(),
+        deviceId: '',
+        attr: '',
+        incident: '',
+        condition: '=',
+        type: '属性',
+        function: 'last',
+        timeType: '时间',
+        unit: 'm'
+      })
+    },
+    validateForm() {
+      let flag = false
+      this.$refs.dialogForm.validate((valid) => {
+        flag = valid
+      })
+      return flag && this.$refs.tag.verification()
+    },
+    del(index) {
+      this.formData.expList.splice(index, 1)
+    },
+    delAction(index) {
+      this.formData.deviceServices.splice(index, 1)
+    },
+    addAction() {
+      this.formData.deviceServices.push(
+        {
+          guid: guid(),
+          executeDeviceId: '',
+          serviceId: ''
+        }
+      )
+    }
   }
 }
 </script>
@@ -141,6 +239,9 @@ export default {
     .el-switch__label *{
       font-size: 12px!important;
     }
+  }
+  .select-w50{
+    width: 50px;
   }
 }
 </style>

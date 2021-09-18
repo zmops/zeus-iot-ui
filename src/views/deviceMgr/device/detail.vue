@@ -8,9 +8,9 @@
         <record v-else-if="activity === '日志'" />
         <attributeMgr v-else-if="activity === '属性管理'" />
         <incident v-else-if="activity ==='事件管理'" />
-        <serve v-else-if="activity === '服务管理'" />
+        <serve v-else-if="activity === '服务管理'" is-dev />
         <offLineRule v-else-if="activity === '上下线规则'" is-dev />
-        <alarm v-else-if="activity === '告警规则'" />
+        <alarm v-else-if="activity === '告警规则'" is-dev />
         <tag v-else-if="activity === '标签'" is-dev />
         <variable v-else-if="activity === '变量'" is-dev />
         <mapping v-else-if="activity === '值映射方案'" is-dev />
@@ -98,10 +98,6 @@ export default {
         {
           label: '值映射方案',
           name: '值映射方案'
-        },
-        {
-          label: '子设备',
-          name: '子设备'
         }
       ],
       subhead: '',
@@ -137,6 +133,12 @@ export default {
       deviceDetail({ deviceId: this.deviceId }).then((res) => {
         if (res.code == 200) {
           this.info = res.data
+          if (this.info.type == '3') {
+            this.tabs.push({
+              label: '子设备',
+              name: '子设备'
+            })
+          }
           this.detailList = [
             {
               key: '设备ID',

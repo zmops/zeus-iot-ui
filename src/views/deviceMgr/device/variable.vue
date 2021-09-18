@@ -11,8 +11,8 @@
       编辑
     </el-button>
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -29,8 +29,8 @@
         </div>
       </div>
       <div class="tips">
-        <i class="el-icon-info"/>
-        <span>可在产品上增加自定义变量，适用于同一产品不同设备下，键相同而值可能不同的情况，以方便取用。</span>
+        <i class="el-icon-info" />
+        <span>可设置自定义变量，适用于同一产品不同设备下，键相同而值可能不同的情况，以方便取用。</span>
       </div>
       <div class="dialog-body">
         <VariableTemplate :variable-list="variableList" @change="change" />
@@ -55,18 +55,7 @@ export default {
   },
   data() {
     return {
-      viewList: [
-        {
-          tag: '标签1',
-          value: 'dfsf',
-          remark: '描述信息'
-        },
-        {
-          tag: '标签2',
-          value: 'rrrr',
-          remark: '描f述信息'
-        }
-      ],
+      viewList: [],
       variableList: [],
       dialogVisible: false
     }

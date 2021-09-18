@@ -151,8 +151,8 @@
       <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
     </el-footer>
     <el-dialog
+      v-dialogDrag
       :visible.sync="jsVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :append-to-body="true"

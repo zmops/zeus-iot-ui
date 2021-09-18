@@ -34,8 +34,8 @@
     </el-card>
     <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="add">增加</el-button>
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'750px'"
@@ -259,6 +259,11 @@ export default {
   .add-btn{
     width: 100%;
     border-style: dashed;
+    background-color: #F9FBFD;
+
+    &:hover{
+      background-color: #EFF4F9;
+    }
   }
 
   .box-card{

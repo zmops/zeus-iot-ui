@@ -131,7 +131,7 @@ export default {
     margin-right: 20px;
     border-radius: 6px;
     background-color: #fff;
-    box-shadow: 0 4px 8px 0 rgb(36 46 66 / 6%);
+    box-shadow: 0 4px 8px 0 rgba(36, 46, 66, 0.06);
 
     .detail-template-left-title {
       width: 100%;
@@ -202,7 +202,7 @@ export default {
         font-weight: 600;
         font-style: normal;
         color: #242e42;
-        text-shadow: 0 4px 8px rgb(36 46 66 / 10%);
+        text-shadow: 0 4px 8px rgba(36, 46, 66, 0.1);
       }
 
       .detail-list {

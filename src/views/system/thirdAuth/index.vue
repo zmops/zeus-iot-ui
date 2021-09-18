@@ -20,8 +20,8 @@
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -83,7 +83,7 @@ import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import {createProxy, deleteProxy, getProxyByPage, updateProxy} from '@/api/system'
+// import {createProxy, deleteProxy, getProxyByPage, updateProxy} from '@/api/system'
 
 export default {
   name: 'ThirdAuth',
@@ -252,22 +252,17 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteProxy({ids: this.ids}).then(async (res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.ids = []
-            // 删除后重新请求数据
-            await this.getList()
-          } else {
-            this.$message({
-              message: res.msg,
-              type: 'error'
-            })
-          }
-        })
+        // deleteProxy({ids: this.ids}).then(async (res) => {
+        //   if (res.code == 200) {
+        //     this.$message({
+        //       message: '删除成功',
+        //       type: 'success'
+        //     })
+        //     this.ids = []
+        //     // 删除后重新请求数据
+        //     await this.getList()
+        //   }
+        // })
       })
     },
     createToken(id) {
@@ -297,27 +292,27 @@ export default {
       this.$refs.dialogForm.validate(async (valid, errorFields) => {
         if (valid) {
           if (this.dialogForm.id) {
-            updateProxy({name: this.dialogForm.name, id: this.dialogForm.id}).then(async (res) => {
-              if (res.code == 200) {
-                this.$message({
-                  message: '修改成功',
-                  type: 'success'
-                })
-                this.dialogVisible = false
-                await this.getList()
-              }
-            })
+            // updateProxy({name: this.dialogForm.name, id: this.dialogForm.id}).then(async (res) => {
+            //   if (res.code == 200) {
+            //     this.$message({
+            //       message: '修改成功',
+            //       type: 'success'
+            //     })
+            //     this.dialogVisible = false
+            //     await this.getList()
+            //   }
+            // })
           } else {
-            createProxy({name: this.dialogForm.name}).then(async (res) => {
-              if (res.code == 200) {
-                this.$message({
-                  message: '添加成功',
-                  type: 'success'
-                })
-                this.dialogVisible = false
-                await this.getList()
-              }
-            })
+            // createProxy({name: this.dialogForm.name}).then(async (res) => {
+            //   if (res.code == 200) {
+            //     this.$message({
+            //       message: '添加成功',
+            //       type: 'success'
+            //     })
+            //     this.dialogVisible = false
+            //     await this.getList()
+            //   }
+            // })
           }
         }
       })

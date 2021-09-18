@@ -82,8 +82,8 @@ export default {
           type: 'line'
         },
         grid: {
-          left: '0',
-          right: '0',
+          left: '30',
+          right: '40',
           bottom: this.dataZoomBol ? '40px' : '0px',
           top: '55',
           containLabel: true,

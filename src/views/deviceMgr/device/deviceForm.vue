@@ -4,7 +4,7 @@
     <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
       <el-form-item label="设备ID" prop="deviceId">
         <el-input v-model="dialogForm.deviceId" size="mini" :disabled="state === '编辑'"/>
-        <div class="el-form-item-tips">
+        <div v-if="state !== '编辑'" class="el-form-item-tips">
           <i class="el-icon-info" />若不填写设备ID，则由系统自动生成唯一ID，且不再可以编辑
         </div>
       </el-form-item>

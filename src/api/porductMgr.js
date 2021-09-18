@@ -197,6 +197,15 @@ export function getServiceByPage(data) {
   })
 }
 
+// 产品服务列表-不分页
+export function getServiceList(data) {
+  return request({
+    url: '/product/service/list',
+    method: 'post',
+    data
+  })
+}
+
 // 产品服务创建
 export function createService(data) {
   return request({
@@ -224,28 +233,19 @@ export function deleteService(data) {
   })
 }
 
-// 上下线规则创建
-export function createTrigger(data) {
+// 产品服务获取输入参数
+export function getServiceData(params) {
   return request({
-    url: '/product/trigger/status/create',
-    method: 'post',
-    data
+    url: '/product/service/param/list',
+    method: 'get',
+    params
   })
 }
 
-// 上下线规则修改
-export function updateTrigger(data) {
+// 告警规则详情
+export function detailEvent(params) {
   return request({
-    url: '/product/trigger/status/update',
-    method: 'post',
-    data
-  })
-}
-
-// 上下线规则详情
-export function getTrigger(params) {
-  return request({
-    url: '/product/trigger/status/detail',
+    url: '/product/event/detail',
     method: 'get',
     params
   })

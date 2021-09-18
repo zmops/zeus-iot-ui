@@ -2,7 +2,7 @@
 <template>
   <div class="Action">
     <div v-for="(item, index) in formData" :key="index">
-      <el-select v-if="isDev" v-model="item.deviceId" placeholder="设备列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
+      <el-select v-if="isDev" v-model="item.executeDeviceId" placeholder="设备列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
         <el-option
           v-for="(i, ind) in deviceList"
           :key="ind"
@@ -10,30 +10,31 @@
           :value="i.deviceId"
         />
       </el-select>
-      <el-select v-else v-model="item.deviceId" placeholder="产品列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
-        <el-option
-          v-for="(i, ind) in deviceList"
-          :key="ind"
-          :label="i.name"
-          :value="i.productId"
-        />
-      </el-select>
-      <el-select v-model="item.service" placeholder="服务列表" size="mini" class="select2 zeus-mr-5">
+<!--      <el-select v-else v-model="item.deviceId" placeholder="产品列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">-->
+<!--        <el-option-->
+<!--          v-for="(i, ind) in deviceList"-->
+<!--          :key="ind"-->
+<!--          :label="i.name"-->
+<!--          :value="i.productId"-->
+<!--        />-->
+<!--      </el-select>-->
+      <el-select v-model="item.serviceId" placeholder="服务列表" size="mini" class="select2 zeus-mr-5" @change="serviceChange">
         <el-option
           v-for="(i, ind) in serviceList"
           :key="ind"
-          :label="i.label"
-          :value="i.value"
+          :label="i.name"
+          :value="i.id"
         />
       </el-select>
       <el-button v-if="formData.length > 1" type="text" icon="el-icon-delete" class=" del" @click="del(index)"></el-button>
-      <Variable read :variable-list="item.list" @change="variableChange" />
+      <Variable v-if="item.list && item.list.length" v-model="item.list" :show-but="showBut" />
     </div>
     <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addAction">增加执行动作</el-button>
   </div>
 </template>
 <script>
 import Variable from '@/components/Detail/Variable'
+import { getServiceList, getServiceData } from '@/api/porductMgr'
 export default {
   name: 'Action',
   components: {
@@ -43,18 +44,12 @@ export default {
     value: {
       type: Array,
       default() {
-        return [
-          {
-            list: [
-              {
-                tag: '',
-                value: '',
-                remark: ''
-              }
-            ]
-          }
-        ]
+        return []
       }
+    },
+    showBut: {
+      type: Boolean,
+      default: true
     },
     deviceList: {
       type: Array,
@@ -85,10 +80,21 @@ export default {
 
   },
   methods: {
+    getService(prodId) {
+      getServiceList({ prodId }).then((res) => {
+        if (res.code == '200') {
+          this.serviceList = res.data
+        }
+      })
+    },
     deviceChange(val) {
       // 获取服务列表
+      this.getService(val)
     },
-    variableChange() {
+    serviceChange(serviceId) {
+      // getServiceData({serviceId}).then((res) => {
+      //
+      // })
     },
     del(index) {
       this.formData.splice(index, 1)

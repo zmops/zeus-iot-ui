@@ -215,3 +215,83 @@ export function deleteDevValuemap(data) {
     data
   })
 }
+
+// 上下线规则创建
+export function createTrigger(data) {
+  return request({
+    url: '/product/trigger/status/create',
+    method: 'post',
+    data
+  })
+}
+
+// 上下线规则修改
+export function updateTrigger(data) {
+  return request({
+    url: '/product/trigger/status/update',
+    method: 'post',
+    data
+  })
+}
+
+// 上下线规则详情
+export function getTrigger(params) {
+  return request({
+    url: '/product/trigger/status/detail',
+    method: 'get',
+    params
+  })
+}
+
+// 告警规则创建
+export function createAlarm(data) {
+  return request({
+    url: '/product/event/create',
+    method: 'post',
+    data
+  })
+}
+
+// 告警规则列表
+export function getEventByPage(data) {
+  return request({
+    url: '/product/event/getEventByPage',
+    method: 'post',
+    data
+  })
+}
+
+// 告警规则修改-设备
+export function updateEventDev(data) {
+  return request({
+    url: '/device/event/update',
+    method: 'post',
+    data
+  })
+}
+
+// 告警规则修改-产品
+export function updateEvent(data) {
+  return request({
+    url: '/product/event/update',
+    method: 'post',
+    data
+  })
+}
+
+// 告警规则删除
+export function deleteEvent(data) {
+  return request({
+    url: '/product/event/delete',
+    method: 'post',
+    data
+  })
+}
+// 告警规则详情
+export function detailEventDev(params) {
+  return request({
+    url: '/device/event/detail',
+    method: 'get',
+    params
+  })
+}

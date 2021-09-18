@@ -27,12 +27,7 @@ export default {
     value: {
       type: Array,
       default() {
-        return [
-          {
-            tag: '',
-            value: ''
-          }
-        ]
+        return []
       }
     }
   },
@@ -53,7 +48,7 @@ export default {
     del(i) {
       this.list.splice(i, 1)
     },
-    add() {
+    verification() {
       for (const item of this.list) {
         if (item.tag === '' || item.value === '') {
           this.$message({
@@ -73,10 +68,15 @@ export default {
         })
         return false
       }
-      this.list.push({
-        tag: '',
-        value: ''
-      })
+      return true
+    },
+    add() {
+      if (this.verification()) {
+        this.list.push({
+          tag: '',
+          value: ''
+        })
+      }
     }
   }
 }
@@ -87,6 +87,11 @@ export default {
   .add-btn{
     width: 100%;
     border-style: dashed;
+    background-color: #F9FBFD;
+
+    &:hover{
+      background-color: #EFF4F9;
+    }
   }
 }
 </style>

@@ -47,6 +47,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
       }
     }
     .right:hover{
+      cursor: pointer;
       .closeicon:first-child{
         display: none;
       }
@@ -62,7 +63,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   padding: 3px;
   background: #242e42;
   border: 1px solid #242e42;
-  box-shadow: 0 8px 16px 0 rgb(35 45 65 / 28%);
+  box-shadow: 0 8px 16px 0 rgba(35, 45, 65, 0.28);
 }
 .el-dialog__headerbtn .el-dialog__close{
   width: 24px;
@@ -151,6 +152,11 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 .el-form-item__content .add-btn{
   width: 100%;
   border-style: dashed;
+  background-color: #F9FBFD;
+
+  &:hover{
+    background-color: #EFF4F9;
+  }
 }
 
 /*操作栏按钮*/
@@ -234,4 +240,27 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 }
 .el-tooltip__popper{
   max-width: 85% !important
+}
+
+/*修改下拉框的icon颜色*/
+.el-select .el-input .el-select__caret{
+  color: #324558;
+}
+
+::-webkit-scrollbar,.el-table__body-wrapper::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width : 6px;  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 6px;
+}
+::-webkit-scrollbar-thumb,.el-table__body-wrapper::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 2.5px;
+  box-shadow   : inset 0 0 5px rgb(80, 88, 104);
+  background   : #B6C2CD;
+}
+::-webkit-scrollbar-track,.el-table__body-wrapper::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  //border-radius: 10px;
+  background   : #EFF4F900;
 }

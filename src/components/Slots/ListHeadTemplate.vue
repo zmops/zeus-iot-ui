@@ -34,7 +34,7 @@ export default {
   margin-bottom: 12px;
   border-radius: 4px;
   background-color: #fff;
-  box-shadow: 0 4px 8px 0 rgb(36 46 66 / 6%);
+  box-shadow: 0 4px 8px 0 rgba(36, 46, 66, 0.06);
   padding: 24px 20px 28px;
   background-image: url('../../assets/title_bg.png');
   background-repeat: no-repeat;
@@ -55,7 +55,7 @@ export default {
       font-weight: 600;
       font-style: normal;
       color: #242e42;
-      text-shadow: 0 4px 8px rgb(36 46 66 / 10%);
+      text-shadow: 0 4px 8px rgba(36, 46, 66, 0.1);
     }
     .subhead{
       color: #79879c;

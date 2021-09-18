@@ -15,6 +15,7 @@ import router from './router'
 import JsEncrypt from 'jsencrypt'
 
 import '@/icons' // icon
+import './utils/directives.js'
 import '@/permission' // permission control
 
 // set ElementUI lang to EN

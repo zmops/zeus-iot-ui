@@ -194,7 +194,7 @@ $light_gray: #242E42;
 
   .box-shadow {
     border-radius: 30px;
-    box-shadow: 0 8px 16px 0 rgb(35 45 65 / 28%) !important
+    box-shadow: 0 8px 16px 0 rgba(35, 45, 65, 0.28) !important
   }
 
   .login-form {

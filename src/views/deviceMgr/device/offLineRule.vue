@@ -39,8 +39,8 @@
       {{state}}
     </el-button>
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'800px'"
@@ -126,8 +126,8 @@
   </div>
 </template>
 <script>
-import { getAttrTrapperList } from '@/api/deviceMgr'
-import { getProductAttrTrapperList, getTrigger, createTrigger, updateTrigger } from '@/api/porductMgr'
+import { getAttrTrapperList, getTrigger, createTrigger, updateTrigger } from '@/api/deviceMgr'
+import { getProductAttrTrapperList } from '@/api/porductMgr'
 
 export default {
   name: "offLineRule",

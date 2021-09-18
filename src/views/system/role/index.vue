@@ -19,9 +19,9 @@
     />
     <!-- <Pagination :total="total" :size="form.size" :current-page="form.page" @handleCurrentChange="handleCurrentChange" /> -->
     <el-dialog
+      v-dialogDrag
       v-if="dialogVisible"
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -55,9 +55,9 @@
       </el-footer>
     </el-dialog>
     <el-dialog
+      v-dialogDrag
       v-if="dialogMenu"
       :visible.sync="dialogMenu"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -255,11 +255,6 @@ export default {
             // 删除后重新请求数据
             this.ids = []
             await this.getList()
-          } else {
-            this.$message({
-              message: res.msg,
-              type: 'error'
-            })
           }
         })
       })

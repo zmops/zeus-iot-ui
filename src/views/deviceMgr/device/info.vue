@@ -66,9 +66,9 @@
       </div>
     </div>
     <el-dialog
+      v-dialogDrag
       v-if="dialogMap"
       :visible.sync="dialogMap"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -99,8 +99,8 @@
       </div>
     </el-dialog>
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"

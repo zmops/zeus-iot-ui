@@ -24,7 +24,7 @@
     </el-form-item>
 
     <el-form-item v-if="formData.source === '18'" label="来源属性" prop="depAttrId">
-      <el-select v-model="formData.depAttrId" size="mini" placeholder="请选择数据类型" :disabled="disabled">
+      <el-select v-model="formData.depAttrId" size="mini" placeholder="请选择来源属性" :disabled="disabled">
         <el-option
           v-for="item in attrList"
           :key="item.attrId"
@@ -66,7 +66,7 @@
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
     <el-form-item label="数据预处理">
-      <Pretreatment v-model="formData.processStepList" :disabled="disabled" />
+      <Pretreatment ref="pretreatment" v-model="formData.processStepList" :disabled="disabled" />
     </el-form-item>
     <el-form-item label="值映射">
       <el-select v-model="formData.valuemapid" size="mini" placeholder="请选择值映射" :disabled="disabled">
@@ -225,7 +225,7 @@ export default {
       this.$refs.dialogForm.validate((valid) => {
         flag = valid
       })
-      return flag
+      return flag && this.$refs.pretreatment.verification()
     }
   }
 }

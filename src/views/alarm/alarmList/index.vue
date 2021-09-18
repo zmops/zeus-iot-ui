@@ -23,9 +23,8 @@
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import {getProductList, getServiceByPage} from '@/api/porductMgr'
-import {getDeviceList} from '@/api/deviceMgr'
-import {getDictListByCode} from '@/api/system'
+import { getDeviceList } from '@/api/deviceMgr'
+import { getAlarmByPage } from '@/api/alarm'
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 
 export default {
@@ -133,7 +132,15 @@ export default {
           componentName: 'SelectTemplate',
           keyName: 'level',
           label: '告警级别',
-          options: ['紧急', '高级', '中级', '低级', '信息'],
+          optionId: 'value',
+          optionName: 'label',
+          options: [
+            { label: '信息', value: '1' },
+            { label: '低级', value: '2' },
+            { label: '中级', value: '3' },
+            { label: '高级', value: '4' },
+            { label: '紧急', value: '5' }
+          ],
           w: 120
         },
         {
@@ -147,15 +154,15 @@ export default {
         },
         {
           componentName: 'DateTimePickerTemplate',
-          keyName: 'mark',
+          keyName: 'time',
           label: '触发时间'
         },
-        {
-          componentName: 'KeyValueTemplate',
-          keyName: 'bq',
-          label: '标签',
-          w: 100
-        }
+        // {
+        //   componentName: 'KeyValueTemplate',
+        //   keyName: 'bq',
+        //   label: '标签',
+        //   w: 100
+        // }
       ]
     },
     search() {
@@ -163,16 +170,20 @@ export default {
       this.getList()
     },
     getList() {
-      // this.loading = true
-      // getServiceByPage({ ...this.form, maxRow: this.size, page: this.page, prodId: this.prodId }).then((res) => {
-      //   this.loading = false
-      //   if (res.code == 200) {
-      //     this.tableData = res.data
-      //     this.total = res.count
-      //   }
-      // }).catch(() => {
-      //   this.loading = false
-      // })
+      this.loading = true
+      if (this.form.time && this.form.time.length) {
+        this.form.timeFrom = this.form.time[0]
+        this.form.timeTill = this.form.time[0]
+      }
+      getAlarmByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+        this.loading = false
+        if (res.code == 200) {
+          this.tableData = res.data
+          this.total = res.count
+        }
+      }).catch(() => {
+        this.loading = false
+      })
     },
     handleCurrentChange(val) {
       this.page = val

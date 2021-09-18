@@ -36,7 +36,7 @@ export const asyncRoutes = [
   ruleRouter,
   alarmRouter,
   logRouter,
-  systemRouter,
+  systemRouter
 ]
 export const errorRouters = [
   {

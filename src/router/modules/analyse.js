@@ -12,6 +12,14 @@ const analyseRouter = {
   },
   children: [
     {
+      path: '/analyse/globalOverview',
+      component: () => import('@/views/analyse/globalOverview'),
+      name: '/analyse/globalOverview',
+      meta: {
+        title: '全局概览'
+      }
+    },
+    {
       path: '/analyse/latest',
       component: () => import('@/views/analyse/latest'),
       name: '/analyse/latest',
@@ -30,11 +38,11 @@ const analyseRouter = {
       }
     },
     {
-      path: '/analyse/globalOverview',
-      component: () => import('@/views/analyse/globalOverview'),
-      name: '/analyse/globalOverview',
+      path: '/analyse/monitor',
+      component: () => import('@/views/401'),
+      name: '/analyse/monitor',
       meta: {
-        title: '全局概览'
+        title: '平台监控'
       }
     }
   ]

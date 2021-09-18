@@ -19,7 +19,7 @@
             </el-option-group>
           </el-select>
         </div>
-        <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21'" class="zeus-list-item">
+        <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21' && item.type !== '13'" class="zeus-list-item">
           <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)" :disabled="disabled"/>
         </div>
         <div v-if="item.type === '25'" class="zeus-list-item">
@@ -27,6 +27,12 @@
         </div>
         <div v-if="item.type === '25'" class="zeus-list-item">
           <el-input v-model="item.value2" size="mini" placeholder="替换为" :disabled="disabled"/>
+        </div>
+        <div v-if="item.type === '13'" class="zeus-list-item">
+          <el-input v-model.number="item.value" size="mini" placeholder="最小值" :disabled="disabled" />
+        </div>
+        <div v-if="item.type === '13'" class="zeus-list-item">
+          <el-input v-model.number="item.value2" size="mini" placeholder="最大值" :disabled="disabled" />
         </div>
         <div v-if="item.type === '21'" class="zeus-list-item" @click="changeJs(index)">
           <el-input v-model="item.value" class="attr-js" size="mini" disabled placeholder="script" suffix-icon="el-icon-edit-outline"/>
@@ -36,8 +42,8 @@
     </div>
     <el-button class="add-btn" plain icon="el-icon-plus" size="mini" :disabled="disabled" @click="add">增加预处理步骤</el-button>
     <el-dialog
+      v-dialogDrag
       :visible.sync="jsVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :append-to-body="true"
@@ -57,7 +63,7 @@
       </div>
       <div class="dialog-body">
         <p>function (value) {</p>
-        <json-editor ref="JsonEditor" :json="jsValue" @change="handleJsonChange"/>
+        <json-editor ref="JsonEditor" :mode="'text/javascript'" :json="jsValue" @change="handleJsonChange"/>
         <p>}</p>
       </div>
       <el-footer class="dialog-footer-btn">
@@ -137,10 +143,10 @@ export default {
               type: item.type,
               params: []
             }
-            if (item.type == '25') {
+            if (item.type === '25' || item.type === '13') {
               obj.params.push(item.value)
               obj.params.push(item.value2)
-            } else if (item.type == '7' || item.type == '8') {
+            } else if (item.type === '7' || item.type === '8') {
               obj.params = []
             } else {
               obj.params.push(item.value)
@@ -159,14 +165,14 @@ export default {
     const arr = []
     if (this.value && this.value.length) {
       this.value.forEach((item) => {
-        if (item.type == '25') {
+        if (item.type === '25' || item.type === '13') {
           const a = item.params.split('\\\\n')
           arr.push({
             type: item.type,
             value: a[0],
             value2: a[1]
           })
-        } else if (item.type == '7' || item.type == '8') {
+        } else if (item.type === '7' || item.type === '8') {
           arr.push({
             type: item.type,
             value: '',
@@ -243,21 +249,44 @@ export default {
       this.formData[this.jsSeat].value = this.jsValue
       this.jsCancle()
     },
-    add() {
+    verification() {
       for (const item of this.formData) {
-        if (item.type === '' || item.value === '') {
-          this.$message({
-            message: '请填写完整当前预处理步骤',
-            type: 'warning'
-          })
-          return false
+        if (item.type !== '7' && item.type !== '8') {
+          if (item.type === '' || item.value === '') {
+            this.$message({
+              message: '请填写完整当前预处理步骤',
+              type: 'warning'
+            })
+            return false
+          }
+          if (item.type === '13') {
+            if (typeof item.value !== 'number' || typeof item.value2 !== 'number') {
+              this.$message({
+                message: '数据预处理-最小值最大值必须为数字',
+                type: 'warning'
+              })
+              return false
+            }
+            if (item.value >= item.value2) {
+              this.$message({
+                message: '数据预处理-最大值必须大于最小值',
+                type: 'warning'
+              })
+              return false
+            }
+          }
         }
       }
-      this.formData.push({
-        type: '',
-        value: '',
-        value2: ''
-      })
+      return true
+    },
+    add() {
+      if (this.verification()) {
+        this.formData.push({
+          type: '',
+          value: '',
+          value2: ''
+        })
+      }
     }
   }
 }

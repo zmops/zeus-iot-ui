@@ -32,6 +32,7 @@
       </div>
     </div>
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogAbout"
       :width="'680px'"
       :show-close="false"
@@ -75,8 +76,8 @@
       </div>
     </el-dialog>
     <el-dialog
+      v-dialogDrag
       :visible.sync="dialogVisible"
-      :destroy-on-close="true"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -178,7 +179,7 @@ export default {
 .Head {
   width: 100%;
   height: 68px;
-  background-color: #ffffff;
+  background-color: #F2F5FC;
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-image-source: radial-gradient(circle at 50% 3%, rgba(193, 201, 209, .53), hsla(0, 0%, 100%, .2));
