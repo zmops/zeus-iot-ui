@@ -126,12 +126,12 @@ export default {
         callback(new Error('至少要有一个触发条件!'))
       }
       for (const item of value) {
-        if (item.type === '属性' && item.attr === '') {
+        if (item.attr === '') {
           callback(new Error('请选择属性!'))
         }
-        if (item.type === '事件' && item.incident === '') {
-          callback(new Error('请选择事件!'))
-        }
+        // if (item.type === '事件' && item.incident === '') {
+        //   callback(new Error('请选择事件!'))
+        // }
         if (item.value === undefined || item.value === '') {
           callback(new Error('请完善触发条件!'))
         }

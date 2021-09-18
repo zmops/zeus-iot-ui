@@ -9,11 +9,11 @@
         :value="i.deviceId"
       />
     </el-select>
-    <el-select v-model="item.type" size="mini" class="select3 zeus-mr-5">
-      <el-option label="属性" value="属性"/>
-      <el-option label="事件" value="事件"/>
-    </el-select>
-    <el-select v-if="item.type === '属性'" v-model="item.attr" placeholder="请选择属性" size="mini" class="select2 zeus-mr-5" @change="attrChange">
+<!--    <el-select v-model="item.type" size="mini" class="select3 zeus-mr-5">-->
+<!--      <el-option label="属性" value="属性"/>-->
+<!--      <el-option label="事件" value="事件"/>-->
+<!--    </el-select>-->
+    <el-select v-model="item.attr" placeholder="请选择属性" size="mini" class="select2 zeus-mr-5" @change="attrChange">
       <el-option
         v-for="(i, index) in deviceAttribute"
         :key="index"
@@ -21,14 +21,14 @@
         :value="i.attrId"
       />
     </el-select>
-    <el-select v-if="item.type === '事件'" v-model="item.incident" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">
-      <el-option
-        v-for="(i, index) in incidentList"
-        :key="index"
-        :label="i.label"
-        :value="i.value"
-      />
-    </el-select>
+<!--    <el-select v-if="item.type === '事件'" v-model="item.incident" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">-->
+<!--      <el-option-->
+<!--        v-for="(i, index) in incidentList"-->
+<!--        :key="index"-->
+<!--        :label="i.label"-->
+<!--        :value="i.value"-->
+<!--      />-->
+<!--    </el-select>-->
     <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-mt-5 zeus-mb-5">
       <span class="zeus-mr-5">在</span>
       <el-select v-model="item.timeType" size="mini" class="select3 zeus-mr-5">
