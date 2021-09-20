@@ -55,7 +55,7 @@
       <span class="zeus-mr-5">内</span>
     </div>
     <div class="zeus-mt-5">
-      <el-select v-model="item.function" size="mini" class="select1 zeus-mr-5">
+      <el-select v-model="item.function" size="mini" class="select1 zeus-mr-5" @change="functionChange">
         <el-option label="最新值" value="last" />
         <el-option label="平均值" value="avg" :disabled="attrValueType != '3' && attrValueType != '0'" />
         <el-option label="最大值" value="max" :disabled="attrValueType != '3' && attrValueType != '0'" />
@@ -154,6 +154,11 @@ export default {
     }
   },
   methods: {
+    functionChange(val) {
+      if (val === 'last' || val === 'change') {
+        this.item.scope = ''
+      }
+    },
     deviceChange(val) {
       this.item.attr = ''
       this.item.incident = ''
