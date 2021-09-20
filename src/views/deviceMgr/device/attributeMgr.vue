@@ -134,7 +134,7 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 160,
+          width: 180,
           idName: 'attrId',
           fixed: 'right',
           buttons: [

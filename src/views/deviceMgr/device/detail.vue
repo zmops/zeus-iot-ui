@@ -7,7 +7,7 @@
         <attribute v-else-if="activity === '属性'" />
         <record v-else-if="activity === '日志'" />
         <attributeMgr v-else-if="activity === '属性管理'" />
-        <incident v-else-if="activity ==='事件管理'" />
+        <incident v-else-if="activity ==='事件管理'" is-dev />
         <serve v-else-if="activity === '服务管理'" is-dev />
         <offLineRule v-else-if="activity === '上下线规则'" is-dev />
         <alarm v-else-if="activity === '告警规则'" is-dev />

@@ -1,15 +1,12 @@
-<!-- 设备详情-变量页面 -->
+<!-- 详情-变量页面 -->
 <template>
-  <div class="variable zeus-relative">
-    <div v-for="(item, index) in viewList" :key="index" class="variable-item zeus-inline-block">
-      <span class="variable-item-l zeus-inline-block">{{ item.remark }}</span>
-      <span class="variable-item-c zeus-inline-block">{{ item.tag }}</span>
-      <span class="variable-item-r zeus-inline-block">{{ item.value }}</span>
-    </div>
-    <el-button size="mini" round class="zeus-right zeus-absolute edit" @click="edit">
-      <svg-icon icon-class="dialog_edit" style="margin-right: 5px"/>
-      编辑
-    </el-button>
+  <div class="variable">
+    <SearchForm :buttons="buttons" :columns="columns"/>
+    <BusinessTable
+      :table-data="tableData"
+      :columns="columns"
+      :loading="loading"
+    />
     <el-dialog
       v-dialogDrag
       :visible.sync="dialogVisible"
@@ -17,23 +14,36 @@
       :close-on-press-escape="false"
       :width="'700px'"
       :show-close="false"
+      @closed="close"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
-          <svg-icon icon-class="dialog_edit" />
-          编辑变量
+          <svg-icon icon-class="dialog_edit"/>
+          {{ state }}变量
         </div>
         <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+          <svg-icon icon-class="dialog_close" class="closeicon"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
         </div>
       </div>
       <div class="tips">
-        <i class="el-icon-info" />
+        <i class="el-icon-info"/>
         <span>可设置自定义变量，适用于同一产品不同设备下，键相同而值可能不同的情况，以方便取用。</span>
       </div>
       <div class="dialog-body">
-        <VariableTemplate :variable-list="variableList" @change="change" />
+        <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="form">
+          <el-form-item label="键" prop="key">
+            <span class="zeus-bold">{$ </span>
+            <el-input v-model="dialogForm.key" size="mini" class="macro" />
+            <span class="zeus-bold"> }</span>
+          </el-form-item>
+          <el-form-item label="值" prop="value">
+            <el-input v-model="dialogForm.value" size="mini"/>
+          </el-form-item>
+          <el-form-item label="描述" prop="description">
+            <el-input v-model="dialogForm.description" type="textarea" rows="2" size="mini"/>
+          </el-form-item>
+        </el-form>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -44,36 +54,179 @@
 </template>
 
 <script>
-import VariableTemplate from '@/components/Detail/Variable'
+import BusinessTable from '@/components/Basics/BusinessTable'
+import SearchForm from '@/components/Basics/SearchForm'
+import { deleteMacro, getMacroByPage, createMacro, updateMacro } from '@/api/deviceMgr'
+
 export default {
   name: 'Variable',
+  provide() {
+    return {
+      farther: this
+    }
+  },
   components: {
-    VariableTemplate
+    BusinessTable,
+    SearchForm
   },
   props: {
     isDev: Boolean
   },
   data() {
     return {
-      viewList: [],
-      variableList: [],
+      rules: {
+        key: [
+          { required: true, message: '请输入键', trigger: 'blur' },
+          { pattern: /^[0-9A-Z_]{1,}$/, message: '只能输入大写字母或数字或_' }
+        ],
+        value: [
+          { required: true, message: '请输入值', trigger: 'blur' }
+        ]
+      },
+      dialogForm: {
+        description: '',
+        value: '',
+        key: ''
+      },
+      tableData: [],
+      loading: false,
+      buttons: [
+        {
+          type: 'primary',
+          label: '创建',
+          event: 'add'
+        }
+      ],
+      columns: [
+        {
+          label: '变量名称',
+          prop: 'macro',
+          show: true
+        },
+        {
+          label: '值',
+          prop: 'value',
+          show: true
+        },
+        {
+          label: '描述',
+          prop: 'description',
+          show: true
+        },
+        {
+          label: '',
+          prop: 'buttons',
+          show: true,
+          width: 180,
+          idName: 'hostmacroid',
+          fixed: 'right',
+          buttons: [
+            {
+              label: '编辑',
+              event: 'detail',
+              icon: 'list-edit'
+            },
+            {
+              label: '删除',
+              event: 'delete',
+              icon: 'list-del'
+            }
+          ]
+        }
+      ],
+      state: '',
       dialogVisible: false
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
-    edit() {
+    getList() {
+      this.loading = true
+      getMacroByPage({
+        deviceId: this.$route.query.id
+      }).then((res) => {
+        this.loading = false
+        if (res.code == 200) {
+          this.tableData = res.data
+        }
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+    delete(hostmacroid) {
+      this.$confirm('是否确认删除该数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteMacro({ hostmacroid }).then(async(res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            // 删除后重新请求数据
+            await this.getList()
+          }
+        })
+      })
+    },
+    add() {
+      this.state = '创建'
       this.dialogVisible = true
-      this.variableList = JSON.parse(JSON.stringify(this.viewList))
+    },
+    detail(id) {
+      const i = this.tableData.find((item) => {
+        return item.hostmacroid === id
+      })
+      const data = JSON.parse(JSON.stringify(i))
+      let macro = data.macro.substring(2)
+      macro = macro.substring(0, macro.length - 1)
+      data.key = macro
+      this.dialogForm = data
+      this.state = '编辑'
+      this.dialogVisible = true
     },
     handleSubmit() {
-
+      this.$refs.dialogForm.validate((valid) => {
+        if (valid) {
+          this.dialogForm.deviceId = this.$route.query.id
+          this.dialogForm.macro = '{$' + this.dialogForm.key + '}'
+          if (this.state === '编辑') {
+            updateMacro(this.dialogForm).then((res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.dialogVisible = false
+                this.getList()
+              }
+            })
+          } else {
+            createMacro(this.dialogForm).then((res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.dialogVisible = false
+                this.getList()
+              }
+            })
+          }
+        }
+      })
     },
-    change(list) {
-      this.variableList = list
-    },
+    close() {
+      this.dialogForm = {
+        description: '',
+        value: '',
+        key: ''
+      }
+    }
   }
 }
 </script>
@@ -85,43 +238,6 @@ export default {
   background-color: #fff;
   padding: 17px 16px 4px 16px;
   box-shadow: 6px 8px 16px #E2EAF2;
-
-  .variable-item{
-    font-size: 12px;
-    background-color: #E3E9EF;
-    border-radius: 2px;
-    margin-right: 40px;
-    margin-bottom: 12px;
-
-    .variable-item-l{
-      background-color: #B6C2CD;
-      padding: 4px 6px;
-      margin-right: 2px;
-      border-radius: 2px;
-    }
-
-    .variable-item-c{
-      background-color: #3C435B;
-      color: #fff;
-      padding: 4px 8px;
-      margin-left: 2px;
-      border-radius: 2px;
-    }
-
-    .variable-item-r{
-      padding: 6px;
-      color: #242E42;
-    }
-  }
-
-  .edit{
-    right:18px ;
-    top: 30px;
-    transform: translateY(-50%);
-    padding: 5px 9px;
-    border: 1px solid #EFF4F9;
-    background: #EFF4F9;
-  }
 
   .tips{
     width: 100%;
@@ -135,6 +251,13 @@ export default {
     i{
       color: #50A1FB;
       margin-right: 6px;
+    }
+  }
+
+  .form{
+    width: 600px;
+    .macro{
+      width: 572px;
     }
   }
 }

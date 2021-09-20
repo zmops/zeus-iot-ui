@@ -75,6 +75,7 @@ export default {
       })
     },
     deviceChange(val) {
+      this.item.serviceId = ''
       // 获取服务列表
       this.getService(val)
     },

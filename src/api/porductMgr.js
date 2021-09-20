@@ -245,7 +245,7 @@ export function getServiceData(params) {
 // 告警规则详情
 export function detailEvent(params) {
   return request({
-    url: '/product/event/detail',
+    url: '/product/event/trigger/detail',
     method: 'get',
     params
   })

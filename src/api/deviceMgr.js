@@ -219,7 +219,7 @@ export function deleteDevValuemap(data) {
 // 上下线规则创建
 export function createTrigger(data) {
   return request({
-    url: '/product/trigger/status/create',
+    url: '/product/status/trigger/create',
     method: 'post',
     data
   })
@@ -228,7 +228,7 @@ export function createTrigger(data) {
 // 上下线规则修改
 export function updateTrigger(data) {
   return request({
-    url: '/product/trigger/status/update',
+    url: '/product/status/trigger/update',
     method: 'post',
     data
   })
@@ -237,7 +237,7 @@ export function updateTrigger(data) {
 // 上下线规则详情
 export function getTrigger(params) {
   return request({
-    url: '/product/trigger/status/detail',
+    url: '/product/status/trigger/detail',
     method: 'get',
     params
   })
@@ -246,7 +246,7 @@ export function getTrigger(params) {
 // 告警规则创建
 export function createAlarm(data) {
   return request({
-    url: '/product/event/create',
+    url: '/product/event/trigger/create',
     method: 'post',
     data
   })
@@ -255,7 +255,7 @@ export function createAlarm(data) {
 // 告警规则列表
 export function getEventByPage(data) {
   return request({
-    url: '/product/event/getEventByPage',
+    url: '/product/event/trigger/getEventByPage',
     method: 'post',
     data
   })
@@ -264,7 +264,7 @@ export function getEventByPage(data) {
 // 告警规则修改-设备
 export function updateEventDev(data) {
   return request({
-    url: '/device/event/update',
+    url: '/device/event/trigger/update',
     method: 'post',
     data
   })
@@ -273,7 +273,7 @@ export function updateEventDev(data) {
 // 告警规则修改-产品
 export function updateEvent(data) {
   return request({
-    url: '/product/event/update',
+    url: '/product/event/trigger/update',
     method: 'post',
     data
   })
@@ -282,7 +282,7 @@ export function updateEvent(data) {
 // 告警规则删除
 export function deleteEvent(data) {
   return request({
-    url: '/product/event/delete',
+    url: '/product/event/trigger/delete',
     method: 'post',
     data
   })
@@ -290,8 +290,80 @@ export function deleteEvent(data) {
 // 告警规则详情
 export function detailEventDev(params) {
   return request({
-    url: '/device/event/detail',
+    url: '/device/event/trigger/detail',
     method: 'get',
     params
+  })
+}
+
+// 事件管理列表
+export function getAttrEventByPage(data) {
+  return request({
+    url: '/product/attribute/event/getAttrEventByPage',
+    method: 'post',
+    data
+  })
+}
+
+// 事件管理修改
+export function updateAttrEvent(data) {
+  return request({
+    url: '/product/attribute/event/update',
+    method: 'post',
+    data
+  })
+}
+
+// 事件管理删除
+export function deleteAttrEvent(data) {
+  return request({
+    url: '/product/attribute/event/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 事件管理创建
+export function createAttrEvent(data) {
+  return request({
+    url: '/product/attribute/event/create',
+    method: 'post',
+    data
+  })
+}
+
+// 变量管理列表
+export function getMacroByPage(data) {
+  return request({
+    url: '/macro/list',
+    method: 'post',
+    data
+  })
+}
+
+// 变量管理修改
+export function updateMacro(data) {
+  return request({
+    url: '/macro/update',
+    method: 'post',
+    data
+  })
+}
+
+// 变量管理删除
+export function deleteMacro(data) {
+  return request({
+    url: '/macro/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 变量管理创建
+export function createMacro(data) {
+  return request({
+    url: '/macro/create',
+    method: 'post',
+    data
   })
 }

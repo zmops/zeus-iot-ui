@@ -264,7 +264,7 @@ export default {
             updateEventDev(this.dialogForm).then((res) => {
               if (res.code == 200) {
                 this.$message({
-                  message: '创建成功',
+                  message: '修改成功',
                   type: 'success'
                 })
                 this.dialogVisible = false
@@ -275,7 +275,7 @@ export default {
             updateEvent(this.dialogForm).then((res) => {
               if (res.code == 200) {
                 this.$message({
-                  message: '创建成功',
+                  message: '修改成功',
                   type: 'success'
                 })
                 this.dialogVisible = false

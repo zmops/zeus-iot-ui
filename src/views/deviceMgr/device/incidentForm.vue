@@ -41,8 +41,8 @@
         </el-option-group>
       </el-select>
     </el-form-item>
-    <el-form-item label="事件级别" prop="valueType">
-      <el-select v-model="formData.eventType" size="mini" placeholder="请选择事件级别" :disabled="disabled">
+    <el-form-item label="事件级别" prop="eventLevel">
+      <el-select v-model="formData.eventLevel" size="mini" placeholder="请选择事件级别" :disabled="disabled">
         <el-option
           v-for="item in levelList"
           :key="item.code"
@@ -78,7 +78,8 @@
 
 <script>
 import { getDictListByCode, groupDictByCode } from '@/api/system'
-import { getAttrTrapperByPage } from '@/api/deviceMgr'
+import { getAttrTrapperByPage, getDevValueMapList } from '@/api/deviceMgr'
+import { getValueMapList } from '@/api/porductMgr'
 import Pretreatment from '@/components/Detail/Pretreatment'
 import Tag from '@/components/Detail/Tag'
 
@@ -94,7 +95,8 @@ export default {
       default() {
         return {}
       }
-    }
+    },
+    isDev: Boolean
   },
   data() {
     const checkData = (rule, value, callback) => {
@@ -117,11 +119,8 @@ export default {
           { required: true, message: '请输入标识符', trigger: 'blur' },
           { validator: checkData, trigger: 'blur' }
         ],
-        source: [
-          { required: true, message: '请选择来源类型', trigger: 'change' }
-        ],
-        depAttrId: [
-          { required: true, message: '请选择来源属性', trigger: 'change' }
+        eventLevel: [
+          { required: true, message: '请选择事件级别', trigger: 'change' }
         ],
         valueType: [
           { required: true, message: '请选择数据类型', trigger: 'change' }
@@ -134,21 +133,17 @@ export default {
       mapList: [],
       prodId: null,
       levelList: [
-        { label: '提示', value: '提示' },
-        { label: '低级', value: '低级' },
-        { label: '中级', value: '中级' },
-        { label: '高级', value: '高级' },
-        { label: '紧急', value: '紧急' }
-      ],
+        { label: '信息', value: '1' },
+        { label: '低级', value: '2' },
+        { label: '中级', value: '3' },
+        { label: '高级', value: '4' },
+        { label: '紧急', value: '5' }
+      ]
     }
   },
   computed: {
     disabled() {
-      if (this.formData.attrId && this.formData.templateId !== '') {
-        return true
-      } else {
-        return false
-      }
+      return this.formData.attrId && this.formData.templateId !== ''
     }
   },
   watch: {
@@ -188,11 +183,26 @@ export default {
           this.attrList = res.data
         }
       })
-      // getValueMapList({ deviceId: this.prodId }).then(res => {
-      //   if (res.code == 200) {
-      //     this.mapList = res.data
-      //   }
-      // })
+      if (this.isDev) {
+        getDevValueMapList({ deviceId: this.prodId }).then(res => {
+          if (res.code == 200) {
+            this.mapList = res.data
+          }
+        })
+      } else {
+        getValueMapList({ productId: this.prodId }).then(res => {
+          if (res.code == 200) {
+            this.mapList = res.data
+          }
+        })
+      }
+    },
+    validateForm() {
+      let flag = false
+      this.$refs.dialogForm.validate((valid) => {
+        flag = valid
+      })
+      return flag
     },
     groupFormat(data) {
       const list = []

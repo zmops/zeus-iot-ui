@@ -33,22 +33,30 @@ export default {
   },
   data() {
     return {
-      list: this.value
+      list: []
     }
   },
   watch: {
-    list: {
+    value: {
       deep: true,
+      immediate: true,
       handler(val) {
-        this.$emit('input', val)
+        this.list = val
       }
     }
+    // list: {
+    //   deep: true,
+    //   handler(val) {
+    //     this.$emit('input', val)
+    //   }
+    // }
   },
   methods: {
     del(i) {
       this.list.splice(i, 1)
     },
     verification() {
+      this.$emit('input', this.list)
       for (const item of this.list) {
         if (item.tag === '' || item.value === '') {
           this.$message({
