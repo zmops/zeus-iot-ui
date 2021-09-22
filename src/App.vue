@@ -56,13 +56,9 @@ export default {
     }
   },
   async created() {
-    // console.log('name::::::' + location.pathname)
-    // console.log('path::::::' + this.$route.path)
-    if (location.pathname !== '/login' && this.$route.path !== '/') {
-      this.$store.dispatch('user/getMember').then(() => {
-      })
-    }
-    if (location.pathname === '/' && this.$route.path === '/') {
+    // console.log(location)
+    // console.log(this.$route)
+    if (location.href.indexOf('/#/login') === -1) {
       this.$store.dispatch('user/getMember').then(() => {
       })
     }

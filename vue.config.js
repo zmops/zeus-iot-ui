@@ -39,17 +39,17 @@ module.exports = {
     watchOptions: {
       ignored: ['/public/']
     },
-    // proxy: {
-    //   // change xxx-api/login => mock/login
-    //   [process.env.VUE_APP_BASE_API]: {
-    //     target: `http://${process.env.VUE_APP_API_HOST}:${process.env.VUE_APP_API_PORT}/`,
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       ['^' + process.env.VUE_APP_BASE_API]: ''
-    //     }
-    //   }
-    // }
-    before: require('./mock/mock-server.js')
+    proxy: {
+      // change xxx-api/login => mock/login
+      [process.env.VUE_APP_BASE_API]: {
+        target: `http://${process.env.VUE_APP_API_HOST}:${process.env.VUE_APP_API_PORT}/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      }
+    }
+    // before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
