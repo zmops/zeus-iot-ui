@@ -16,7 +16,7 @@
       :close-on-press-escape="false"
       :show-close="false"
       :width="'700px'"
-      @close="dialogForm = {}"
+      @close="dialogForm = { eventLevel: '1'}"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">{{ state }}事件</div>
@@ -43,11 +43,10 @@ import Pagination from '@/components/Basics/Pagination'
 import incidentForm from '@/views/deviceMgr/device/incidentForm'
 import {
   createAttrEvent,
-  getDeviceByPage,
+  detailAttrEvent,
   updateAttrEvent,
   getAttrEventByPage,
   deleteAttrEvent,
-  deleteEvent
 } from '@/api/deviceMgr'
 
 export default {
@@ -185,12 +184,13 @@ export default {
       })
     },
     detail(attrId) {
-      const i = this.tableData.find((item) => {
-        return item.attrId === attrId
+      detailAttrEvent({attrId}).then((res) => {
+        if (res.code == 200) {
+          this.dialogForm = res.data
+          this.state = '编辑'
+          this.dialogVisible = true
+        }
       })
-      this.dialogForm = JSON.parse(JSON.stringify(i))
-      this.state = '编辑'
-      this.dialogVisible = true
     },
     delete(attrId) {
       this.$confirm('是否确认删除该数据?', '提示', {
@@ -198,7 +198,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteAttrEvent({ attrId }).then(async(res) => {
+        deleteAttrEvent({ attrIds: [attrId] }).then(async(res) => {
           if (res.code == 200) {
             this.$message({
               message: '删除成功',

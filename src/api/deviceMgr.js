@@ -332,6 +332,15 @@ export function createAttrEvent(data) {
   })
 }
 
+// 事件管理详情
+export function detailAttrEvent(params) {
+  return request({
+    url: '/product/attribute/event/detail',
+    method: 'get',
+    params
+  })
+}
+
 // 变量管理列表
 export function getMacroByPage(data) {
   return request({
