@@ -53,6 +53,7 @@
         <template v-if="item.prop === 'buttons'">
           <OperationButtons
             :data-id="scope.row[item.idName]"
+            :status="scope.row['status']"
             :index="scope.$index"
             :buttons="item.buttons"
           />
@@ -63,21 +64,24 @@
           </span>
         </template>
         <template v-else-if="item.status">
-<!--          <span :class="{weight: item.bold}">-->
-<!--            {{ item.pro[scope.row[ item.prop ]] }}-->
-<!--          </span>-->
-          <el-switch
-            v-model="scope.row[item.prop]"
-            class="zeus-mr-15"
-            active-value="ENABLE"
-            inactive-value="DISABLE"
-            active-color="#55BC8A"
-            inactive-color="#AB2F29"
-            @change="switchChange(scope.row)"
-          >
-          </el-switch>
-          <span v-if="scope.row[item.prop] === 'ENABLE'">启用中</span>
-          <span v-if="scope.row[item.prop] === 'DISABLE'">已禁用</span>
+          <span v-if="scope.row[item.prop] === 'ENABLE'" class="enable">
+            已启用
+          </span>
+          <span v-if="scope.row[item.prop] === 'DISABLE'" class="disable">
+            已禁用
+          </span>
+<!--          <el-switch-->
+<!--            v-model="scope.row[item.prop]"-->
+<!--            class="zeus-mr-15"-->
+<!--            active-value="ENABLE"-->
+<!--            inactive-value="DISABLE"-->
+<!--            active-color="#55BC8A"-->
+<!--            inactive-color="#AB2F29"-->
+<!--            @change="switchChange(scope.row)"-->
+<!--          >-->
+<!--          </el-switch>-->
+<!--          <span v-if="scope.row[item.prop] === 'ENABLE'">启用中</span>-->
+<!--          <span v-if="scope.row[item.prop] === 'DISABLE'">已禁用</span>-->
         </template>
         <template v-else-if="item.label === '来自产品'">
           <span>
@@ -228,6 +232,14 @@ export default {
   }
   .weight{
     font-weight: bold;
+  }
+
+  .disable{
+    color: #D12020;
+  }
+
+  .enable{
+    color: #55BC8A;
   }
 }
 ::v-deep.el-table{

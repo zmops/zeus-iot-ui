@@ -250,3 +250,30 @@ export function detailEvent(params) {
     params
   })
 }
+
+// 告警规则创建
+export function createAlarm(data) {
+  return request({
+    url: '/product/event/trigger/create',
+    method: 'post',
+    data
+  })
+}
+
+// 告警规则删除
+export function deleteEvent(data) {
+  return request({
+    url: '/product/event/trigger/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 告警规则修改状态
+export function modifyStatusEvent(data) {
+  return request({
+    url: '/product/event/trigger/status',
+    method: 'post',
+    data
+  })
+}

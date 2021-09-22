@@ -2,7 +2,7 @@
 <template>
   <div class="setting-buttons">
     <el-button
-      v-for="(item, but_index) in buttons"
+      v-for="(item, but_index) in buttonList"
       :key="but_index"
       slot="reference"
       type="text"
@@ -45,6 +45,26 @@ export default {
       default() {
         return null
       }
+    },
+    status: {
+      type: String,
+      default() {
+        return 'ENABLE'
+      }
+    }
+  },
+  computed: {
+    buttonList() {
+      const arr = []
+      this.buttons.forEach((item) => {
+        if (this.status === 'ENABLE' && item.label !== '启用') {
+          arr.push(item)
+        }
+        if (this.status === 'DISABLE' && item.label !== '禁用') {
+          arr.push(item)
+        }
+      })
+      return arr
     }
   },
   created() {

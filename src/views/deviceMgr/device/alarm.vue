@@ -44,8 +44,8 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import alarmForm from '@/views/deviceMgr/device/alarmForm'
-import { createAlarm, getEventByPage, updateEvent, updateEventDev, deleteEvent ,detailEventDev } from '@/api/deviceMgr'
-import { detailEvent } from '@/api/porductMgr'
+import { getEventByPage, updateEvent, updateEventDev, deleteDevEvent, detailEventDev, createDevAlarm, modifyStatusEventDev} from '@/api/deviceMgr'
+import { detailEvent, createAlarm, deleteEvent, modifyStatusEvent} from '@/api/porductMgr'
 
 export default {
   name: 'Alarm',
@@ -90,12 +90,12 @@ export default {
         expList: [
           {
             deviceId: '',
-            attr: '',
+            productAttrId: '',
             incident: '',
             condition: '=',
-            type: '属性',
+            productAttrType: '属性',
             function: 'last',
-            timeType: '时间',
+            period: '时间',
             unit: 'm'
           }
         ],
@@ -141,7 +141,7 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 180,
+          width: 270,
           idName: 'eventRuleId',
           fixed: 'right',
           buttons: [
@@ -154,6 +154,16 @@ export default {
               label: '删除',
               event: 'delete',
               icon: 'list-del'
+            },
+            {
+              label: '启用',
+              event: 'enable',
+              icon: 'list-enable'
+            },
+            {
+              label: '禁用',
+              event: 'disable',
+              icon: 'list-disable'
             }
           ]
         }
@@ -216,16 +226,45 @@ export default {
         expList: [
           {
             deviceId: '',
-            attr: '',
+            productAttrId: '',
             incident: '',
             condition: '=',
-            type: '属性',
+            productAttrType: '属性',
             function: 'last',
-            timeType: '时间',
+            period: '时间',
             unit: 'm'
           }
         ],
         deviceServices: []
+      }
+    },
+    disable(id) {
+      this.modifyStatus(id, 'DISABLE')
+    },
+    enable(id) {
+      this.modifyStatus(id, 'ENABLE')
+    },
+    modifyStatus(eventRuleId, status) {
+      if (this.isDev) {
+        modifyStatusEventDev({ eventRuleId, status, deviceId: this.$route.query.id }).then((res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+            this.getList()
+          }
+        })
+      } else {
+        modifyStatusEvent({ eventRuleId, status }).then((res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+            this.getList()
+          }
+        })
       }
     },
     delete(eventRuleId) {
@@ -234,31 +273,58 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteEvent({ eventRuleId }).then(async(res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            // 删除后重新请求数据
-            await this.getList()
-          }
-        })
+        if (this.isDev) {
+          deleteDevEvent({ eventRuleId, deviceId: this.$route.query.id }).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
+              // 删除后重新请求数据
+              await this.getList()
+            }
+          })
+        } else {
+          deleteEvent({ eventRuleId }).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
+              // 删除后重新请求数据
+              await this.getList()
+            }
+          })
+        }
       })
     },
     submit() {
       if (this.$refs.alarmForm.validateForm()) {
         if (this.state === '创建') {
-          createAlarm(this.dialogForm).then((res) => {
-            if (res.code == 200) {
-              this.$message({
-                message: '创建成功',
-                type: 'success'
-              })
-              this.dialogVisible = false
-              this.getList()
-            }
-          })
+          if (this.isDev) {
+            createDevAlarm(this.dialogForm).then((res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.dialogVisible = false
+                this.getList()
+              }
+            })
+          } else {
+            this.dialogForm.productId = this.$route.query.id
+            createAlarm(this.dialogForm).then((res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.dialogVisible = false
+                this.getList()
+              }
+            })
+          }
         } else {
           if (this.isDev) {
             updateEventDev(this.dialogForm).then((res) => {

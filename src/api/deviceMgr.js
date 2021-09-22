@@ -244,9 +244,9 @@ export function getTrigger(params) {
 }
 
 // 告警规则创建
-export function createAlarm(data) {
+export function createDevAlarm(data) {
   return request({
-    url: '/product/event/trigger/create',
+    url: '/device/event/trigger/create',
     method: 'post',
     data
   })
@@ -280,19 +280,29 @@ export function updateEvent(data) {
 }
 
 // 告警规则删除
-export function deleteEvent(data) {
+export function deleteDevEvent(data) {
   return request({
-    url: '/product/event/trigger/delete',
+    url: '/device/event/trigger/delete',
     method: 'post',
     data
   })
 }
+
 // 告警规则详情
 export function detailEventDev(params) {
   return request({
     url: '/device/event/trigger/detail',
     method: 'get',
     params
+  })
+}
+
+// 告警规则修改状态
+export function modifyStatusEventDev(data) {
+  return request({
+    url: '/device/event/trigger/status',
+    method: 'post',
+    data
   })
 }
 

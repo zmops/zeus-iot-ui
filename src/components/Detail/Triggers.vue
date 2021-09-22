@@ -9,11 +9,11 @@
         :value="i.deviceId"
       />
     </el-select>
-<!--    <el-select v-model="item.type" size="mini" class="select3 zeus-mr-5">-->
-<!--      <el-option label="属性" value="属性"/>-->
-<!--      <el-option label="事件" value="事件"/>-->
-<!--    </el-select>-->
-    <el-select v-model="item.attr" placeholder="请选择属性" size="mini" class="select2 zeus-mr-5" @change="attrChange">
+    <el-select v-model="item.productAttrType" size="mini" class="select3 zeus-mr-5">
+      <el-option label="属性" value="属性" />
+      <el-option label="事件" value="事件" />
+    </el-select>
+    <el-select v-if="item.productAttrType === '属性'" v-model="item.productAttrId" placeholder="请选择属性" size="mini" class="select2 zeus-mr-5" @change="attrChange">
       <el-option
         v-for="(i, index) in deviceAttribute"
         :key="index"
@@ -21,22 +21,22 @@
         :value="i.attrId"
       />
     </el-select>
-<!--    <el-select v-if="item.type === '事件'" v-model="item.incident" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">-->
-<!--      <el-option-->
-<!--        v-for="(i, index) in incidentList"-->
-<!--        :key="index"-->
-<!--        :label="i.label"-->
-<!--        :value="i.value"-->
-<!--      />-->
-<!--    </el-select>-->
+    <el-select v-if="item.productAttrType === '事件'" v-model="item.incident" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">
+      <el-option
+        v-for="(i, index) in incidentList"
+        :key="index"
+        :label="i.label"
+        :value="i.value"
+      />
+    </el-select>
     <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-mt-5 zeus-mb-5">
       <span class="zeus-mr-5">在</span>
-      <el-select v-model="item.timeType" size="mini" class="select3 zeus-mr-5">
+      <el-select v-model="item.period" size="mini" class="select3 zeus-mr-5">
         <el-option label="时间" value="时间"/>
         <el-option label="周期" value="周期"/>
       </el-select>
       <el-input v-model="item.scope" size="mini" class="input zeus-mr-5"/>
-      <el-select v-if="item.timeType === '时间' " v-model="item.unit" size="mini" class="select3 zeus-mr-5">
+      <el-select v-if="item.period === '时间' " v-model="item.unit" size="mini" class="select3 zeus-mr-5">
         <el-option label="秒" value="s"/>
         <el-option label="分钟" value="m"/>
         <el-option label="小时" value="h"/>
@@ -86,7 +86,8 @@
 </template>
 
 <script>
-import {getAttrTrapperList} from '@/api/deviceMgr'
+import { getAttrTrapperList } from '@/api/deviceMgr'
+import { getProductAttrTrapperList } from '@/api/porductMgr'
 
 export default {
   name: 'Triggers',
@@ -95,12 +96,12 @@ export default {
       type: Object,
       default() {
         return {
-          deviceId: '',
-          attr: '',
-          incident: '',
-          condition: '=',
-          type: '属性',
-          function: 'last',
+          // deviceId: '',
+          // productAttrId: '',
+          // incident: '',
+          // condition: '=',
+          // productAttrType: '属性',
+          // function: 'last',
         }
       }
     },
@@ -149,8 +150,17 @@ export default {
   created() {
     if (this.$route.query.id) {
       this.id = '' + this.$route.query.id
-      this.item.deviceId = this.id
-      this.getDevAttrList(this.id)
+      if (this.isDev) {
+        this.item.deviceId = this.id
+        this.getDevAttrList(this.id)
+      } else {
+        this.item.productId = this.id
+        getProductAttrTrapperList({ prodId: this.id }).then((res) => {
+          if (res.code == '200') {
+            this.deviceAttribute = res.data
+          }
+        })
+      }
     }
   },
   methods: {
@@ -160,12 +170,12 @@ export default {
       }
     },
     deviceChange(val) {
-      this.item.attr = ''
+      this.item.productAttrId = ''
       this.item.incident = ''
       this.item.condition = '='
-      this.item.type = '属性'
+      this.item.productAttrType = '属性'
       this.item.function = 'last'
-      this.item.timeType = '时间'
+      this.item.period = '时间'
       this.item.unit = 'm'
       // 获取事件列表
 
@@ -175,9 +185,9 @@ export default {
     attrChange(val) {
       this.item.incident = ''
       this.item.condition = '='
-      this.item.type = '属性'
+      this.item.productAttrType = '属性'
       this.item.function = 'last'
-      this.item.timeType = '时间'
+      this.item.period = '时间'
       this.item.unit = 'm'
       const attr = this.deviceAttribute.find((i) => {
         return i.attrId === val

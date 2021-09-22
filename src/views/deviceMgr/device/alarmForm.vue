@@ -88,25 +88,25 @@ export default {
       type: Object,
       default() {
         return {
-          eventRuleName: '',
-          eventLevel: '3',
-          eventNotify: '1',
-          status: 'ENABLE',
-          remark: '',
-          expLogic: 'or',
-          expList: [
-            {
-              deviceId: '',
-              attr: '',
-              incident: '',
-              condition: '=',
-              type: '属性',
-              function: 'last',
-              timeType: '时间',
-              unit: 'm'
-            }
-          ],
-          deviceServices: []
+          // eventRuleName: '',
+          // eventLevel: '3',
+          // eventNotify: '1',
+          // status: 'ENABLE',
+          // remark: '',
+          // expLogic: 'or',
+          // expList: [
+          //   {
+          //     deviceId: '',
+          //     productAttrId: '',
+          //     incident: '',
+          //     condition: '=',
+          //     productAttrType: '属性',
+          //     function: 'last',
+          //     timeType: '时间',
+          //     unit: 'm'
+          //   }
+          // ],
+          // deviceServices: []
         }
       }
     }
@@ -126,12 +126,12 @@ export default {
         callback(new Error('至少要有一个触发条件!'))
       }
       for (const item of value) {
-        if (item.attr === '') {
+        if (item.productAttrType === '属性' && item.productAttrId === '') {
           callback(new Error('请选择属性!'))
         }
-        // if (item.type === '事件' && item.incident === '') {
-        //   callback(new Error('请选择事件!'))
-        // }
+        if (item.productAttrType === '事件' && item.incident === '') {
+          callback(new Error('请选择事件!'))
+        }
         if (item.value === undefined || item.value === '') {
           callback(new Error('请完善触发条件!'))
         }
@@ -192,12 +192,12 @@ export default {
       this.formData.expList.push({
         guid: guid(),
         deviceId: '',
-        attr: '',
+        productAttrId: '',
         incident: '',
         condition: '=',
-        type: '属性',
+        productAttrType: '属性',
         function: 'last',
-        timeType: '时间',
+        period: '时间',
         unit: 'm'
       })
     },
