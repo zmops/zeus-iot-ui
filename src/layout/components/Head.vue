@@ -184,7 +184,7 @@ export default {
   border-bottom-width: 1px;
   border-image-source: radial-gradient(circle at 50% 3%, rgba(193, 201, 209, .53), hsla(0, 0%, 100%, .2));
   border-image-slice: 1;
-  box-shadow: 0px -1px 0px 0px #E1E7EB;
+  box-shadow: 0 0 10px 0 #E1E7EB;
   padding: 0 35px;
 
   .head-title {

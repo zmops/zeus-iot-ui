@@ -18,8 +18,8 @@ const alarmRouter = {
       name: '/alarm/alarmList',
       meta: {
         title: '告警记录',
-        icon24: 'device24',
-        icon48: 'device48'
+        icon24: 'alarmList24',
+        icon48: 'alarmList48'
       }
     }
   ]

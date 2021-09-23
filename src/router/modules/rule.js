@@ -18,8 +18,8 @@ const ruleRouter = {
       name: '/rule/scene',
       meta: {
         title: '场景联动',
-        icon24: 'device24',
-        icon48: 'device48'
+        icon24: 'scene24',
+        icon48: 'scene48'
       }
     }
   ]

@@ -386,3 +386,12 @@ export function createMacro(data) {
     data
   })
 }
+
+// 设备日志列表
+export function deviceLogList(params) {
+  return request({
+    url: '/device/log/list',
+    method: 'get',
+    params
+  })
+}

@@ -22,9 +22,11 @@
         <el-form-item v-for="(item, index) in params" :key="index" size="mini" class="zeus-mt-10">
           <component :is="item.componentName" v-bind="item" />
         </el-form-item>
+        <el-form-item size="mini" class="zeus-mt-10">
+          <el-button v-if="params && params.length" size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_refresh" /></el-button>
+        </el-form-item>
       </el-form>
       <div class="line-button-wrapper setting-buttons">
-        <el-button v-if="params && params.length" size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_refresh" /></el-button>
         <el-dropdown v-if="columns.length > 1" :placement="'bottom'" @command="columnsChange">
           <el-button size="mini" class="setting-button" round><svg-icon icon-class="list_edit" /></el-button>
           <el-dropdown-menu slot="dropdown">
@@ -171,6 +173,6 @@ export default {
   border: none !important;
 }
 .setting-buttons{
-  width: 140px;
+  width: 80px;
 }
 </style>

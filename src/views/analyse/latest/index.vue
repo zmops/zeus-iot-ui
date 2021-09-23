@@ -101,6 +101,11 @@ export default {
     }
   },
   watch: {
+    'form.attrIds': {
+      handler(val) {
+        this.getList()
+      }
+    },
     'form.deviceId': {
       immediate: true,
       handler(val) {
@@ -153,6 +158,7 @@ export default {
             }
           })
         }
+        this.getList()
       }
     }
   },
@@ -168,7 +174,6 @@ export default {
           this.deviceList = data
           if (data.length) {
             this.form.deviceId = data[0].deviceId
-            this.getList()
           }
         }
       })

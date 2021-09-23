@@ -36,14 +36,6 @@ const analyseRouter = {
       meta: {
         title: '设备日志'
       }
-    },
-    {
-      path: '/analyse/monitor',
-      component: () => import('@/views/401'),
-      name: '/analyse/monitor',
-      meta: {
-        title: '平台监控'
-      }
     }
   ]
 }

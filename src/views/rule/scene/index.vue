@@ -3,12 +3,13 @@
   <div class="scene">
     <ListHeadTemplate>
       <template v-slot:logo>
-        <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
+        <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px"/>
       </template>
       <template v-slot:title>场景联动</template>
       <template v-slot:subhead>对场景联动规则进行管理。可以实现跨设备的业务逻辑。当属性、事件满足设定规则时，自动实现联动功能。</template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search"/>
+    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0"
+                :columns="columns" @search="search"/>
     <BusinessTable
       :table-data="tableData"
       :columns="columns"
@@ -29,17 +30,17 @@
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
+          <svg-icon v-if="state === '创建'" icon-class="dialog_add"/>
+          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit"/>
           {{ state }}场景联动
         </div>
         <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+          <svg-icon icon-class="dialog_close" class="closeicon"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
         </div>
       </div>
       <div class="dialog-body">
-        <sceneForm v-model="dialogForm" />
+        <sceneForm ref="sceneForm" v-model="dialogForm"/>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -54,10 +55,18 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import sceneForm from '@/views/rule/scene/sceneForm'
-import {getAttrTrapperList, getDeviceList} from "@/api/deviceMgr";
+import {
+  createDevAlarm, deleteDevEvent, detailEventDev,
+  getAttrTrapperList,
+  getDeviceList,
+  getEventByPage, modifyStatusEventDev,
+  updateEvent,
+  updateEventDev
+} from '@/api/deviceMgr'
+import { createAlarm, deleteEvent, detailEvent, modifyStatusEvent } from '@/api/porductMgr'
 
 export default {
-  name: "scene",
+  name: 'scene',
   provide() {
     return {
       farther: this
@@ -76,22 +85,23 @@ export default {
       columns: [
         {
           label: '场景联动名称',
-          prop: 'name',
+          prop: 'eventRuleName',
           show: true
         },
         {
           label: '级别',
-          prop: 'mark',
+          prop: 'eventLevelName',
           show: true
         },
-        {
-          label: '相关属性',
-          prop: 'asyncName',
-          show: true
-        },
+        // {
+        //   label: '相关属性',
+        //   prop: 'asyncName',
+        //   show: true
+        // },
         {
           label: '启用状态',
-          prop: 'remark',
+          prop: 'status',
+          status: true,
           show: true
         },
         {
@@ -103,14 +113,29 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 160,
-          idName: 'id',
+          width: 270,
+          idName: 'eventRuleId',
           fixed: 'right',
           buttons: [
             {
               label: '编辑',
               event: 'detail',
               icon: 'list-edit'
+            },
+            {
+              label: '删除',
+              event: 'delete',
+              icon: 'list-del'
+            },
+            {
+              label: '启用',
+              event: 'enable',
+              icon: 'list-enable'
+            },
+            {
+              label: '禁用',
+              event: 'disable',
+              icon: 'list-disable'
             }
           ]
         }
@@ -121,7 +146,7 @@ export default {
       size: 10,
       page: 1,
       form: {
-        deviceId: null,
+        prodId: null,
         attrId: '',
         name: ''
       },
@@ -143,17 +168,37 @@ export default {
       ],
       dialogVisible: false,
       state: '',
-      dialogForm: {}
+      dialogForm: {
+        eventRuleName: '',
+        eventLevel: '3',
+        eventNotify: '1',
+        status: 'ENABLE',
+        remark: '',
+        expLogic: 'or',
+        expList: [
+          {
+            deviceId: '',
+            productAttrId: '',
+            incident: '',
+            condition: '=',
+            productAttrType: '属性',
+            function: 'last',
+            period: '时间',
+            unit: 'm'
+          }
+        ],
+        deviceServices: []
+      }
     }
   },
   watch: {
-    'form.deviceId': {
+    'form.prodId': {
       immediate: true,
       async handler(val) {
         this.form.attrId = ''
         let attrTemplate = []
         if (val !== '') {
-          await getAttrTrapperList({prodId: val}).then((res) => {
+          await getAttrTrapperList({ prodId: val }).then((res) => {
             if (res.code == 200) {
               attrTemplate = res.data
             }
@@ -162,7 +207,7 @@ export default {
         this.formParams = [
           {
             componentName: 'SelectTemplate',
-            keyName: 'deviceId',
+            keyName: 'prodId',
             label: '设备',
             optionId: 'deviceId',
             optionName: 'name',
@@ -178,22 +223,25 @@ export default {
           },
           {
             componentName: 'InputTemplate',
-            keyName: 'name',
+            keyName: 'eventRuleName',
             label: '场景联动名称'
           }
         ]
       }
     }
   },
-  created() {
-    this.searchInit()
+  async created() {
+    await this.searchInit()
+    await this.getList()
   },
   methods: {
-    searchInit() {
-      getDeviceList({}).then((res) => {
+    async searchInit() {
+      await getDeviceList({}).then((res) => {
         if (res.code == 200) {
           this.devList = res.data
-          this.form.deviceId = ''
+          if (res.data && res.data.length) {
+            this.form.prodId = res.data[0].deviceId
+          }
         }
       })
     },
@@ -206,30 +254,121 @@ export default {
       this.getList()
     },
     getList() {
-      // this.loading = true
-      // getServiceByPage({ ...this.form, maxRow: this.size, page: this.page, prodId: this.prodId }).then((res) => {
-      //   this.loading = false
-      //   if (res.code == 200) {
-      //     this.tableData = res.data
-      //     this.total = res.count
-      //   }
-      // }).catch(() => {
-      //   this.loading = false
-      // })
+      this.loading = true
+      getEventByPage({ ...this.form, maxRow: this.size, page: this.page, classify: '1' }).then((res) => {
+        this.loading = false
+        if (res.code == 200) {
+          this.tableData = res.data
+          this.total = res.count
+        }
+      }).catch(() => {
+        this.loading = false
+      })
     },
     handleSelect(selection) {
-      this.ids = selection.map((i) => { return i.id })
+      this.ids = selection.map((i) => {
+        return i.id
+      })
+    },
+    detail(eventRuleId) {
+      detailEventDev({ eventRuleId, deviceId: this.form.prodId }).then((res) => {
+        if (res.code == 200) {
+          this.dialogForm = res.data
+        }
+      })
+      this.state = '编辑'
+      this.dialogVisible = true
     },
     add() {
       this.state = '创建'
       this.dialogVisible = true
     },
+    disable(id) {
+      this.modifyStatus(id, 'DISABLE')
+    },
+    enable(id) {
+      this.modifyStatus(id, 'ENABLE')
+    },
+    modifyStatus(eventRuleId, status) {
+      modifyStatusEventDev({ eventRuleId, status, deviceId: this.form.prodId }).then((res) => {
+        if (res.code == 200) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+          this.getList()
+        }
+      })
+    },
+    delete(eventRuleId) {
+      this.$confirm('是否确认删除该数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteDevEvent({ eventRuleId, deviceId: this.form.prodId }).then(async(res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            // 删除后重新请求数据
+            await this.getList()
+          }
+        })
+      })
+    },
     submit() {
-
+      if (this.$refs.sceneForm.validateForm()) {
+        if (this.state === '创建') {
+          this.dialogForm.classify = '1'
+          createDevAlarm(this.dialogForm).then((res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '创建成功',
+                type: 'success'
+              })
+              this.dialogVisible = false
+              this.getList()
+            }
+          })
+        } else {
+          updateEventDev(this.dialogForm).then((res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+              this.dialogVisible = false
+              this.getList()
+            }
+          })
+        }
+      }
     },
     close() {
-
-    },
+      this.dialogForm = {
+        eventRuleName: '',
+        eventLevel: '3',
+        eventNotify: '1',
+        status: 'ENABLE',
+        remark: '',
+        expLogic: 'or',
+        expList: [
+          {
+            deviceId: '',
+            productAttrId: '',
+            incident: '',
+            condition: '=',
+            productAttrType: '属性',
+            function: 'last',
+            period: '时间',
+            unit: 'm'
+          }
+        ],
+        deviceServices: []
+      }
+    }
   }
 }
 </script>

@@ -16,7 +16,7 @@
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import { getServiceByPage } from '@/api/porductMgr'
+import { deviceLogList } from '@/api/deviceMgr'
 
 export default {
   name: 'Record',
@@ -35,19 +35,19 @@ export default {
       formParams: [
         {
           componentName: 'SelectTemplate',
-          keyName: 'name',
+          keyName: 'logType',
           label: '日志类型',
           options: ['事件日志', '服务日志', '告警日志']
         },
         {
           componentName: 'DateTimePickerTemplate',
-          keyName: 'mark',
+          keyName: 'time',
           label: '触发时间'
         }
       ],
       form: {
-        name: '',
-        mark: ''
+        logType: '',
+        time: []
       },
       tableData: [],
       loading: false,
@@ -57,48 +57,48 @@ export default {
       columns: [
         {
           label: '日志类型',
-          prop: 'name',
+          prop: 'logType',
           show: true
         },
         {
           label: '触发时间',
-          prop: 'mark',
+          prop: 'triggerTime',
           show: true
         },
         {
           label: '内容',
-          prop: 'asyncName',
+          prop: 'content',
           show: true
         },
         {
           label: '输入参数',
-          prop: 'remark',
+          prop: 'param',
           show: true
         },
         {
           label: '状态',
-          prop: 'remark',
+          prop: 'status',
           show: true
         },
-        {
-          label: '',
-          prop: 'buttons',
-          show: true,
-          width: 160,
-          idName: 'id',
-          fixed: 'right',
-          buttons: [
-            {
-              label: '解决',
-              event: 'solve'
-            }
-          ]
-        }
+        // {
+        //   label: '',
+        //   prop: 'buttons',
+        //   show: true,
+        //   width: 160,
+        //   idName: 'id',
+        //   fixed: 'right',
+        //   buttons: [
+        //     {
+        //       label: '解决',
+        //       event: 'solve'
+        //     }
+        //   ]
+        // }
       ]
     }
   },
   created() {
-
+    this.getList()
   },
   methods: {
     search() {
@@ -107,15 +107,19 @@ export default {
     },
     getList() {
       this.loading = true
-      // getServiceByPage({ ...this.form, maxRow: this.size, page: this.page, prodId: this.prodId }).then((res) => {
-      //   this.loading = false
-      //   if (res.code == 200) {
-      //     this.tableData = res.data
-      //     this.total = res.count
-      //   }
-      // }).catch(() => {
-      //   this.loading = false
-      // })
+      if (this.form.time && this.form.time.length) {
+        this.form.timeFrom = this.form.time[0]
+        this.form.timeTill = this.form.time[0]
+      }
+      deviceLogList({ ...this.form, maxRow: this.size, page: this.page, deviceId: this.$route.query.id }).then((res) => {
+        this.loading = false
+        if (res.code == 200) {
+          this.tableData = res.data
+          this.total = res.count
+        }
+      }).catch(() => {
+        this.loading = false
+      })
     },
     handleCurrentChange(val) {
       this.page = val

@@ -79,7 +79,8 @@ export default {
         },
         tooltip: {
           trigger: 'axis',
-          type: 'line'
+          type: 'line',
+          confine: true
         },
         grid: {
           left: '30',

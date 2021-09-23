@@ -24,7 +24,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import {getProductList, getServiceByPage} from '@/api/porductMgr'
-import {getDeviceList} from '@/api/deviceMgr'
+import {getDeviceList, deviceLogList} from '@/api/deviceMgr'
 import {getDictListByCode} from '@/api/system'
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 
@@ -43,25 +43,13 @@ export default {
   },
   data() {
     return {
-      formParams: [
-        {
-          componentName: 'SelectTemplate',
-          keyName: 'name',
-          label: '日志类型',
-          options: ['事件日志', '服务日志', '告警日志']
-        },
-        {
-          componentName: 'DateTimePickerTemplate',
-          keyName: 'mark',
-          label: '触发时间'
-        }
-      ],
+      formParams: [],
       form: {
         productId: null,
         deviceId: '',
-        name: '',
-        mark: '',
-        nr: '',
+        logType: '',
+        time: '',
+        content: '',
         bq: {
           key: '',
           value: ''
@@ -77,56 +65,63 @@ export default {
       columns: [
         {
           label: '日志类型',
-          prop: 'name',
+          prop: 'logType',
           show: true
         },
         {
           label: '触发时间',
-          prop: 'mark',
+          prop: 'triggerTime',
           show: true
         },
         {
           label: '内容',
-          prop: 'asyncName',
+          prop: 'content',
           show: true
         },
         {
           label: '输入参数',
-          prop: 'remark',
+          prop: 'param',
           show: true
         },
         {
           label: '状态',
-          prop: 'remark',
+          prop: 'status',
           show: true
         },
-        {
-          label: '',
-          prop: 'buttons',
-          show: true,
-          width: 160,
-          idName: 'id',
-          fixed: 'right',
-          buttons: [
-            {
-              label: '解决',
-              event: 'solve'
-            }
-          ]
-        }
+        // {
+        //   label: '',
+        //   prop: 'buttons',
+        //   show: true,
+        //   width: 160,
+        //   idName: 'id',
+        //   fixed: 'right',
+        //   buttons: [
+        //     {
+        //       label: '解决',
+        //       event: 'solve'
+        //     }
+        //   ]
+        // }
       ]
     }
   },
   watch: {
+    'form.deviceId': {
+      handler(val) {
+        this.getList()
+      }
+    },
     'form.productId': {
       immediate: true,
       async handler(val) {
-        this.form.deviceId = []
         let devTemplate = []
         if (val !== '') {
           await getDeviceList({productId: val}).then((res) => {
             if (res.code == 200) {
               devTemplate = res.data
+              if (res.data && res.data.length) {
+                this.form.deviceId = res.data[0].deviceId
+              }
             }
           })
         }
@@ -151,42 +146,45 @@ export default {
           },
           {
             componentName: 'SelectTemplate',
-            keyName: 'name',
+            keyName: 'logType',
             label: '日志类型',
             options: ['事件日志', '服务日志', '告警日志'],
             w: 120
           },
           {
             componentName: 'DateTimePickerTemplate',
-            keyName: 'mark',
+            keyName: 'time',
             label: '触发时间'
           },
           {
             componentName: 'InputTemplate',
-            keyName: 'nr',
+            keyName: 'content',
             label: '内容',
             w: 130
           },
-          {
-            componentName: 'KeyValueTemplate',
-            keyName: 'bq',
-            label: '标签',
-            w: 100
-          }
+          // {
+          //   componentName: 'KeyValueTemplate',
+          //   keyName: 'bq',
+          //   label: '标签',
+          //   w: 100
+          // }
         ]
       }
     }
   },
-  created() {
-    this.searchInit()
+  async created() {
+    await this.searchInit()
+    // await this.getList()
   },
   methods: {
-    searchInit() {
+    async searchInit() {
       // 获取产品列表
-      getProductList({}).then((res) => {
+      await getProductList({}).then((res) => {
         if (res.code == 200) {
           this.productList = res.data
-          this.form.productId = ''
+          if (res.data && res.data.length) {
+            this.form.productId = res.data[0].productId
+          }
         }
       })
     },
@@ -196,15 +194,19 @@ export default {
     },
     getList() {
       this.loading = true
-      // getServiceByPage({ ...this.form, maxRow: this.size, page: this.page, prodId: this.prodId }).then((res) => {
-      //   this.loading = false
-      //   if (res.code == 200) {
-      //     this.tableData = res.data
-      //     this.total = res.count
-      //   }
-      // }).catch(() => {
-      //   this.loading = false
-      // })
+      if (this.form.time && this.form.time.length) {
+        this.form.timeFrom = this.form.time[0]
+        this.form.timeTill = this.form.time[0]
+      }
+      deviceLogList({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+        this.loading = false
+        if (res.code == 200) {
+          this.tableData = res.data
+          this.total = res.count
+        }
+      }).catch(() => {
+        this.loading = false
+      })
     },
     handleCurrentChange(val) {
       this.page = val
