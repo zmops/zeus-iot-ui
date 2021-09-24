@@ -77,4 +77,15 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
+router.onError((error) => {
+  const pattern = /Loading chunk (\d)+ failed/g
+  const isChunkLoadFailed = error.message.match(pattern)
+  if (isChunkLoadFailed) {
+    window.location.reload()
+    // router.replace(router.history.pending.fullPath);
+  } else {
+    console.log(error)
+  }
+})
+
 export default router

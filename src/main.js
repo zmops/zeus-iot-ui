@@ -31,16 +31,6 @@ Vue.prototype.$stringToHex = function(str) {
   }
   return arr.join('')
 }
-router.onError((error) => {
-  const pattern = /Loading chunk (\d)+ failed/g
-  const isChunkLoadFailed = error.message.match(pattern)
-  if (isChunkLoadFailed) {
-    window.location.reload()
-    // router.replace(router.history.pending.fullPath);
-  } else {
-    console.log(error)
-  }
-})
 new Vue({
   el: '#app',
   router,

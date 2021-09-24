@@ -144,7 +144,8 @@ export default {
           buttons: [
             {
               label: '授权菜单',
-              event: 'empower'
+              event: 'empower',
+              icon: 'list_auth'
             },
             {
               label: '编辑',
