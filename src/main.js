@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import App from './App'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -11,6 +10,7 @@ import JsEncrypt from 'jsencrypt'
 import '@/icons' // icon
 import './utils/directives.js'
 import '@/permission' // permission control
+import App from './App'
 import router from './router'
 import store from './store'
 // set ElementUI lang to EN

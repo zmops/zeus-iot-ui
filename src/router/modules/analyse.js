@@ -21,7 +21,7 @@ const analyseRouter = {
     },
     {
       path: '/analyse/latest',
-      component: () => import('@/views/analyse/latest'),
+      component: () => import('@/views/401'),
       name: '/analyse/latest',
       meta: {
         title: '最新数据',
