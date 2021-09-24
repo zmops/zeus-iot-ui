@@ -79,7 +79,7 @@ export function resetRouter() {
 
 router.onError((error) => {
   const pattern = /Loading CSS chunk (\d)+ failed/g
-  const isChunkLoadFailed = error.message.match(pattern)
+  const isChunkLoadFailed = error.match(pattern)
   if (isChunkLoadFailed) {
     window.location.reload()
     // router.replace(router.history.pending.fullPath);

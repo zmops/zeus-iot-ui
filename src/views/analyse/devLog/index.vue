@@ -159,8 +159,7 @@ export default {
           {
             componentName: 'InputTemplate',
             keyName: 'content',
-            label: '内容',
-            w: 130
+            label: '内容'
           },
           // {
           //   componentName: 'KeyValueTemplate',

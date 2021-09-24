@@ -1,8 +1,8 @@
 <!-- 搜索栏输入框组件 -->
 <template>
   <div class="InputTemplate">
-    <el-input v-model.trim="farther.form[keyName]" class="" size="mini" :placeholder="'请输入' + label" clearable :style="{width:w +'px'}">
-      <svg-icon slot="prefix" icon-class="search" />
+    <el-input v-model.trim="farther.form[keyName]" class="" size="mini" :placeholder="'请输入' + label" clearable>
+      <svg-icon slot="prefix" icon-class="search" class="icon" />
     </el-input>
   </div>
 </template>
@@ -19,10 +19,6 @@ export default {
     label: {
       type: String,
       default: '内容'
-    },
-    w: {
-      type: Number,
-      default: 280
     }
   }
 }
@@ -30,6 +26,9 @@ export default {
 
 <style lang="scss" scoped>
 .InputTemplate {
+  .icon{
+    margin-top: 7px;
+  }
   ::v-deep.el-input__inner{
     border-radius: 20px!important;
     padding: 6px 30px;

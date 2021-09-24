@@ -87,13 +87,13 @@ export default {
       ],
       formParams: [
         {
+          componentName: 'DateTimePickerTemplate',
+          keyName: 'time'
+        },
+        {
           componentName: 'InputTemplate',
           keyName: 'logName	',
           label: '日志名称'
-        },
-        {
-          componentName: 'DateTimePickerTemplate',
-          keyName: 'time'
         }
       ]
     }

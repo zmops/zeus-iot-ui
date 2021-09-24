@@ -34,7 +34,9 @@ const analyseRouter = {
       component: () => import('@/views/analyse/devLog'),
       name: '/analyse/devLog',
       meta: {
-        title: '设备日志'
+        title: '设备日志',
+        icon24: 'log24',
+        icon48: 'log48'
       }
     }
   ]

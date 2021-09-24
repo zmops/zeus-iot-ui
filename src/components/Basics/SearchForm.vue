@@ -18,14 +18,17 @@
   </div>
   <div v-else class="setting-form setting-form-light">
     <div class="condition zeus-flex-between">
-      <el-form :inline="true" :model="farther.form">
-        <el-form-item v-for="(item, index) in params" :key="index" size="mini" class="zeus-mt-10">
+<!--      <el-form :inline="true" :model="farther.form">-->
+<!--        <el-form-item v-for="(item, index) in params" :key="index" size="mini" class="zeus-mt-10">-->
+<!--          <component :is="item.componentName" v-bind="item" />-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+      <div class="form">
+        <div v-for="(item, index) in params" :key="index" :style="{flex:item.componentName==='InputTemplate'? 1 : ''}" class="zeus-mr-5">
           <component :is="item.componentName" v-bind="item" />
-        </el-form-item>
-        <el-form-item size="mini" class="zeus-mt-10">
-          <el-button v-if="params && params.length" size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_search" /></el-button>
-        </el-form-item>
-      </el-form>
+        </div>
+        <el-button v-if="params && params.length" size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_search" /></el-button>
+      </div>
       <div class="line-button-wrapper setting-buttons">
         <el-dropdown v-if="columns.length > 1" :placement="'bottom'" @command="columnsChange">
           <el-button size="mini" class="setting-button" round><svg-icon icon-class="list_edit" /></el-button>
@@ -152,6 +155,23 @@ export default {
 }
 .setting-form-light{
   background-color: #f9fbfd;
+  width: 100%;
+
+  .form{
+    display: flex;
+    width: calc(100% - 80px);
+
+    .is-round{
+      padding: 5px 24px;
+      margin-left: 5px;
+      border: none;
+      background: #f9fbfd;
+    }
+    .is-round:hover{
+      background: #E3E9EF !important;
+      border: none !important;
+    }
+  }
 }
 .setting-form-dark{
   background-color: #242E42;

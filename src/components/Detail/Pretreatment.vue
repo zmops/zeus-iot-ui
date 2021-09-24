@@ -298,8 +298,13 @@ export default {
     width: 100%;
     border-style: dashed;
   }
-  ::v-deep.attr-js .el-input__inner{
-    cursor: text !important;
+  ::v-deep.attr-js{
+    .el-input__inner {
+      cursor: text !important;
+    }
+    .el-icon-edit-outline{
+      cursor: text !important;
+    }
   }
 }
 
