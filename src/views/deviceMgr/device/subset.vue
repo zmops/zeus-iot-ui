@@ -80,11 +80,11 @@ export default {
       size: 10,
       page: 1,
       buttons: [
-        {
-          type: 'primary',
-          label: '创建',
-          event: 'add'
-        }
+        // {
+        //   type: 'primary',
+        //   label: '创建',
+        //   event: 'add'
+        // }
       ],
       columns: [
         {
@@ -187,11 +187,6 @@ export default {
       })
       this.formParams = [
         {
-          componentName: 'InputTemplate',
-          keyName: 'name',
-          label: '设备名称'
-        },
-        {
           componentName: 'SelectTemplate',
           keyName: 'deviceGroupId',
           label: '设备组',
@@ -214,6 +209,11 @@ export default {
           optionId: 'productId',
           optionName: 'name',
           options: this.productList
+        },
+        {
+          componentName: 'InputTemplate',
+          keyName: 'name',
+          label: '设备名称'
         }
       ]
     },
