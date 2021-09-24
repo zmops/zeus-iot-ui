@@ -158,7 +158,8 @@ export default {
             },
             {
               label: '重置密码',
-              event: 'reset'
+              event: 'reset',
+              icon: 'list_reset'
             }
           ]
         }

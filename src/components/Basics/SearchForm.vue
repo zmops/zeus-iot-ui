@@ -23,7 +23,7 @@
           <component :is="item.componentName" v-bind="item" />
         </el-form-item>
         <el-form-item size="mini" class="zeus-mt-10">
-          <el-button v-if="params && params.length" size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_refresh" /></el-button>
+          <el-button v-if="params && params.length" size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_search" /></el-button>
         </el-form-item>
       </el-form>
       <div class="line-button-wrapper setting-buttons">
