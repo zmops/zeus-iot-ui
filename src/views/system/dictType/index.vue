@@ -419,9 +419,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.dict-type {
-
-}
-</style>
