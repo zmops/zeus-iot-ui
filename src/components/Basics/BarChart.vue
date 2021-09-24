@@ -51,7 +51,7 @@ export default {
         },
         grid: {
           left: '1',
-          right: '1',
+          right: '15',
           bottom: '1',
           top: '1',
           containLabel: true
@@ -65,7 +65,7 @@ export default {
         yAxis: {
           type: 'category',
           boundaryGap: [0, 0.01],
-          data: ['设备一', '设备二', '设备三', '设备四', '设备五'],
+          data: this.infoData.name,
           axisLabel: {
             margin: 20
           },
@@ -80,7 +80,7 @@ export default {
           {
             name: '设备',
             type: 'bar',
-            data: [88, 55, 66, 44, 77],
+            data: this.infoData.value,
             label: {
               show: true,
               position: 'right',

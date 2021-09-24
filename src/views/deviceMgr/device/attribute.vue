@@ -369,7 +369,11 @@ export default {
         this.loading2 = false
         if (res.code == 200) {
           this.tableData2 = res.data
-          this.total2 = res.count
+          if (Number(res.count) >= 1000) {
+            this.total2 = '1000+'
+          } else {
+            this.total2 = res.count
+          }
         }
       }).catch(() => {
         this.loading2 = false

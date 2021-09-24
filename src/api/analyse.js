@@ -36,3 +36,39 @@ export function collectonRate(params) {
   })
 }
 
+// 全局概览-事件统计
+export function eventNum(params) {
+  return request({
+    url: '/home/eventNum',
+    method: 'get',
+    params
+  })
+}
+
+// 全局概览-今日调用服务
+export function serviceExecuteNum(params) {
+  return request({
+    url: '/home/serviceExecuteNum',
+    method: 'get',
+    params
+  })
+}
+
+// 全局概览-告警数量
+export function alarmTop(params) {
+  return request({
+    url: '/home/alarmTop',
+    method: 'get',
+    params
+  })
+}
+
+// 全局概览-数据量统计
+export function dataLevel(params) {
+  return request({
+    url: '/home/dataLevel',
+    method: 'get',
+    params
+  })
+}
+
