@@ -170,7 +170,7 @@ export default {
   data() {
     return {
       // 百度地图key
-      selfKey: 'bG3Dzof798yBGM7BzzF1uANWriBPOT5x',
+      selfKey: '', // 请先到百度地图开放平台申请AK
       // 已选坐标，呈现mark用
       point: {},
       position: '',

@@ -165,12 +165,19 @@ export default {
     const arr = []
     if (this.value && this.value.length) {
       this.value.forEach((item) => {
-        if (item.type === '25' || item.type === '13') {
+        if (item.type === '25') {
           const a = item.params.split('\\\\n')
           arr.push({
             type: item.type,
             value: a[0],
             value2: a[1]
+          })
+        } else if (item.type === '13') {
+          const a = item.params.split('\\\\n')
+          arr.push({
+            type: item.type,
+            value: Number(a[0]),
+            value2: Number(a[1])
           })
         } else if (item.type === '7' || item.type === '8') {
           arr.push({

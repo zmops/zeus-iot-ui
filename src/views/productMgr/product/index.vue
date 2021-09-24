@@ -121,7 +121,7 @@ export default {
         },
         {
           label: '设备总数',
-          prop: '',
+          prop: 'deviceNum',
           show: true
         },
         {

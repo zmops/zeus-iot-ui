@@ -133,7 +133,7 @@ export default {
         ]
       },
       dialogForm: this.value,
-      selfKey: 'bG3Dzof798yBGM7BzzF1uANWriBPOT5x',
+      selfKey: '', // 请先到百度地图开放平台申请AK
       point: {},
       position: '',
       keyword: '',

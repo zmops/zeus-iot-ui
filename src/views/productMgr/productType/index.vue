@@ -16,21 +16,14 @@
       stripe
       row-key="nodeId"
       :tree-props="{children: 'childrenNodes'}"
-      @select="handleSelect"
     >
-      <el-table-column
-        header-align="center"
-        align="center"
-        type="selection"
-        width="50"
-      />
       <el-table-column prop="name" label="名称">
         <template slot-scope="props">
-          <svg-icon :icon-class="$route.meta.icon24" class="icon24" />
+          <svg-icon :icon-class="$route.meta.icon24" class="icon24" :style="{marginLeft: props.row.childrenNodes === null && props.row.pid === '0' ? '23px' : '0' }" />
           <span>{{ props.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="100">
+      <el-table-column width="180">
         <template slot-scope="scope">
           <div class="setting-buttons">
             <el-button
@@ -42,7 +35,17 @@
             >
               <svg-icon icon-class="list-edit" />
               编辑</el-button>
+            <el-button
+              type="text"
+              class="setting-button"
+              round
+              size="mini"
+              @click="del(scope.row.id)"
+            >
+              <svg-icon icon-class="list-del" />
+              删除</el-button>
           </div>
+
         </template>
       </el-table-column>
     </el-table>
@@ -182,13 +185,13 @@ export default {
       this.state = '编辑'
       this.dialogVisible = true
     },
-    delete() {
+    del(id) {
       this.$confirm('是否确认删除选中的数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteProductType({ ids: this.ids }).then(async(res) => {
+        deleteProductType({ ids: [id] }).then(async(res) => {
           if (res.code == 200) {
             this.$message({
               message: '删除成功',

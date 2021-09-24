@@ -140,16 +140,16 @@ export default {
           idName: 'deviceId',
           fixed: 'right',
           buttons: [
-            {
-              label: '编辑',
-              event: 'detail',
-              icon: 'list-edit'
-            },
-            {
-              label: '删除',
-              event: 'delete',
-              icon: 'list-del'
-            }
+            // {
+            //   label: '编辑',
+            //   event: 'detail',
+            //   icon: 'list-edit'
+            // },
+            // {
+            //   label: '删除',
+            //   event: 'delete',
+            //   icon: 'list-del'
+            // }
           ]
         }
       ],
