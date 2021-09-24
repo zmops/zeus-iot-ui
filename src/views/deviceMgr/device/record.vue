@@ -131,9 +131,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.record {
-
-}
-</style>

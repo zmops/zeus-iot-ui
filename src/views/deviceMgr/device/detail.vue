@@ -183,9 +183,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.device-detail {
-
-}
-</style>

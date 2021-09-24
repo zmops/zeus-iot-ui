@@ -170,9 +170,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.product-detail {
-
-}
-</style>
