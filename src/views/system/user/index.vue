@@ -290,6 +290,7 @@ export default {
         pass: '',
         userGroupId: ''
       }
+      this.$refs.userForm.resetFields()
     },
     add() {
       this.state = '创建'

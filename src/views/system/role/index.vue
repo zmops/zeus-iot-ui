@@ -56,7 +56,6 @@
     </el-dialog>
     <el-dialog
       v-dialogDrag
-      v-if="dialogMenu"
       :visible.sync="dialogMenu"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
