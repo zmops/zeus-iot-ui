@@ -89,15 +89,23 @@
             v-model="dialogTime"
             size="small"
             class="zeus-mb-15"
-            type="datetimerange"
+            type="daterange"
             :picker-options="pickerOptions"
             range-separator="-"
-            value-format="timestamp"
+            value-format="yyyy-MM-dd"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             @change="changeTime"
           >
           </el-date-picker>
+          <el-select v-model="shortcuts" placeholder="快捷时间" size="mini" @change="changeShortcuts" class="w200 zeus-ml-15">
+            <el-option
+              v-for="i in shortcutsList"
+              :key="i.key"
+              :label="i.key"
+              :value="i.value"
+            />
+          </el-select>
           <div v-if="itemData.valueType == 3 || itemData.valueType == 0" class="zeus-right radio">
             <div class="radio-button" :class="dialogRadio === '趋势图' ? 'activity' :''" @click="dialogRadio = '趋势图'">趋势图
             </div>
@@ -177,8 +185,8 @@ export default {
       item: {},
       dialogForm: {},
       dialogTime: [
-        new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
-        new Date().getTime()
+        this.ftimestampToData(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+        this.ftimestampToData(new Date().getTime())
       ],
       dialogRadio: '趋势图',
       buttons: [
@@ -217,99 +225,53 @@ export default {
           label: '属性标识'
         }
       ],
+      shortcuts: [],
+      shortcutsList: [
+        {
+          key: '最近5分钟',
+          value: ['now-5m', 'now']
+        },
+        {
+          key: '最近15分钟',
+          value: ['now-15m', 'now']
+        },
+        {
+          key: '最近30分钟',
+          value: ['now-30m', 'now']
+        },
+        {
+          key: '最近1小时',
+          value: ['now-1h', 'now']
+        },
+        {
+          key: '最近3小时',
+          value: ['now-3h', 'now']
+        },
+        {
+          key: '最近6小时',
+          value: ['now-6h', 'now']
+        },
+        {
+          key: '最近12小时',
+          value: ['now-12h', 'now']
+        },
+        {
+          key: '最近一天',
+          value: ['now-24h', 'now']
+        },
+        {
+          key: '最近一周',
+          value: ['now-1w', 'now']
+        },
+        {
+          key: '最近一个月',
+          value: ['now-1M', 'now']
+        }
+      ],
       pickerOptions: {
-        shortcuts: [
-          {
-            text: '最近5分钟',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 5 * 60 * 1000)
-              picker.$emit('pick', ['now-5m', 'now'])
-            }
-          },
-          {
-            text: '最近15分钟',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 15 * 60 * 1000)
-              picker.$emit('pick', ['now-15m', 'now'])
-            }
-          },
-          {
-            text: '最近30分钟',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 30 * 60 * 1000)
-              picker.$emit('pick', ['now-30m', 'now'])
-            }
-          },
-          {
-            text: '最近1小时',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 60 * 60 * 1000)
-              picker.$emit('pick', ['now-1h', 'now'])
-            }
-          },
-          {
-            text: '最近3小时',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3 * 60 * 60 * 1000)
-              picker.$emit('pick', ['now-3h', 'now'])
-            }
-          },
-          {
-            text: '最近6小时',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 6 * 60 * 60 * 1000)
-              picker.$emit('pick', ['now-6h', 'now'])
-            }
-          },
-          {
-            text: '最近12小时',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 12 * 60 * 60 * 1000)
-              picker.$emit('pick', ['now-12h', 'now'])
-            }
-          },
-          {
-            text: '最近一天',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 24 * 60 * 60 * 1000)
-              picker.$emit('pick', ['now-24h', 'now'])
-            }
-          },
-          {
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', ['now-1w', 'now'])
-            }
-          },
-          {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', ['now-1M', 'now'])
-            }
-          }
-        ]
+        disabledDate(time) {
+          return time.getTime() > Date.now() || time.getTime() < Date.now() - 30 * 24 * 60 * 60 * 1000
+        }
       }
     }
   },
@@ -337,12 +299,12 @@ export default {
       this.loading2 = true
       let from = ''
       let to = ''
-      if (typeof this.dialogTime[0] === 'number') {
-        from = ftimestampToData(this.dialogTime[0]) + ':00'
-        to = ftimestampToData(this.dialogTime[1]) + ':00'
-      } else {
+      if (this.dialogTime[0].indexOf('now') > -1) {
         from = this.dialogTime[0]
         to = this.dialogTime[1]
+      } else {
+        from = this.dialogTime[0] + ' 00:00:00'
+        to = this.dialogTime[1] + ' 23:59:59'
       }
       const data = {
         timeFrom: from,
@@ -383,7 +345,13 @@ export default {
       if (val) {
         this.page2 = 1
         this.getList2()
+        this.shortcuts = []
       }
+    },
+    changeShortcuts(val) {
+      this.dialogTime = val
+      this.page2 = 1
+      this.getList2()
     },
     search() {
       this.page = 1
@@ -459,6 +427,17 @@ export default {
       this.itemData = item
       this.getList2()
       this.dialogVisible2 = true
+    },
+    ftimestampToData(ftimestamp) {
+      if (!ftimestamp) return ''
+      const date = new Date(ftimestamp)
+      const Y = date.getFullYear() + '-'
+      const M =
+        (date.getMonth() + 1 < 10
+          ? '0' + (date.getMonth() + 1)
+          : date.getMonth() + 1) + '-'
+      const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+      return Y + M + D
     }
   }
 }
@@ -526,6 +505,10 @@ export default {
   .el-range-input {
     background-color: #E6EDF4;
   }
+}
+
+.w200{
+  width: 200px;
 }
 
 .radio {

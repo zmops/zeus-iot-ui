@@ -189,7 +189,8 @@ export default {
           buttons: [
             {
               label: '生成token',
-              event: 'createToken'
+              event: 'createToken',
+              icon: 'list_token'
             }
           ]
         }
