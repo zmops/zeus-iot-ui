@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="tips">
-        <i class="el-icon-info"/>
+        <svg-icon icon-class="tips" />
         <span>可设置自定义变量，适用于同一产品不同设备下，键相同而值可能不同的情况，以方便取用。</span>
       </div>
       <div class="dialog-body">

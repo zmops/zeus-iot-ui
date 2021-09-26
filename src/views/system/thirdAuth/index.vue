@@ -51,7 +51,7 @@
               placeholder="选择过期时间">
             </el-date-picker>
             <div class="el-form-item-tips zeus-inline-block zeus-ml-15">
-              <i class="el-icon-info" />不填则不会过期
+              <svg-icon icon-class="tips" />不填则不会过期
             </div>
           </el-form-item>
           <el-form-item label="启用" prop="status">
@@ -275,7 +275,7 @@ export default {
           return item.id === id
         })
 
-        this.$alert('<h4>token: sfasdfadfadfadfadsfadsfdsfdafasdfdasf</h4><div class="el-form-item-tips"><i class="el-icon-info" />请自行保存token，关闭本窗口后将无法再查看本token。</div>', '生成token', {
+        this.$alert('<h4>token: sfasdfadfadfadfadsfadsfdsfdafasdfdasf</h4><div class="el-form-item-tips"><svg-icon icon-class="tips" />请自行保存token，关闭本窗口后将无法再查看本token。</div>', '生成token', {
           dangerouslyUseHTMLString: true,
           confirmButtonText: '复制',
           callback: action => {

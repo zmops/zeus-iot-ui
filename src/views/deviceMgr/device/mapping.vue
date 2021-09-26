@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="tips">
-        <i class="el-icon-info"/>
+        <svg-icon icon-class="tips" />
         <span>供产品内的属性选用。若属性上进行了配置，则实际保存的依然是原始值。只是让展现数据的可读性更好。</span>
       </div>
       <div class="dialog-body">

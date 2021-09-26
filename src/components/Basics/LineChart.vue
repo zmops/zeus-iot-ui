@@ -73,6 +73,7 @@ export default {
       const option = {
         title: {
           text: this.title,
+          left: 20,
           textStyle: {
             fontSize: 12
           }

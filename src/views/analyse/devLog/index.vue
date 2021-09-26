@@ -133,7 +133,7 @@ export default {
             optionId: 'productId',
             optionName: 'name',
             options: this.productList,
-            w: 115
+            w: 200
           },
           {
             componentName: 'SelectTemplate',
@@ -142,14 +142,14 @@ export default {
             optionId: 'deviceId',
             optionName: 'name',
             options: devTemplate,
-            w: 115
+            w: 200
           },
           {
             componentName: 'SelectTemplate',
             keyName: 'logType',
             label: '日志类型',
             options: ['事件日志', '服务日志', '告警日志'],
-            w: 120
+            w: 200
           },
           {
             componentName: 'DateTimePickerTemplate',

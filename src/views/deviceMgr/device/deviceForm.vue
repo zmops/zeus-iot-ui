@@ -5,7 +5,8 @@
       <el-form-item label="设备ID" prop="deviceId">
         <el-input v-model="dialogForm.deviceId" size="mini" :disabled="state === '编辑'"/>
         <div v-if="state !== '编辑'" class="el-form-item-tips">
-          <i class="el-icon-info" />若不填写设备ID，则由系统自动生成唯一ID，且不再可以编辑
+          <svg-icon icon-class="tips" />
+          若不填写设备ID，则由系统自动生成唯一ID，且不再可以编辑
         </div>
       </el-form-item>
       <el-form-item label="设备名称" prop="name">
@@ -31,7 +32,7 @@
           />
         </el-select>
         <div class="el-form-item-tips">
-          <i class="el-icon-info" />帮助对数据权限进行精确控制。
+          <svg-icon icon-class="tips" />帮助对数据权限进行精确控制。
         </div>
       </el-form-item>
       <el-form-item label="描述" prop="remark">
@@ -40,7 +41,7 @@
       <el-form-item label="坐标" prop="position">
         <el-input v-model="dialogForm.position" size="mini"/>
         <div class="el-form-item-tips">
-          <i class="el-icon-info" />请点击地图来获取坐标，或直接输入经纬度，如 119.977871,31.822535
+          <svg-icon icon-class="tips" />请点击地图来获取坐标，或直接输入经纬度，如 119.977871,31.822535
         </div>
       </el-form-item>
       <el-form-item label="地址" prop="addr">

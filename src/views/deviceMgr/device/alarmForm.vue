@@ -27,7 +27,7 @@
         inactive-color="#AB2F29">
       </el-switch>
       <div class="el-form-item-tips zeus-inline-block zeus-ml-15">
-        <i class="el-icon-info" />
+        <svg-icon icon-class="tips" />
         <span>包括平台内部和外部的所有通知。</span>
       </div>
     </el-form-item>

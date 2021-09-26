@@ -207,7 +207,7 @@ export default {
       color: #242E42;
 
       &:hover{
-        background-color: #EFF4F9;
+        background-color: #fff!important;
       }
     }
 

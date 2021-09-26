@@ -122,7 +122,7 @@ export default {
 .detail-template {
   width: 100%;
   height: calc(100vh - 90px);
-  padding: 20px;
+  padding: 0 20px 10px 20px;
   background-color: #EFF4F9;
   display: flex;
 
@@ -136,7 +136,7 @@ export default {
     .detail-template-left-title {
       width: 100%;
       min-height: 100px;
-      padding: 12px;
+      padding: 16px 20px;
       background-color: #f9fbfd;
       background-image: url('../../assets/detail-info.png');
       background-repeat: no-repeat;

@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="tips">
-        <i class="el-icon-info"/>
+        <svg-icon icon-class="tips" />
         <span>可设置自定义标签，以方便统计分析。</span>
       </div>
       <div class="dialog-body">

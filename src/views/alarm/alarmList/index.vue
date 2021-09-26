@@ -126,7 +126,7 @@ export default {
           keyName: 'name',
           label: '告警状态',
           options: ['未解决', '已解决'],
-          w: 120
+          w: 200
         },
         {
           componentName: 'SelectTemplate',
@@ -141,7 +141,7 @@ export default {
             { label: '高级', value: '4' },
             { label: '紧急', value: '5' }
           ],
-          w: 120
+          w: 200
         },
         {
           componentName: 'SelectTemplate',
@@ -150,7 +150,7 @@ export default {
           optionId: 'deviceId',
           optionName: 'name',
           options: this.devList,
-          w: 115
+          w: 200
         },
         {
           componentName: 'DateTimePickerTemplate',
