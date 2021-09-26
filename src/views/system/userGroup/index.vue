@@ -20,7 +20,6 @@
     <Pagination :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
       v-dialogDrag
-      v-if="dialogVisible"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
       :close-on-press-escape="false"

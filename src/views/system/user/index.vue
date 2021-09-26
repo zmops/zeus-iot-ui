@@ -134,8 +134,8 @@ export default {
         },
         {
           label: '状态',
-          prop: 'statusName',
-          bold: true,
+          prop: 'status',
+          status: true,
           show: true
         },
         {

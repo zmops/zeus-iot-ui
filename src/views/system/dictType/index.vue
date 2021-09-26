@@ -158,7 +158,8 @@ export default {
         },
         {
           label: '状态',
-          prop: 'statusName',
+          prop: 'status',
+          status: true,
           show: true
         },
         {
@@ -200,7 +201,8 @@ export default {
         },
         {
           label: '状态',
-          prop: 'statusName',
+          prop: 'status',
+          status: true,
           show: true
         },
         {
