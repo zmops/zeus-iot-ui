@@ -181,7 +181,8 @@ export default {
             },
             {
               label: '配置',
-              event: 'allocation'
+              event: 'allocation',
+              icon: 'list_allocation'
             }
           ]
         }
