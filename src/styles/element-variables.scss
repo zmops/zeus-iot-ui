@@ -17,6 +17,14 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   min-width: 96px;
 }
 
+.el-input.is-focus .el-input__inner{
+  border-color: #1A84F9!important;
+}
+
+.el-input--mini .is-focus .el-input__inner{
+  border-color: #1A84F9!important;
+}
+
 /*弹框样式*/
 .v-modal{
   opacity: 0.7;

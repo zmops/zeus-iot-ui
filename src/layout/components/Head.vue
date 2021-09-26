@@ -143,7 +143,7 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       EventBus.$emit('closeSocket', 'app')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$router.push(`/login`)
     },
     handleSubmit() {
       this.$refs.dialogForm.validate(async(valid, errorFields) => {
