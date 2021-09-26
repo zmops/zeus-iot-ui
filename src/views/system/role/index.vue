@@ -290,6 +290,7 @@ export default {
     },
     menuClose() {
       this.dialogMenu = false
+      this.menuTree = []
       this.menuId = ''
       this.checkStrictly = true
     },
