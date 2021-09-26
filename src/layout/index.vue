@@ -9,7 +9,7 @@
       <!--      </div>-->
       <app-main />
     </div>
-    <el-button class="float-but" type="primary" icon="el-icon-toilet-paper" circle />
+<!--    <el-button class="float-but" type="primary" icon="el-icon-toilet-paper" circle />-->
   </div>
 </template>
 
