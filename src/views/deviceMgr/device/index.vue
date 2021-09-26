@@ -318,29 +318,16 @@ export default {
     },
     submit() {
       if (this.$refs.deviceForm.validateForm()) {
-        // if (this.dialogForm.deviceId) {
-        //   updateDevice(this.dialogForm).then(async(res) => {
-        //     if (res.code == 200) {
-        //       this.$message({
-        //         message: '修改成功',
-        //         type: 'success'
-        //       })
-        //       this.dialogVisible = false
-        //       await this.getList()
-        //     }
-        //   })
-        // } else {
-          createDevice(this.dialogForm).then(async(res) => {
-            if (res.code == 200) {
-              this.$message({
-                message: '添加成功',
-                type: 'success'
-              })
-              this.dialogVisible = false
-              await this.getList()
-            }
-          })
-        // }
+        createDevice(this.dialogForm).then(async(res) => {
+          if (res.code == 200) {
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+            this.dialogVisible = false
+            await this.getList()
+          }
+        })
       }
     }
   }

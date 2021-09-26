@@ -42,6 +42,16 @@ const systemRouter = {
       }
     },
     {
+      path: '/system/tenant',
+      component: () => import('@/views/system/tenant'),
+      name: '/system/tenant',
+      meta: {
+        title: '租户管理',
+        icon24: '',
+        icon48: ''
+      }
+    },
+    {
       path: '/system/dictType',
       component: () => import('@/views/system/dictType'),
       name: '/system/dictType',
