@@ -4,33 +4,13 @@ const systemRouter = {
   path: '/system',
   component: Layout,
   name: 'system',
-  redirect: '/system/user',
+  redirect: '/system/role',
   meta: {
     title: '系统管理',
     icon: 'menu_system',
     active_icon: 'menu_system_ac'
   },
   children: [
-    {
-      path: '/system/user',
-      component: () => import('@/views/system/user'),
-      name: '/system/user',
-      meta: {
-        title: '用户',
-        icon24: 'user24',
-        icon48: 'user48'
-      }
-    },
-    {
-      path: '/system/userGroup',
-      component: () => import('@/views/system/userGroup'),
-      name: '/system/userGroup',
-      meta: {
-        title: '用户组',
-        icon24: 'userGroup24',
-        icon48: 'userGroup48'
-      }
-    },
     {
       path: '/system/role',
       component: () => import('@/views/system/role'),
@@ -39,16 +19,6 @@ const systemRouter = {
         title: '角色',
         icon24: 'role24',
         icon48: 'role48'
-      }
-    },
-    {
-      path: '/system/tenant',
-      component: () => import('@/views/system/tenant'),
-      name: '/system/tenant',
-      meta: {
-        title: '租户管理',
-        icon24: '',
-        icon48: ''
       }
     },
     {
