@@ -6,14 +6,33 @@
 
 <script>
 import EventBus from '@/utils/event-bus'
-import SocketClient from '@/utils/websocket'
 
 export default {
   name: 'App',
+  sockets: {
+    // 链接成功
+    connect() {
+      console.log('连接成功')
+    },
+    // 链接失败
+    disconnect() {
+      console.log('连接失败')
+    },
+    // 重新连接
+    reconnect() {
+      console.log('重新连接')
+    },
+    // 监听、接收消息方法
+    broadcast(data) {
+      this.msg = data.message
+      console.log(data)
+    }
+  },
   data() {
     return {
       msg: '',
-      msgObj: {}
+      msgObj: {},
+      socket: null
     }
   },
   watch: {
@@ -63,23 +82,24 @@ export default {
       })
     }
     EventBus.$on('openSocket', 'app', () => {
-      const url = process.env.NODE_ENV === 'production' ? window.location.host + '/api' : process.env.VUE_APP_API_HOST + ':' + process.env.VUE_APP_API_PORT
-      const infoId = localStorage.getItem('userid')
-      if (infoId) {
-        /* 连接socket */
-        SocketClient.createSocket(`ws://${url}/websocket/alarm`, infoId)
-        SocketClient.Socket.onmessage = (e) => {
-          this.msg = e.data
-        }
-      }
+      this.$socket.emit('connect')
     })
     EventBus.$on('closeSocket', 'app', () => {
-      if (SocketClient.Socket) {
-        SocketClient.Socket.close()
-      }
-      SocketClient.Socket = null
+      this.$socket.emit('disconnect')
     })
     EventBus.$emit('openSocket', 'app')
+  },
+  mounted() {
+    this.$socket.on('broadcast', (data) => {
+      console.log(data)
+    })
+    const singleRequest = {
+      fromUid: 'token',
+      toUid: 'toUserId',
+      message: 'xiaoyao'
+    };
+    this.$socket.emit('chat', singleRequest)
+    // this.$socket.connect(`http://${process.env.VUE_APP_API_HOST}:9080?token=user002&userId=1`)
   },
   beforeDestroy() {
     EventBus.$emit('closeSocket', 'app')
