@@ -235,7 +235,7 @@ export default {
   }
 
   .disable{
-    color: #D12020;
+    color: #f5a623;
   }
 
   .enable{

@@ -85,7 +85,18 @@
         </div>
       </div>
       <div class="dialog-body">
+        <div v-if="selfKey === ''" class="bm-view2 zeus-mt-20">
+          <div class="tips">
+            <svg-icon icon-class="tips" />
+            <span>为正常使用地图控件,请设置用户Key。</span>
+          </div>
+          <div class="zeus-text-align-c no-key">
+            <svg-icon icon-class="loadFail" style="font-size:50px"/>
+            <div class="zeus-mt-5">加载失败</div>
+          </div>
+        </div>
         <baidu-map
+          v-else
           class="bm-view2 zeus-mt-20"
           :zoom="15"
           :center="center"
@@ -268,6 +279,28 @@ export default {
   .bm-view2 {
     width: 100%;
     height: 500px;
+    background-color: #F6F7FA;
+  }
+  .no-key{
+    margin-top: 180px;
+
+    div{
+      color: #36435c;
+    }
+  }
+  .tips{
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    background-color: #CDE5FF;
+    color: #36435C;
+    font-size: 12px;
+    padding-left: 20px;
+
+    i{
+      color: #50A1FB;
+      margin-right: 6px;
+    }
   }
 
   .basics {
