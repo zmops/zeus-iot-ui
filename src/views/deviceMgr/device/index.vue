@@ -132,6 +132,11 @@ export default {
           show: true
         },
         {
+          label: '在线状态',
+          prop: 'online',
+          show: true
+        },
+        {
           label: '设备组',
           prop: 'groupName',
           show: true

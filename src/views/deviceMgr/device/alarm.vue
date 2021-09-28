@@ -180,7 +180,7 @@ export default {
     },
     getList() {
       this.loading = true
-      getEventByPage({ ...this.form, prodId: this.$route.query.id, maxRow: this.size, page: this.page, classify: '1' }).then((res) => {
+      getEventByPage({ ...this.form, prodId: this.$route.query.id, maxRow: this.size, page: this.page, classify: '0' }).then((res) => {
         this.loading = false
         if (res.code == 200) {
           this.tableData = res.data

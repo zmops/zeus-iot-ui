@@ -184,5 +184,9 @@ export default {
       font-size: 12px!important;
     }
   }
+
+  .select-w50{
+    width: 50px;
+  }
 }
 </style>

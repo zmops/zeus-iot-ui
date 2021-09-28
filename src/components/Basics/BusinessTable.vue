@@ -70,18 +70,17 @@
           <span v-if="scope.row[item.prop] === 'DISABLE'" class="disable">
             已禁用
           </span>
-<!--          <el-switch-->
-<!--            v-model="scope.row[item.prop]"-->
-<!--            class="zeus-mr-15"-->
-<!--            active-value="ENABLE"-->
-<!--            inactive-value="DISABLE"-->
-<!--            active-color="#55BC8A"-->
-<!--            inactive-color="#AB2F29"-->
-<!--            @change="switchChange(scope.row)"-->
-<!--          >-->
-<!--          </el-switch>-->
-<!--          <span v-if="scope.row[item.prop] === 'ENABLE'">启用中</span>-->
-<!--          <span v-if="scope.row[item.prop] === 'DISABLE'">已禁用</span>-->
+        </template>
+        <template v-else-if="item.prop === 'online'">
+          <span v-if="scope.row[item.prop] === '1'">
+            <svg-icon icon-class="online" />
+            在线
+          </span>
+          <span v-else-if="scope.row[item.prop] === '0'">
+             <svg-icon icon-class="offline" />
+            离线
+          </span>
+          <span v-else>-</span>
         </template>
         <template v-else-if="item.label === '来自产品'">
           <span>
