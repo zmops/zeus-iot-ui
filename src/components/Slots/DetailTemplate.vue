@@ -5,7 +5,7 @@
       <div class="detail-template-left-title">
         <span class="zeus-cursor-pointer zeus-inline-block back" @click="goBack">
           <i class="el-icon-arrow-left zeus-cursor-pointer zeus-bold" />
-          {{ up }}
+          {{ up }}列表
         </span>
         <div class="title">
           <svg-icon :icon-class="icon" style="font-size: 20px;margin-right: 16px;" />
@@ -149,7 +149,7 @@ export default {
         height: 30px;
         line-height: 30px;
         font-size: 12px;
-        font-weight: 500;
+        font-weight: 600;
         font-style: normal;
         font-stretch: normal;
         margin-bottom: 12px;
