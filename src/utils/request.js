@@ -58,9 +58,9 @@ service.interceptors.response.use(
             closeOnClickModal: false,
             type: 'warning'
           }).then(() => {
-            store.dispatch('user/resetToken').then(() => {
-              router.push('/login')
-            })
+            // store.dispatch('user/resetToken').then(() => {
+            router.push('/login')
+            // })
           })
         } else {
           Message({
