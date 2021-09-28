@@ -1,7 +1,9 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
+import router from '@/router'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import fa from 'element-ui/src/locale/lang/fa'
 
 // create an axios instance
 const service = axios.create({
@@ -52,10 +54,12 @@ service.interceptors.response.use(
           // to re-login
           MessageBox.confirm('当前登录信息已过期或失效,请重新登录', '提示', {
             confirmButtonText: '重新登录',
+            showCancelButton: false,
+            closeOnClickModal: false,
             type: 'warning'
           }).then(() => {
             store.dispatch('user/resetToken').then(() => {
-              location.reload()
+              router.push('/login')
             })
           })
         } else {
