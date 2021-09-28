@@ -8,21 +8,33 @@ import { nextFirstLink } from '@/utils'
  * @param allRouter
  */
 export function recursionRouter(userRouter = [], allRouter = []) {
-  const realRoutes = []
+  // const realRoutes = []
+  // allRouter.forEach((v) => {
+  //   userRouter.forEach((item) => {
+  //     if (v.path && item.url === v.path) {
+  //       const { children, ...x } = v
+  //       if (children && children.length) {
+  //         recursionRouter(userRouter, children)
+  //         realRoutes.push({ children, ...x })
+  //       } else {
+  //         realRoutes.push(x)
+  //       }
+  //     }
+  //   })
+  // })
+  // return [...realRoutes]
   allRouter.forEach((v) => {
     userRouter.forEach((item) => {
       if (v.path && item.url === v.path) {
-        const { children, ...x } = v
+        v.show = true
+        const { children } = v
         if (children && children.length) {
           recursionRouter(userRouter, children)
-          realRoutes.push({ children, ...x })
-        } else {
-          realRoutes.push(x)
         }
       }
     })
   })
-  return [...realRoutes]
+  return allRouter
 }
 
 const state = {
