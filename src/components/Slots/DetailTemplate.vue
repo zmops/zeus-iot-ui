@@ -145,7 +145,7 @@ export default {
 
       .back {
         width: 100px;
-        padding: 0 14px;
+        padding: 0 24px 0 16px;
         height: 30px;
         line-height: 30px;
         font-size: 12px;
