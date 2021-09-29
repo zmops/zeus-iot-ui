@@ -12,9 +12,9 @@ const analyseRouter = {
   },
   children: [
     {
-      path: '/analyse/globalOverview',
+      path: '/analyse/home',
       component: () => import('@/views/analyse/globalOverview'),
-      name: '/analyse/globalOverview',
+      name: '/analyse/home',
       meta: {
         title: '全局概览'
       }

@@ -232,6 +232,9 @@ export default {
   },
   async created() {
     await this.searchInit()
+    if (this.form.prodId === null) {
+      return false
+    }
     await this.getList()
   },
   methods: {

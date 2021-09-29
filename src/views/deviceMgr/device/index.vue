@@ -24,6 +24,12 @@
       :close-on-press-escape="false"
       :width="'700px'"
       :show-close="false"
+      @close="dialogForm = {
+        name: '',
+        productId: '',
+        deviceGroupIds: [],
+        remark: ''
+      }"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
@@ -37,8 +43,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <deviceForm ref="deviceForm" v-model="dialogForm" :state="state" :product-list="productList"
-                    :device-group="deviceGroup"/>
+        <deviceForm ref="deviceForm" v-model="dialogForm" :state="state" :product-list="productList" :device-group="deviceGroup"/>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
