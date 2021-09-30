@@ -15,7 +15,7 @@ import store from './store'
 Vue.use(ElementUI)
 Vue.use(new VueSocketIO({
   // debug: true,
-  connection: `http://${process.env.VUE_APP_API_HOST}:9080?token=user002&userId=1`,
+  connection: `http://${process.env.VUE_APP_SOCKET_PATH}:9080?token=user002&userId=1`,
   options: {
     transports: ['websocket']
   }
