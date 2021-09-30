@@ -338,6 +338,7 @@ export default {
               }
             })
           } else {
+            this.dialogForm.productId = this.$route.query.id
             updateEvent(this.dialogForm).then((res) => {
               if (res.code == 200) {
                 this.$message({

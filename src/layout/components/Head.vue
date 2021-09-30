@@ -41,7 +41,7 @@
       <div class="brief">
         <img src="@/assets/logo-.png">
         <div class="text">Zeus IoT是一个集设备数据采集、存储、分析、观测为一体的开源物联网平台，全球首创基于Zabbix的物联网分布式数据采集架构，具备超百万级IoT设备的并发监控能力。致力于让设备接入和数据处理变得开箱即用，使物联网企业得以聚焦行业应用开发，极大的缩短物联网系统的开发周期，成为物联网项目提效降本的贴身伴侣。</div>
-        <div class="version">Zeus IoT 版本：v3.1.0</div>
+        <div class="version">Zeus IoT 版本：1.0.0-BETA</div>
       </div>
       <div class="info">
         <div>

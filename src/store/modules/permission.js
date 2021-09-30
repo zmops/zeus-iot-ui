@@ -24,6 +24,7 @@ export function recursionRouter(userRouter = [], allRouter = []) {
   // })
   // return [...realRoutes]
   allRouter.forEach((v) => {
+    v.show = false
     userRouter.forEach((item) => {
       if (v.path && item.url === v.path) {
         v.show = true

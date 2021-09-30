@@ -31,7 +31,7 @@
         <span>可设置自定义标签，以方便统计分析。</span>
       </div>
       <div class="dialog-body">
-        <Tag v-model="tagList" />
+        <Tag ref="tag" v-model="tagList" />
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -92,37 +92,30 @@ export default {
       this.tagList = JSON.parse(JSON.stringify(this.viewList))
     },
     handleSubmit() {
-      for (const item of this.tagList) {
-        if (item.tag === '' || item.value === '') {
-          this.$message({
-            message: '请填写完整当前标签的键值',
-            type: 'warning'
+      if (this.$refs.tag.verification()) {
+        if (this.isDev) {
+          updateDevTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
+            if (res.code == 200) {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.getTagList()
+              this.dialogVisible = false
+            }
           })
-          return false
+        } else {
+          updateProdTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
+            if (res.code == 200) {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.getTagList()
+              this.dialogVisible = false
+            }
+          })
         }
-      }
-      if (this.isDev) {
-        updateDevTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
-          if (res.code == 200) {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.getTagList()
-            this.dialogVisible = false
-          }
-        })
-      } else {
-        updateProdTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
-          if (res.code == 200) {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.getTagList()
-            this.dialogVisible = false
-          }
-        })
       }
     }
   }

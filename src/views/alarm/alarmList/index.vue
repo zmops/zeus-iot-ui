@@ -14,6 +14,7 @@
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
+      @detail="detail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
   </div>
@@ -88,8 +89,13 @@ export default {
           show: true
         },
         {
-          label: '状态',
+          label: '解决状态',
           prop: 'status',
+          show: true
+        },
+        {
+          label: '确认状态',
+          prop: 'acknowledged',
           show: true
         },
         {
@@ -97,12 +103,18 @@ export default {
           prop: 'buttons',
           show: true,
           width: 160,
-          idName: 'id',
+          idName: 'eventid',
           fixed: 'right',
           buttons: [
             {
               label: '解决',
-              event: 'solve'
+              event: 'solve',
+              icon: 'list_solve'
+            },
+            {
+              label: '确认',
+              event: 'affirm',
+              icon: 'list_affirm'
             }
           ]
         }
@@ -156,13 +168,7 @@ export default {
           componentName: 'DateTimePickerTemplate',
           keyName: 'time',
           label: '触发时间'
-        },
-        // {
-        //   componentName: 'KeyValueTemplate',
-        //   keyName: 'bq',
-        //   label: '标签',
-        //   w: 100
-        // }
+        }
       ]
     },
     search() {
@@ -191,7 +197,15 @@ export default {
     },
     solve(id) {
 
-    }
+    },
+    detail(item) {
+      this.$router.push({
+        path: '/deviceMgr/device/detail',
+        query: {
+          id: item.deviceId
+        }
+      })
+    },
   }
 }
 </script>

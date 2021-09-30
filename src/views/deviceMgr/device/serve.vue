@@ -16,7 +16,7 @@
       :close-on-press-escape="false"
       :width="'700px'"
       :show-close="false"
-      @close="close"
+      @closed="close"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
         <div class="left">
@@ -266,6 +266,7 @@ export default {
         relationId: '',
         productServiceParamList: []
       }
+      this.$refs.dialogForm.resetFields()
     },
     detail(id) {
       const i = this.tableData.find((item) => {

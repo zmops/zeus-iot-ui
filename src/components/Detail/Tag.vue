@@ -58,9 +58,9 @@ export default {
     verification() {
       this.$emit('input', this.list)
       for (const item of this.list) {
-        if (item.tag === '' || item.value === '') {
+        if (item.tag === '') {
           this.$message({
-            message: '请填写完整当前标签的键值',
+            message: '请填写完整当前标签的键',
             type: 'warning'
           })
           return false

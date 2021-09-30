@@ -71,7 +71,7 @@
       </div>
     </el-form-item>
     <el-form-item label="标签">
-      <Tag v-model="formData.tags" />
+      <Tag ref="tag" v-model="formData.tags" />
     </el-form-item>
   </el-form>
 </template>
@@ -202,7 +202,7 @@ export default {
       this.$refs.dialogForm.validate((valid) => {
         flag = valid
       })
-      return flag
+      return flag && this.$refs.tag.verification()
     },
     groupFormat(data) {
       const list = []
