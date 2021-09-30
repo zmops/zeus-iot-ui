@@ -64,7 +64,8 @@ export default {
     del(i) {
       this.list.splice(i, 1)
     },
-    add() {
+    verification() {
+      this.$emit('input', this.list)
       for (const item of this.list) {
         if (item.name === '' || item.key === '') {
           this.$message({
@@ -84,11 +85,16 @@ export default {
         })
         return false
       }
-      this.list.push({
-        name: '',
-        key: '',
-        remark: ''
-      })
+      return true
+    },
+    add() {
+      if (this.verification()) {
+        this.list.push({
+          name: '',
+          key: '',
+          remark: ''
+        })
+      }
     }
   }
 }

@@ -44,7 +44,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="输入参数" prop="productServiceParamList">
-            <Variable v-model="dialogForm.productServiceParamList" :name="'输入参数'" :read="isDev && dialogForm.inherit == '1'" />
+            <Variable ref="variable" v-model="dialogForm.productServiceParamList" :name="'输入参数'" :read="isDev && dialogForm.inherit == '1'" />
           </el-form-item>
           <el-form-item label="描述" prop="remark">
             <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
@@ -300,7 +300,7 @@ export default {
     },
     submit() {
       this.$refs.dialogForm.validate(async(valid) => {
-        if (valid) {
+        if (valid && this.$refs.variable.verification()) {
           this.dialogForm.relationId = this.$route.query.id
           if (this.state === '创建') {
             createService(this.dialogForm).then((res) =>{

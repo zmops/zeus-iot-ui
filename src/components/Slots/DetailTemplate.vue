@@ -249,11 +249,19 @@ export default {
               padding: 4px 8px;
               margin-left: 2px;
               border-radius: 2px;
+              max-width: 100px;
+              overflow: hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;
             }
 
             .tag-item-r{
               padding: 6px;
               color: #242E42;
+              max-width: 100px;
+              overflow: hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;
             }
           }
         }

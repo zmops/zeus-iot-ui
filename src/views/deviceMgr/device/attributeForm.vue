@@ -62,6 +62,18 @@
         </el-option-group>
       </el-select>
     </el-form-item>
+    <el-form-item v-if="formData.source === '0' || formData.source === '18'" label="取数间隔">
+      <el-input v-model.number="formData.delay" placeholder="请输入内容" class="input-with-select">
+        <el-select v-model="formData.unit" slot="append" placeholder="请选择">
+          <el-option label="秒" value="s"></el-option>
+          <el-option label="分" value="m"></el-option>
+          <el-option label="小时" value="h"></el-option>
+        </el-select>
+      </el-input>
+      <div class="el-form-item-tips">
+        <svg-icon icon-class="tips" />取数间隔在1秒到24小时之间。
+      </div>
+    </el-form-item>
     <el-form-item label="描述">
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>

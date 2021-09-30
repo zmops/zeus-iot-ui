@@ -121,6 +121,11 @@ export default {
           show: true
         },
         {
+          label: '取数间隔',
+          prop: 'delayName',
+          show: true
+        },
+        {
           label: '描述',
           prop: 'remark',
           show: true
