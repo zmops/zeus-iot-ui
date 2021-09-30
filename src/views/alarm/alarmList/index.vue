@@ -63,33 +63,33 @@ export default {
       columns: [
         {
           label: '触发时间',
-          prop: 'mark',
+          prop: 'clock',
           show: true
         },
         {
           label: '解决时间',
-          prop: 'mark',
+          prop: 'rClock',
           show: true
         },
         {
           label: '告警级别',
-          prop: 'mark',
+          prop: 'severityName',
           show: true
         },
         {
           label: '设备',
-          prop: 'name',
+          prop: 'deviceName',
           event: true,
           show: true
         },
         {
           label: '内容',
-          prop: 'asyncName',
+          prop: 'name',
           show: true
         },
         {
           label: '状态',
-          prop: 'remark',
+          prop: 'status',
           show: true
         },
         {

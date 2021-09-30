@@ -121,7 +121,7 @@ export default {
 
 .detail-template {
   width: 100%;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 94px);
   padding: 0 20px 10px 20px;
   background-color: #EFF4F9;
   display: flex;
@@ -145,7 +145,7 @@ export default {
 
       .back {
         width: 100px;
-        padding: 0 14px;
+        padding: 0 24px 0 16px;
         height: 30px;
         line-height: 30px;
         font-size: 12px;
