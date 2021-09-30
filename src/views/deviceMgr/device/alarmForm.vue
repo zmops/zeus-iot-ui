@@ -2,7 +2,7 @@
 <template>
   <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" label-position="top" class="alarm-form">
     <el-form-item label="告警名称" prop="eventRuleName">
-      <el-input v-model="formData.eventRuleName" size="mini"/>
+      <el-input v-model="formData.eventRuleName" :disabled="formData.inherit =='1' && isDev" size="mini"/>
     </el-form-item>
     <el-form-item label="告警级别" prop="eventLevel">
       <el-select v-model="formData.eventLevel" placeholder="请选择告警级别" size="mini">
@@ -26,7 +26,7 @@
         active-color="#55BC8A"
         inactive-color="#AB2F29">
       </el-switch>
-      <div class="el-form-item-tips zeus-inline-block zeus-ml-15">
+      <div class="el-form-item-tips zeu s-inline-block zeus-ml-15">
         <svg-icon icon-class="tips" />
         <span>包括平台内部和外部的所有通知。</span>
       </div>
@@ -34,6 +34,7 @@
     <el-form-item label="启用告警规则" prop="status">
       <el-switch
         v-model="formData.status"
+        :disabled="formData.inherit =='1' && isDev"
         size="mini"
         active-value="ENABLE"
         inactive-value="DISABLE"
@@ -44,23 +45,23 @@
       </el-switch>
     </el-form-item>
     <el-form-item label="描述" prop="remark">
-      <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
+      <el-input v-model="formData.remark" :disabled="formData.inherit =='1' && isDev" type="textarea" rows="2" size="mini"/>
     </el-form-item>
     <el-form-item label="触发条件" prop="expList">
       <div class="zeus-mb-10">
         满足下列
-        <el-select v-model="formData.expLogic" placeholder="" size="mini" class="select-w50">
+        <el-select v-model="formData.expLogic" :disabled="formData.inherit =='1' && isDev" placeholder="" size="mini" class="select-w50">
           <el-option label="任意" value="or" />
           <el-option label="所有" value="and" />
         </el-select>
         条件时,触发告警
       </div>
-      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" v-model="formData.expList[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" @del="del" />
-      <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
+      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" :disabled="formData.inherit =='1' && isDev" :inherit="formData.inherit" :productId="formData.inheritProductId" v-model="formData.expList[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" @del="del" />
+      <el-button class="add-btn" :disabled="formData.inherit =='1' && isDev" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
     </el-form-item>
     <el-form-item label="执行动作">
-      <action v-for="(item, index) in formData.deviceServices" :key="item.guid" v-model="formData.deviceServices[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" @del="delAction"></action>
-      <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addAction">增加执行动作</el-button>
+      <action v-for="(item, index) in formData.deviceServices" :key="item.guid" :disabled="formData.inherit =='1' && isDev" v-model="formData.deviceServices[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" @del="delAction"></action>
+      <el-button class="add-btn" :disabled="formData.inherit =='1' && isDev" plain icon="el-icon-plus" size="mini" @click="addAction">增加执行动作</el-button>
     </el-form-item>
     <el-form-item label="标签">
       <Tag ref="tag" v-model="formData.tags" />
@@ -241,7 +242,7 @@ export default {
     }
   }
   .select-w50{
-    width: 50px;
+    width: 80px;
   }
 }
 </style>

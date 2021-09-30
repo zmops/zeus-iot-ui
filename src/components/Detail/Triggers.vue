@@ -1,7 +1,7 @@
 <!-- 触发条件组件 -->
 <template>
   <div class="Triggers zeus-relative">
-    <el-select v-if="isDev" v-model="item.deviceId" placeholder="请选择设备" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
+    <el-select v-if="isDev" v-model="item.deviceId" :disabled="disabled" placeholder="请选择设备" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
       <el-option
         v-for="(i, index) in deviceList"
         :key="index"
@@ -9,11 +9,11 @@
         :value="i.deviceId"
       />
     </el-select>
-    <el-select v-model="item.productAttrType" size="mini" class="select3 zeus-mr-5">
+    <el-select v-model="item.productAttrType" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
       <el-option label="属性" value="属性" />
       <el-option label="事件" value="事件" />
     </el-select>
-    <el-select v-if="item.productAttrType === '属性'" v-model="item.productAttrId" placeholder="请选择属性" size="mini" class="select2 zeus-mr-5" @change="attrChange">
+    <el-select v-if="item.productAttrType === '属性'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择属性" size="mini" class="select2 zeus-mr-5" @change="attrChange">
       <el-option
         v-for="(i, index) in deviceAttribute"
         :key="index"
@@ -21,7 +21,7 @@
         :value="i.attrId"
       />
     </el-select>
-    <el-select v-if="item.productAttrType === '事件'" v-model="item.incident" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">
+    <el-select v-if="item.productAttrType === '事件'" v-model="item.incident" :disabled="disabled" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">
       <el-option
         v-for="(i, index) in incidentList"
         :key="index"
@@ -31,12 +31,12 @@
     </el-select>
     <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-mt-5 zeus-mb-5">
       <span class="zeus-mr-5">在</span>
-      <el-select v-model="item.period" size="mini" class="select3 zeus-mr-5">
+      <el-select v-model="item.period" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
         <el-option label="时间" value="时间"/>
         <el-option label="周期" value="周期"/>
       </el-select>
-      <el-input v-model="item.scope" size="mini" class="input zeus-mr-5"/>
-      <el-select v-if="item.period === '时间' " v-model="item.unit" size="mini" class="select3 zeus-mr-5">
+      <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
+      <el-select v-if="item.period === '时间' " :disabled="disabled" v-model="item.unit" size="mini" class="select3 zeus-mr-5">
         <el-option label="秒" value="s"/>
         <el-option label="分钟" value="m"/>
         <el-option label="小时" value="h"/>
@@ -46,8 +46,8 @@
     </div>
     <div v-if="item.function ==='nodata'" class="zeus-mt-5 zeus-mb-5">
       <span class="zeus-mr-5">在</span>
-      <el-input v-model="item.scope" size="mini" class="input zeus-mr-5"/>
-      <el-select v-model="item.unit" size="mini" class="select3 zeus-mr-5">
+      <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
+      <el-select v-model="item.unit" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
         <el-option label="秒" value="s"/>
         <el-option label="分钟" value="m"/>
         <el-option label="小时" value="h"/>
@@ -55,7 +55,7 @@
       <span class="zeus-mr-5">内</span>
     </div>
     <div class="zeus-mt-5">
-      <el-select v-model="item.function" size="mini" class="select1 zeus-mr-5" @change="functionChange">
+      <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
         <el-option label="最新值" value="last" />
         <el-option label="平均值" value="avg" :disabled="attrValueType != '3' && attrValueType != '0'" />
         <el-option label="最大值" value="max" :disabled="attrValueType != '3' && attrValueType != '0'" />
@@ -65,12 +65,12 @@
         <el-option label="无值" value="nodata" />
       </el-select>
     </div>
-    <el-select v-if="item.function === 'nodata' || (item.function === 'change' && (attrValueType == '1' || attrValueType == '4'))" v-model="item.value" size="mini" class="select3 zeus-mr-5 zeus-mt-5">
+    <el-select v-if="item.function === 'nodata' || (item.function === 'change' && (attrValueType == '1' || attrValueType == '4'))" v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5 zeus-mt-5">
       <el-option label="为真" value="1"/>
       <el-option label="为假" value="0"/>
     </el-select>
     <div v-else class="zeus-mt-5">
-      <el-select v-model="item.condition" size="mini" class="select3 zeus-mr-5">
+      <el-select v-model="item.condition" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
         <el-option
           v-for="(i, index) in conditionList"
           :key="index"
@@ -78,10 +78,10 @@
           :value="i.value"
         />
       </el-select>
-      <el-input v-model="item.value" size="mini" class="input zeus-mr-10"/>
+      <el-input v-model="item.value" :disabled="disabled" size="mini" class="input zeus-mr-10"/>
       <span>{{ units }}</span>
     </div>
-    <el-button type="text" icon="el-icon-delete" class="zeus-absolute delete" @click="del()"></el-button>
+    <el-button type="text" icon="el-icon-delete" :disabled="disabled" class="zeus-absolute delete" @click="del()"></el-button>
   </div>
 </template>
 
@@ -118,7 +118,16 @@ export default {
     isDev: {
       type: Boolean,
       default: true
-    }
+    },
+    inherit: {
+      type: [String, Number],
+      default: '0'
+    },
+    productId: {
+      type: String,
+      default: '0'
+    },
+    disabled: Boolean
   },
   data() {
     return {
@@ -145,21 +154,25 @@ export default {
       handler(val) {
         this.item = val
       }
-    }
-  },
-  created() {
-    if (this.$route.query.id) {
-      this.id = '' + this.$route.query.id
-      if (this.isDev) {
-        this.item.deviceId = this.id
-        this.getDevAttrList(this.id)
-      } else {
-        this.item.productId = this.id
-        getProductAttrTrapperList({ prodId: this.id }).then((res) => {
-          if (res.code == '200') {
-            this.deviceAttribute = res.data
+    },
+    inherit: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (this.$route.query.id) {
+          this.id = '' + this.$route.query.id
+          if (this.isDev) {
+            this.item.deviceId = this.id
+            if (val == '1') {
+              this.getAttrList(this.productId)
+            } else {
+              this.getDevAttrList(this.id)
+            }
+          } else {
+            this.item.productId = this.id
+            this.getAttrList(this.id)
           }
-        })
+        }
       }
     }
   },
@@ -198,6 +211,13 @@ export default {
     },
     getDevAttrList(prodId) {
       getAttrTrapperList({prodId}).then((res) => {
+        if (res.code == '200') {
+          this.deviceAttribute = res.data
+        }
+      })
+    },
+    getAttrList(prodId) {
+      getProductAttrTrapperList({ prodId }).then((res) => {
         if (res.code == '200') {
           this.deviceAttribute = res.data
         }

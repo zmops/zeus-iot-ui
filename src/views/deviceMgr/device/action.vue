@@ -1,7 +1,7 @@
 <!-- 执行动作组件 -->
 <template>
   <div class="Action">
-    <el-select v-if="isDev" v-model="item.executeDeviceId" placeholder="设备列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
+    <el-select v-if="isDev" v-model="item.executeDeviceId" :disabled="disabled" placeholder="设备列表" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
       <el-option
         v-for="(i, index) in deviceList"
         :key="index"
@@ -9,7 +9,7 @@
         :value="i.deviceId"
       />
     </el-select>
-    <el-select v-model="item.serviceId" placeholder="服务列表" size="mini" class="select2 zeus-mr-5">
+    <el-select v-model="item.serviceId" :disabled="disabled" placeholder="服务列表" size="mini" class="select2 zeus-mr-5">
       <el-option
         v-for="(i, index) in serviceList"
         :key="index"
@@ -17,7 +17,7 @@
         :value="i.id"
       />
     </el-select>
-    <el-button type="text" icon="el-icon-delete" class=" del" @click="del(ind)"></el-button>
+    <el-button type="text" icon="el-icon-delete" :disabled="disabled" class=" del" @click="del(ind)"></el-button>
   </div>
 </template>
 <script>
@@ -45,7 +45,8 @@ export default {
     ind: {
       type: Number,
       default: 0
-    }
+    },
+    disabled: Boolean
   },
   data() {
     return {
