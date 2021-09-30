@@ -112,7 +112,8 @@ export default {
         mark: '',
         async: '',
         remark: '',
-        relationId: ''
+        relationId: '',
+        productServiceParamList: []
       },
       rules: {
         name: [

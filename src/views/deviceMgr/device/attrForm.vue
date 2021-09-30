@@ -49,7 +49,7 @@
           </div>
         </el-form-item>
         <el-form-item label="单位">
-          <el-select v-model="form.units" size="mini" placeholder="请选择单位">
+          <el-select v-model="form.units" clearable filterable size="mini" placeholder="请选择单位">
             <el-option-group
               v-for="group in unitsList"
               :key="group.label"

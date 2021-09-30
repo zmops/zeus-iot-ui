@@ -47,7 +47,7 @@
       </div>
     </el-form-item>
     <el-form-item v-if="formData.valueType == '3' || formData.valueType == '0'" label="单位">
-      <el-select v-model="formData.units" filterable size="mini" placeholder="请选择单位" :disabled="disabled">
+      <el-select v-model="formData.units" filterable clearable size="mini" placeholder="请选择单位" :disabled="disabled">
         <el-option-group
           v-for="group in unitsList"
           :key="group.label"
@@ -69,7 +69,7 @@
       <Pretreatment ref="pretreatment" v-model="formData.processStepList" :disabled="disabled" />
     </el-form-item>
     <el-form-item label="值映射">
-      <el-select v-model="formData.valuemapid" size="mini" placeholder="请选择值映射" :disabled="disabled">
+      <el-select v-model="formData.valuemapid" clearable size="mini" placeholder="请选择值映射" :disabled="disabled">
         <el-option
           v-for="item in mapList"
           :key="item.valuemapid"
