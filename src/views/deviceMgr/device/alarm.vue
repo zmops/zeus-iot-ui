@@ -117,6 +117,11 @@ export default {
           show: true
         },
         {
+          label: '来自产品',
+          prop: 'inheritName',
+          show: true
+        },
+        {
           label: '告警级别',
           prop: 'eventLevelName',
           show: true

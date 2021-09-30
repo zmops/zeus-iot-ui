@@ -126,6 +126,11 @@ export default {
           show: true
         },
         {
+          label: '报错信息',
+          prop: 'error',
+          show: true
+        },
+        {
           label: '描述',
           prop: 'remark',
           show: true
