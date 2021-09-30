@@ -62,7 +62,7 @@
         </el-option-group>
       </el-select>
     </el-form-item>
-    <el-form-item v-if="formData.source === '0' || formData.source === '18'" label="取数间隔">
+    <el-form-item v-if="formData.source === '0'" label="取数间隔">
       <el-input v-model.number="formData.delay" placeholder="请输入内容" size="mini" class="input-with-select w500"></el-input>
       <el-select v-model="formData.unit" size="mini" placeholder="请选择" class="w100">
         <el-option label="秒" value="s"></el-option>
