@@ -16,7 +16,7 @@ const systemRouter = {
       component: () => import('@/views/system/role'),
       name: '/system/role',
       meta: {
-        title: '角色',
+        title: '角色管理',
         icon24: 'role24',
         icon48: 'role48'
       }
