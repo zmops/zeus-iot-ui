@@ -175,6 +175,7 @@ export default {
 }
 .setting-form-dark{
   background-color: #242E42;
+  height: 52px;
 }
 .dropdown-title{
   color: #242E42;
