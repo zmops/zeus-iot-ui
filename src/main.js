@@ -12,6 +12,7 @@ import VueSocketIO from 'vue-socket.io'
 import App from './App'
 import router from './router'
 import store from './store'
+
 Vue.use(ElementUI)
 Vue.use(new VueSocketIO({
   // debug: true,
@@ -21,7 +22,7 @@ Vue.use(new VueSocketIO({
   }
 }))
 Vue.config.productionTip = false
-Vue.prototype.$stringToHex = function(str) {
+Vue.prototype.$stringToHex = function (str) {
   const arr = []
   for (let i = 0; i < str.length; i++) {
     arr.push((str.charCodeAt(i)).toString(16))

@@ -39,7 +39,7 @@
               </el-row>
             </div>
             <div class="chart1 bg zeus-inline-block zeus-absolute">
-              <LineChart :title="'在线设备趋势'" :line-data="deviceChartData" :is-to-fixed="0" :height="'100%'" />
+              <LineChart :title="'在线设备趋势'" :line-data="deviceChartData" :is-to-fixed="0" :height="'100%'"/>
             </div>
           </div>
         </el-card>
@@ -63,7 +63,7 @@
               </el-row>
             </div>
             <div class="chart1 bg zeus-inline-block zeus-absolute">
-              <LineChart :title="'未解决告警趋势'" :line-data="alarmData" :is-to-fixed="0" :height="'100%'" />
+              <LineChart :title="'未解决告警趋势'" :line-data="alarmData" :is-to-fixed="0" :height="'100%'"/>
             </div>
           </div>
         </el-card>
@@ -72,10 +72,10 @@
         <el-card class="box-card" shadow="hover">
           <span>今日调用服务</span>
           <div class="zeus-right">
-            <span class="c-hui">近7日调用服务: </span>{{serviceTotal}}
+            <span class="c-hui">近7日调用服务: </span>{{ serviceTotal }}
           </div>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
-            <LineChart :title="serviceToday" :line-data="serviceChartData" :line-show="false" :height="'152px'" />
+            <LineChart :title="serviceToday" :line-data="serviceChartData" :line-show="false" :height="'152px'"/>
           </div>
         </el-card>
       </el-col>
@@ -83,10 +83,10 @@
         <el-card class="box-card" shadow="hover">
           <span>今日事件</span>
           <div class="zeus-right">
-            <span class="c-hui">近7日事件: </span>{{eventTotal}}
+            <span class="c-hui">近7日事件: </span>{{ eventTotal }}
           </div>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
-            <LineChart :title="eventToday" :line-data="eventChartData" :line-show="false" :height="'152px'" />
+            <LineChart :title="eventToday" :line-data="eventChartData" :line-show="false" :height="'152px'"/>
           </div>
         </el-card>
       </el-col>
@@ -94,7 +94,7 @@
         <el-card class="box-card" shadow="hover">
           <span>取数速率(个/s)</span>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
-            <LineChart :line-data="collectonRateData" :line-show="false" :height="'152px'" />
+            <LineChart :line-data="collectonRateData" :line-show="false" :height="'152px'"/>
           </div>
         </el-card>
       </el-col>
@@ -104,28 +104,28 @@
           <el-row :gutter="6" class="zeus-mt-15">
             <el-col :span="12">
               <div class="bg stat">
-                <svg-icon icon-class="jrlssj" class="zeus-mr-5" />
+                <svg-icon icon-class="jrlssj" class="zeus-mr-5"/>
                 <span>今日历史数据条数</span>
                 <span class="zeus-right">{{ statistics.todayRecordNum || '-' }}</span>
               </div>
             </el-col>
             <el-col :span="12">
               <div class="bg stat">
-                <svg-icon icon-class="zlssjts" class="zeus-mr-5" />
+                <svg-icon icon-class="zlssjts" class="zeus-mr-5"/>
                 <span>总历史数据条数</span>
                 <span class="zeus-right">{{ statistics.totalRecordNum || '-' }}</span>
               </div>
             </el-col>
             <el-col :span="12" class="zeus-mt-5">
               <div class="bg stat">
-                <svg-icon icon-class="zlssjkj" class="zeus-mr-5" />
+                <svg-icon icon-class="zlssjkj" class="zeus-mr-5"/>
                 <span>总历史数据空间</span>
                 <span class="zeus-right">-</span>
               </div>
             </el-col>
             <el-col :span="12" class="zeus-mt-5">
               <div class="bg stat">
-                <svg-icon icon-class="zfwdycs" class="zeus-mr-5" />
+                <svg-icon icon-class="zfwdycs" class="zeus-mr-5"/>
                 <span>总服务调用次数</span>
                 <span class="zeus-right">{{ statistics.serviceExecuteNum || '-' }}</span>
               </div>
@@ -147,9 +147,10 @@
 <script>
 import LineChart from '@/components/Basics/LineChart'
 import BarChart from '@/components/Basics/BarChart'
-import { deviceNum, collectonRate, alarmNum, eventNum, serviceExecuteNum, alarmTop, dataLevel} from '@/api/analyse'
+import { deviceNum, collectonRate, alarmNum, eventNum, serviceExecuteNum, alarmTop, dataLevel } from '@/api/analyse'
+
 export default {
-  name: "globalOverview",
+  name: 'globalOverview',
   components: {
     LineChart,
     BarChart
@@ -201,18 +202,20 @@ export default {
       // 告警统计
       alarmNum({ timeFrom, timeTill }).then((res) => {
         if (res.code == 200) {
-          this.alarmData = res.data.trends.map((i) => {
-            return {
-              name: i.name,
-              type: 'line',
-              showSymbol: false,
-              data: i.data.map((ii) => {
-                return [
-                  ii.date, Number(ii.val)
-                ]
-              })
-            }
-          })
+          if (res.data.trends) {
+            this.alarmData = res.data.trends.map((i) => {
+              return {
+                name: i.name,
+                type: 'line',
+                showSymbol: false,
+                data: i.data.map((ii) => {
+                  return [
+                    ii.date, Number(ii.val)
+                  ]
+                })
+              }
+            })
+          }
         }
       })
       // 取数速率
@@ -237,16 +240,19 @@ export default {
         if (res.code == 200) {
           this.eventToday = res.data.today
           this.eventTotal = res.data.total
-          const chart = res.data.trends.map((i) => {
-            return [i.date, Number(i.val)]
-          })
-          this.eventChartData = [
-            {
-              type: 'line',
-              showSymbol: false,
-              data: chart
-            }
-          ]
+          if (res.data.trends) {
+            const chart = res.data.trends.map((i) => {
+              return [i.date, Number(i.val)]
+            })
+            this.eventChartData = [
+              {
+                type: 'line',
+                showSymbol: false,
+                data: chart
+              }
+            ]
+          }
+
         }
       })
       // 今日调用服务
@@ -254,16 +260,19 @@ export default {
         if (res.code == 200) {
           this.serviceToday = res.data.today
           this.serviceTotal = res.data.total
-          const chart = res.data.trends.map((i) => {
-            return [i.date, Number(i.val)]
-          })
-          this.serviceChartData = [
-            {
-              type: 'line',
-              showSymbol: false,
-              data: chart
-            }
-          ]
+
+          if (res.data.trends) {
+            const chart = res.data.trends.map((i) => {
+              return [i.date, Number(i.val)]
+            })
+            this.serviceChartData = [
+              {
+                type: 'line',
+                showSymbol: false,
+                data: chart
+              }
+            ]
+          }
         }
       })
       // 告警数量
@@ -293,7 +302,7 @@ export default {
 
 <style lang="scss" scoped>
 .globalOverview {
-  .time{
+  .time {
     text-align: right;
   }
 
@@ -301,7 +310,7 @@ export default {
     width: 100%;
   }
 
-  .flex{
+  .flex {
     display: flex;
   }
 
@@ -319,11 +328,11 @@ export default {
     font-size: 12px;
   }
 
-  .c-hui{
+  .c-hui {
     color: #79879C;
   }
 
-  .hang{
+  .hang {
     width: 100%;
     line-height: 16px;
   }
@@ -341,14 +350,14 @@ export default {
     background-color: #F9FBFD;
   }
 
-  .stat{
+  .stat {
     width: 100%;
     height: 48px;
     line-height: 48px;
     padding: 0 18px 0 12px;
   }
 
-  .data-size{
+  .data-size {
     height: 255px;
   }
 
