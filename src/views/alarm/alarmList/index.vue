@@ -25,7 +25,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import { getDeviceList } from '@/api/deviceMgr'
-import { getAlarmByPage } from '@/api/alarm'
+import { getAlarmByPage, resolve, acknowledgement } from '@/api/alarm'
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 
 export default {
@@ -90,7 +90,7 @@ export default {
         },
         {
           label: '解决状态',
-          prop: 'status',
+          prop: 'statusName',
           show: true
         },
         {
@@ -188,6 +188,10 @@ export default {
             if (i.rClock == '0') {
               i.rClock = '-'
             }
+            if (i.status) {
+              i.statusName = i.status
+              this.$delete(i, 'status')
+            }
             return i
           })
           this.tableData = res.data
@@ -201,8 +205,47 @@ export default {
       this.page = val
       this.getList()
     },
-    solve(id) {
-
+    /* 解决 */
+    solve(eventId) {
+      const i = this.tableData2.find((item) => {
+        return item.eventid === eventId
+      })
+      if (i.statusName === '已解决') {
+        this.$message({
+          message: '当前记录已解决,不可重复操作',
+          type: 'warning'
+        })
+        return false
+      }
+      resolve({ eventId }).then((res) => {
+        if (res.code == '200') {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+        }
+      })
+    },
+    /* 确认 */
+    affirm(eventId) {
+      const i = this.tableData2.find((item) => {
+        return item.eventid === eventId
+      })
+      if (i.acknowledged === '已确认') {
+        this.$message({
+          message: '当前记录已确认,不可重复操作',
+          type: 'warning'
+        })
+        return false
+      }
+      acknowledgement({ eventId }).then((res) => {
+        if (res.code == '200') {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+        }
+      })
     },
     detail(item) {
       this.$router.push({
