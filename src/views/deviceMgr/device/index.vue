@@ -158,7 +158,7 @@ export default {
         },
         {
           label: '最近在线时间',
-          prop: 'code',
+          prop: 'latestOnline',
           show: true
         },
         {

@@ -149,8 +149,8 @@ export default {
           { required: true, message: '请输入告警名称', trigger: 'blur' }
         ],
         expList: [
-          { required: true, message: '请选择触发条件' },
-          { validator: checkData }
+          { required: true, message: '请选择触发条件', trigger: 'blur' },
+          { validator: checkData, trigger: 'blur' }
         ],
         eventLevel: [
           { required: true, message: '请选择告警级别', trigger: 'change' }
@@ -230,6 +230,9 @@ export default {
       if (this.verification()) {
         this.formData.deviceServices.push(obj)
       }
+    },
+    reset() {
+      this.$refs.dialogForm.resetFields()
     },
     verification() {
       for (const item of this.formData.deviceServices) {

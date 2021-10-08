@@ -62,8 +62,8 @@
         </el-option-group>
       </el-select>
     </el-form-item>
-    <el-form-item v-if="formData.source === '0'" label="取数间隔">
-      <el-input v-model.number="formData.delay" placeholder="请输入内容" size="mini" class="input-with-select w500"></el-input>
+    <el-form-item v-if="formData.source === '0'" label="取数间隔" prop="delay">
+      <el-input v-model.number="formData.delay" placeholder="请输入取数间隔" size="mini" class="input-with-select w500" @input="delayChange"></el-input>
       <el-select v-model="formData.unit" size="mini" placeholder="请选择" class="w100">
         <el-option label="秒" value="s"></el-option>
         <el-option label="分" value="m"></el-option>
@@ -136,6 +136,9 @@ export default {
       rules: {
         attrName: [
           { required: true, message: '请输入属性名称', trigger: 'blur' }
+        ],
+        delay: [
+          { required: true, message: '请输入取数间隔', trigger: 'blur' }
         ],
         key: [
           { required: true, message: '请输入标识符', trigger: 'blur' },
@@ -218,6 +221,11 @@ export default {
             this.mapList = res.data
           }
         })
+      }
+    },
+    delayChange() {
+      if (this.formData.unit === '' || this.formData.unit === undefined) {
+        this.$set(this.formData, 'unit', 's')
       }
     },
     groupFormat(data) {

@@ -242,6 +242,7 @@ export default {
         ],
         deviceServices: []
       }
+      this.$refs.alarmForm.reset()
     },
     disable(id) {
       this.modifyStatus(id, 'DISABLE')

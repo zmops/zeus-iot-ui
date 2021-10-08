@@ -64,12 +64,12 @@ export default {
   },
   created() {
     if (this.$route.query.id) {
-      this.getService(this.id)
+      this.getService(this.$route.query.id)
     }
   },
   methods: {
     getService(prodId) {
-      getServiceList({prodId}).then((res) => {
+      getServiceList({ prodId }).then((res) => {
         if (res.code == '200') {
           this.serviceList = res.data
         }
