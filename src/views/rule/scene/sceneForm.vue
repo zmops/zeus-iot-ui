@@ -150,7 +150,7 @@ export default {
       this.$refs.dialogForm.validate((valid) => {
         flag = valid
       })
-      return flag
+      return flag && this.verification()
     },
     del(index) {
       this.formData.expList.splice(index, 1)
@@ -159,13 +159,32 @@ export default {
       this.formData.deviceServices.splice(index, 1)
     },
     addAction() {
-      this.formData.deviceServices.push(
-        {
+      if (this.verification()) {
+        this.formData.deviceServices.push({
           guid: guid(),
           executeDeviceId: '',
           serviceId: ''
+        })
+      }
+    },
+    verification() {
+      for (const item of this.formData.deviceServices) {
+        if (item.executeDeviceId === '' && this.isDev) {
+          this.$message({
+            message: '请填写完整当前执行动作',
+            type: 'warning'
+          })
+          return false
         }
-      )
+        if (item.serviceId === '') {
+          this.$message({
+            message: '请填写完整当前执行动作',
+            type: 'warning'
+          })
+          return false
+        }
+      }
+      return true
     }
   }
 }

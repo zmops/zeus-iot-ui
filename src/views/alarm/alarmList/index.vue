@@ -179,7 +179,7 @@ export default {
       this.loading = true
       if (this.form.time && this.form.time.length) {
         this.form.timeFrom = this.form.time[0]
-        this.form.timeTill = this.form.time[0]
+        this.form.timeTill = this.form.time[1]
       }
       getAlarmByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
         this.loading = false

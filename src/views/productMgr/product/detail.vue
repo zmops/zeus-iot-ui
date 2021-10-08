@@ -9,7 +9,7 @@
         <serve v-else-if="activity === '服务管理'" />
         <offLineRule v-else-if="activity === '上下线规则'" />
         <alarm v-else-if="activity === '告警规则'" />
-        <tag v-else-if="activity === '标签'" />
+        <tag v-else-if="activity === '标签'" @updata="getDetail" />
         <variable v-else-if="activity === '变量'" />
         <mapping v-else-if="activity === '值映射方案'" />
         <device v-else-if="activity === '设备'" />
@@ -101,7 +101,6 @@ export default {
   async created() {
     if (this.$route.query.id) {
       this.prodId = this.$route.query.id
-      await this.getTag(this.$route.query.id)
       await this.getDetail()
     }
     if (this.$route.query.tabsName) {
@@ -112,15 +111,13 @@ export default {
     changeTabs(name) {
       this.activity = name
     },
-    getTag(productId) {
-      getProdTagList({ productId }).then((res) => {
+    async getDetail() {
+      await getProdTagList({ productId: this.prodId }).then((res) => {
         if (res.code == 200) {
           this.tagList = res.data
         }
       })
-    },
-    getDetail() {
-      productDetail({ productId: this.prodId }).then((res) => {
+      await productDetail({ productId: this.prodId }).then((res) => {
         if (res.code == 200) {
           this.info = res.data
           this.detailList = [

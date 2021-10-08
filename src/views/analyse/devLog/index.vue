@@ -58,6 +58,7 @@ export default {
       tableData: [],
       devList: [],
       productList: [],
+      devTemplate:[],
       loading: false,
       total: 0,
       size: 10,
@@ -108,20 +109,23 @@ export default {
   watch: {
     'form.deviceId': {
       handler(val) {
-        this.getList()
+        if (val !== '') {
+          this.getList()
+        }
       }
     },
     'form.productId': {
       immediate: true,
       async handler(val) {
-        let devTemplate = []
+        this.devTemplate = []
+        this.form.deviceId = ''
         if (val !== '') {
           await getDeviceList({productId: val}).then((res) => {
             if (res.code == 200) {
-              devTemplate = res.data
-              if (res.data && res.data.length) {
-                this.form.deviceId = res.data[0].deviceId
-              }
+              this.devTemplate = res.data
+              // if (res.data && res.data.length) {
+              //   this.form.deviceId = res.data[0].deviceId
+              // }
             }
           })
         }
@@ -141,7 +145,7 @@ export default {
             label: '设备',
             optionId: 'deviceId',
             optionName: 'name',
-            options: devTemplate,
+            options: this.devTemplate,
             w: 200
           },
           {
@@ -182,7 +186,16 @@ export default {
         if (res.code == 200) {
           this.productList = res.data
           if (res.data && res.data.length) {
-            this.form.productId = res.data[0].productId
+            // this.form.productId = res.data[0].productId
+            this.form.productId = ''
+          }
+        }
+      })
+      await getDeviceList({}).then((res) => {
+        if (res.code == 200) {
+          this.devTemplate = res.data
+          if (res.data && res.data.length) {
+            this.form.deviceId = res.data[0].deviceId
           }
         }
       })

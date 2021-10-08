@@ -101,6 +101,7 @@ export default {
                 type: 'success'
               })
               this.getTagList()
+              this.$emit('updata')
               this.dialogVisible = false
             }
           })
@@ -112,6 +113,7 @@ export default {
                 type: 'success'
               })
               this.getTagList()
+              this.$emit('updata')
               this.dialogVisible = false
             }
           })

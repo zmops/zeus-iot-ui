@@ -36,11 +36,11 @@
         </div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
         </div>
       </div>
       <div class="dialog-body">
-        <sceneForm ref="sceneForm" v-model="dialogForm"/>
+        <sceneForm ref="sceneForm" v-model="dialogForm" />
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
