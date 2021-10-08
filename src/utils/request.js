@@ -52,16 +52,22 @@ service.interceptors.response.use(
         // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
         if (res.code == 1502) {
           // to re-login
-          MessageBox.confirm('当前登录信息已过期或失效,请重新登录', '提示', {
-            confirmButtonText: '重新登录',
-            showCancelButton: false,
-            closeOnClickModal: false,
-            type: 'warning'
-          }).then(() => {
+          if (location.hash === '#/login' || location.hash === '#/') {
             store.dispatch('user/resetToken').then(() => {
               router.push('/login')
             })
-          })
+          } else {
+            MessageBox.confirm('当前登录信息已过期或失效,请重新登录', '提示', {
+              confirmButtonText: '重新登录',
+              showCancelButton: false,
+              closeOnClickModal: false,
+              type: 'warning'
+            }).then(() => {
+              store.dispatch('user/resetToken').then(() => {
+                router.push('/login')
+              })
+            })
+          }
         } else {
           Message({
             message: res.message || 'Error',
