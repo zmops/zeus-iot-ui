@@ -5,7 +5,7 @@
       <el-form-item label="设备ID" prop="deviceId">
         <el-input v-model="dialogForm.deviceId" size="mini" :disabled="state === '编辑'"/>
         <div v-if="state !== '编辑'" class="el-form-item-tips">
-          <svg-icon icon-class="tips" />
+          <svg-icon icon-class="tips" class="icon" />
           若不填写设备ID，则由系统自动生成唯一ID，且不再可以编辑
         </div>
       </el-form-item>
@@ -32,7 +32,7 @@
           />
         </el-select>
         <div class="el-form-item-tips">
-          <svg-icon icon-class="tips" />帮助对数据权限进行精确控制。
+          <svg-icon icon-class="tips" class="icon" />帮助对数据权限进行精确控制。
         </div>
       </el-form-item>
       <el-form-item label="描述" prop="remark">
@@ -41,7 +41,7 @@
       <el-form-item label="坐标" prop="position">
         <el-input v-model="dialogForm.position" size="mini"/>
         <div class="el-form-item-tips">
-          <svg-icon icon-class="tips" />请点击地图来获取坐标，或直接输入经纬度，如 119.977871,31.822535
+          <svg-icon icon-class="tips" class="icon" />请点击地图来获取坐标，或直接输入经纬度，如 119.977871,31.822535
         </div>
       </el-form-item>
       <el-form-item label="地址" prop="addr">
@@ -50,7 +50,7 @@
     </el-form>
     <div v-if="selfKey === ''" class="bm-view zeus-mt-20">
       <div class="tips">
-        <svg-icon icon-class="tips" />
+        <svg-icon icon-class="tips" class="icon" />
         <span>为正常使用地图控件,请设置用户Key。</span>
       </div>
       <div class="zeus-text-align-c no-key">
@@ -251,9 +251,9 @@ export default {
     font-size: 12px;
     padding-left: 20px;
 
-    i{
+    .icon{
       color: #50A1FB;
-      margin-right: 6px;
+      margin-right: 4px;
     }
   }
 }

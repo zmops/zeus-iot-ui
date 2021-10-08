@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="tips">
-        <svg-icon icon-class="tips" />
+        <svg-icon icon-class="tips" class="icon" />
         <span>可设置自定义变量，适用于同一产品不同设备下，键相同而值可能不同的情况，以方便取用。</span>
       </div>
       <div class="dialog-body">
@@ -248,9 +248,8 @@ export default {
     font-size: 12px;
     padding-left: 20px;
 
-    i{
-      color: #50A1FB;
-      margin-right: 6px;
+    .icon{
+      margin-right: 4px;
     }
   }
 

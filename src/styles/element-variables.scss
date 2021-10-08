@@ -191,9 +191,12 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   font-size: 12px;
   color: #79879c;
   line-height: 18px;
-  i{
-    font-size: 14px;
-    margin-right: 5px;
+  .icon{
+    margin-right: 4px;
+  }
+
+  .svg-icon{
+    margin-right: 4px;
   }
 }
 .is-error  .el-form-item-tips{

@@ -87,7 +87,7 @@
       <div class="dialog-body">
         <div v-if="selfKey === ''" class="bm-view2 zeus-mt-20">
           <div class="tips">
-            <svg-icon icon-class="tips" />
+            <svg-icon icon-class="tips" class="icon" />
             <span>为正常使用地图控件,请设置用户Key。</span>
           </div>
           <div class="zeus-text-align-c no-key">
@@ -297,9 +297,9 @@ export default {
     font-size: 12px;
     padding-left: 20px;
 
-    i{
+    .icon{
       color: #50A1FB;
-      margin-right: 6px;
+      margin-right: 4px;
     }
   }
 

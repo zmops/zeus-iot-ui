@@ -7,7 +7,7 @@
     <el-form-item label="标识符" prop="key">
       <el-input v-model="formData.key" size="mini" :disabled="disabled"/>
       <div class="el-form-item-tips">
-        <svg-icon icon-class="tips" />
+        <svg-icon icon-class="tips" class="icon" />
         <span>可以包含数字、字母、-_.。更多特殊形式请见文档</span>
         <span v-if="false">标识符内可使用本产品 变量 的 键，且必须包含在{$}内；若变量的键为 PWD，则完整标识符可以为 xx{$PWD}xxx</span>
       </div>
@@ -43,7 +43,7 @@
         />
       </el-select>
       <div class="el-form-item-tips">
-        <svg-icon icon-class="tips" />想要枚举？使用下面的值映射或数据预处理。
+        <svg-icon icon-class="tips" class="icon" />想要枚举？使用下面的值映射或数据预处理。
       </div>
     </el-form-item>
     <el-form-item v-if="formData.valueType == '3' || formData.valueType == '0'" label="单位">
@@ -70,7 +70,7 @@
         <el-option label="小时" value="h"></el-option>
       </el-select>
       <div class="el-form-item-tips">
-        <svg-icon icon-class="tips" />取数间隔在1秒到24小时之间。
+        <svg-icon icon-class="tips" class="icon" />取数间隔在1秒到24小时之间。
       </div>
     </el-form-item>
     <el-form-item label="描述">
@@ -89,7 +89,7 @@
         />
       </el-select>
       <div class="el-form-item-tips">
-        <svg-icon icon-class="tips" />若配置，则实际保存的依然是原始值。只是方便让展现数据的可读性更好。
+        <svg-icon icon-class="tips" class="icon" />若配置，则实际保存的依然是原始值。只是方便让展现数据的可读性更好。
       </div>
     </el-form-item>
     <el-form-item label="标签">
@@ -161,7 +161,7 @@ export default {
   },
   computed: {
     disabled() {
-      return this.formData.attrId && this.formData.templateId
+      return !!this.formData.attrId && !!this.formData.templateId
     }
   },
   watch: {

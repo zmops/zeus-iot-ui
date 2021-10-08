@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="tips">
-        <svg-icon icon-class="tips" />
+        <svg-icon icon-class="tips" class="icon" />
         <span>可设置自定义标签，以方便统计分析。</span>
       </div>
       <div class="dialog-body">
@@ -168,9 +168,9 @@ export default {
     font-size: 12px;
     padding-left: 20px;
 
-    i{
+    .icon{
       color: #50A1FB;
-      margin-right: 6px;
+      margin-right: 4px;
     }
   }
 }

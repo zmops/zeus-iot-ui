@@ -10,7 +10,7 @@
         <el-form-item label="标识符" prop="key">
           <el-input v-model="form.key" size="mini"/>
           <div class="el-form-item-tips">
-            <svg-icon icon-class="tips" />
+            <svg-icon icon-class="tips" class="icon" />
             <span>可以包含数字、字母、-_.。更多特殊形式请见文档</span>
             <span v-if="false">标识符内可使用本产品 变量 的 键，且必须包含在{$}内；若变量的键为 PWD，则完整标识符可以为 xx{$PWD}xxx</span>
           </div>
@@ -45,7 +45,7 @@
             />
           </el-select>
           <div class="el-form-item-tips">
-            <svg-icon icon-class="tips" />想要枚举？使用下面的值映射或数据预处理。
+            <svg-icon icon-class="tips" class="icon" />想要枚举？使用下面的值映射或数据预处理。
           </div>
         </el-form-item>
         <el-form-item label="单位">
@@ -107,7 +107,7 @@
           </div>
           <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="preAdd">增加预处理步骤</el-button>
           <div class="el-form-item-tips">
-            <svg-icon icon-class="tips" />若配置，则最终保存的是预处理后的数据。
+            <svg-icon icon-class="tips" class="icon" />若配置，则最终保存的是预处理后的数据。
           </div>
         </el-form-item>
         <el-form-item label="值映射">
@@ -120,7 +120,7 @@
             />
           </el-select>
           <div class="el-form-item-tips">
-            <svg-icon icon-class="tips" />若配置，则实际保存的依然是原始值。只是方便让展现数据的可读性更好。
+            <svg-icon icon-class="tips" class="icon" />若配置，则实际保存的依然是原始值。只是方便让展现数据的可读性更好。
           </div>
         </el-form-item>
         <el-form-item label="标签">
@@ -141,7 +141,7 @@
           </div>
           <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="tagAdd">增加标签</el-button>
           <div class="el-form-item-tips">
-            <svg-icon icon-class="tips" />可在属性上增加自定义标签，以方便统计分析。
+            <svg-icon icon-class="tips" class="icon" />可在属性上增加自定义标签，以方便统计分析。
           </div>
         </el-form-item>
       </el-form>

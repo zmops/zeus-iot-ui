@@ -51,7 +51,7 @@
               placeholder="选择过期时间">
             </el-date-picker>
             <div class="el-form-item-tips zeus-inline-block zeus-ml-15">
-              <svg-icon icon-class="tips" />不填则不会过期
+              <svg-icon icon-class="tips" class="icon" />不填则不会过期
             </div>
           </el-form-item>
           <el-form-item label="启用" prop="status">

@@ -9,7 +9,7 @@
         <el-col :span="8">
           <el-row v-for="(i, ind) in item.mappings" :key="ind" class="zeus-mb-15">
             <el-col :span="12">
-              <span class="zeus-bold zeus-mr-5">=</span>
+              <svg-icon icon-class="mapping-equal" class="zeus-mr-5"/>
               <span>{{ i.value }}</span>
             </el-col>
             <el-col :span="12">
@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="tips">
-        <svg-icon icon-class="tips" />
+        <svg-icon icon-class="tips" class="icon" />
         <span>供产品内的属性选用。若属性上进行了配置，则实际保存的依然是原始值。只是让展现数据的可读性更好。</span>
       </div>
       <div class="dialog-body">
@@ -291,9 +291,9 @@ export default {
     font-size: 12px;
     padding-left: 20px;
 
-    i{
+    .icon{
       color: #50A1FB;
-      margin-right: 6px;
+      margin-right: 4px;
     }
   }
 }
