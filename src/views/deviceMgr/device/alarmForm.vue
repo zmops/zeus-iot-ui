@@ -56,7 +56,7 @@
         </el-select>
         条件时,触发告警
       </div>
-      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" :disabled="formData.inherit =='1' && isDev" :inherit="formData.inherit" :productId="formData.inheritProductId" v-model="formData.expList[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" @del="del" />
+      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" :disabled="formData.inherit =='1' && isDev" :productId="formData.inheritProductId" v-model="formData.expList[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" :inherit="formData.inherit" @del="del" />
       <el-button class="add-btn" :disabled="formData.inherit =='1' && isDev" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
     </el-form-item>
     <el-form-item label="执行动作">

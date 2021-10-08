@@ -8,15 +8,12 @@
       <template v-slot:title>场景联动</template>
       <template v-slot:subhead>对场景联动规则进行管理。可以实现跨设备的业务逻辑。当属性、事件满足设定规则时，自动实现联动功能。</template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0"
-                :columns="columns" @search="search"/>
+    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :columns="columns" @search="search"/>
     <BusinessTable
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
-      :selection="true"
-      @select="handleSelect"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     <el-dialog
@@ -232,9 +229,6 @@ export default {
   },
   async created() {
     await this.searchInit()
-    if (this.form.prodId === null) {
-      return false
-    }
     await this.getList()
   },
   methods: {
@@ -242,9 +236,10 @@ export default {
       await getDeviceList({}).then((res) => {
         if (res.code == 200) {
           this.devList = res.data
-          if (res.data && res.data.length) {
-            this.form.prodId = res.data[0].deviceId
-          }
+          this.form.prodId = ''
+          // if (res.data && res.data.length) {
+          //   this.form.prodId = res.data[0].deviceId
+          // }
         }
       })
     },

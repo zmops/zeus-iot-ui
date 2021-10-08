@@ -24,8 +24,12 @@
           </div>
           <div v-else-if="item.tag" class="detail-list-r">
             <div v-for="(i, ind) in item.tag" :key="ind" class="tag-item zeus-inline-block">
-              <span class="tag-item-l zeus-inline-block">{{ i.tag }}</span>
-              <span class="tag-item-r zeus-inline-block">{{ i.value }}</span>
+              <el-tooltip class="item" effect="dark" :content="i.tag" placement="top">
+                <span class="tag-item-l zeus-inline-block">{{ i.tag }}</span>
+              </el-tooltip>
+              <el-tooltip class="item" effect="dark" :content="i.value" placement="top">
+                <span class="tag-item-r zeus-inline-block">{{ i.value }}</span>
+              </el-tooltip>
             </div>
           </div>
           <div v-else class="detail-list-r">{{ item.value || '-' }}</div>

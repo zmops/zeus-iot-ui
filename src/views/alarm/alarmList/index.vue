@@ -184,6 +184,12 @@ export default {
       getAlarmByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
         this.loading = false
         if (res.code == 200) {
+          res.data.map((i) => {
+            if (i.rClock == '0') {
+              i.rClock = '-'
+            }
+            return i
+          })
           this.tableData = res.data
           this.total = res.count
         }
@@ -205,7 +211,7 @@ export default {
           id: item.deviceId
         }
       })
-    },
+    }
   }
 }
 </script>

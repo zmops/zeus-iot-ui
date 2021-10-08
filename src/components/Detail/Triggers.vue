@@ -153,26 +153,26 @@ export default {
       immediate: true,
       handler(val) {
         this.item = val
-      }
-    },
-    inherit: {
-      deep: true,
-      immediate: true,
-      handler(val) {
         if (this.$route.query.id) {
           this.id = '' + this.$route.query.id
           if (this.isDev) {
-            this.item.deviceId = this.id
-            if (val == '1') {
+            if (this.inherit == '1') {
+              this.item.deviceId = this.id
               this.getAttrList(this.productId)
             } else {
-              this.getDevAttrList(this.id)
+              this.getDevAttrList(this.item.deviceId)
             }
           } else {
             this.item.productId = this.id
             this.getAttrList(this.id)
           }
         }
+      }
+    },
+    inherit: {
+      deep: true,
+      immediate: true,
+      handler(val) {
       }
     }
   },

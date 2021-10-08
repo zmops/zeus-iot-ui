@@ -13,7 +13,7 @@
       </div>
     </el-form-item>
     <el-form-item label="来源类型" prop="source">
-      <el-select v-model="formData.source" size="mini" placeholder="请选择来源类型" :disabled="disabled">
+      <el-select v-model="formData.source" size="mini" placeholder="请选择来源类型" :disabled="disabled" @change="sourceChange">
         <el-option
           v-for="item in sourceList"
           :key="item.code"
@@ -22,7 +22,6 @@
         />
       </el-select>
     </el-form-item>
-
     <el-form-item v-if="formData.source === '18'" label="来源属性" prop="depAttrId">
       <el-select v-model="formData.depAttrId" size="mini" placeholder="请选择来源属性" :disabled="disabled">
         <el-option
@@ -245,6 +244,10 @@ export default {
         flag = valid
       })
       return flag && this.$refs.pretreatment.verification() && this.$refs.tag.verification()
+    },
+    sourceChange(val) {
+      this.$refs.dialogForm.clearValidate('depAttrId')
+      this.$refs.dialogForm.clearValidate('delay')
     }
   }
 }
