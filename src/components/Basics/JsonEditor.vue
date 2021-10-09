@@ -62,6 +62,7 @@ export default {
       autoCloseBrackets: true, // 输入和退格时成对
       autoRefresh: true // 自动刷新
     })
+    this.jsonEditor.setValue(this.json)
     this.jsonEditor.on('change', cm => {
       this.$emit('change', cm.getValue())
     })
