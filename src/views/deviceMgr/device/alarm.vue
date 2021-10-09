@@ -95,6 +95,7 @@ export default {
             condition: '=',
             productAttrType: '属性',
             function: 'last',
+            value: '',
             period: '时间',
             unit: 'm'
           }

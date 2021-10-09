@@ -201,7 +201,8 @@ export default {
       this.item.incident = ''
       this.item.condition = '='
       this.item.productAttrType = '属性'
-      this.item.function = 'last'
+      // this.item.function = 'last'
+      this.item.value = ''
       this.item.period = '时间'
       this.item.unit = 'm'
       const attr = this.deviceAttribute.find((i) => {

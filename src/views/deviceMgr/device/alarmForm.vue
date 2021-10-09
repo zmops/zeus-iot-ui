@@ -196,6 +196,7 @@ export default {
         productAttrId: '',
         incident: '',
         condition: '=',
+        value: '',
         productAttrType: '属性',
         function: 'last',
         period: '时间',
