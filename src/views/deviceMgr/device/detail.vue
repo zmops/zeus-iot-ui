@@ -165,7 +165,7 @@ export default {
             },
             {
               key: '最近在线时间',
-              value: '-'
+              value: res.data.latestOnline
             },
             {
               key: '创建人',

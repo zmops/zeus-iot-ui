@@ -201,7 +201,17 @@ export default {
       if (this.isDev) {
         getAttrTrapperList({ prodId: this.prodId }).then(res => {
           if (res.code == 200) {
-            this.attrList = res.data
+            if (this.formData.attrId) {
+              const arr = []
+              res.data.forEach((i) => {
+                if (i.attrId != this.formData.attrId) {
+                  arr.push(i)
+                }
+              })
+              this.attrList = arr
+            } else {
+              this.attrList = res.data
+            }
           }
         })
         getDevValueMapList({ deviceId: this.prodId }).then(res => {
@@ -212,7 +222,17 @@ export default {
       } else {
         getProductAttrTrapperList({ prodId: this.prodId }).then(res => {
           if (res.code == 200) {
-            this.attrList = res.data
+            if (this.formData.attrId) {
+              const arr = []
+              res.data.forEach((i) => {
+                if (i.attrId != this.formData.attrId) {
+                  arr.push(i)
+                }
+              })
+              this.attrList = arr
+            } else {
+              this.attrList = res.data
+            }
           }
         })
         getValueMapList({ productId: this.prodId }).then(res => {

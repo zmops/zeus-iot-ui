@@ -23,9 +23,8 @@
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import {getProductList, getServiceByPage} from '@/api/porductMgr'
-import {getDeviceList, deviceLogList} from '@/api/deviceMgr'
-import {getDictListByCode} from '@/api/system'
+import {getProductList} from '@/api/porductMgr'
+import {getDeviceList, getLogByPage} from '@/api/deviceMgr'
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 
 export default {
@@ -210,7 +209,7 @@ export default {
         this.form.timeFrom = this.form.time[0]
         this.form.timeTill = this.form.time[0]
       }
-      deviceLogList({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+      getLogByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
         this.loading = false
         if (res.code == 200) {
           this.tableData = res.data

@@ -388,6 +388,15 @@ export function createMacro(data) {
 }
 
 // 设备日志列表
+export function getLogByPage(data) {
+  return request({
+    url: '/device/log/getLogByPage',
+    method: 'post',
+    data
+  })
+}
+
+// 设备日志列表-不分页
 export function deviceLogList(params) {
   return request({
     url: '/device/log/list',
