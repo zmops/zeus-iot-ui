@@ -10,11 +10,11 @@ import EventBus from '@/utils/event-bus'
 export default {
   name: 'App',
   sockets: {
-    // 链接成功
+    // 连接成功
     connect() {
       console.log('连接成功')
     },
-    // 链接失败
+    // 连接失败
     disconnect() {
       console.log('连接失败')
     },
@@ -24,6 +24,10 @@ export default {
     },
     // 监听、接收消息方法
     broadcast(data) {
+      this.msg = data.message
+      console.log(data)
+    },
+    chat(data) {
       this.msg = data.message
       console.log(data)
     }

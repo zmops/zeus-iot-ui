@@ -46,13 +46,9 @@ export default {
       formParams: [],
       form: {
         deviceId: '',
-        name: '',
-        mark: '',
-        level: '',
-        bq: {
-          key: '',
-          value: ''
-        }
+        statusName: '',
+        severity: '',
+        time: []
       },
       tableData: [],
       devList: [],
@@ -135,14 +131,14 @@ export default {
       this.formParams = [
         {
           componentName: 'SelectTemplate',
-          keyName: 'name',
+          keyName: 'statusName',
           label: '告警状态',
           options: ['未解决', '已解决'],
           w: 200
         },
         {
           componentName: 'SelectTemplate',
-          keyName: 'level',
+          keyName: 'severity',
           label: '告警级别',
           optionId: 'value',
           optionName: 'label',
@@ -207,7 +203,7 @@ export default {
     },
     /* 解决 */
     solve(eventId) {
-      const i = this.tableData2.find((item) => {
+      const i = this.tableData.find((item) => {
         return item.eventid === eventId
       })
       if (i.statusName === '已解决') {
@@ -223,12 +219,13 @@ export default {
             message: '操作成功',
             type: 'success'
           })
+          this.getList()
         }
       })
     },
     /* 确认 */
     affirm(eventId) {
-      const i = this.tableData2.find((item) => {
+      const i = this.tableData.find((item) => {
         return item.eventid === eventId
       })
       if (i.acknowledged === '已确认') {
@@ -244,6 +241,7 @@ export default {
             message: '操作成功',
             type: 'success'
           })
+          this.getList()
         }
       })
     },

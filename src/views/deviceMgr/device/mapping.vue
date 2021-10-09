@@ -4,10 +4,10 @@
       <el-row>
         <el-col :span="8">
           <svg-icon icon-class="mapping" class="mapping-icon"/>
-          <span class="mapping-name zeus-inline-block zeus-ml-10">{{ item.name }}</span>
+          <span class="mapping-name zeus-inline-block zeus-ml-10 on-click" @click="edit(item)">{{ item.name }}</span>
         </el-col>
         <el-col :span="8">
-          <el-row v-for="(i, ind) in item.mappings" :key="ind" class="zeus-mb-15">
+          <el-row v-for="(i, ind) in list(item.mappings)" :key="ind" class="zeus-mb-15">
             <el-col :span="12">
               <svg-icon icon-class="mapping-equal" class="zeus-mr-5"/>
               <span>{{ i.value }}</span>
@@ -17,6 +17,7 @@
               <span>{{ i.newvalue }}</span>
             </el-col>
           </el-row>
+          <h3 v-if="item.mappings.length > 3">...</h3>
         </el-col>
         <el-col :span="8">
           <div class="zeus-right">
@@ -135,6 +136,9 @@ export default {
           }
         })
       }
+    },
+    list(item) {
+      return item.length > 3 ? item.slice(0, 3) : item
     },
     add() {
       this.mapItem = {
@@ -264,6 +268,11 @@ export default {
     &:hover{
       background-color: #EFF4F9;
     }
+  }
+
+  .on-click{
+    color: #409eff;
+    cursor: pointer;
   }
 
   .box-card{
