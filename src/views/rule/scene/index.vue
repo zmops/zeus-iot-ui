@@ -236,10 +236,10 @@ export default {
       await getDeviceList({}).then((res) => {
         if (res.code == 200) {
           this.devList = res.data
-          this.form.prodId = ''
-          // if (res.data && res.data.length) {
-          //   this.form.prodId = res.data[0].deviceId
-          // }
+          // this.form.prodId = ''
+          if (res.data && res.data.length) {
+            this.form.prodId = res.data[0].deviceId
+          }
         }
       })
     },

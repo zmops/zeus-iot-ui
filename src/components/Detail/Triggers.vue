@@ -166,6 +166,8 @@ export default {
             this.item.productId = this.id
             this.getAttrList(this.id)
           }
+        } else {
+          this.getDevAttrList(this.item.deviceId)
         }
       }
     },
