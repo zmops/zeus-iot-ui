@@ -182,7 +182,8 @@ export default {
             function: 'last',
             value: '',
             period: '时间',
-            unit: 'm'
+            unit: 'm',
+            scope: ''
           }
         ],
         deviceServices: []
