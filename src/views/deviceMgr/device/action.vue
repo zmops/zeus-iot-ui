@@ -65,7 +65,8 @@ export default {
   created() {
     if (this.$route.query.id) {
       this.getService(this.$route.query.id)
-    } else {
+    }
+    if (this.item.executeDeviceId) {
       this.getService(this.item.executeDeviceId)
     }
   },

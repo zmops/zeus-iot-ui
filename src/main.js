@@ -16,10 +16,10 @@ import store from './store'
 Vue.use(ElementUI)
 Vue.use(new VueSocketIO({
   // debug: true,
-  connection: `http://${process.env.VUE_APP_SOCKET_PATH}:9080?token=user002&userId=1`,
-  options: {
-    transports: ['websocket']
-  }
+  connection: `http://${process.env.VUE_APP_SOCKET_PATH}:9080?token=user&userId=` + localStorage.getItem('userid'),
+  // options: {
+  //   transports: ['websocket']
+  // }
 }))
 Vue.config.productionTip = false
 Vue.prototype.$stringToHex = function (str) {

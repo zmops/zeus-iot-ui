@@ -190,27 +190,48 @@ export default {
       this.item.condition = '='
       this.item.productAttrType = '属性'
       this.item.function = 'last'
-      this.item.period = '时间'
-      this.item.unit = 'm'
+      this.item.period = ''
+      this.item.unit = ''
       // 获取事件列表
 
       // 设备属性列表
       this.getDevAttrList(val)
     },
     attrChange(val) {
-      this.item.incident = ''
-      this.item.condition = '='
-      this.item.productAttrType = '属性'
-      // this.item.function = 'last'
-      this.item.value = ''
-      this.item.period = '时间'
-      this.item.unit = 'm'
       const attr = this.deviceAttribute.find((i) => {
         return i.attrId === val
       })
       this.units = attr.unitsName
       this.attrValueType = attr.valueType
       this.item.productAttrKey = attr.key
+      if (attr.valueType === '1' || attr.valueType === '4') {
+        if (this.item.function === 'sum' || this.item.function === 'min' || this.item.function === 'max' || this.item.function === 'avg') {
+          this.item.function = 'last'
+        }
+      }
+
+      if (this.item.function === 'change') {
+        this.item.value = ''
+      }
+      // if (attr.valueType === '3' || attr.valueType === '0') {
+      //   if (this.item.function === 'nodata') {
+      //
+      //   }
+      //
+      // } else {
+      //
+      //   if (this.item.function === 'nodata' || this.item.function === 'change') {
+      //
+      //   }
+      // }
+      // this.item.incident = ''
+      // this.item.condition = '='
+      // this.item.productAttrType = '属性'
+
+      // this.item.value = ''
+      this.item.period = ''
+      this.item.unit = ''
+      this.item.scope = ''
     },
     getDevAttrList(prodId) {
       getAttrTrapperList({prodId}).then((res) => {

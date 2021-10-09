@@ -10,11 +10,11 @@ import EventBus from '@/utils/event-bus'
 export default {
   name: 'App',
   sockets: {
-    // 连接成功
+    // 链接成功
     connect() {
       console.log('连接成功')
     },
-    // 连接失败
+    // 链接失败
     disconnect() {
       console.log('连接失败')
     },
@@ -25,11 +25,7 @@ export default {
     // 监听、接收消息方法
     broadcast(data) {
       this.msg = data.message
-      console.log(data)
-    },
-    chat(data) {
-      this.msg = data.message
-      console.log(data)
+      // console.log(data)
     }
   },
   data() {
@@ -94,15 +90,15 @@ export default {
     EventBus.$emit('openSocket', 'app')
   },
   mounted() {
-    this.$socket.on('broadcast', (data) => {
-      console.log(data)
-    })
-    const singleRequest = {
-      fromUid: 'token',
-      toUid: 'toUserId',
-      message: 'xiaoyao'
-    };
-    this.$socket.emit('chat', singleRequest)
+    // this.$socket.on('broadcast', (data) => {
+    //   console.log(data)
+    // })
+    // const singleRequest = {
+    //   fromUid: 'token',
+    //   toUid: 'toUserId',
+    //   message: 'xiaoyao'
+    // };
+    // this.$socket.emit('chat', singleRequest)
     // this.$socket.connect(`http://${process.env.VUE_APP_API_HOST}:9080?token=user002&userId=1`)
   },
   beforeDestroy() {
