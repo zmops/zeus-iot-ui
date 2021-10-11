@@ -47,7 +47,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -90,6 +90,7 @@ export default {
       },
       tableData: [],
       loading: false,
+      butLoading: false,
       buttons: [
         {
           type: 'primary',
@@ -209,6 +210,7 @@ export default {
     handleSubmit() {
       this.$refs.dialogForm.validate((valid) => {
         if (valid) {
+          this.butLoading = true
           this.dialogForm.deviceId = this.$route.query.id
           this.dialogForm.macro = '{$' + this.dialogForm.key + '}'
           if (this.state === '编辑') {
@@ -221,6 +223,9 @@ export default {
                 this.dialogVisible = false
                 this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           } else {
             createMacro(this.dialogForm).then((res) => {
@@ -232,6 +237,9 @@ export default {
                 this.dialogVisible = false
                 this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           }
         }

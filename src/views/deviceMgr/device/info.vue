@@ -132,7 +132,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -181,7 +181,7 @@ export default {
   data() {
     return {
       // 百度地图key
-      selfKey: '', // 请先到百度地图开放平台申请AK
+      selfKey: 'bG3Dzof798yBGM7BzzF1uANWriBPOT5x', // 请先到百度地图开放平台申请AK
       // 已选坐标，呈现mark用
       point: {},
       position: '',
@@ -190,6 +190,7 @@ export default {
       // 初始化地图中心点
       center: null,
       dialogVisible: false,
+      butLoading: false,
       dialogForm: {},
       rules: {
         name: [
@@ -257,6 +258,7 @@ export default {
     },
     submit() {
       if (this.$refs.deviceForm.validateForm()) {
+        this.butLoading = true
         updateDevice(this.dialogForm).then((res) => {
           if (res.code == 200) {
             this.$message({
@@ -266,6 +268,9 @@ export default {
             this.dialogVisible = false
             this.$emit('updata')
           }
+          this.butLoading = false
+        }).catch(() => {
+          this.butLoading = false
         })
       }
 

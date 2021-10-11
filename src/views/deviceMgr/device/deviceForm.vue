@@ -148,7 +148,7 @@ export default {
         ]
       },
       dialogForm: this.value,
-      selfKey: '', // 请先到百度地图开放平台申请AK
+      selfKey: 'bG3Dzof798yBGM7BzzF1uANWriBPOT5x', // 请先到百度地图开放平台申请AK
       point: {},
       position: '',
       keyword: '',

@@ -121,7 +121,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -137,6 +137,7 @@ export default {
   },
   data() {
     return {
+      butLoading: false,
       form: {
         onLine: {
           depAttrId: '',
@@ -303,6 +304,7 @@ export default {
         unitRecovery: onLine.type === 'nodata' ? onLine.timeType : '',
         productAttrKeyRecovery: onLine.key
       }
+      this.butLoading = true
       if (this.state === '编辑') {
         data.ruleId = this.ruleId
         updateTrigger(data).then((res) => {
@@ -314,6 +316,9 @@ export default {
             this.dialogVisible = false
             this.detail()
           }
+          this.butLoading = false
+        }).catch(() => {
+          this.butLoading = false
         })
       } else {
         createTrigger(data).then((res) => {
@@ -325,6 +330,9 @@ export default {
             this.dialogVisible = false
             this.detail()
           }
+          this.butLoading = false
+        }).catch(() => {
+          this.butLoading = false
         })
       }
     }

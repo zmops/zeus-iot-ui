@@ -33,7 +33,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -77,6 +77,7 @@ export default {
       },
       tableData: [],
       loading: false,
+      butLoading: false,
       total: 0,
       size: 10,
       page: 1,
@@ -308,6 +309,7 @@ export default {
     },
     submit() {
       if (this.$refs.alarmForm.validateForm()) {
+        this.butLoading = true
         if (this.state === '创建') {
           if (this.isDev) {
             createDevAlarm(this.dialogForm).then((res) => {
@@ -319,6 +321,9 @@ export default {
                 this.dialogVisible = false
                 this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           } else {
             this.dialogForm.productId = this.$route.query.id
@@ -331,6 +336,9 @@ export default {
                 this.dialogVisible = false
                 this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           }
         } else {
@@ -344,6 +352,9 @@ export default {
                 this.dialogVisible = false
                 this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           } else {
             this.dialogForm.productId = this.$route.query.id
@@ -356,6 +367,9 @@ export default {
                 this.dialogVisible = false
                 this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           }
         }

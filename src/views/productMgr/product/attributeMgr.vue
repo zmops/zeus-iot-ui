@@ -30,7 +30,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -81,6 +81,7 @@ export default {
       },
       tableData: [],
       loading: false,
+      butLoading: false,
       dialogVisible: false,
       dialogForm: {},
       state: '',
@@ -223,6 +224,7 @@ export default {
     },
     submit() {
       if (this.$refs.attributeForm.validateForm()) {
+        this.butLoading = true
         if (this.dialogForm.attrId) {
           updateAttrTrapper(this.dialogForm).then(async (res) => {
             if (res.code == 200) {
@@ -233,6 +235,9 @@ export default {
               this.dialogVisible = false
               this.getList()
             }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
           })
         } else {
           createAttrTrapper(this.dialogForm).then(async (res) => {
@@ -244,6 +249,9 @@ export default {
               this.dialogVisible = false
               this.getList()
             }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
           })
         }
       }

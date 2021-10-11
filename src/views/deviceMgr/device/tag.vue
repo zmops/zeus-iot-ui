@@ -35,7 +35,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -57,7 +57,8 @@ export default {
       prodId: '',
       tagList: [],
       viewList: [],
-      dialogVisible: false
+      dialogVisible: false,
+      butLoading: false
     }
   },
   async created() {
@@ -93,6 +94,7 @@ export default {
     },
     handleSubmit() {
       if (this.$refs.tag.verification()) {
+        this.butLoading = true
         if (this.isDev) {
           updateDevTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
             if (res.code == 200) {
@@ -104,6 +106,9 @@ export default {
               this.$emit('updata')
               this.dialogVisible = false
             }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
           })
         } else {
           updateProdTag({ productId: this.prodId, productTag: this.tagList }).then(res => {
@@ -116,6 +121,9 @@ export default {
               this.$emit('updata')
               this.dialogVisible = false
             }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
           })
         }
       }

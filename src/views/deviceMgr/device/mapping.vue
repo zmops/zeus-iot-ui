@@ -83,7 +83,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -101,6 +101,7 @@ export default {
       id: '',
       mapItem: {},
       showMap: false,
+      butLoading: false,
       dialogVisible: false,
       mapList: [],
       state: '创建',
@@ -206,6 +207,7 @@ export default {
     handleSubmit() {
       this.$refs.mappingForm.validate(async(valid, errorFields) => {
         if (valid) {
+          this.butLoading = true
           for (const item of this.mapItem.valueMaps) {
             if (item.newvalue === '' || item.value === '') {
               this.$message({
@@ -231,6 +233,9 @@ export default {
                 })
                 this.getMapList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           } else {
             data.productId = this.id
@@ -242,6 +247,9 @@ export default {
                 })
                 this.getMapList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           }
         }

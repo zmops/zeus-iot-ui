@@ -53,7 +53,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -102,6 +102,7 @@ export default {
       },
       tableData: [],
       loading: false,
+      butLoading: false,
       dialogVisible: false,
       state: '',
       total: 0,
@@ -301,6 +302,7 @@ export default {
     submit() {
       this.$refs.dialogForm.validate(async(valid) => {
         if (valid && this.$refs.variable.verification()) {
+          this.butLoading = true
           this.dialogForm.relationId = this.$route.query.id
           if (this.state === '创建') {
             createService(this.dialogForm).then((res) =>{
@@ -311,6 +313,9 @@ export default {
                 })
                 this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           } else {
             updateService(this.dialogForm).then((res) =>{
@@ -321,6 +326,9 @@ export default {
                 })
                 this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           }
         }
