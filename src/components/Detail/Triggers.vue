@@ -57,15 +57,15 @@
     <div class="zeus-mt-5">
       <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
         <el-option label="最新值" value="last" />
-        <el-option label="平均值" value="avg" :disabled="attrValueType != '3' && attrValueType != '0'" />
-        <el-option label="最大值" value="max" :disabled="attrValueType != '3' && attrValueType != '0'" />
-        <el-option label="最小值" value="min" :disabled="attrValueType != '3' && attrValueType != '0'" />
-        <el-option label="和值" value="sum" :disabled="attrValueType != '3' && attrValueType != '0'" />
+        <el-option label="平均值" value="avg" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
+        <el-option label="最大值" value="max" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
+        <el-option label="最小值" value="min" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
+        <el-option label="和值" value="sum" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
         <el-option label="值有变化" value="change" />
         <el-option label="无值" value="nodata" />
       </el-select>
     </div>
-    <el-select v-if="item.function === 'nodata' || (item.function === 'change' && (attrValueType == '1' || attrValueType == '4'))" v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5 zeus-mt-5">
+    <el-select v-if="item.function === 'nodata' || (item.function === 'change' && (item.attrValueType == '1' || item.attrValueType == '4'))" v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5 zeus-mt-5">
       <el-option label="为真" value="1"/>
       <el-option label="为假" value="0"/>
     </el-select>
@@ -202,7 +202,7 @@ export default {
         return i.attrId === val
       })
       this.units = attr.unitsName
-      this.attrValueType = attr.valueType
+      this.item.attrValueType = attr.valueType
       this.item.productAttrKey = attr.key
       if (attr.valueType === '1' || attr.valueType === '4') {
         if (this.item.function === 'sum' || this.item.function === 'min' || this.item.function === 'max' || this.item.function === 'avg') {

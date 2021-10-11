@@ -53,11 +53,11 @@
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">未解决告警:</el-col>
-                <el-col :span="12">12</el-col>
+                <el-col :span="12">{{ alarmTotal }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">今日告警:</el-col>
-                <el-col :span="12">5</el-col>
+                <el-col :span="12">{{ alarmToday }}</el-col>
               </el-row>
               <el-row class="hang">
               </el-row>
@@ -172,6 +172,8 @@ export default {
       collectonRateData: [],
       alarmTopRateData: {},
       alarmData: [],
+      alarmToday: '',
+      alarmTotal: '',
       chartData: [],
       statistics: {}
     }
@@ -203,6 +205,8 @@ export default {
       alarmNum({ timeFrom, timeTill }).then((res) => {
         if (res.code == 200) {
           if (res.data.trends) {
+            this.alarmTotal = res.data.total
+            this.alarmToday = res.data.today
             this.alarmData = res.data.trends.map((i) => {
               return {
                 name: i.name,
