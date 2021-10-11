@@ -322,8 +322,8 @@ export default {
     submit() {
       if (this.$refs.sceneForm.validateForm()) {
         this.butLoading = true
+        this.dialogForm.classify = '1'
         if (this.state === '创建') {
-          this.dialogForm.classify = '1'
           createDevAlarm(this.dialogForm).then((res) => {
             if (res.code == 200) {
               this.$message({
