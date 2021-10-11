@@ -72,7 +72,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="dicTypeSubmit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="dicTypeSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -233,6 +233,7 @@ export default {
       ],
       loading: false,
       loading2: false,
+      butLoading: false,
       total: 0,
       size: 10,
       page: 1,
@@ -365,6 +366,7 @@ export default {
     dicTypeSubmit() {
       this.$refs.dictTypeForm.validate(async(valid, errorFields) => {
         if (valid) {
+          this.butLoading = true
           switch (this.state) {
             case '创建字典类型':
               createDictType(this.dialogForm).then(async(res) => {
@@ -376,6 +378,9 @@ export default {
                   this.dialogVisible = false
                   await this.getList()
                 }
+                this.butLoading = false
+              }).catch(() => {
+                this.butLoading = false
               })
               break
             case '编辑字典类型':
@@ -388,6 +393,9 @@ export default {
                   this.dialogVisible = false
                   await this.getList()
                 }
+                this.butLoading = false
+              }).catch(() => {
+                this.butLoading = false
               })
               break
             case '创建字典项':
@@ -401,6 +409,9 @@ export default {
                   this.dialogVisible = false
                   await this.allocation(this.dialogForm.dictTypeId)
                 }
+                this.butLoading = false
+              }).catch(() => {
+                this.butLoading = false
               })
               break
             case '编辑字典项':
@@ -413,6 +424,9 @@ export default {
                   this.dialogVisible = false
                   await this.allocation(this.dialogForm.dictTypeId)
                 }
+                this.butLoading = false
+              }).catch(() => {
+                this.butLoading = false
               })
               break
           }

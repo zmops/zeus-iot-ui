@@ -42,7 +42,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -83,6 +83,7 @@ export default {
       formParams: [],
       deviceGroup: [],
       productList: [],
+      butLoading: false,
       form: {
         name: '',
         productId: '',
@@ -326,6 +327,7 @@ export default {
     },
     submit() {
       if (this.$refs.deviceForm.validateForm()) {
+        this.butLoading = true
         createDevice(this.dialogForm).then(async(res) => {
           if (res.code == 200) {
             this.$message({
@@ -335,6 +337,9 @@ export default {
             this.dialogVisible = false
             await this.getList()
           }
+          this.butLoading = false
+        }).catch(() => {
+          this.butLoading = false
         })
       }
     }

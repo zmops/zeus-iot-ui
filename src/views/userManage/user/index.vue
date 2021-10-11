@@ -78,7 +78,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -179,6 +179,7 @@ export default {
         }
       ],
       loading: false,
+      butLoading: false,
       total: 0,
       size: 10,
       page: 1,
@@ -347,6 +348,7 @@ export default {
     handleSubmit() {
       this.$refs.userForm.validate(async(valid, errorFields) => {
         if (valid) {
+          this.butLoading = true
           const { pass } = this.item
           if (this.item.userId) {
             updateUser(this.item).then(async(res) => {
@@ -358,6 +360,9 @@ export default {
                 this.dialogVisible = false
                 await this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           } else {
             createUser({ ...this.item, password: this.$stringToHex(pass) }).then(async(res) => {
@@ -369,6 +374,9 @@ export default {
                 this.dialogVisible = false
                 await this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           }
         }

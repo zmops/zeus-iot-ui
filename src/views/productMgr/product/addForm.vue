@@ -35,7 +35,7 @@
     </div>
     <el-footer class="dialog-footer-btn">
       <el-button size="mini" round @click="handleCancle">取 消</el-button>
-      <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+      <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
     </el-footer>
   </div>
 </template>
@@ -85,6 +85,7 @@ export default {
       },
       treeData: [],
       status: false,
+      butLoading: false,
       dictlist: []
     }
   },
@@ -123,6 +124,7 @@ export default {
     handleSubmit() {
       this.$refs.productForm.validate(async(valid, errorFields) => {
         if (valid) {
+          this.butLoading = true
           if (this.prodId) {
             UpdateProduct(this.form).then(async(res) => {
               if (res.code == 200) {
@@ -132,6 +134,9 @@ export default {
                 })
                 this.$emit('closeDialog')
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           } else {
             createProduct(this.form).then(async(res) => {
@@ -141,7 +146,10 @@ export default {
                   type: 'success'
                 })
                 this.$emit('closeDialog')
+                this.butLoading = false
               }
+            }).catch(() => {
+              this.butLoading = false
             })
           }
         }

@@ -88,7 +88,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -127,6 +127,7 @@ export default {
         }
       ],
       loading: false,
+      butLoading: false,
       dialogVisible: false,
       ids: [],
       state: '',
@@ -210,6 +211,7 @@ export default {
     handleSubmit() {
       this.$refs.userForm.validate(async(valid) => {
         if (valid) {
+          this.butLoading = true
           const pIds = this.dialogForm.pIds
           if (pIds && pIds.length) {
             this.dialogForm.pid = pIds[pIds.length - 1]
@@ -224,6 +226,9 @@ export default {
                 this.dialogVisible = false
                 await this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           } else {
             createProductType(this.dialogForm).then(async(res) => {
@@ -235,6 +240,9 @@ export default {
                 this.dialogVisible = false
                 await this.getList()
               }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
             })
           }
         }

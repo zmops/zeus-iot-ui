@@ -50,7 +50,7 @@
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
   </div>
@@ -84,6 +84,7 @@ export default {
       },
       tableData: [],
       loading: false,
+      butLoading: false,
       total: 0,
       ids: [],
       state: '',
@@ -215,6 +216,7 @@ export default {
     handleSubmit() {
       this.$refs.deviceGroupForm.validate(async(valid, errorFields) => {
         if (valid) {
+          this.butLoading = true
           if (this.item.deviceGroupId) {
             updateDeviceGroup(this.item).then(async(res) => {
               if (res.code == 200) {
@@ -225,6 +227,9 @@ export default {
                 this.dialogVisible = false
                 await this.getList()
               }
+              this.butLoading = false
+            }).catch((res) => {
+              this.butLoading = false
             })
           } else {
             createDeviceGroup(this.item).then(async(res) => {
@@ -236,6 +241,9 @@ export default {
                 this.dialogVisible = false
                 await this.getList()
               }
+              this.butLoading = false
+            }).catch((res) => {
+              this.butLoading = false
             })
           }
         }
