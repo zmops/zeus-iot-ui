@@ -368,6 +368,7 @@ export default {
         ],
         deviceServices: []
       }
+      this.$refs.sceneForm.reset()
     }
   }
 }

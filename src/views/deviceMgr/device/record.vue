@@ -16,7 +16,7 @@
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import { deviceLogList } from '@/api/deviceMgr'
+import { getLogByPage } from '@/api/deviceMgr'
 
 export default {
   name: 'Record',
@@ -111,7 +111,7 @@ export default {
         this.form.timeFrom = this.form.time[0]
         this.form.timeTill = this.form.time[0]
       }
-      deviceLogList({ ...this.form, maxRow: this.size, page: this.page, deviceId: this.$route.query.id }).then((res) => {
+      getLogByPage({ ...this.form, maxRow: this.size, page: this.page, deviceId: this.$route.query.id }).then((res) => {
         this.loading = false
         if (res.code == 200) {
           this.tableData = res.data

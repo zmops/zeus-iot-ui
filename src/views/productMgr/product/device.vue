@@ -127,11 +127,11 @@ export default {
           prop: 'createTime',
           show: true
         },
-        {
-          label: '最近在线时间',
-          prop: 'code',
-          show: true
-        },
+        // {
+        //   label: '最近在线时间',
+        //   prop: 'code',
+        //   show: true
+        // },
         {
           label: '',
           prop: 'buttons',

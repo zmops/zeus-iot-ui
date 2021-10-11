@@ -169,10 +169,13 @@ export default {
   beforeDestroy() {
     this.keyword = ''
     this.dialogForm = {
+      deviceId: '',
       name: '',
       productId: '',
       deviceGroupIds: [],
-      remark: ''
+      remark: '',
+      position: '',
+      addr: ''
     }
   },
   methods: {

@@ -36,12 +36,12 @@
           <el-option label="任意" value="or" />
           <el-option label="所有" value="and" />
         </el-select>
-        条件时,触发告警
+        条件时,触发场景联动
       </div>
       <Triggers v-for="(item, index) in formData.expList" :key="item.guid" v-model="formData.expList[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="del" />
       <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
     </el-form-item>
-    <el-form-item label="执行动作">
+    <el-form-item label="执行动作" prop="deviceServices">
       <action v-for="(item, index) in formData.deviceServices" :key="item.guid" v-model="formData.deviceServices[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="delAction"></action>
       <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addAction">增加执行动作</el-button>
     </el-form-item>
@@ -107,6 +107,9 @@ export default {
         expList: [
           { required: true, message: '请选择触发条件' },
           { validator: checkData }
+        ],
+        deviceServices: [
+          { required: true, message: '请选择执行动作' }
         ],
         eventLevel: [
           { required: true, message: '请选择告警级别', trigger: 'change' }
