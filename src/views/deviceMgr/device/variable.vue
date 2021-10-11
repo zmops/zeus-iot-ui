@@ -156,6 +156,16 @@ export default {
       })
     },
     delete(hostmacroid) {
+      const i = this.tableData.find((item) => {
+        return item.hostmacroid === hostmacroid
+      })
+      if (i.inherit == '1') {
+        this.$message({
+          message: '当前变量不可删除',
+          type: 'warning'
+        })
+        return false
+      }
       this.$confirm('是否确认删除该数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -181,6 +191,13 @@ export default {
       const i = this.tableData.find((item) => {
         return item.hostmacroid === id
       })
+      if (i.inherit == '1') {
+        this.$message({
+          message: '当前变量不可编辑',
+          type: 'warning'
+        })
+        return false
+      }
       const data = JSON.parse(JSON.stringify(i))
       let macro = data.macro.substring(2)
       macro = macro.substring(0, macro.length - 1)

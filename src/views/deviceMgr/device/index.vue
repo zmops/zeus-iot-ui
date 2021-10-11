@@ -156,11 +156,11 @@ export default {
           prop: 'createTime',
           show: true
         },
-        {
-          label: '最近在线时间',
-          prop: 'latestOnline',
-          show: true
-        },
+        // {
+        //   label: '最近在线时间',
+        //   prop: 'latestOnline',
+        //   show: true
+        // },
         {
           label: '',
           prop: 'buttons',

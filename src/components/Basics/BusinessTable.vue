@@ -77,7 +77,7 @@
             在线
           </span>
           <span v-else-if="scope.row[item.prop] === '0'">
-             <svg-icon icon-class="offline" />
+            <svg-icon icon-class="offline" />
             离线
           </span>
           <span v-else>-</span>

@@ -156,7 +156,7 @@ export default {
             },
             {
               key: '创建人',
-              value: res.data.createUser
+              value: res.data.createUserName
             }
           ]
           this.subhead = res.data.remark
