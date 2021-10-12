@@ -86,7 +86,7 @@ export default {
         if (item.productAttrType === '属性' && item.productAttrId === '') {
           callback(new Error('请选择属性!'))
         }
-        if (item.productAttrType === '事件' && item.incident === '') {
+        if (item.productAttrType === '事件' && item.productAttrId === '') {
           callback(new Error('请选择事件!'))
         }
         if (item.value === undefined || item.value === '') {

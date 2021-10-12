@@ -9,7 +9,7 @@
         :value="i.deviceId"
       />
     </el-select>
-    <el-select v-model="item.productAttrType" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
+    <el-select v-model="item.productAttrType" :disabled="disabled" size="mini" class="select3 zeus-mr-5" @change="item.productAttrId = ''">
       <el-option label="属性" value="属性" />
       <el-option label="事件" value="事件" />
     </el-select>
@@ -21,12 +21,12 @@
         :value="i.attrId"
       />
     </el-select>
-    <el-select v-if="item.productAttrType === '事件'" v-model="item.incident" :disabled="disabled" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5">
+    <el-select v-if="item.productAttrType === '事件'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5" @change="eventChange">
       <el-option
         v-for="(i, index) in incidentList"
         :key="index"
-        :label="i.label"
-        :value="i.value"
+        :label="i.attrName"
+        :value="i.attrId"
       />
     </el-select>
     <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-mt-5 zeus-mb-5">
@@ -155,6 +155,9 @@ export default {
         this.item = val
         if (this.$route.query.id) {
           this.id = '' + this.$route.query.id
+          if (this.isDev && this.item.deviceId === '') {
+            this.item.deviceId = this.$route.query.id
+          }
           if (this.isDev) {
             if (this.inherit == '1') {
               this.getAttrList(this.productId)
@@ -182,9 +185,7 @@ export default {
     // }
   },
   created() {
-    if (this.isDev && this.item.deviceId === '') {
-      this.item.deviceId = this.$route.query.id
-    }
+
   },
   methods: {
     functionChange(val) {
@@ -194,7 +195,6 @@ export default {
     },
     deviceChange(val) {
       this.item.productAttrId = ''
-      this.item.incident = ''
       this.item.condition = '='
       this.item.productAttrType = '属性'
       this.item.function = 'last'
@@ -237,6 +237,25 @@ export default {
       // this.item.productAttrType = '属性'
 
       // this.item.value = ''
+      this.item.period = ''
+      this.item.unit = ''
+      this.item.scope = ''
+    },
+    eventChange(val) {
+      const attr = this.incidentList.find((i) => {
+        return i.attrId === val
+      })
+      this.units = attr.unitsName
+      this.item.attrValueType = attr.valueType
+      this.item.productAttrKey = attr.key
+      if (attr.valueType === '1' || attr.valueType === '4') {
+        if (this.item.function === 'sum' || this.item.function === 'min' || this.item.function === 'max' || this.item.function === 'avg') {
+          this.item.function = 'last'
+        }
+      }
+      if (this.item.function === 'change') {
+        this.item.value = ''
+      }
       this.item.period = ''
       this.item.unit = ''
       this.item.scope = ''

@@ -36,7 +36,10 @@
       </el-form-item>
 
       <el-button class="box-shadow btn-container" :loading="loading" round type="primary" @click.native.prevent="handleLogin">登录</el-button>
-
+      <div class="pass_text">
+        <div>帐号:Admin</div>
+        <div>帐号:zabbix</div>
+      </div>
     </el-form>
   </div>
 </template>
@@ -175,6 +178,12 @@ $cursor: #fff;
 $bg: #EFF4F9;
 $dark_gray: #889aa4;
 $light_gray: #242E42;
+
+.pass_text{
+  font-size: 12px;
+  line-height: 15px;
+  color: #b5b5b8;
+}
 
 .login-container {
   min-height: 100%;
