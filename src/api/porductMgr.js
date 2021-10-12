@@ -180,9 +180,9 @@ export function updateValuemap(data) {
 }
 
 // 产品值映射删除
-export function deleteValuemap(data) {
+export function deleteValueMap(data) {
   return request({
-    url: '/product/valuemap/delete',
+    url: '/product/valueMap/delete',
     method: 'post',
     data
   })

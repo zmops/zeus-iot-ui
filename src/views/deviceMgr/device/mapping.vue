@@ -90,8 +90,8 @@
 </template>
 
 <script>
-import {getDevValueMapList, deleteDevValuemap, updateDevValuemap} from '@/api/deviceMgr'
-import {getValueMapList, deleteValuemap, updateValuemap} from '@/api/porductMgr'
+import {getDevValueMapList, deleteDevValueMap, updateDevValuemap} from '@/api/deviceMgr'
+import {getValueMapList, deleteValueMap, updateValuemap} from '@/api/porductMgr'
 export default {
   props: {
     isDev: Boolean
@@ -182,7 +182,7 @@ export default {
         type: 'warning'
       }).then(() => {
         if (this.isDev) {
-          deleteDevValuemap({ valuemapid: i }).then(res => {
+          deleteDevValueMap({ valuemapid: i }).then(res => {
             if (res.code == 200) {
               this.$message({
                 message: '删除成功',
@@ -192,7 +192,7 @@ export default {
             }
           })
         } else {
-          deleteValuemap({ valuemapid: i }).then(res => {
+          deleteValueMap({ valuemapid: i }).then(res => {
             if (res.code == 200) {
               this.$message({
                 message: '删除成功',

@@ -217,9 +217,9 @@ export function updateDevValuemap(data) {
 }
 
 // 设备值映射删除
-export function deleteDevValuemap(data) {
+export function deleteDevValueMap(data) {
   return request({
-    url: '/device/valuemap/delete',
+    url: '/device/valueMap/delete',
     method: 'post',
     data
   })
