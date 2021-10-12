@@ -31,19 +31,19 @@
         <span>包括平台内部和外部的所有通知。</span>
       </div>
     </el-form-item>
-    <el-form-item label="启用告警规则" prop="status">
-      <el-switch
-        v-model="formData.status"
-        :disabled="formData.inherit =='1' && isDev"
-        size="mini"
-        active-value="ENABLE"
-        inactive-value="DISABLE"
-        active-text="启用"
-        inactive-text="禁用"
-        active-color="#55BC8A"
-        inactive-color="#AB2F29">
-      </el-switch>
-    </el-form-item>
+<!--    <el-form-item label="启用告警规则" prop="status">-->
+<!--      <el-switch-->
+<!--        v-model="formData.status"-->
+<!--        :disabled="formData.inherit =='1' && isDev"-->
+<!--        size="mini"-->
+<!--        active-value="ENABLE"-->
+<!--        inactive-value="DISABLE"-->
+<!--        active-text="启用"-->
+<!--        inactive-text="禁用"-->
+<!--        active-color="#55BC8A"-->
+<!--        inactive-color="#AB2F29">-->
+<!--      </el-switch>-->
+<!--    </el-form-item>-->
     <el-form-item label="描述" prop="remark">
       <el-input v-model="formData.remark" :disabled="formData.inherit =='1' && isDev" type="textarea" rows="2" size="mini"/>
     </el-form-item>

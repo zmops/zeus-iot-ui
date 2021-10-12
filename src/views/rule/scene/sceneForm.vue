@@ -14,18 +14,18 @@
         />
       </el-select>
     </el-form-item>
-    <el-form-item label="启用" prop="status">
-      <el-switch
-        v-model="formData.status"
-        size="mini"
-        active-value="ENABLE"
-        inactive-value="DISABLE"
-        active-text="启用"
-        inactive-text="禁用"
-        active-color="#55BC8A"
-        inactive-color="#AB2F29">
-      </el-switch>
-    </el-form-item>
+<!--    <el-form-item label="启用" prop="status">-->
+<!--      <el-switch-->
+<!--        v-model="formData.status"-->
+<!--        size="mini"-->
+<!--        active-value="ENABLE"-->
+<!--        inactive-value="DISABLE"-->
+<!--        active-text="启用"-->
+<!--        inactive-text="禁用"-->
+<!--        active-color="#55BC8A"-->
+<!--        inactive-color="#AB2F29">-->
+<!--      </el-switch>-->
+<!--    </el-form-item>-->
     <el-form-item label="描述" prop="remark">
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
