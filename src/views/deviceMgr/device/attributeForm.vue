@@ -117,6 +117,10 @@ export default {
         return {}
       }
     },
+    proId: {
+      type: String,
+      default: ''
+    },
     isDev: Boolean
   },
   data() {
@@ -214,11 +218,19 @@ export default {
             }
           }
         })
-        getDevValueMapList({ deviceId: this.prodId }).then(res => {
-          if (res.code == 200) {
-            this.mapList = res.data
-          }
-        })
+        if (this.formData.templateId) {
+          getValueMapList({ productId: this.proId }).then(res => {
+            if (res.code == 200) {
+              this.mapList = res.data
+            }
+          })
+        } else {
+          getDevValueMapList({ deviceId: this.prodId }).then(res => {
+            if (res.code == 200) {
+              this.mapList = res.data
+            }
+          })
+        }
       } else {
         getProductAttrTrapperList({ prodId: this.prodId }).then(res => {
           if (res.code == 200) {

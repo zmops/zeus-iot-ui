@@ -116,11 +116,11 @@ export default {
           prop: 'templateId',
           show: true
         },
-        {
-          label: '事件级别',
-          prop: 'eventLevelName',
-          show: true
-        },
+        // {
+        //   label: '事件级别',
+        //   prop: 'eventLevelName',
+        //   show: true
+        // },
         {
           label: '数据类型',
           prop: 'valueTypeName',

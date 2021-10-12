@@ -22,7 +22,7 @@
         inactive-value="0"
         active-text="启用"
         inactive-text="禁用"
-        :disabled="isDev"
+        :disabled="formData.inherit =='1' && isDev"
         active-color="#55BC8A"
         inactive-color="#AB2F29">
       </el-switch>

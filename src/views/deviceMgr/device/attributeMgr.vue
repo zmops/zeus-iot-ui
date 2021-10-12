@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm" is-dev/>
+        <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm" :pro-id="proId" is-dev/>
       </div>
       <el-footer class="dialog-footer-btn">
         <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
@@ -61,6 +61,12 @@ export default {
     SearchForm,
     Pagination,
     attributeForm
+  },
+  props: {
+    proId: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {

@@ -315,6 +315,15 @@ export function getAttrEventByPage(data) {
   })
 }
 
+// 事件管理列表-不分页
+export function getEventList(data) {
+  return request({
+    url: '/product/attribute/event/list',
+    method: 'post',
+    data
+  })
+}
+
 // 事件管理修改
 export function updateAttrEvent(data) {
   return request({

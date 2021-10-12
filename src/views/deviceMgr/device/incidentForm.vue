@@ -41,16 +41,16 @@
         </el-option-group>
       </el-select>
     </el-form-item>
-    <el-form-item label="事件级别" prop="eventLevel">
-      <el-select v-model="formData.eventLevel" size="mini" placeholder="请选择事件级别" :disabled="disabled">
-        <el-option
-          v-for="item in levelList"
-          :key="item.code"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </el-form-item>
+<!--    <el-form-item label="事件级别" prop="eventLevel">-->
+<!--      <el-select v-model="formData.eventLevel" size="mini" placeholder="请选择事件级别" :disabled="disabled">-->
+<!--        <el-option-->
+<!--          v-for="item in levelList"-->
+<!--          :key="item.code"-->
+<!--          :label="item.label"-->
+<!--          :value="item.value"-->
+<!--        />-->
+<!--      </el-select>-->
+<!--    </el-form-item>-->
     <el-form-item label="描述">
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
@@ -119,9 +119,9 @@ export default {
           { required: true, message: '请输入标识符', trigger: 'blur' },
           { validator: checkData, trigger: 'blur' }
         ],
-        eventLevel: [
-          { required: true, message: '请选择事件级别', trigger: 'change' }
-        ],
+        // eventLevel: [
+        //   { required: true, message: '请选择事件级别', trigger: 'change' }
+        // ],
         valueType: [
           { required: true, message: '请选择数据类型', trigger: 'change' }
         ]
@@ -143,7 +143,7 @@ export default {
   },
   computed: {
     disabled() {
-      return this.formData.attrId && this.formData.templateId !== ''
+      return this.formData.attrId && !!this.formData.templateId
     }
   },
   watch: {

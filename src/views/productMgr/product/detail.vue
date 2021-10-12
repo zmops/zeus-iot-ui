@@ -123,7 +123,7 @@ export default {
           this.detailList = [
             {
               key: '产品ID',
-              value: res.data.productId
+              value: res.data.prodCode
             },
             {
               key: '产品分类',

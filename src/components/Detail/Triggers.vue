@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { getAttrTrapperList } from '@/api/deviceMgr'
+import { getAttrTrapperList, getEventList } from '@/api/deviceMgr'
 import { getProductAttrTrapperList } from '@/api/porductMgr'
 
 export default {
@@ -156,26 +156,34 @@ export default {
         if (this.$route.query.id) {
           this.id = '' + this.$route.query.id
           if (this.isDev) {
-            this.item.deviceId = this.id
             if (this.inherit == '1') {
               this.getAttrList(this.productId)
+              this.eventList(this.productId)
             } else {
               this.getDevAttrList(this.item.deviceId)
+              this.eventList(this.item.deviceId)
             }
           } else {
             this.item.productId = this.id
             this.getAttrList(this.id)
+            this.eventList(this.id)
           }
         } else {
           this.getDevAttrList(this.item.deviceId)
+          this.eventList(this.item.deviceId)
         }
       }
-    },
-    inherit: {
-      deep: true,
-      immediate: true,
-      handler(val) {
-      }
+    }
+    // inherit: {
+    //   deep: true,
+    //   immediate: true,
+    //   handler(val) {
+    //   }
+    // }
+  },
+  created() {
+    if (this.isDev) {
+      this.item.deviceId = this.$route.query.id
     }
   },
   methods: {
@@ -244,6 +252,13 @@ export default {
       getProductAttrTrapperList({ prodId }).then((res) => {
         if (res.code == '200') {
           this.deviceAttribute = res.data
+        }
+      })
+    },
+    eventList(prodId) {
+      getEventList({ prodId }).then((res) => {
+        if (res.code == '200') {
+          this.incidentList = res.data
         }
       })
     },

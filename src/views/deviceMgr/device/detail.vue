@@ -6,7 +6,7 @@
         <info v-if="activity === '基础信息'" :info-data="info" @updata="getDetail" />
         <attribute v-else-if="activity === '属性'" />
         <record v-else-if="activity === '日志'" />
-        <attributeMgr v-else-if="activity === '属性管理'" />
+        <attributeMgr v-else-if="activity === '属性管理'" :pro-id="proId" />
         <incident v-else-if="activity ==='事件管理'" is-dev />
         <serve v-else-if="activity === '服务管理'" is-dev />
         <offLineRule v-else-if="activity === '上下线规则'" is-dev />
@@ -105,7 +105,8 @@ export default {
       activity: '基础信息',
       info: {},
       tagList: [],
-      deviceId: ''
+      deviceId: '',
+      proId: ''
     }
   },
   async created() {
@@ -130,6 +131,7 @@ export default {
       await deviceDetail({ deviceId: this.deviceId }).then((res) => {
         if (res.code == 200) {
           this.info = res.data
+          this.proId = res.data.productId
           if (this.info.type == '3') {
             this.tabs.push({
               label: '子设备',
