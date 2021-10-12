@@ -37,8 +37,8 @@
 
       <el-button class="box-shadow btn-container" :loading="loading" round type="primary" @click.native.prevent="handleLogin">登录</el-button>
       <div class="pass_text">
-        <div>帐号:Admin</div>
-        <div>帐号:zabbix</div>
+        <span class="zeus-mr-15">演示账号:Admin</span>
+        <span>密码:zabbix</span>
       </div>
     </el-form>
   </div>
@@ -62,8 +62,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'root',
-        password: '111111'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -180,7 +180,7 @@ $dark_gray: #889aa4;
 $light_gray: #242E42;
 
 .pass_text{
-  font-size: 12px;
+  //font-size: 12px;
   line-height: 15px;
   color: #b5b5b8;
 }
