@@ -62,6 +62,15 @@ export function getDeviceList(data) {
   })
 }
 
+// 设备修改状态
+export function modifyStatusDev(data) {
+  return request({
+    url: '/device/status/update',
+    method: 'post',
+    data
+  })
+}
+
 // 设备新增
 export function createDevice(data) {
   return request({

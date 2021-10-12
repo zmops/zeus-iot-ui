@@ -182,7 +182,7 @@ export default {
     // }
   },
   created() {
-    if (this.isDev) {
+    if (this.isDev && this.item.deviceId === '') {
       this.item.deviceId = this.$route.query.id
     }
   },

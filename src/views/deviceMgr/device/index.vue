@@ -59,7 +59,7 @@ import {
   createDevice,
   updateDevice,
   deleteDevice,
-  getDeviceGrpList
+  getDeviceGrpList, modifyStatusDev
 } from '@/api/deviceMgr'
 import { getDictListByCode } from '@/api/system'
 import { getProductList } from '@/api/porductMgr'
@@ -169,6 +169,16 @@ export default {
               label: '删除',
               event: 'delete',
               icon: 'list-del'
+            },
+            {
+              label: '启用',
+              event: 'enable',
+              icon: 'list-enable'
+            },
+            {
+              label: '禁用',
+              event: 'disable',
+              icon: 'list-disable'
             }
           ]
         }
@@ -342,6 +352,23 @@ export default {
           this.butLoading = false
         })
       }
+    },
+    disable(id) {
+      this.modifyStatus(id, 'DISABLE')
+    },
+    enable(id) {
+      this.modifyStatus(id, 'ENABLE')
+    },
+    modifyStatus(deviceId, status) {
+      modifyStatusDev({ deviceId, status }).then((res) => {
+        if (res.code == 200) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+          this.getList()
+        }
+      })
     }
   }
 }
