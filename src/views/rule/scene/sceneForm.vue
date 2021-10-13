@@ -4,16 +4,16 @@
     <el-form-item label="场景联动名称" prop="eventRuleName">
       <el-input v-model="formData.eventRuleName" size="mini"/>
     </el-form-item>
-    <el-form-item label="级别" prop="eventLevel">
-      <el-select v-model="formData.eventLevel" placeholder="请选择告警级别" size="mini">
-        <el-option
-          v-for="(item, index) in levelList"
-          :key="index"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </el-form-item>
+<!--    <el-form-item label="级别" prop="eventLevel">-->
+<!--      <el-select v-model="formData.eventLevel" placeholder="请选择告警级别" size="mini">-->
+<!--        <el-option-->
+<!--          v-for="(item, index) in levelList"-->
+<!--          :key="index"-->
+<!--          :label="item.label"-->
+<!--          :value="item.value"-->
+<!--        />-->
+<!--      </el-select>-->
+<!--    </el-form-item>-->
 <!--    <el-form-item label="启用" prop="status">-->
 <!--      <el-switch-->
 <!--        v-model="formData.status"-->

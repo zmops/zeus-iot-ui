@@ -56,7 +56,7 @@ import {
   createDevAlarm, deleteDevEvent, detailEventDev,
   getAttrTrapperList,
   getDeviceList,
-  getEventByPage, modifyStatusEventDev,
+  getSceneByPage, modifyStatusEventDev,
   updateEvent,
   updateEventDev
 } from '@/api/deviceMgr'
@@ -78,23 +78,39 @@ export default {
   },
   data() {
     return {
-      formParams: [],
+      formParams: [
+        {
+          componentName: 'InputTemplate',
+          keyName: 'eventRuleName',
+          label: '场景联动名称'
+        }
+      ],
       columns: [
         {
           label: '场景联动名称',
           prop: 'eventRuleName',
           show: true
         },
-        {
-          label: '级别',
-          prop: 'eventLevelName',
-          show: true
-        },
+        // {
+        //   label: '级别',
+        //   prop: 'eventLevelName',
+        //   show: true
+        // },
         // {
         //   label: '相关属性',
         //   prop: 'asyncName',
         //   show: true
         // },
+        {
+          label: '触发设备',
+          prop: 'triggerDevice',
+          show: true
+        },
+        {
+          label: '执行设备',
+          prop: 'executeDevice',
+          show: true
+        },
         {
           label: '启用状态',
           prop: 'status',
@@ -144,8 +160,8 @@ export default {
       size: 10,
       page: 1,
       form: {
-        prodId: null,
-        attrId: '',
+        // prodId: null,
+        // attrId: '',
         name: ''
       },
       devList: [],
@@ -192,46 +208,46 @@ export default {
     }
   },
   watch: {
-    'form.prodId': {
-      immediate: true,
-      async handler(val) {
-        this.form.attrId = ''
-        let attrTemplate = []
-        if (val !== '') {
-          await getAttrTrapperList({ prodId: val }).then((res) => {
-            if (res.code == 200) {
-              attrTemplate = res.data
-            }
-          })
-        }
-        this.formParams = [
-          {
-            componentName: 'SelectTemplate',
-            keyName: 'prodId',
-            label: '设备',
-            optionId: 'deviceId',
-            optionName: 'name',
-            options: this.devList
-          },
-          {
-            componentName: 'SelectTemplate',
-            keyName: 'attrId',
-            label: '属性',
-            optionId: 'attrId',
-            optionName: 'attrName',
-            options: attrTemplate
-          },
-          {
-            componentName: 'InputTemplate',
-            keyName: 'eventRuleName',
-            label: '场景联动名称'
-          }
-        ]
-      }
-    }
+    // 'form.prodId': {
+    //   immediate: true,
+    //   async handler(val) {
+    //     this.form.attrId = ''
+    //     let attrTemplate = []
+    //     if (val !== '') {
+    //       await getAttrTrapperList({ prodId: val }).then((res) => {
+    //         if (res.code == 200) {
+    //           attrTemplate = res.data
+    //         }
+    //       })
+    //     }
+    //     this.formParams = [
+    //       {
+    //         componentName: 'SelectTemplate',
+    //         keyName: 'prodId',
+    //         label: '设备',
+    //         optionId: 'deviceId',
+    //         optionName: 'name',
+    //         options: this.devList
+    //       },
+    //       {
+    //         componentName: 'SelectTemplate',
+    //         keyName: 'attrId',
+    //         label: '属性',
+    //         optionId: 'attrId',
+    //         optionName: 'attrName',
+    //         options: attrTemplate
+    //       },
+    //       {
+    //         componentName: 'InputTemplate',
+    //         keyName: 'eventRuleName',
+    //         label: '场景联动名称'
+    //       }
+    //     ]
+    //   }
+    // }
   },
   async created() {
-    await this.searchInit()
+    // await this.searchInit()
     await this.getList()
   },
   methods: {
@@ -256,7 +272,7 @@ export default {
     },
     getList() {
       this.loading = true
-      getEventByPage({ ...this.form, maxRow: this.size, page: this.page, classify: '1' }).then((res) => {
+      getSceneByPage({ ...this.form, maxRow: this.size, page: this.page, classify: '1' }).then((res) => {
         this.loading = false
         if (res.code == 200) {
           this.tableData = res.data

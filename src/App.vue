@@ -75,9 +75,9 @@ export default {
     }
   },
   async created() {
-    // console.log(location)
-    // console.log(this.$route)
-    if (location.hash !== '#/login') {
+    console.log(location)
+    console.log(this.$route)
+    if (location.hash.indexOf('#/login') === -1) {
       this.$store.dispatch('user/getMember').then(() => {
       })
     }

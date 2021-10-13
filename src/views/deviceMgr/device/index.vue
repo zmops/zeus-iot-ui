@@ -195,7 +195,15 @@ export default {
         name: '',
         productId: '',
         deviceGroupIds: [],
-        remark: ''
+        remark: '',
+        deviceInterface: {
+          useip: '1',
+          port: '10050',
+          main: '1',
+          type: '1',
+          ip: '',
+          dns: ''
+        }
       },
       rules: {
         name: [

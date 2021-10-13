@@ -13,7 +13,7 @@
         <el-input v-model="dialogForm.name" size="mini"/>
       </el-form-item>
       <el-form-item label="产品" prop="productId">
-        <el-select v-model="dialogForm.productId" :disabled="state === '编辑' || isProduct" filterable placeholder="请选择产品" size="mini">
+        <el-select v-model="dialogForm.productId" :disabled="state === '编辑' || isProduct" filterable placeholder="请选择产品" size="mini" @change="changePro">
           <el-option
             v-for="item in productList"
             :key="item.productId"
@@ -21,6 +21,15 @@
             :value="item.productId"
           />
         </el-select>
+      </el-form-item>
+      <el-form-item v-if="apiShow" label="接口" prop="interface">
+        <el-radio-group v-model="dialogForm.deviceInterface.useip" size="small" class="zeus-mr-5 radio">
+          <el-radio-button label="1">IP</el-radio-button>
+          <el-radio-button label="0">DNS</el-radio-button>
+        </el-radio-group>
+        <el-input v-if="dialogForm.deviceInterface.useip == '1'" v-model="dialogForm.deviceInterface.ip" placeholder="请输入IP" size="mini" class="w390 zeus-mr-5"/>
+        <el-input v-if="dialogForm.deviceInterface.useip == '0'" v-model="dialogForm.deviceInterface.dns" placeholder="请输入DNS" size="mini" class="w390 zeus-mr-5"/>
+        <el-input v-model="dialogForm.deviceInterface.port" placeholder="请输入端口号" size="mini" class="w100"/>
       </el-form-item>
       <el-form-item label="设备组" prop="deviceGroupIds">
         <el-select v-model="dialogForm.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini" @change="changeDevGroup">
@@ -87,6 +96,7 @@
 <script>
 import BaiduMap from 'vue-baidu-map/components/map/Map'
 import { BmAutoComplete, BmControl, BmGeolocation, BmLocalSearch, BmMarker } from 'vue-baidu-map/index'
+import { getProductAttrTrapperList } from '@/api/porductMgr'
 
 export default {
   name: 'DeviceForm',
@@ -152,7 +162,8 @@ export default {
       point: {},
       position: '',
       keyword: '',
-      center: null
+      center: null,
+      apiShow: false
     }
   },
   watch: {
@@ -223,6 +234,31 @@ export default {
     },
     changeDevGroup(val) {
       this.$forceUpdate()
+    },
+    changePro(prodId) {
+      getProductAttrTrapperList({prodId, source: 0}).then((res) => {
+        if (res.code == '200' && res.data.length) {
+          this.apiShow = true
+          this.dialogForm.deviceInterface = {
+            useip: '1',
+            port: '10050',
+            main: '1',
+            type: '1',
+            ip: '',
+            dns: ''
+          }
+        } else {
+          this.apiShow = false
+          this.dialogForm.deviceInterface = {
+            useip: '',
+            port: '',
+            main: '',
+            type: '',
+            ip: '',
+            dns: ''
+          }
+        }
+      })
     }
   }
 }
@@ -244,6 +280,15 @@ export default {
     div{
       color: #36435c;
     }
+  }
+  .w390{
+    width: 390px;
+  }
+  .w100{
+    width: 100px;
+  }
+  .radio{
+    vertical-align: top;
   }
   .tips{
     width: 100%;
