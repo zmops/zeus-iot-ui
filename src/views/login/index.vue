@@ -36,10 +36,6 @@
       </el-form-item>
 
       <el-button class="box-shadow btn-container" :loading="loading" round type="primary" @click.native.prevent="handleLogin">登录</el-button>
-      <div class="pass_text">
-        <span class="zeus-mr-15">演示账号:Admin</span>
-        <span>密码:zabbix</span>
-      </div>
     </el-form>
   </div>
 </template>
