@@ -38,15 +38,25 @@
       @ready="mapReady"
     >
       <bml-marker-clusterer :average-center="true" :styles="[{url, size: {width: 68, height: 68}, textColor: '#fff'}]">
-        <bm-marker v-for="(marker, index) of markers" :key="index" :position="{lng: marker.lng, lat: marker.lat}"></bm-marker>
+        <bm-marker v-for="(marker, index) of markers" :key="index" :position="{lng: marker.lng, lat: marker.lat}" @click="marker.show = true"></bm-marker>
       </bml-marker-clusterer>
+      <bm-info-window v-for="(marker, index) of markers" :key="index" :auto-pan="true" :position="{lng: marker.lng, lat: marker.lat}" :title="`<a style='color: #1A84F9' href='#/deviceMgr/device/detail?id=${marker.deviceId}'>${marker.name}</a>`" :show="marker.show" @close="marker.show = false">
+        <p>设备ID: {{ marker.deviceId || '-' }}</p>
+        <p>产品: {{ marker.productName || '-' }}</p>
+        <p>设备类型: {{ marker.typeName || '-' }}</p>
+        <p>状态: {{ marker.statusName || '-' }}</p>
+        <p>在线状态: {{ marker.online || '-' }}</p>
+        <p>设备组: {{ marker.groupName || '-' }}</p>
+        <p>描述: {{ marker.remark || '-' }}</p>
+        <p>创建时间: {{ marker.createTime || '-' }}</p>
+      </bm-info-window>
     </baidu-map>
   </div>
 </template>
 
 <script>
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
-import { BmMarker, BmlMarkerClusterer } from 'vue-baidu-map'
+import { BmMarker, BmlMarkerClusterer, BmInfoWindow } from 'vue-baidu-map'
 import { getDeviceGrpList, getDeviceList } from '@/api/deviceMgr'
 import { getDictListByCode } from '@/api/system'
 import { getProductList } from '@/api/porductMgr'
@@ -58,7 +68,8 @@ export default {
     BaiduMap,
     // marker控件
     BmMarker,
-    BmlMarkerClusterer
+    BmlMarkerClusterer,
+    BmInfoWindow
   },
   data() {
     return {
@@ -118,10 +129,10 @@ export default {
               if (i.position) {
                 const arr = i.position.split(',')
                 if (arr.length > 1) {
-                  this.markers.push({
-                    lat: arr[1],
-                    lng: arr[0]
-                  })
+                  i.lat = arr[1]
+                  i.lng = arr[0]
+                  i.show = false
+                  this.markers.push(i)
                 }
               }
             })
@@ -147,6 +158,12 @@ export default {
         },
         { enableHighAccuracy: true }
       )
+    },
+    detail(id) {
+      this.$router.push({
+        path: '/deviceMgr/device/detail',
+        query: { id }
+      })
     }
   }
 }
