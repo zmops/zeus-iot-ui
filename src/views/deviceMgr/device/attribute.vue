@@ -1,134 +1,177 @@
 <!-- 设备详情-属性页面 -->
 <template>
-  <div class="attribute">
-    <!--    <SearchForm :params="formParams" :buttons="buttons" @search="search"/>-->
-    <div v-loading="loading" class="list">
-      <el-row v-if="tableData.length" :gutter="10">
-        <el-col v-for="(item, index) in tableData" :key="index" :span="12" class="zeus-mb-10">
-          <el-card class="box-card" shadow="hover">
-            <el-button class="zeus-right" size="mini" round @click="history(item)">
-              <svg-icon icon-class="attr_history"/>
-              历史数据
-            </el-button>
-            <div class="zeus-bold f13">{{ item.value || '-' }} {{ item.units }}</div>
-            <div class="c-gray zeus-mb-15">{{ item.attrName }}</div>
-            <el-row class="bg-gray">
-              <el-col :span="8" class="zeus-pl-10">
-                <svg-icon icon-class="attr_key"/>
-                {{ item.key }}
-              </el-col>
-              <el-col :span="8" class="zeus-pl-10">
-                <svg-icon icon-class="attr_type"/>
-                {{ item.valueTypeName }}
-              </el-col>
-              <el-col :span="8" class="zeus-pl-10">
-                <svg-icon icon-class="attr_time"/>
-                {{ item.clock }}
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-empty v-else description="暂无数据"></el-empty>
-      <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+  <div>
+    <div class="zeus-mb-10 zeus-text-align-r">
+      <a class="but" :class="switchover ? 'activity' : ''" @click="switchover = true"><svg-icon :icon-class="switchover ? 'attr_mode_activity' : 'attr_mode'" /></a>
+      <a class="but zeus-ml-5" :class="switchover ? '' : 'activity'" @click="switchover = false"><svg-icon :icon-class="switchover ? 'attr_list' : 'attr_list_activity'" /></a>
     </div>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :show-close="false"
-      :width="'700px'"
-      @close="dialogForm = {}"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">{{ state }}属性</div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
-        </div>
-      </div>
-      <div class="dialog-body">
-        <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm"/>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
-    <!--历史数据-->
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible2"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :show-close="false"
-      :width="'1090px'"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">属性历史数据</div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible2 = false"/>
-        </div>
-      </div>
-      <div class="zeus-pt-10 zeus-pl-25 zeus-pr-25">
-        <el-row class="bg-gray zeus-mt-15">
-          <el-col :span="8" class="zeus-pl-10">属性名称: {{ itemData.attrName }}</el-col>
-          <el-col :span="8" class="zeus-pl-10">
-            <svg-icon icon-class="attr_key"/>
-            标识符: {{ itemData.key }}
-          </el-col>
-          <el-col :span="8" class="zeus-pl-10">
-            <svg-icon icon-class="attr_type"/>
-            数据类型: {{ itemData.valueTypeName }}
+    <div class="attribute">
+      <div v-if="switchover" v-loading="loading" class="list">
+        <el-row v-if="tableData.length" :gutter="10">
+          <el-col v-for="(item, index) in tableData" :key="index" :span="12" class="zeus-mb-10">
+            <el-card class="box-card" shadow="hover">
+              <div class="zeus-mb-15 title">
+                <span class="c-gray">{{ item.attrName }}</span>
+                <el-button class="zeus-right" size="mini" round @click="history(item)">
+                  <svg-icon icon-class="attr_history"/>
+                  历史数据
+                </el-button>
+              </div>
+              <el-row>
+                <el-col :span="8" class="zeus-text-align-c">
+                  <div class="zeus-bold f32">{{ item.value || '-' }} {{ item.units }}</div>
+                </el-col>
+                <el-col :span="16">
+                  <el-row class="bg-gray">
+                    <el-col :span="13" class="zeus-pl-10 blue pl47">
+                      <svg-icon icon-class="attr_key"/>
+                      {{ item.key }}
+                    </el-col>
+                    <el-col :span="11" class="zeus-pl-10">
+                      <svg-icon icon-class="attr_type"/>
+                      {{ item.valueTypeName }}
+                    </el-col>
+                  </el-row>
+                  <el-row class="bg-gray zeus-mt-10">
+                    <el-col :span="24" class="zeus-pl-10 pl47">
+                      <svg-icon icon-class="attr_time"/>
+                      {{ item.clock }}
+                    </el-col>
+                  </el-row>
+                </el-col>
+              </el-row>
+            </el-card>
           </el-col>
         </el-row>
-        <div class="chart-box">
-          <el-date-picker
-            v-model="dialogTime"
-            size="small"
-            class="zeus-mb-15"
-            type="daterange"
-            :picker-options="pickerOptions"
-            range-separator="-"
-            value-format="yyyy-MM-dd"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            @change="changeTime"
-          >
-          </el-date-picker>
-          <el-select v-model="shortcuts" placeholder="快捷时间" size="mini" @change="changeShortcuts" class="w200 zeus-ml-15">
-            <el-option
-              v-for="i in shortcutsList"
-              :key="i.key"
-              :label="i.key"
-              :value="i.value"
-            />
-          </el-select>
-          <div v-if="itemData.valueType == 3 || itemData.valueType == 0" class="zeus-right radio">
-            <div class="radio-button" :class="dialogRadio === '趋势图' ? 'activity' :''" @click="dialogRadio = '趋势图'">趋势图
-            </div>
-            <div class="radio-button" :class="dialogRadio === '表格' ? 'activity' :''" @click="dialogRadio = '表格'">表格
-            </div>
-          </div>
-          <div v-if="dialogRadio === '趋势图' && (itemData.valueType == 3 || itemData.valueType == 0)" v-loading="loading2"
-               class="zeus-relative">
-            <img class="chart-img" :src="img">
-            <div class="zeus-absolute img-title"></div>
-          </div>
-          <div v-if="dialogRadio === '表格' || !(itemData.valueType == 3 || itemData.valueType == 0)">
-            <BusinessTable
-              :table-data="tableData2"
-              :columns="columns"
-              :loading="loading2"
-            />
-            <Pagination :total="total2" :size="size2" :current-page="page2"
-                        @handleCurrentChange="handleCurrentChange2"/>
+        <el-empty v-else description="暂无数据"></el-empty>
+        <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+      </div>
+      <div v-else v-loading="loading" class="list">
+        <el-row v-if="tableData.length" :gutter="10">
+          <el-col v-for="(item, index) in tableData" :key="index" :span="12" class="zeus-mb-10">
+            <el-card class="box-card" shadow="hover">
+              <el-button class="zeus-right" size="mini" round @click="history(item)">
+                <svg-icon icon-class="attr_history"/>
+                历史数据
+              </el-button>
+              <div class="zeus-bold f13">{{ item.value || '-' }} {{ item.units }}</div>
+              <div class="c-gray zeus-mb-15">{{ item.attrName }}</div>
+              <el-row class="bg-gray">
+                <el-col :span="8" class="zeus-pl-10 blue">
+                  <svg-icon icon-class="attr_key"/>
+                  {{ item.key }}
+                </el-col>
+                <el-col :span="8" class="zeus-pl-10">
+                  <svg-icon icon-class="attr_type"/>
+                  {{ item.valueTypeName }}
+                </el-col>
+                <el-col :span="8" class="zeus-pl-10">
+                  <svg-icon icon-class="attr_time"/>
+                  {{ item.clock }}
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-empty v-else description="暂无数据"></el-empty>
+        <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+      </div>
+      <el-dialog
+        v-dialogDrag
+        :visible.sync="dialogVisible"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+        :width="'700px'"
+        @close="dialogForm = {}"
+      >
+        <div slot="title" class="dialog-title zeus-flex-between">
+          <div class="left">{{ state }}属性</div>
+          <div class="right">
+            <svg-icon icon-class="dialog_close" class="closeicon"/>
+            <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
           </div>
         </div>
-      </div>
-    </el-dialog>
+        <div class="dialog-body">
+          <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm"/>
+        </div>
+        <el-footer class="dialog-footer-btn">
+          <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+        </el-footer>
+      </el-dialog>
+      <!--历史数据-->
+      <el-dialog
+        v-dialogDrag
+        :visible.sync="dialogVisible2"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+        :width="'1090px'"
+      >
+        <div slot="title" class="dialog-title zeus-flex-between">
+          <div class="left">属性历史数据</div>
+          <div class="right">
+            <svg-icon icon-class="dialog_close" class="closeicon"/>
+            <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible2 = false"/>
+          </div>
+        </div>
+        <div class="zeus-pt-10 zeus-pl-25 zeus-pr-25">
+          <el-row class="bg-gray zeus-mt-15">
+            <el-col :span="8" class="zeus-pl-10">属性名称: {{ itemData.attrName }}</el-col>
+            <el-col :span="8" class="zeus-pl-10">
+              <svg-icon icon-class="attr_key"/>
+              标识符: {{ itemData.key }}
+            </el-col>
+            <el-col :span="8" class="zeus-pl-10">
+              <svg-icon icon-class="attr_type"/>
+              数据类型: {{ itemData.valueTypeName }}
+            </el-col>
+          </el-row>
+          <div class="chart-box">
+            <el-date-picker
+              v-model="dialogTime"
+              size="small"
+              class="zeus-mb-15"
+              type="daterange"
+              :picker-options="pickerOptions"
+              range-separator="-"
+              value-format="yyyy-MM-dd"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              @change="changeTime"
+            >
+            </el-date-picker>
+            <el-select v-model="shortcuts" placeholder="快捷时间" size="mini" @change="changeShortcuts" class="w200 zeus-ml-15">
+              <el-option
+                v-for="i in shortcutsList"
+                :key="i.key"
+                :label="i.key"
+                :value="i.value"
+              />
+            </el-select>
+            <div v-if="itemData.valueType == 3 || itemData.valueType == 0" class="zeus-right radio">
+              <div class="radio-button" :class="dialogRadio === '趋势图' ? 'activity' :''" @click="dialogRadio = '趋势图'">趋势图
+              </div>
+              <div class="radio-button" :class="dialogRadio === '表格' ? 'activity' :''" @click="dialogRadio = '表格'">表格
+              </div>
+            </div>
+            <div v-if="dialogRadio === '趋势图' && (itemData.valueType == 3 || itemData.valueType == 0)" v-loading="loading2" class="zeus-relative">
+              <img class="chart-img" :src="img">
+              <div class="zeus-absolute img-title"></div>
+            </div>
+            <div v-if="dialogRadio === '表格' || !(itemData.valueType == 3 || itemData.valueType == 0)">
+              <BusinessTable
+                :table-data="tableData2"
+                :columns="columns"
+                :loading="loading2"
+              />
+              <Pagination :total="total2" :size="size2" :current-page="page2" @handleCurrentChange="handleCurrentChange2"/>
+            </div>
+          </div>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -175,6 +218,7 @@ export default {
       state: '',
       dialogVisible: false,
       dialogVisible2: false,
+      switchover: true,
       total: 0,
       size: 10,
       page: 1,
@@ -444,10 +488,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.but{
+  padding: 5px 15px;
+  border-radius: 15px;
+
+  &:hover{
+    background-color: #DEE5EC;
+  }
+}
+
+.activity{
+  background-color: #DEE5EC;
+}
+
+.title{
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px!important;
+}
+
+.pl47{
+  padding-left: 47px;
+}
+
 .attribute {
   width: 100%;
   background-color: #fff;
   padding: 12px;
+
+  .blue{
+    color: #1A84F9;
+  }
 
   .list {
     background-color: #F9FBFD;
@@ -464,6 +535,9 @@ export default {
 
     .f13 {
       font-size: 13px !important;
+    }
+    .f32 {
+      font-size: 32px !important;
     }
 
     .c-gray {
