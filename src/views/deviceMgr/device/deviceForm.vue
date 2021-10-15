@@ -65,11 +65,11 @@
       :center="center"
       :ak="selfKey"
       inertial-dragging
-      :scroll-wheel-zoom="true"
       @ready="mapReady"
       @click="selectPoint"
     >
       <bm-marker :position="point"/>
+      <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
       <bm-geolocation
         anchor="BMAP_ANCHOR_BOTTOM_RIGHT"
         :show-address-bar="true"
@@ -86,7 +86,7 @@
 
 <script>
 import BaiduMap from 'vue-baidu-map/components/map/Map'
-import { BmAutoComplete, BmControl, BmGeolocation, BmLocalSearch, BmMarker } from 'vue-baidu-map/index'
+import { BmAutoComplete, BmControl, BmGeolocation, BmLocalSearch, BmMarker, BmNavigation } from 'vue-baidu-map/index'
 import { getProductAttrTrapperList } from '@/api/porductMgr'
 
 export default {
@@ -103,7 +103,8 @@ export default {
     // 自定义控件
     BmControl,
     // 自动填充
-    BmAutoComplete
+    BmAutoComplete,
+    BmNavigation
   },
   props: {
     value: {
