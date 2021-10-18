@@ -270,15 +270,6 @@ export function getEventByPage(data) {
   })
 }
 
-// 场景联动列表
-export function getSceneByPage(data) {
-  return request({
-    url: '/multiple/device/event/trigger/getEventByPage',
-    method: 'post',
-    data
-  })
-}
-
 // 告警规则修改-设备
 export function updateEventDev(data) {
   return request({

@@ -52,15 +52,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import sceneForm from '@/views/rule/scene/sceneForm'
-import {
-  createDevAlarm, deleteDevEvent, detailEventDev,
-  getAttrTrapperList,
-  getDeviceList,
-  getSceneByPage, modifyStatusEventDev,
-  updateEvent,
-  updateEventDev
-} from '@/api/deviceMgr'
-import { createAlarm, deleteEvent, detailEvent, modifyStatusEvent } from '@/api/porductMgr'
+import { getSceneByPage, createScene, deleteScene, detailScene, modifyStatusScene, updateScene } from '@/api/scene'
 
 export default {
   name: 'scene',
@@ -207,61 +199,10 @@ export default {
       }
     }
   },
-  watch: {
-    // 'form.prodId': {
-    //   immediate: true,
-    //   async handler(val) {
-    //     this.form.attrId = ''
-    //     let attrTemplate = []
-    //     if (val !== '') {
-    //       await getAttrTrapperList({ prodId: val }).then((res) => {
-    //         if (res.code == 200) {
-    //           attrTemplate = res.data
-    //         }
-    //       })
-    //     }
-    //     this.formParams = [
-    //       {
-    //         componentName: 'SelectTemplate',
-    //         keyName: 'prodId',
-    //         label: '设备',
-    //         optionId: 'deviceId',
-    //         optionName: 'name',
-    //         options: this.devList
-    //       },
-    //       {
-    //         componentName: 'SelectTemplate',
-    //         keyName: 'attrId',
-    //         label: '属性',
-    //         optionId: 'attrId',
-    //         optionName: 'attrName',
-    //         options: attrTemplate
-    //       },
-    //       {
-    //         componentName: 'InputTemplate',
-    //         keyName: 'eventRuleName',
-    //         label: '场景联动名称'
-    //       }
-    //     ]
-    //   }
-    // }
-  },
   async created() {
-    // await this.searchInit()
     await this.getList()
   },
   methods: {
-    async searchInit() {
-      await getDeviceList({}).then((res) => {
-        if (res.code == 200) {
-          this.devList = res.data
-          // this.form.prodId = ''
-          if (res.data && res.data.length) {
-            this.form.prodId = res.data[0].deviceId
-          }
-        }
-      })
-    },
     search() {
       this.page = 1
       this.getList()
@@ -288,7 +229,7 @@ export default {
       })
     },
     detail(eventRuleId) {
-      detailEventDev({ eventRuleId, deviceId: this.form.prodId }).then((res) => {
+      detailScene({ eventRuleId, deviceId: this.form.prodId }).then((res) => {
         if (res.code == 200) {
           this.dialogForm = res.data
         }
@@ -307,7 +248,7 @@ export default {
       this.modifyStatus(id, 'ENABLE')
     },
     modifyStatus(eventRuleId, status) {
-      modifyStatusEventDev({ eventRuleId, status, deviceId: this.form.prodId }).then((res) => {
+      modifyStatusScene({ eventRuleId, status, deviceId: this.form.prodId }).then((res) => {
         if (res.code == 200) {
           this.$message({
             message: '修改成功',
@@ -323,7 +264,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteDevEvent({ eventRuleId, deviceId: this.form.prodId }).then(async(res) => {
+        deleteScene({ eventRuleId, deviceId: this.form.prodId }).then(async(res) => {
           if (res.code == 200) {
             this.$message({
               message: '删除成功',
@@ -340,7 +281,7 @@ export default {
         this.butLoading = true
         this.dialogForm.classify = '1'
         if (this.state === '创建') {
-          createDevAlarm(this.dialogForm).then((res) => {
+          createScene(this.dialogForm).then((res) => {
             if (res.code == 200) {
               this.$message({
                 message: '创建成功',
@@ -354,7 +295,7 @@ export default {
             this.butLoading = false
           })
         } else {
-          updateEventDev(this.dialogForm).then((res) => {
+          updateScene(this.dialogForm).then((res) => {
             if (res.code == 200) {
               this.$message({
                 message: '修改成功',
