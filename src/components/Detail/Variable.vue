@@ -6,12 +6,12 @@
         <div class="zeus-list-item">
 <!--          <span class="zeus-left-tips tips">{$</span>-->
 <!--          <span class="zeus-right-tips tips">}</span>-->
-          <el-input v-model="item.name" size="mini" :disabled="read">
+          <el-input v-model="item.key" size="mini" :disabled="read">
             <template slot="prepend">键</template>
           </el-input>
         </div>
         <div class="zeus-list-item">
-          <el-input v-model="item.key" size="mini" :disabled="read">
+          <el-input v-model="item.value" size="mini" :disabled="read">
             <template slot="prepend">值</template>
           </el-input>
         </div>
