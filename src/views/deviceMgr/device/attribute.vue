@@ -18,8 +18,13 @@
                 </el-button>
               </div>
               <el-row>
-                <el-col :span="8" class="zeus-text-align-c">
-                  <div class="zeus-bold f32">{{ item.value || '-' }} {{ item.units }}</div>
+                <el-col :span="8" class="">
+                  <div v-if="item.valueType == '1' || item.valueType == '4'" :title="item.value || '-'+' '+item.units" class="zeus-bold textType zeus-pr-20">
+                    <span>
+                      {{ item.value || '-' }} {{ item.units }}
+                    </span>
+                  </div>
+                  <div v-else class="zeus-bold f32 zeus-text-align-c">{{ item.value || '-' }} {{ item.units }}</div>
                 </el-col>
                 <el-col :span="16">
                   <el-row class="bg-gray">
@@ -54,7 +59,7 @@
                 <svg-icon icon-class="attr_history"/>
                 历史数据
               </el-button>
-              <div class="zeus-bold f13">{{ item.value || '-' }} {{ item.units }}</div>
+              <div class="zeus-bold f13" :title="item.value || '-'+' '+item.units">{{ item.value || '-' }} {{ item.units }}</div>
               <div class="c-gray zeus-mb-15">{{ item.attrName }}</div>
               <el-row class="bg-gray">
                 <el-col :span="8" class="zeus-pl-10 blue">
@@ -535,9 +540,25 @@ export default {
 
     .f13 {
       font-size: 13px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 70px;
     }
     .f32 {
       font-size: 32px !important;
+    }
+
+    .textType{
+      font-size: 16px!important;
+      line-height: 28px;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      word-wrap:break-word;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
 
     .c-gray {

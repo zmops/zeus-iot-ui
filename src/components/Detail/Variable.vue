@@ -67,7 +67,7 @@ export default {
     verification() {
       this.$emit('input', this.list)
       for (const item of this.list) {
-        if (item.name === '' || item.key === '') {
+        if (item.value === '' || item.key === '') {
           this.$message({
             message: '请填写完整当前的键值',
             type: 'warning'
@@ -90,8 +90,8 @@ export default {
     add() {
       if (this.verification()) {
         this.list.push({
-          name: '',
           key: '',
+          value: '',
           remark: ''
         })
       }
