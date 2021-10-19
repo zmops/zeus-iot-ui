@@ -8,13 +8,32 @@
       <template v-slot:title>业务日志</template>
       <template v-slot:subhead></template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :columns="columns" @search="search" />
-    <BusinessTable
-      :table-data="tableData"
-      :columns="columns"
-      :loading="loading"
-      :icon="$route.meta.icon24"
-    />
+    <SearchForm :params="formParams" @search="search" />
+    <el-table
+      v-loading="loading"
+      :data="tableData"
+      style="width: 100%"
+      class="table">
+      <el-table-column width="48">
+        <template>
+          <svg-icon :icon-class="$route.meta.icon24" style="font-size: 24px" />
+        </template>
+      </el-table-column>
+      <el-table-column v-for="(item, index) in columns" :key="index" :label="item.label">
+        <template slot-scope="scope">
+          <span v-if="item.prop === 'message'">
+            <el-tooltip v-if="scope.row[item.prop]" effect="dark" :content="scope.row[item.prop]" placement="left">
+              <span class="massage">
+                <i class="el-icon-copy-document copy" v-clipboard:copy="scope.row[item.prop]" v-clipboard:success="onCopy" v-clipboard:error="onError"></i> {{ scope.row[item.prop] }}</span>
+            </el-tooltip>
+            <span v-else>-</span>
+          </span>
+          <span v-else>
+            {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
+          </span>
+        </template>
+      </el-table-column>
+    </el-table>
     <Pagination :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
   </div>
 </template>
@@ -125,7 +144,29 @@ export default {
     handleCurrentChange(val) {
       this.form.page = val
       this.getList()
+    },
+    onCopy() {
+      this.$message({
+        message: '复制成功',
+        type: 'success',
+      })
+    },
+    onError() {
+      this.$message.error('复制失败,请重试')
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.table{
+  padding: 0 12px;
+}
+.massage{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.copy{
+  cursor: pointer;
+}
+</style>

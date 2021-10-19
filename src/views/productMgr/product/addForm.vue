@@ -146,8 +146,8 @@ export default {
                   type: 'success'
                 })
                 this.$emit('closeDialog')
-                this.butLoading = false
               }
+              this.butLoading = false
             }).catch(() => {
               this.butLoading = false
             })

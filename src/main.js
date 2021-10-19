@@ -12,8 +12,10 @@ import VueSocketIO from 'vue-socket.io'
 import App from './App'
 import router from './router'
 import store from './store'
+import VueClipboard from 'vue-clipboard2'
 
 Vue.use(ElementUI)
+Vue.use(VueClipboard)
 Vue.use(new VueSocketIO({
   // debug: true,
   connection: `http://${process.env.VUE_APP_SOCKET_PATH}:9080?token=user&userId=` + localStorage.getItem('userid'),
