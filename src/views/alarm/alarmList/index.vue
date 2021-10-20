@@ -103,14 +103,14 @@ export default {
           fixed: 'right',
           buttons: [
             {
-              label: '解决',
-              event: 'solve',
-              icon: 'list_solve'
-            },
-            {
               label: '确认',
               event: 'affirm',
               icon: 'list_affirm'
+            },
+            {
+              label: '解决',
+              event: 'solve',
+              icon: 'list_solve'
             }
           ]
         }
