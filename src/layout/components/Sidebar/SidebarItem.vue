@@ -105,7 +105,7 @@ export default {
 .el-submenu__title {
   height: 35px;
   line-height: 35px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   color: #0D0D0D !important;
   i{
