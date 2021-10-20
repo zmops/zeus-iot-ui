@@ -29,6 +29,13 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
+  css: {
+    loaderOptions: {
+      sass: {
+        sassOptions: { outputStyle: 'expanded' }
+      }
+    }
+  },
   devServer: {
     port: port,
     open: true,
@@ -47,7 +54,12 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
-      }
+      },
+      // '/socket.io': {
+      //   target: `http://${process.env.VUE_APP_SOCKET_PATH}:9080`,
+      //   changeOrigin: true,
+      //   logLevel: 'debug'
+      // }
     }
     // before: require('./mock/mock-server.js')
   },
