@@ -5,6 +5,7 @@ const analyseRouter = {
   component: Layout,
   name: 'analyse',
   redirect: '/analyse/device',
+  alwaysShow: true,
   meta: {
     title: '统计分析',
     icon: 'menu_analyse',
@@ -19,26 +20,16 @@ const analyseRouter = {
         title: '全局概览'
       }
     },
-    {
-      path: '/analyse/latest',
-      component: () => import('@/views/analyse/latest'),
-      name: '/analyse/latest',
-      meta: {
-        title: '最新数据',
-        icon24: 'device24',
-        icon48: 'device48'
-      }
-    },
-    {
-      path: '/analyse/devLog',
-      component: () => import('@/views/analyse/devLog'),
-      name: '/analyse/devLog',
-      meta: {
-        title: '设备日志',
-        icon24: 'log24',
-        icon48: 'log48'
-      }
-    }
+    // {
+    //   path: '/analyse/latest',
+    //   component: () => import('@/views/analyse/latest'),
+    //   name: '/analyse/latest',
+    //   meta: {
+    //     title: '最新数据',
+    //     icon24: 'device24',
+    //     icon48: 'device48'
+    //   }
+    // },
   ]
 }
 export default analyseRouter

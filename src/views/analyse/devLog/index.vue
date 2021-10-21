@@ -5,7 +5,7 @@
       <template v-slot:logo>
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
-      <template v-slot:title>设备日志</template>
+      <template v-slot:title>{{$route.meta.title}}</template>
       <template v-slot:subhead></template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :columns="columns" @search="search"/>
@@ -57,7 +57,7 @@ export default {
       tableData: [],
       devList: [],
       productList: [],
-      devTemplate:[],
+      devTemplate: [],
       loading: false,
       total: 0,
       size: 10,
@@ -147,13 +147,13 @@ export default {
             options: this.devTemplate,
             w: 200
           },
-          {
-            componentName: 'SelectTemplate',
-            keyName: 'logType',
-            label: '日志类型',
-            options: ['事件日志', '服务日志', '告警日志'],
-            w: 200
-          },
+          // {
+          //   componentName: 'SelectTemplate',
+          //   keyName: 'logType',
+          //   label: '日志类型',
+          //   options: ['事件日志', '服务日志', '告警日志'],
+          //   w: 200
+          // },
           {
             componentName: 'DateTimePickerTemplate',
             keyName: 'time',
@@ -176,7 +176,7 @@ export default {
   },
   async created() {
     await this.searchInit()
-    // await this.getList()
+    await this.getList()
   },
   methods: {
     async searchInit() {
@@ -193,11 +193,12 @@ export default {
       await getDeviceList({}).then((res) => {
         if (res.code == 200) {
           this.devTemplate = res.data
-          if (res.data && res.data.length) {
-            this.form.deviceId = res.data[0].deviceId
-          }
+          // if (res.data && res.data.length) {
+          //   this.form.deviceId = res.data[0].deviceId
+          // }
         }
       })
+
     },
     search() {
       this.page = 1
@@ -209,6 +210,7 @@ export default {
         this.form.timeFrom = this.form.time[0]
         this.form.timeTill = this.form.time[0]
       }
+      this.form.logType = this.$route.meta.title
       getLogByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
         this.loading = false
         if (res.code == 200) {

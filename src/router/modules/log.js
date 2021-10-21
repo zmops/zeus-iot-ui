@@ -6,7 +6,7 @@ const logRouter = {
   name: 'log',
   redirect: '/log/businessLog',
   meta: {
-    title: '日志查询',
+    title: '系统日志',
     icon: 'menu_log',
     active_icon: 'menu_log_ac'
   },

@@ -10,6 +10,10 @@ Router.prototype.push = function push(location) {
 import constantRouter from '@/router/modules/constant'
 /* 统计分析 */
 import analyseRouter from '@/router/modules/analyse'
+/* 可视观测 */
+import visualizationRouter from '@/router/modules/visualization'
+/* 平台日志 */
+import platformLogRouter from '@/router/modules/platformLog'
 /* 设备管理 */
 import deviceMgrRouter from '@/router/modules/deviceMgr'
 /* 产品管理 */
@@ -33,6 +37,8 @@ window.axiosCancel = []
 export const constantRouters = constantRouter
 export const asyncRoutes = [
   analyseRouter,
+  visualizationRouter,
+  platformLogRouter,
   deviceMgrRouter,
   productMgrRouter,
   ruleRouter,

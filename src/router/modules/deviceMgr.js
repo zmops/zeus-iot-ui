@@ -40,16 +40,6 @@ const deviceMgrRouter = {
         icon24: 'device24',
         icon48: 'device48'
       }
-    },
-    {
-      path: '/deviceMgr/distributed',
-      component: () => import('@/views/deviceMgr/distributed'),
-      name: '/deviceMgr/distributed',
-      meta: {
-        title: '设备分布',
-        icon24: 'device24',
-        icon48: 'device48'
-      }
     }
   ]
 }
