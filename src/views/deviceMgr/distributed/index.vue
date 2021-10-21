@@ -40,15 +40,39 @@
       <bml-marker-clusterer :average-center="true" :styles="[{url, size: {width: 68, height: 68}, textColor: '#fff'}]">
         <bm-marker v-for="(marker, index) of markers" :key="index" :position="{lng: marker.lng, lat: marker.lat}" @click="marker.show = true"></bm-marker>
       </bml-marker-clusterer>
-      <bm-info-window v-for="(marker, index) of markers" :key="index" :auto-pan="true" :position="{lng: marker.lng, lat: marker.lat}" :title="`<a style='color: #1A84F9' href='#/deviceMgr/device/detail?id=${marker.deviceId}'>${marker.name}</a>`" :show="marker.show" @close="marker.show = false">
-        <p>设备ID: {{ marker.deviceId || '-' }}</p>
-        <p>产品: {{ marker.productName || '-' }}</p>
-        <p>设备类型: {{ marker.typeName || '-' }}</p>
-        <p>状态: {{ marker.statusName || '-' }}</p>
-        <p>在线状态: {{ marker.online || '-' }}</p>
-        <p>设备组: {{ marker.groupName || '-' }}</p>
-        <p>描述: {{ marker.remark || '-' }}</p>
-        <p>创建时间: {{ marker.createTime || '-' }}</p>
+      <bm-info-window v-for="(marker, index) of markers" :key="index" :auto-pan="true" :width="300" :position="{lng: marker.lng, lat: marker.lat}" :title="`<a style='color: #1A84F9' href='#/deviceMgr/device/detail?id=${marker.deviceId}'>${marker.name}</a>`" :show="marker.show" @close="marker.show = false">
+        <div class="item zeus-mt-10">
+          <span class="name">设备ID:</span>
+          <span class="value">{{ marker.deviceId || '-' }}</span>
+        </div>
+        <div class="item">
+          <span class="name">产品:</span>
+          <span class="value">{{ marker.productName || '-' }}</span>
+        </div>
+        <div class="item">
+          <span class="name">设备类型:</span>
+          <span class="value">{{ marker.typeName || '-' }}</span>
+        </div>
+        <div class="item">
+          <span class="name">状态:</span>
+          <span class="value">{{ marker.statusName || '-' }}</span>
+        </div>
+        <div class="item">
+          <span class="name">在线状态:</span>
+          <span class="value">{{ marker.online || '-' }}</span>
+        </div>
+        <div class="item">
+          <span class="name">设备组:</span>
+          <span class="value">{{ marker.groupName || '-' }}</span>
+        </div>
+        <div class="item">
+          <span class="name">描述:</span>
+          <span class="value">{{ marker.remark || '-' }}</span>
+        </div>
+        <div class="item">
+          <span class="name">创建时间:</span>
+          <span class="value">{{ marker.createTime || '-' }}</span>
+        </div>
       </bm-info-window>
     </baidu-map>
   </div>
@@ -189,6 +213,29 @@ export default {
   .map{
     width: 100%;
     height: 100%;
+  }
+
+  .item{
+    width: 300px;
+    font-size: 14px;
+    height: 25px;
+    line-height: 25px;
+
+    .name{
+      display: inline-block;
+      width: 80px;
+      text-align: right;
+      vertical-align: top;
+    }
+
+    .value{
+      display: inline-block;
+      padding-left: 20px;
+      width: 200px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 </style>

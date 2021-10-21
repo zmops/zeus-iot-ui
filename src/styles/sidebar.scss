@@ -16,7 +16,7 @@
     background-color: $menuBg;
     border-right: #E2EAF2 1px solid;
     padding: 20px 10px 0 10px;
-    height: calc(100% - 90px);
+    height: calc(100% - 72px);
     position: fixed;
     font-size: 0px;
     top: 70px;
@@ -39,7 +39,7 @@
     }
 
     .el-scrollbar {
-      height: calc(100% - 50px);
+      height: 100%;
     }
 
     &.has-logo {
