@@ -6,7 +6,7 @@ const visualizationRouter = {
   name: 'visualization',
   redirect: '/visualization/distributed',
   meta: {
-    title: '可视观测',
+    title: '可视化',
     icon: 'menu_visualization',
     active_icon: 'menu_visualization_ac'
   },
