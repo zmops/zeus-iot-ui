@@ -24,7 +24,10 @@
           <span v-if="item.prop === 'message'">
             <el-tooltip v-if="scope.row[item.prop]" effect="dark" :content="scope.row[item.prop]" placement="left">
               <span class="massage">
-                <i class="el-icon-copy-document copy" v-clipboard:copy="scope.row[item.prop]" v-clipboard:success="onCopy" v-clipboard:error="onError"></i> {{ scope.row[item.prop] }}</span>
+                <el-button type="text" class="copy" v-clipboard:copy="scope.row[item.prop]" v-clipboard:success="onCopy" v-clipboard:error="onError">
+                  <svg-icon icon-class="copy"></svg-icon>
+                </el-button>
+                {{ scope.row[item.prop] }}</span>
             </el-tooltip>
             <span v-else>-</span>
           </span>

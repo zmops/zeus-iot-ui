@@ -278,3 +278,13 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   //border-radius: 10px;
   background   : #EFF4F900;
 }
+.el-tag.el-tag--info{
+  color: #242E42;
+  background-color: #EFF4F9;
+  border-radius: 2px;
+}
+.el-select .el-tag__close.el-icon-close{
+  background-color: transparent!important;
+  color: #242E42!important;
+  font-size: 16px;
+}

@@ -81,7 +81,9 @@
       <el-input v-model="item.value" :disabled="disabled" size="mini" class="input zeus-mr-10"/>
       <span>{{ units }}</span>
     </div>
-    <el-button type="text" icon="el-icon-delete" :disabled="disabled" class="zeus-absolute delete" @click="del()"></el-button>
+    <el-button type="text" :disabled="disabled" class="zeus-absolute delete" @click="del()">
+      <svg-icon icon-class="but_del"></svg-icon>
+    </el-button>
   </div>
 </template>
 

@@ -38,7 +38,9 @@
           <el-input v-model="item.value" class="attr-js" size="mini" disabled placeholder="script" suffix-icon="el-icon-edit-outline"/>
         </div>
       </div>
-      <i v-if="!disabled" class="el-icon-delete zeus-icon" @click="formData.splice(index, 1)"/>
+      <el-button v-if="!disabled" type="text" class=" zeus-icon"  @click="formData.splice(index, 1)">
+        <svg-icon icon-class="but_del"></svg-icon>
+      </el-button>
     </div>
     <el-button class="add-btn" plain icon="el-icon-plus" size="mini" :disabled="disabled" @click="add">增加预处理步骤</el-button>
     <el-dialog

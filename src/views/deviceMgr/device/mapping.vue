@@ -75,7 +75,9 @@
                   </el-input>
                 </div>
               </div>
-              <i class="el-icon-delete zeus-icon" @click="mapItem.valueMaps.splice(index, 1)" />
+              <el-button type="text" class=" zeus-icon" @click="mapItem.valueMaps.splice(index, 1)">
+                <svg-icon icon-class="but_del"></svg-icon>
+              </el-button>
             </div>
             <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="mapAdd">增加</el-button>
           </el-form-item>

@@ -21,7 +21,9 @@
           </el-input>
         </div>
       </div>
-      <i v-if="!read && showBut" class="el-icon-delete zeus-icon" @click="del(index)" />
+      <el-button v-if="!read && showBut" type="text" class=" zeus-icon"  @click="del(index)">
+        <svg-icon icon-class="but_del"></svg-icon>
+      </el-button>
     </div>
     <el-button v-if="!read && showBut" class="add-btn" plain icon="el-icon-plus" size="mini" @click="add">增加{{name}}</el-button>
   </div>

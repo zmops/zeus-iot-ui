@@ -17,7 +17,9 @@
         :value="i.id"
       />
     </el-select>
-    <el-button type="text" icon="el-icon-delete" :disabled="disabled" class=" del" @click="del(ind)"></el-button>
+    <el-button type="text" :disabled="disabled" class=" del" @click="del(ind)">
+      <svg-icon icon-class="but_del"></svg-icon>
+    </el-button>
   </div>
 </template>
 <script>

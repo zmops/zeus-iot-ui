@@ -14,7 +14,9 @@
           </el-input>
         </div>
       </div>
-      <i class="el-icon-delete zeus-icon" @click="del(index)" />
+      <el-button type="text" class=" zeus-icon"  @click="del(index)">
+        <svg-icon icon-class="but_del"></svg-icon>
+      </el-button>
     </div>
     <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="add">增加标签</el-button>
   </div>

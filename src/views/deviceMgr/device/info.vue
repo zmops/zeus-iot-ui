@@ -356,6 +356,7 @@ export default {
           }
 
           .show-map {
+            font-size: 12px;
             color: #1A84F9;
           }
 
