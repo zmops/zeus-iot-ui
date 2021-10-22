@@ -29,13 +29,17 @@
       <el-button type="primary" round size="mini" @click="getList">查询</el-button>
     </div>
     <baidu-map
+      v-if="mapShow"
       class="map"
-      :zoom="15"
+      :zoom="zoom"
       :center="center"
       :ak="selfKey"
       inertial-dragging
       :scroll-wheel-zoom="true"
       @ready="mapReady"
+      @moving="syncCenterAndZoom"
+      @moveend="syncCenterAndZoom"
+      @zoomend="syncCenterAndZoom"
     >
       <bml-marker-clusterer :average-center="true" :styles="[{url, size: {width: 68, height: 68}, textColor: '#fff'}]">
         <bm-marker v-for="(marker, index) of markers" :key="index" :position="{lng: marker.lng, lat: marker.lat}" @click="openWindow(marker)"></bm-marker>
@@ -59,7 +63,9 @@
         </div>
         <div class="item">
           <span class="name">在线状态:</span>
-          <span class="value">{{ device.online || '-' }}</span>
+          <span v-if="device.online == '1'" class="value">在线</span>
+          <span v-else-if="device.online == '0'" class="value">离线</span>
+          <span v-else class="value">-</span>
         </div>
         <div class="item">
           <span class="name">设备组:</span>
@@ -106,7 +112,11 @@ export default {
       // 搜索关键字
       keyword: '',
       // 初始化地图中心点
-      center: null,
+      center: {
+        lng: 0,
+        lat: 0
+      },
+      zoom: 15,
       url: distribute,
       form: {
         name: '',
@@ -117,7 +127,8 @@ export default {
       deviceGroup: [],
       productList: [],
       typeList: [],
-      device: {}
+      device: {},
+      mapShow: false
     }
   },
   created() {
@@ -146,6 +157,7 @@ export default {
       })
     },
     getList() {
+      this.mapShow = false
       getDeviceList(this.form).then((res) => {
         if (res.code == '200') {
           if (res.data && res.data.length) {
@@ -162,33 +174,40 @@ export default {
               }
             })
           }
+          this.mapShow = true
         }
+      }).catch((res) =>{
+        this.mapShow = true
       })
     },
     mapReady({ BMap, map }) {
       const _this = this
-      // 获取自动定位方法
-      const geolocation = new BMap.Geolocation()
-      // 获取自动定位获取的坐标信息
-      geolocation.getCurrentPosition(
-        function(r) {
-          _this.center = {
-            lng: r.point.lng,
-            lat: r.point.lat
-          }
-          _this.point = {
-            lng: r.point.lng,
-            lat: r.point.lat
-          }
-        },
-        { enableHighAccuracy: true }
-      )
+      if (_this.center.lat === 0) {
+        // 获取自动定位方法
+        const geolocation = new BMap.Geolocation()
+        // 获取自动定位获取的坐标信息
+        geolocation.getCurrentPosition(
+          function(r) {
+            _this.center = {
+              lng: r.point.lng,
+              lat: r.point.lat
+            }
+          },
+          { enableHighAccuracy: true }
+        )
+      }
     },
     detail(id) {
       this.$router.push({
         path: '/deviceMgr/device/detail',
         query: { id }
       })
+    },
+    syncCenterAndZoom(e) {
+      const { lng, lat } = e.target.getCenter()
+      this.center.lng = lng
+      this.center.lat = lat
+      this.zoom = e.target.getZoom()
     },
     openWindow(marker) {
       marker.show = true
