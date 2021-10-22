@@ -103,13 +103,17 @@ export default {
 <style lang="scss">
 .el-menu-item,
 .el-submenu__title {
-  height: 35px;
-  line-height: 35px;
+  height: 40px;
+  line-height: 40px;
   font-size: 14px;
   font-weight: bold;
   color: #0D0D0D !important;
   i{
     color: #0D0D0D !important;
+  }
+
+  .svg-icon{
+    font-size: 16px!important;
   }
 }
 

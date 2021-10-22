@@ -71,9 +71,9 @@
       <el-col :span="8" class="zeus-mt-20">
         <el-card class="box-card" shadow="hover">
           <span>今日调用服务</span>
-          <div class="zeus-right">
-            <span class="c-hui">近7日调用服务: </span>{{ serviceTotal }}
-          </div>
+<!--          <div class="zeus-right">-->
+<!--            <span class="c-hui">近7日调用服务: </span>{{ serviceTotal }}-->
+<!--          </div>-->
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
             <LineChart :title="serviceToday" :line-data="serviceChartData" :line-show="false" :height="'152px'"/>
           </div>
@@ -82,9 +82,9 @@
       <el-col :span="8" class="zeus-mt-20">
         <el-card class="box-card" shadow="hover">
           <span>今日事件</span>
-          <div class="zeus-right">
-            <span class="c-hui">近7日事件: </span>{{ eventTotal }}
-          </div>
+<!--          <div class="zeus-right">-->
+<!--            <span class="c-hui">近7日事件: </span>{{ eventTotal }}-->
+<!--          </div>-->
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
             <LineChart :title="eventToday" :line-data="eventChartData" :line-show="false" :height="'152px'"/>
           </div>
