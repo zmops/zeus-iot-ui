@@ -126,7 +126,7 @@ export default {
 .detail-template {
   width: 100%;
   height: calc(100vh - 94px);
-  padding: 0 20px 10px 20px;
+  padding: 0 20px 10px 0;
   background-color: #EFF4F9;
   display: flex;
 

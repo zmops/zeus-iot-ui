@@ -38,40 +38,40 @@
       @ready="mapReady"
     >
       <bml-marker-clusterer :average-center="true" :styles="[{url, size: {width: 68, height: 68}, textColor: '#fff'}]">
-        <bm-marker v-for="(marker, index) of markers" :key="index" :position="{lng: marker.lng, lat: marker.lat}" @click="marker.show = true"></bm-marker>
+        <bm-marker v-for="(marker, index) of markers" :key="index" :position="{lng: marker.lng, lat: marker.lat}" @click="openWindow(marker)"></bm-marker>
       </bml-marker-clusterer>
       <bm-info-window v-for="(marker, index) of markers" :key="index" :auto-pan="true" :width="300" :position="{lng: marker.lng, lat: marker.lat}" :title="`<a style='color: #1A84F9' href='#/deviceMgr/device/detail?id=${marker.deviceId}'>${marker.name}</a>`" :show="marker.show" @close="marker.show = false">
         <div class="item zeus-mt-10">
           <span class="name">设备ID:</span>
-          <span class="value">{{ marker.deviceId || '-' }}</span>
+          <span class="value">{{ device.deviceId || '-' }}</span>
         </div>
         <div class="item">
           <span class="name">产品:</span>
-          <span class="value">{{ marker.productName || '-' }}</span>
+          <span class="value">{{ device.productName || '-' }}</span>
         </div>
         <div class="item">
           <span class="name">设备类型:</span>
-          <span class="value">{{ marker.typeName || '-' }}</span>
+          <span class="value">{{ device.typeName || '-' }}</span>
         </div>
         <div class="item">
           <span class="name">状态:</span>
-          <span class="value">{{ marker.statusName || '-' }}</span>
+          <span class="value">{{ device.statusName || '-' }}</span>
         </div>
         <div class="item">
           <span class="name">在线状态:</span>
-          <span class="value">{{ marker.online || '-' }}</span>
+          <span class="value">{{ device.online || '-' }}</span>
         </div>
         <div class="item">
           <span class="name">设备组:</span>
-          <span class="value">{{ marker.groupName || '-' }}</span>
+          <span class="value">{{ device.groupName || '-' }}</span>
         </div>
         <div class="item">
           <span class="name">描述:</span>
-          <span class="value">{{ marker.remark || '-' }}</span>
+          <span class="value">{{ device.remark || '-' }}</span>
         </div>
         <div class="item">
           <span class="name">创建时间:</span>
-          <span class="value">{{ marker.createTime || '-' }}</span>
+          <span class="value">{{ device.createTime || '-' }}</span>
         </div>
       </bm-info-window>
     </baidu-map>
@@ -81,7 +81,7 @@
 <script>
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
 import { BmMarker, BmlMarkerClusterer, BmInfoWindow } from 'vue-baidu-map'
-import { getDeviceGrpList, getDeviceList } from '@/api/deviceMgr'
+import { deviceDetail, getDeviceGrpList, getDeviceList } from '@/api/deviceMgr'
 import { getDictListByCode } from '@/api/system'
 import { getProductList } from '@/api/porductMgr'
 import distribute from '@/assets/distribute.png'
@@ -116,7 +116,8 @@ export default {
       },
       deviceGroup: [],
       productList: [],
-      typeList: []
+      typeList: [],
+      device: {}
     }
   },
   created() {
@@ -187,6 +188,14 @@ export default {
       this.$router.push({
         path: '/deviceMgr/device/detail',
         query: { id }
+      })
+    },
+    openWindow(marker) {
+      marker.show = true
+      deviceDetail({ deviceId: marker.deviceId }).then((res) => {
+        if (res.code == 200) {
+          this.device = res.data
+        }
       })
     }
   }

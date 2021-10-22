@@ -116,9 +116,17 @@ export default {
     'form.productId': {
       immediate: true,
       async handler(val) {
-        this.devTemplate = []
         this.form.deviceId = ''
-        if (val !== '') {
+        if (val === '') {
+          await getDeviceList({}).then((res) => {
+            if (res.code == 200) {
+              this.devTemplate = res.data
+              // if (res.data && res.data.length) {
+              //   this.form.deviceId = res.data[0].deviceId
+              // }
+            }
+          })
+        } else {
           await getDeviceList({productId: val}).then((res) => {
             if (res.code == 200) {
               this.devTemplate = res.data
