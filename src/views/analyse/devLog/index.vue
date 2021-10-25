@@ -14,6 +14,7 @@
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
+      @detail="detail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
   </div>
@@ -71,16 +72,6 @@ export default {
         {
           label: '触发时间',
           prop: 'triggerTime',
-          show: true
-        },
-        {
-          label: '设备名称',
-          prop: 'deviceName',
-          show: true
-        },
-        {
-          label: '告警级别',
-          prop: 'severityName',
           show: true
         },
         {
@@ -193,6 +184,46 @@ export default {
     }
   },
   async created() {
+    if (this.$route.meta.title === '告警日志') {
+      this.columns = [
+        {
+          label: '日志类型',
+          prop: 'logType',
+          show: true
+        },
+        {
+          label: '触发时间',
+          prop: 'triggerTime',
+          show: true
+        },
+        {
+          label: '设备名称',
+          prop: 'deviceName',
+          event: true,
+          show: true
+        },
+        {
+          label: '告警级别',
+          prop: 'severityName',
+          show: true
+        },
+        {
+          label: '内容',
+          prop: 'content',
+          show: true
+        },
+        {
+          label: '输入参数',
+          prop: 'param',
+          show: true
+        },
+        {
+          label: '状态',
+          prop: 'status',
+          show: true
+        }
+      ]
+    }
     await this.searchInit()
     await this.getList()
   },
@@ -245,6 +276,14 @@ export default {
     },
     solve(id) {
 
+    },
+    detail(item) {
+      this.$router.push({
+        path: '/deviceMgr/device/detail',
+        query: {
+          id: item.deviceId
+        }
+      })
     }
   }
 }

@@ -9,19 +9,56 @@
       <template v-slot:subhead>告警记录包含所有已发出的满足告警规则的告警信息。</template>
     </ListHeadTemplate>
     <SearchForm :params="formParams" :columns="columns" @search="search"/>
-    <BusinessTable
-      :table-data="tableData"
-      :columns="columns"
-      :loading="loading"
-      :icon="$route.meta.icon24"
-      @detail="detail"
-    />
+    <el-table
+      v-loading="loading"
+      :data="tableData"
+      style="width: 100%"
+      class="table">
+      <el-table-column width="48">
+        <template>
+          <svg-icon :icon-class="$route.meta.icon24" style="font-size: 24px" />
+        </template>
+      </el-table-column>
+      <el-table-column v-for="(item, index) in columns" :key="index" :label="item.label">
+        <template slot-scope="scope">
+          <span v-if="item.prop === 'buttons'" class="setting-buttons">
+            <el-button
+              v-if="scope.row.acknowledged === '未确认'"
+              type="text"
+              class="setting-button"
+              round
+              size="mini"
+              @click="affirm(scope.row.eventid)"
+            >
+              <svg-icon icon-class="list_affirm" />
+              确认
+            </el-button>
+            <el-button
+              v-if="scope.row.statusName === '未解决'"
+              type="text"
+              class="setting-button"
+              round
+              size="mini"
+              @click="solve(scope.row.eventid)"
+            >
+              <svg-icon icon-class="list_affirm" />
+              解决
+            </el-button>
+          </span>
+          <span v-else-if="item.prop === 'deviceName'" class="event" @click="detail(scope.row.deviceId)">
+            {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
+          </span>
+          <span v-else>
+            {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
+          </span>
+        </template>
+      </el-table-column>
+    </el-table>
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
   </div>
 </template>
 
 <script>
-import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import { getDeviceList } from '@/api/deviceMgr'
@@ -37,7 +74,6 @@ export default {
   },
   components: {
     ListHeadTemplate,
-    BusinessTable,
     SearchForm,
     Pagination
   },
@@ -98,21 +134,7 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 160,
-          idName: 'eventid',
-          fixed: 'right',
-          buttons: [
-            {
-              label: '确认',
-              event: 'affirm',
-              icon: 'list_affirm'
-            },
-            {
-              label: '解决',
-              event: 'solve',
-              icon: 'list_solve'
-            }
-          ]
+          width: 160
         }
       ]
     }
@@ -245,14 +267,28 @@ export default {
         }
       })
     },
-    detail(item) {
+    detail(id) {
       this.$router.push({
         path: '/deviceMgr/device/detail',
-        query: {
-          id: item.deviceId
-        }
+        query: { id }
       })
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.setting-buttons .setting-button {
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.setting-buttons ::v-deep.el-button.is-round:hover {
+  background: #eff4f9;
+  border: 1px solid #ccd3db;
+}
+.event {
+  color: #409eff;
+  cursor: pointer;
+}
+</style>

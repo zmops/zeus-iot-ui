@@ -88,10 +88,11 @@
           </span>
         </template>
         <template v-else>
-          <span :class="{event: item.event,weight: item.bold}" @click="detail(scope.row,item.event)">
-            {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
+          <span v-if="scope.row[item.prop]" :class="{event: item.event,weight: item.bold}" @click="detail(scope.row,item.event)">
+            {{ scope.row[item.prop] }}
             <span v-if="item.unit">{{ item.unit }}</span>
           </span>
+          <span v-else>-</span>
         </template>
       </template>
     </el-table-column>
