@@ -44,7 +44,6 @@
 <script>
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import SearchForm from '@/components/Basics/SearchForm'
-import BusinessTable from '@/components/Basics/BusinessTable'
 import Pagination from '@/components/Basics/Pagination'
 import { getLogList } from '@/api/log'
 
@@ -58,7 +57,6 @@ export default {
   components: {
     ListHeadTemplate,
     SearchForm,
-    BusinessTable,
     Pagination
   },
   data() {

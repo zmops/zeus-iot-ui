@@ -50,6 +50,7 @@ import ProductForm from './addForm.vue'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import Pagination from '@/components/Basics/Pagination'
 import { getProductByPage, DeleteProduct } from '@/api/porductMgr'
+import { getDictListByCode } from '@/api/system'
 export default {
   provide() {
     return {
@@ -79,6 +80,7 @@ export default {
       state: '',
       total: 0,
       formParams: [],
+      typeList: [],
       item: '',
       buttons: [
         {
@@ -153,9 +155,33 @@ export default {
     }
   },
   created() {
+    this.searchInit()
     this.getList()
   },
   methods: {
+    async searchInit() {
+      // 获取设备类型
+      await getDictListByCode({ dictTypeCode: 'DEVICE_TYPE' }).then((res) => {
+        if (res.code == 200) {
+          this.typeList = res.data
+        }
+      })
+      this.formParams = [
+        {
+          componentName: 'SelectTemplate',
+          keyName: 'prodType',
+          label: '设备类型',
+          optionId: 'code',
+          optionName: 'name',
+          options: this.typeList
+        },
+        {
+          componentName: 'InputTemplate',
+          keyName: 'prodName',
+          label: '产品名称'
+        }
+      ]
+    },
     search() {
       this.form.page = 1
       this.getList()

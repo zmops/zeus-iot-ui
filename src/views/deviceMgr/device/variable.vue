@@ -192,13 +192,13 @@ export default {
       const i = this.tableData.find((item) => {
         return item.hostmacroid === id
       })
-      if (i.inherit == '1') {
-        this.$message({
-          message: '当前变量不可编辑',
-          type: 'warning'
-        })
-        return false
-      }
+      // if (i.inherit == '1') {
+      //   this.$message({
+      //     message: '当前变量不可编辑',
+      //     type: 'warning'
+      //   })
+      //   return false
+      // }
       const data = JSON.parse(JSON.stringify(i))
       let macro = data.macro.substring(2)
       macro = macro.substring(0, macro.length - 1)

@@ -74,6 +74,16 @@ export default {
           show: true
         },
         {
+          label: '设备名称',
+          prop: 'deviceName',
+          show: true
+        },
+        {
+          label: '告警级别',
+          prop: 'severityName',
+          show: true
+        },
+        {
           label: '内容',
           prop: 'content',
           show: true
