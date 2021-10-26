@@ -149,7 +149,7 @@ export default {
           { required: true, message: '请选择设备组', trigger: 'change' }
         ]
       },
-      dialogForm: this.value,
+      dialogForm: {},
       selfKey: 'bG3Dzof798yBGM7BzzF1uANWriBPOT5x', // 请先到百度地图开放平台申请AK
       point: {},
       position: '',
@@ -158,10 +158,11 @@ export default {
     }
   },
   watch: {
-    dialogForm: {
+    value: {
       deep: true,
+      immediate: true,
       handler(val) {
-        this.$emit('input', val)
+        this.dialogForm = val
       }
     }
   },
@@ -217,6 +218,7 @@ export default {
       }
     },
     validateForm() {
+      this.$emit('input', this.dialogForm)
       let flag = false
       this.$refs.dialogForm.validate((valid) => {
         flag = valid
