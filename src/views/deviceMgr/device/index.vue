@@ -15,6 +15,7 @@
       :loading="loading"
       :icon="$route.meta.icon24"
       @detail="detail"
+      @proDetail="proDetail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     <el-dialog
@@ -108,7 +109,7 @@ export default {
         {
           label: '设备名称',
           prop: 'name',
-          event: true,
+          event: 'detail',
           show: true
         },
         {
@@ -119,6 +120,7 @@ export default {
         {
           label: '产品',
           prop: 'productName',
+          event: 'proDetail',
           show: true
         },
         {
@@ -303,6 +305,14 @@ export default {
         path: '/deviceMgr/device/detail',
         query: {
           id: item.deviceId
+        }
+      })
+    },
+    proDetail(item) {
+      this.$router.push({
+        path: '/productMgr/product/detail',
+        query: {
+          id: item.productId
         }
       })
     },

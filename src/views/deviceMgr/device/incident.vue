@@ -7,6 +7,7 @@
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
+      @detail="detail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     <el-dialog
@@ -104,6 +105,7 @@ export default {
         {
           label: '事件名称',
           prop: 'attrName',
+          event: 'detail',
           show: true
         },
         {
@@ -146,7 +148,7 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail',
+              event: 'edit',
               icon: 'list-edit'
             },
             {
@@ -184,7 +186,10 @@ export default {
         this.loading = false
       })
     },
-    detail(attrId) {
+    detail(item) {
+      this.edit(item.attrId)
+    },
+    edit(attrId) {
       detailAttrEvent({attrId}).then((res) => {
         if (res.code == 200) {
           this.dialogForm = res.data

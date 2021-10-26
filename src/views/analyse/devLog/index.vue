@@ -199,7 +199,7 @@ export default {
         {
           label: '设备名称',
           prop: 'deviceName',
-          event: true,
+          event: 'detail',
           show: true
         },
         {

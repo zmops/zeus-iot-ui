@@ -16,6 +16,7 @@
       :selection="true"
       :icon="$route.meta.icon24"
       @select="handleSelect"
+      @detail="detail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <!--字典项列表-->
@@ -28,6 +29,7 @@
         :table-data="tableData2"
         :columns="columns2"
         :loading="loading2"
+        @detail="detail2"
       />
     </el-drawer>
     <!--  字典类型弹窗  -->
@@ -149,6 +151,7 @@ export default {
         {
           label: '名称',
           prop: 'name',
+          event: 'detail',
           show: true
         },
         {
@@ -192,6 +195,7 @@ export default {
         {
           label: '名称',
           prop: 'name',
+          event: 'detail',
           show: true
         },
         {
@@ -298,6 +302,9 @@ export default {
       this.state = '创建字典项'
       this.dialogVisible = true
     },
+    detail(item){
+      this.edit(item.dictTypeId)
+    },
     edit(id) {
       const i = this.tableData.find((item) => {
         return item.dictTypeId === id
@@ -305,6 +312,9 @@ export default {
       this.dialogForm = JSON.parse(JSON.stringify(i))
       this.state = '编辑字典类型'
       this.dialogVisible = true
+    },
+    detail2(item) {
+      this.edit2(item.dictId)
     },
     edit2(id) {
       const i = this.tableData2.find((item) => {

@@ -15,6 +15,7 @@
       :loading="loading"
       :selection="true"
       :icon="$route.meta.icon24"
+      @detail="detail"
       @select="handleSelect"
     />
     <Pagination :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
@@ -98,6 +99,7 @@ export default {
         {
           label: '组名',
           prop: 'name',
+          event: 'detail',
           show: true
         },
         {
@@ -184,6 +186,9 @@ export default {
     add() {
       this.state = '创建'
       this.dialogVisible = true
+    },
+    detail(item) {
+      this.edit(item.deviceGroupId)
     },
     edit(id) {
       for (const item of this.tableData) {

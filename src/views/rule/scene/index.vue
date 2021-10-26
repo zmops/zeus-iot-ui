@@ -14,6 +14,7 @@
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
+      @detail="detail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     <el-dialog
@@ -81,6 +82,7 @@ export default {
         {
           label: '场景联动名称',
           prop: 'eventRuleName',
+          event: 'detail',
           show: true
         },
         // {
@@ -124,7 +126,7 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail',
+              event: 'edit',
               icon: 'list-edit'
             },
             {
@@ -228,7 +230,10 @@ export default {
         return i.id
       })
     },
-    detail(eventRuleId) {
+    detail(item) {
+      this.edit(item.eventRuleId)
+    },
+    edit(eventRuleId) {
       detailScene({ eventRuleId, deviceId: this.form.prodId }).then((res) => {
         if (res.code == 200) {
           this.dialogForm = res.data

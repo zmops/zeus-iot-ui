@@ -7,6 +7,7 @@
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
+      @detail="detail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
@@ -138,6 +139,7 @@ export default {
         {
           label: '服务名称',
           prop: 'name',
+          event: 'detail',
           show: true
         },
         {
@@ -165,7 +167,7 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail',
+              event: 'edit',
               icon: 'list-edit'
             },
             {
@@ -187,6 +189,7 @@ export default {
             {
               label: '服务名称',
               prop: 'name',
+              event: 'detail',
               show: true
             },
             {
@@ -219,7 +222,7 @@ export default {
               buttons: [
                 {
                   label: '编辑',
-                  event: 'detail',
+                  event: 'edit',
                   icon: 'list-edit'
                 },
                 {
@@ -270,7 +273,10 @@ export default {
       }
       this.$refs.dialogForm.resetFields()
     },
-    detail(id) {
+    detail(item) {
+      this.edit(item.id)
+    },
+    edit(id) {
       const i = this.tableData.find((item) => {
         return item.id === id
       })

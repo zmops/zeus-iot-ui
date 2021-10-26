@@ -16,6 +16,7 @@
       :selection="true"
       :icon="$route.meta.icon24"
       @select="handleSelect"
+      @detail="detail"
     />
     <Pagination :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
@@ -105,6 +106,7 @@ export default {
         {
           label: '组名',
           prop: 'groupName',
+          event: 'detail',
           show: true
         },
         {
@@ -199,6 +201,9 @@ export default {
         groupName: '',
         remark: ''
       }
+    },
+    detail(item) {
+      this.edit(item.userGroupId)
     },
     edit(id) {
       for (const item of this.tableData) {

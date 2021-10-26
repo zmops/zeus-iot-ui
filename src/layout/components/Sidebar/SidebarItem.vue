@@ -117,6 +117,10 @@ export default {
   }
 }
 
+.el-submenu__title span{
+  vertical-align: top!important;
+}
+
 .el-submenu {
   .el-menu-item {
     height: 30px;

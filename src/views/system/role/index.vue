@@ -16,6 +16,7 @@
       :selection="true"
       :icon="$route.meta.icon24"
       @select="handleSelect"
+      @detail="detail"
     />
     <!-- <Pagination :total="total" :size="form.size" :current-page="form.page" @handleCurrentChange="handleCurrentChange" /> -->
     <el-dialog
@@ -127,6 +128,7 @@ export default {
         {
           label: '角色名',
           prop: 'name',
+          event: 'detail',
           show: true
         },
         {
@@ -231,6 +233,9 @@ export default {
       }
       this.state = '创建'
       this.dialogVisible = true
+    },
+    detail(item) {
+      this.edit(item.roleId)
     },
     edit(id) {
       for (const item of this.tableData) {

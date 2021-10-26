@@ -182,7 +182,7 @@ export default {
     /* 点击事件*/
     detail(item, event) {
       if (event) {
-        this.$emit('detail', item)
+        this.$emit(event, item)
       }
     },
     /* 多选*/

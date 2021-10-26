@@ -93,7 +93,7 @@ export default {
         {
           label: '产品名称',
           prop: 'prodName',
-          event: true,
+          event: 'detail',
           show: true
         },
         {

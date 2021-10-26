@@ -20,7 +20,7 @@
       <el-table-column prop="name" label="名称">
         <template slot-scope="props">
           <svg-icon :icon-class="$route.meta.icon24" class="icon24" :style="{marginLeft: props.row.childrenNodes === null && props.row.pid === '0' ? '23px' : '0' }" />
-          <span>{{ props.row.name }}</span>
+          <span class="event" @click="edit(props.row)">{{ props.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column width="180">
@@ -261,6 +261,11 @@ export default {
     margin-right: 10px;
     position: relative;
     top: 3px;
+  }
+
+  .event{
+    color: #409eff;
+    cursor: pointer;
   }
 }
 </style>

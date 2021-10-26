@@ -155,6 +155,9 @@ export default {
       })
       return flag && this.verification()
     },
+    reset() {
+      this.$refs.dialogForm.resetFields()
+    },
     del(index) {
       this.formData.expList.splice(index, 1)
     },

@@ -6,6 +6,7 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
+      @detail="detail"
     />
     <el-dialog
       v-dialogDrag
@@ -101,6 +102,7 @@ export default {
       columns: [
         {
           label: '变量名称',
+          event: 'detail',
           prop: 'macro',
           show: true
         },
@@ -124,7 +126,7 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail',
+              event: 'edit',
               icon: 'list-edit'
             },
             {
@@ -188,7 +190,10 @@ export default {
       this.state = '创建'
       this.dialogVisible = true
     },
-    detail(id) {
+    detail(item) {
+      this.edit(item.hostmacroid)
+    },
+    edit(id) {
       const i = this.tableData.find((item) => {
         return item.hostmacroid === id
       })

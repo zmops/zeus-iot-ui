@@ -126,7 +126,7 @@
             <el-col :span="8" class="zeus-pl-10">属性名称: {{ itemData.attrName }}</el-col>
             <el-col :span="8" class="zeus-pl-10">
               <svg-icon icon-class="attr_key"/>
-              标识符: {{ itemData.key }}
+              <span class="blue"> 标识符: {{ itemData.key }}</span>
             </el-col>
             <el-col :span="8" class="zeus-pl-10">
               <svg-icon icon-class="attr_type"/>
@@ -515,15 +515,13 @@ export default {
 .pl47{
   padding-left: 47px;
 }
-
+.blue{
+  color: #1A84F9;
+}
 .attribute {
   width: 100%;
   background-color: #fff;
   padding: 12px;
-
-  .blue{
-    color: #1A84F9;
-  }
 
   .list {
     background-color: #F9FBFD;

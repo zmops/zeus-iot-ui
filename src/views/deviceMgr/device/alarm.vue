@@ -6,6 +6,7 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
+      @detail="detail"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
@@ -117,6 +118,7 @@ export default {
         {
           label: '告警名称',
           prop: 'eventRuleName',
+          event: 'detail',
           show: true
         },
         {
@@ -155,7 +157,7 @@ export default {
           buttons: [
             {
               label: '编辑',
-              event: 'detail',
+              event: 'edit',
               icon: 'list-edit'
             },
             {
@@ -198,7 +200,10 @@ export default {
         this.loading = false
       })
     },
-    detail(eventRuleId) {
+    detail(item) {
+      this.edit(item.eventRuleId)
+    },
+    edit(eventRuleId) {
       if (this.isDev) {
         detailEventDev({ eventRuleId, deviceId: this.$route.query.id }).then((res) => {
           if (res.code == 200) {
