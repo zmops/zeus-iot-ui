@@ -8,25 +8,25 @@
       <div class="content">
         <el-row :gutter="18" class="row">
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.prodCode || '-' }}</div>
               <div class="tit">产品ID</div>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.prodName || '-' }}</div>
               <div class="tit">产品名称</div>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.groupIdName || '-' }}</div>
               <div class="tit">产品分类</div>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.prodTypeName || '-' }}</div>
               <div class="tit">设备类型</div>
             </div>
@@ -34,19 +34,19 @@
         </el-row>
         <el-row :gutter="18" class="row">
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.manufacturer || '-' }}</div>
               <div class="tit">厂商</div>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.model || '-' }}</div>
               <div class="tit">型号</div>
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.remark || '-' }}</div>
               <div class="tit">描述</div>
             </div>
@@ -163,13 +163,16 @@ export default {
         margin-left: 0px !important;
         margin-right: 0px !important;
 
-        .info {
+        .info_i {
           padding: 0 9px;
+          width: 100%;
 
           .con {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            width: 100%;
+            word-wrap:break-word;
+            //text-overflow: ellipsis;
+            //white-space: nowrap;
+            //overflow: hidden;
             font-size: 13px;
             color: #242E42;
             font-weight: bold;

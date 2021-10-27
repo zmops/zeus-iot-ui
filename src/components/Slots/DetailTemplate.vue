@@ -16,11 +16,20 @@
       <div class="detail-template-left-detail">
         <div class="detail-title">{{ up }}详情</div>
         <div v-for="(item, index) in detailList" :key="index" class="detail-list zeus-flex-default">
-          <div class="detail-list-l">{{ item.key + '：' }}</div>
+          <div :class="item.key.indexOf('ID') > -1 ? 'id_field' : ''" class="detail-list-l">{{ item.key + '：' }}</div>
           <div v-if="item.link" class="detail-list-r">
             <router-link :to="item.link" class="link">
               {{ item.value || '-' }}
             </router-link>
+          </div>
+          <div v-else-if="item.key.indexOf('ID') > -1 && item.value" class="detail-list-r">
+            <span class="id_field">{{ item.value }} </span>
+            <el-button type="text" class="copy" v-clipboard:copy="item.value" v-clipboard:success="onCopy" v-clipboard:error="onError">
+              <svg-icon icon-class="copy"></svg-icon>
+            </el-button>
+          </div>
+          <div v-else-if="item.key === '设备组'" class="detail-list-r">
+            <span v-for="(i, ind) in item.value" :key="ind" class="group-item zeus-mb-5">{{ i }}</span>
           </div>
           <div v-else-if="item.tag" class="detail-list-r">
             <div v-for="(i, ind) in item.tag" :key="ind" class="tag-item zeus-inline-block">
@@ -115,6 +124,15 @@ export default {
           tabsName: name
         }
       })
+    },
+    onCopy() {
+      this.$message({
+        message: '复制成功',
+        type: 'success',
+      })
+    },
+    onError() {
+      this.$message.error('复制失败,请重试')
     }
   }
 }
@@ -212,6 +230,12 @@ export default {
         padding: 6px 0;
         font-size: 12px;
 
+        .id_field{
+          font-size: 14px;
+          color: #242E42!important;
+          font-weight: bold;
+        }
+
         .detail-list-l {
           // float: left;
           width: 108px;
@@ -221,6 +245,14 @@ export default {
           //word-break: break-all;
           //white-space: normal;
           line-height: 20px;
+        }
+
+        .group-item{
+          display: inline-block;
+          background-color: #E3E9EF;
+          padding: 4px 5px;
+          margin-right: 5px;
+          border-radius: 2px;
         }
 
         .detail-list-r {

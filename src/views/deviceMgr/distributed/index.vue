@@ -113,10 +113,10 @@ export default {
       keyword: '',
       // 初始化地图中心点
       center: {
-        lng: 0,
-        lat: 0
+        lng: 107.451703,
+        lat: 34.043414
       },
-      zoom: 15,
+      zoom: 6,
       url: distribute,
       form: {
         name: '',
@@ -181,21 +181,21 @@ export default {
       })
     },
     mapReady({ BMap, map }) {
-      const _this = this
-      if (_this.center.lat === 0) {
-        // 获取自动定位方法
-        const geolocation = new BMap.Geolocation()
-        // 获取自动定位获取的坐标信息
-        geolocation.getCurrentPosition(
-          function(r) {
-            _this.center = {
-              lng: r.point.lng,
-              lat: r.point.lat
-            }
-          },
-          { enableHighAccuracy: true }
-        )
-      }
+      // const _this = this
+      // if (_this.center.lat === 0) {
+      //   // 获取自动定位方法
+      //   const geolocation = new BMap.Geolocation()
+      //   // 获取自动定位获取的坐标信息
+      //   geolocation.getCurrentPosition(
+      //     function(r) {
+      //       _this.center = {
+      //         lng: r.point.lng,
+      //         lat: r.point.lat
+      //       }
+      //     },
+      //     { enableHighAccuracy: true }
+      //   )
+      // }
     },
     detail(id) {
       this.$router.push({

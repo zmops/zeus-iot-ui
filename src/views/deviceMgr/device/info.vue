@@ -8,25 +8,25 @@
       <div class="content">
         <el-row :gutter="18" class="row">
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.deviceId || '-' }}</div>
               <div class="tit">设备ID</div>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.name || '-' }}</div>
               <div class="tit">设备名称</div>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.typeName || '-' }}</div>
               <div class="tit">设备类型</div>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">
                 <span v-for="(item, index) in dialogForm.groupList" :key="index" class="group-item">{{ item }}</span>
               </div>
@@ -36,13 +36,13 @@
         </el-row>
         <el-row :gutter="18" class="row">
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.remark || '-' }}</div>
               <div class="tit">描述信息</div>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="info">
+            <div class="info_i">
               <div class="con">
                 {{ infoData.position || '-' }}
                 <a v-if="infoData.position" class="show-map zeus-ml-5" @click="dialogMap = true">查看地图</a>
@@ -51,7 +51,7 @@
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="info">
+            <div class="info_i">
               <div class="con">{{ infoData.addr || '-' }}</div>
               <div class="tit">位置信息</div>
             </div>
@@ -325,27 +325,30 @@ export default {
       margin: 0 14px;
 
       .row {
-        height: 64px;
+        min-height: 64px;
         border-radius: 4px;
         background: #F9FBFD;
         border: 1px solid #EFF4F9;
         display: flex;
-        align-items: center;
+        align-items: end;
         margin-bottom: 6px;
         margin-left: 0px !important;
         margin-right: 0px !important;
 
-        .info {
-          padding: 0 9px;
+        .info_i {
+          padding: 15px 9px;
+          width: 100%;
 
           .con {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            width: 100%;
+            //text-overflow: ellipsis;
+            //white-space: nowrap;
+            //overflow: hidden;
             font-size: 13px;
             color: #242E42;
             font-weight: bold;
             margin-bottom: 5px;
+            word-wrap:break-word;
           }
 
           .group-item {
@@ -353,6 +356,9 @@ export default {
             background-color: #E3E9EF;
             padding: 4px 5px;
             margin-right: 5px;
+            margin-bottom: 2px;
+            margin-top: 2px;
+            border-radius: 2px;
           }
 
           .show-map {

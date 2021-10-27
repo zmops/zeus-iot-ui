@@ -154,7 +154,7 @@ export default {
             },
             {
               key: '设备组',
-              value: res.data.groupName
+              value: res.data.groupName.split(',')
             },
             {
               key: '标签',

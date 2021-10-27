@@ -268,4 +268,7 @@ export default {
     cursor: pointer;
   }
 }
+::v-deep.el-table{
+  font-size: 12px;
+}
 </style>
