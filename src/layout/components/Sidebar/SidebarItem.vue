@@ -125,7 +125,7 @@ export default {
   .el-menu-item {
     height: 30px;
     line-height: 30px;
-    font-size: 12px;
+    font-size: 13px;
     padding: 0!important;
     span{
       display: inline-block;
