@@ -1,7 +1,18 @@
 <!-- 日志页面 -->
 <template>
   <div class="record">
-    <SearchForm :params="formParams" :columns="columns" @search="search"/>
+    <div class="search zeus-pl-20">
+      <div>
+        <div class="zeus-right radio">
+          <div v-for="(item, index) in radioList" :key="index" class="radio-button" :class="form.logType === item ? 'activity' :''" @click="changeRadio(item)">
+            {{item}}
+          </div>
+        </div>
+      </div>
+      <div style="flex: 1">
+        <SearchForm :params="formParams" :columns="columns" @search="search"/>
+      </div>
+    </div>
     <BusinessTable
       :table-data="tableData"
       :columns="columns"
@@ -34,19 +45,14 @@ export default {
     return {
       formParams: [
         {
-          componentName: 'SelectTemplate',
-          keyName: 'logType',
-          label: '日志类型',
-          options: ['事件日志', '服务日志', '告警日志']
-        },
-        {
           componentName: 'DateTimePickerTemplate',
           keyName: 'time',
           label: '触发时间'
         }
       ],
+      radioList: ['告警日志', '服务日志', '事件日志'],
       form: {
-        logType: '',
+        logType: '告警日志',
         time: []
       },
       tableData: [],
@@ -125,9 +131,44 @@ export default {
       this.page = val
       this.getList()
     },
+    changeRadio(val) {
+      this.form.logType = val
+      this.search()
+    },
     solve(id) {
 
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.search{
+  background-color: #F9FBFD;
+  display: flex;
+  align-items: center;
+}
+.radio {
+  width: 214px;
+  height: 33px;
+  line-height: 28px;
+  padding: 2px;
+  border-radius: 25px;
+  border: 1px #CCD3DB solid;
+  display: flex;
+
+  .radio-button {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    color: #5F708A;
+    cursor: pointer;
+  }
+
+  .activity {
+    background-color: #36435C;
+    color: #fff;
+    border-radius: 25px;
+  }
+
+}
+</style>

@@ -12,6 +12,26 @@
         <span v-if="false">标识符内可使用本产品 变量 的 键，且必须包含在{$}内；若变量的键为 PWD，则完整标识符可以为 xx{$PWD}xxx</span>
       </div>
     </el-form-item>
+    <el-form-item label="来源类型" prop="source">
+      <el-select v-model="formData.source" size="mini" placeholder="请选择来源类型" :disabled="disabled" @change="sourceChange">
+        <el-option
+          v-for="item in sourceList"
+          :key="item.code"
+          :label="item.name"
+          :value="item.code"
+        />
+      </el-select>
+    </el-form-item>
+    <el-form-item v-if="formData.source === '18'" label="来源属性" prop="depAttrId">
+      <el-select v-model="formData.depAttrId" size="mini" placeholder="请选择来源属性" :disabled="disabled">
+        <el-option
+          v-for="item in attrList"
+          :key="item.attrId"
+          :label="item.attrName"
+          :value="item.attrId"
+        />
+      </el-select>
+    </el-form-item>
     <el-form-item label="数据类型" prop="valueType">
       <el-select v-model="formData.valueType" size="mini" placeholder="请选择数据类型" :disabled="disabled">
         <el-option
@@ -41,21 +61,22 @@
         </el-option-group>
       </el-select>
     </el-form-item>
-<!--    <el-form-item label="事件级别" prop="eventLevel">-->
-<!--      <el-select v-model="formData.eventLevel" size="mini" placeholder="请选择事件级别" :disabled="disabled">-->
-<!--        <el-option-->
-<!--          v-for="item in levelList"-->
-<!--          :key="item.code"-->
-<!--          :label="item.label"-->
-<!--          :value="item.value"-->
-<!--        />-->
-<!--      </el-select>-->
-<!--    </el-form-item>-->
+    <el-form-item v-if="formData.source === '0'" label="取数间隔" prop="delay">
+      <el-input v-model.number="formData.delay" placeholder="请输入取数间隔" size="mini" class="input-with-select w500" @input="delayChange"></el-input>
+      <el-select v-model="formData.unit" size="mini" placeholder="请选择" class="w100">
+        <el-option label="秒" value="s"></el-option>
+        <el-option label="分" value="m"></el-option>
+        <el-option label="小时" value="h"></el-option>
+      </el-select>
+      <div class="el-form-item-tips">
+        <svg-icon icon-class="tips" class="icon" />取数间隔在1秒到24小时之间。
+      </div>
+    </el-form-item>
     <el-form-item label="描述">
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
     <el-form-item label="数据预处理">
-      <Pretreatment v-model="formData.processStepList" :disabled="disabled" />
+      <Pretreatment ref="pretreatment" v-model="formData.processStepList" :disabled="disabled" />
     </el-form-item>
     <el-form-item label="值映射">
       <el-select v-model="formData.valuemapid" size="mini" clearable placeholder="请选择值映射" :disabled="disabled">
@@ -202,7 +223,7 @@ export default {
       this.$refs.dialogForm.validate((valid) => {
         flag = valid
       })
-      return flag && this.$refs.tag.verification()
+      return flag && this.$refs.pretreatment.verification() && this.$refs.tag.verification()
     },
     groupFormat(data) {
       const list = []
@@ -214,7 +235,16 @@ export default {
         list.push(item)
       }
       return list
-    }
+    },
+    sourceChange(val) {
+      this.$refs.dialogForm.clearValidate('depAttrId')
+      this.$refs.dialogForm.clearValidate('delay')
+    },
+    delayChange() {
+      if (this.formData.unit === '' || this.formData.unit === undefined) {
+        this.$set(this.formData, 'unit', 's')
+      }
+    },
   }
 }
 </script>
@@ -222,5 +252,12 @@ export default {
 <style lang="scss" scoped>
 .attribute-form {
   width: 600px;
+  .w500{
+    width: 500px;
+  }
+
+  .w100{
+    width: 100px;
+  }
 }
 </style>

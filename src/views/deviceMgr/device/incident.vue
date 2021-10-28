@@ -199,22 +199,32 @@ export default {
       })
     },
     delete(attrId) {
-      this.$confirm('是否确认删除该数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteAttrEvent({ attrIds: [attrId] }).then(async(res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            // 删除后重新请求数据
-            await this.getList()
-          }
-        })
+      const i = this.tableData.find((item) => {
+        return item.attrId === attrId
       })
+      if (i.templateId) {
+        this.$message({
+          message: '当前数据不可删除',
+          type: 'warning'
+        })
+      } else {
+        this.$confirm('是否确认删除该数据?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteAttrEvent({ attrIds: [attrId] }).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
+              // 删除后重新请求数据
+              await this.getList()
+            }
+          })
+        })
+      }
     },
     handleCurrentChange(val) {
       this.page = val

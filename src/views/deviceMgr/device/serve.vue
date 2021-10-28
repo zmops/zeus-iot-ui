@@ -285,21 +285,31 @@ export default {
       this.dialogVisible = true
     },
     delete(id) {
-      this.$confirm('是否确认删除选中的数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteService({ ids: [id] }).then(async (res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            await this.getList()
-          }
-        })
+      const i = this.tableData.find((item) => {
+        return item.id === id
       })
+      if (i.inherit == '1') {
+        this.$message({
+          message: '当前数据不可删除',
+          type: 'warning'
+        })
+      } else {
+        this.$confirm('是否确认删除选中的数据?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteService({ ids: [id] }).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
+              await this.getList()
+            }
+          })
+        })
+      }
     },
     handleCurrentChange(val) {
       this.page = val
