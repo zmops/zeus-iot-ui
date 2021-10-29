@@ -156,6 +156,7 @@ export default {
 <style lang="scss" scoped>
 .table{
   padding: 0 12px;
+  font-size: 12px;
 }
 .massage{
   white-space: nowrap;

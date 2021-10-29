@@ -291,4 +291,7 @@ export default {
   color: #409eff;
   cursor: pointer;
 }
+.table{
+  font-size: 12px;
+}
 </style>
