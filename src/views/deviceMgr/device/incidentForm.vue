@@ -9,7 +9,6 @@
       <div class="el-form-item-tips">
         <svg-icon icon-class="tips" class="icon" />
         <span>可以包含数字、字母、-_.。更多特殊形式请见文档</span>
-        <span v-if="false">标识符内可使用本产品 变量 的 键，且必须包含在{$}内；若变量的键为 PWD，则完整标识符可以为 xx{$PWD}xxx</span>
       </div>
     </el-form-item>
     <el-form-item label="来源类型" prop="source">
@@ -99,7 +98,7 @@
 
 <script>
 import { getDictListByCode, groupDictByCode } from '@/api/system'
-import { getAttrTrapperByPage, getDevValueMapList } from '@/api/deviceMgr'
+import { getEventList, getDevValueMapList } from '@/api/deviceMgr'
 import { getValueMapList } from '@/api/porductMgr'
 import Pretreatment from '@/components/Detail/Pretreatment'
 import Tag from '@/components/Detail/Tag'
@@ -185,8 +184,13 @@ export default {
   methods: {
     getDict() {
       getDictListByCode({ dictTypeCode: 'ATTR_TYPE' }).then(res => {
-        if (res.code == 200) {
-          this.sourceList = res.data
+        if (res.code == 200 && res.data && res.data.length) {
+          this.sourceList = []
+          res.data.forEach((item) => {
+            if (item.code != '0') {
+              this.sourceList.push(item)
+            }
+          })
         }
       })
       getDictListByCode({ dictTypeCode: 'DATA_TYPE' }).then(res => {
@@ -199,7 +203,7 @@ export default {
           this.unitsList = this.groupFormat(res.data)
         }
       })
-      getAttrTrapperByPage({ prodId: this.prodId }).then(res => {
+      getEventList({ prodId: this.prodId }).then(res => {
         if (res.code == 200) {
           this.attrList = res.data
         }

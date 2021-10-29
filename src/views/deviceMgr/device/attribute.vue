@@ -548,6 +548,7 @@ export default {
     }
 
     .textType{
+      height: 80px;
       font-size: 16px!important;
       line-height: 28px;
       width: 100%;
