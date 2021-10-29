@@ -22,7 +22,7 @@
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :width="'700px'"
+      :width="'1150px'"
       :show-close="false"
       @close="close"
     >

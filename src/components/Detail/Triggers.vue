@@ -29,7 +29,7 @@
         :value="i.attrId"
       />
     </el-select>
-    <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-mt-5 zeus-mb-5">
+    <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-mt-5 zeus-mb-5 zeus-inline-block">
       <span class="zeus-mr-5">在</span>
       <el-select v-model="item.period" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
         <el-option label="时间" value="时间"/>
@@ -44,7 +44,7 @@
       <span v-else class="zeus-mr-5">次</span>
       <span class="zeus-mr-5">内</span>
     </div>
-    <div v-if="item.function ==='nodata'" class="zeus-mt-5 zeus-mb-5">
+    <div v-if="item.function ==='nodata'" class="zeus-mt-5 zeus-mb-5 zeus-inline-block">
       <span class="zeus-mr-5">在</span>
       <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
       <el-select v-model="item.unit" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
@@ -54,7 +54,7 @@
       </el-select>
       <span class="zeus-mr-5">内</span>
     </div>
-    <div class="zeus-mt-5">
+    <div class="zeus-mt-5 zeus-inline-block">
       <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
         <el-option label="最新值" value="last" />
         <el-option label="平均值" value="avg" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
@@ -69,7 +69,7 @@
       <el-option label="为真" value="1"/>
       <el-option label="为假" value="0"/>
     </el-select>
-    <div v-else class="zeus-mt-5">
+    <div v-else class="zeus-mt-5 zeus-inline-block">
       <el-select v-model="item.condition" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
         <el-option
           v-for="(i, index) in conditionList"
@@ -297,7 +297,7 @@ export default {
   margin-bottom: 6px;
 
   .delete{
-    top: 0;
+    top: 10px;
     right: 8px;
   }
 
