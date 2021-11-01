@@ -12,16 +12,16 @@ const platformLogRouter = {
   },
   alwaysShow: true,
   children: [
-    {
-      path: '/platformLog/alert',
-      component: () => import('@/views/analyse/devLog'),
-      name: '/platformLog/alert',
-      meta: {
-        title: '告警日志',
-        icon24: 'log24',
-        icon48: 'log48'
-      }
-    },
+    // {
+    //   path: '/platformLog/alert',
+    //   component: () => import('@/views/analyse/devLog'),
+    //   name: '/platformLog/alert',
+    //   meta: {
+    //     title: '告警日志',
+    //     icon24: 'log24',
+    //     icon48: 'log48'
+    //   }
+    // },
     {
       path: '/platformLog/linkage',
       component: () => import('@/views/401'),

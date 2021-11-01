@@ -38,11 +38,11 @@ export const constantRouters = constantRouter
 export const asyncRoutes = [
   analyseRouter,
   visualizationRouter,
-  platformLogRouter,
   deviceMgrRouter,
   productMgrRouter,
   ruleRouter,
   alarmRouter,
+  platformLogRouter,
   logRouter,
   userRouter,
   systemRouter
