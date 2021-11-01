@@ -111,7 +111,7 @@ export default {
         },
         {
           label: '设备',
-          prop: 'deviceName',
+          prop: 'deviceIdName',
           event: true,
           show: true
         },
@@ -248,7 +248,7 @@ export default {
     /* 确认 */
     affirm(eventId) {
       const i = this.tableData.find((item) => {
-        return item.eventid === eventId
+        return item.eventId === eventId
       })
       if (i.acknowledged === '已确认') {
         this.$message({
