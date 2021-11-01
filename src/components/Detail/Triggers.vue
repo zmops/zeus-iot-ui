@@ -1,7 +1,7 @@
 <!-- 触发条件组件 -->
 <template>
   <div class="Triggers zeus-relative">
-    <el-select v-if="isDev" v-model="item.deviceId" :disabled="disabled" placeholder="请选择设备" size="mini" class="select1 zeus-mr-5" @change="deviceChange">
+    <el-select v-if="isDev" v-model="item.deviceId" :disabled="disabled" size="mini" placeholder="请选择设备" :popper-class="'xlk'" @focus="dialogVisible = true" clearable class="select1 zeus-mr-5">
       <el-option
         v-for="(i, index) in deviceList"
         :key="index"
@@ -10,8 +10,8 @@
       />
     </el-select>
     <el-select v-model="item.productAttrType" :disabled="disabled" size="mini" class="select3 zeus-mr-5" @change="item.productAttrId = ''">
-      <el-option label="属性" value="属性" />
-      <el-option label="事件" value="事件" />
+      <el-option label="属性" value="属性"/>
+      <el-option label="事件" value="事件"/>
     </el-select>
     <el-select v-if="item.productAttrType === '属性'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择属性" size="mini" class="select2 zeus-mr-5" @change="attrChange">
       <el-option
@@ -55,17 +55,20 @@
       <span class="zeus-mr-5">内</span>
     </div>
     <div class="zeus-mt-5 zeus-inline-block">
-      <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
-        <el-option label="最新值" value="last" />
-        <el-option label="平均值" value="avg" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
-        <el-option label="最大值" value="max" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
-        <el-option label="最小值" value="min" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
-        <el-option label="和值" value="sum" :disabled="item.attrValueType != '3' && item.attrValueType != '0'" />
-        <el-option label="值有变化" value="change" />
-        <el-option label="无值" value="nodata" />
+      <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5"
+                 @change="functionChange">
+        <el-option label="最新值" value="last"/>
+        <el-option label="平均值" value="avg" :disabled="item.attrValueType != '3' && item.attrValueType != '0'"/>
+        <el-option label="最大值" value="max" :disabled="item.attrValueType != '3' && item.attrValueType != '0'"/>
+        <el-option label="最小值" value="min" :disabled="item.attrValueType != '3' && item.attrValueType != '0'"/>
+        <el-option label="和值" value="sum" :disabled="item.attrValueType != '3' && item.attrValueType != '0'"/>
+        <el-option label="值有变化" value="change"/>
+        <el-option label="无值" value="nodata"/>
       </el-select>
     </div>
-    <el-select v-if="item.function === 'nodata' || (item.function === 'change' && (item.attrValueType == '1' || item.attrValueType == '4'))" v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5 zeus-mt-5">
+    <el-select
+      v-if="item.function === 'nodata' || (item.function === 'change' && (item.attrValueType == '1' || item.attrValueType == '4'))"
+      v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5 zeus-mt-5">
       <el-option label="为真" value="1"/>
       <el-option label="为假" value="0"/>
     </el-select>
@@ -84,15 +87,43 @@
     <el-button type="text" :disabled="disabled" class="zeus-absolute delete" @click="del()">
       <svg-icon icon-class="but_del"></svg-icon>
     </el-button>
+    <el-dialog
+      v-dialogDrag
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :width="'1234px'"
+      :show-close="false"
+      append-to-body
+      class="device_select_dialog"
+    >
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">
+          <svg-icon icon-class="select"/>
+          设备选择
+        </div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
+        </div>
+      </div>
+      <div class="dialog-body">
+        <DeviceSelect :deviceIds="item.deviceId" @closeDialog="dialogVisible = false" @checked="checked"></DeviceSelect>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getAttrTrapperList, getEventList } from '@/api/deviceMgr'
 import { getProductAttrTrapperList } from '@/api/porductMgr'
+import DeviceSelect from '@/components/Basics/DeviceSelect'
 
 export default {
   name: 'Triggers',
+  components: {
+    DeviceSelect
+  },
   props: {
     value: {
       type: Object,
@@ -139,6 +170,7 @@ export default {
       id: '',
       attrValueType: '',
       units: '',
+      dialogVisible: false,
       conditionList: [
         { label: '=', value: '=' },
         { label: '>', value: '>' },
@@ -190,12 +222,17 @@ export default {
 
   },
   methods: {
+    checked(ids) {
+      this.item.deviceId = ids
+      this.deviceChange(ids)
+    },
     functionChange(val) {
       if (val === 'last' || val === 'change') {
         this.item.scope = ''
       }
     },
     deviceChange(val) {
+      console.log(val)
       this.item.productAttrId = ''
       this.item.condition = '='
       this.item.productAttrType = '属性'
@@ -263,7 +300,7 @@ export default {
       this.item.scope = ''
     },
     getDevAttrList(prodId) {
-      getAttrTrapperList({prodId}).then((res) => {
+      getAttrTrapperList({ prodId }).then((res) => {
         if (res.code == '200') {
           this.deviceAttribute = res.data
         }
@@ -296,7 +333,7 @@ export default {
   padding: 8px;
   margin-bottom: 6px;
 
-  .delete{
+  .delete {
     top: 10px;
     right: 8px;
   }

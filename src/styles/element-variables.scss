@@ -288,3 +288,17 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   color: #242E42!important;
   font-size: 16px;
 }
+.xlk{
+  display: none;
+}
+.device_select_dialog{
+  .el-dialog{
+    margin: 20px auto!important;
+  }
+
+  .dialog-body{
+    padding: 6px 14px!important;
+    height: calc(100vh - 165px) !important;
+    max-height: calc(100vh - 165px) !important;
+  }
+}

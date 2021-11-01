@@ -6,6 +6,8 @@
     :data="tableData"
     :header-cell-class-name="'business-table-header'"
     class="BusinessTable"
+    :max-height="h"
+    :class="isRadio ? 'isRadio' : ''"
     style="width: 100%"
     @select="handleSelect"
     @select-all="handleSelectAll"
@@ -151,13 +153,14 @@ export default {
     h: {
       type: [Number, String],
       default() {
-        return ''
+        return 'aotu'
       }
     },
     icon: {
       type: String,
       default: ''
-    }
+    },
+    isRadio: Boolean
   },
   data() {
     return {}
@@ -186,12 +189,12 @@ export default {
       }
     },
     /* 多选*/
-    handleSelect(selection) {
-      this.$emit('select', selection)
+    handleSelect(selection, row) {
+      this.$emit('select', selection, row)
     },
     /* 全选*/
     handleSelectAll(selection) {
-      this.$emit('select', selection)
+      this.$emit('select', selection, undefined)
     },
     /* 点击行的点击事件*/
     handleRowClick(r, c, e) {
@@ -214,12 +217,23 @@ export default {
           .replace(/ss/, full(date.getSeconds()))
       }
       return '-'
+    },
+    /* 清空多选 */
+    clearSelection() {
+      this.$refs.businessTable.clearSelection()
+    },
+    /* 设置表格选中 */
+    setSelection(row) {
+      this.$refs.businessTable.toggleRowSelection(row)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.isRadio ::v-deep.el-table__header-wrapper  .el-checkbox{
+  display:none
+}
 .BusinessTable {
   //min-height: 550px;
   //height: 100%;

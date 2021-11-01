@@ -64,6 +64,7 @@ import SelectTemplate from '@/components/Basics/SelectTemplate'
 import InputTemplate from '@/components/Basics/InputTemplate'
 import DateTimePickerTemplate from '@/components/Basics/DateTimePickerTemplate'
 import KeyValueTemplate from '@/components/Basics/KeyValueTemplate'
+import DeviceSelectTemplate from '@/components/Basics/DeviceSelectTemplate'
 import EventBus from '@/utils/event-bus'
 export default {
   inject: ['farther'],
@@ -71,7 +72,8 @@ export default {
     SelectTemplate,
     InputTemplate,
     DateTimePickerTemplate,
-    KeyValueTemplate
+    KeyValueTemplate,
+    DeviceSelectTemplate
   },
   props: {
     /* 搜索栏左侧表单 */

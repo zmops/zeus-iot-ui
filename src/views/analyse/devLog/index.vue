@@ -148,7 +148,7 @@ export default {
             w: 200
           },
           {
-            componentName: 'SelectTemplate',
+            componentName: 'DeviceSelectTemplate',
             keyName: 'deviceId',
             label: '设备',
             optionId: 'deviceId',
