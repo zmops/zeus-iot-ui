@@ -22,14 +22,14 @@
       <el-table-column v-for="(item, index) in columns" :key="index" :label="item.label">
         <template slot-scope="scope">
           <span v-if="item.prop === 'message'">
-            <el-tooltip v-if="scope.row[item.prop]" effect="dark" :content="scope.row[item.prop]" placement="left">
-            <span class="massage">
-             <el-button type="text" class="copy" v-clipboard:copy="scope.row[item.prop]" v-clipboard:success="onCopy" v-clipboard:error="onError">
-               <svg-icon icon-class="copy"></svg-icon>
-             </el-button>
-              {{ scope.row[item.prop] }}</span>
+            <el-button type="text" class="copy" v-clipboard:copy="scope.row[item.prop]" v-clipboard:success="onCopy" v-clipboard:error="onError">
+              <svg-icon icon-class="copy"></svg-icon>
+            </el-button>
+            <el-tooltip v-if="scope.row[item.prop]" effect="dark" :content="scope.row[item.prop]" placement="left" class="zeus-inline-block">
+              <span class="massage zeus-inline-block">
+                {{ scope.row[item.prop] }}</span>
             </el-tooltip>
-            <span v-else>-</span>
+            <span v-else class="massage zeus-inline-block">-</span>
           </span>
           <span v-else>
             {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
@@ -159,9 +159,12 @@ export default {
   font-size: 12px;
 }
 .massage{
+  width: 200px!important;
+  margin-left: 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  vertical-align: middle;
 }
 .copy{
   cursor: pointer;
