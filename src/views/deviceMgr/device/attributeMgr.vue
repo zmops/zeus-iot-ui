@@ -20,7 +20,11 @@
       @close="dialogForm = {}"
     >
       <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">{{ state }}属性</div>
+        <div class="left">
+          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
+          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
+          {{ state }}属性
+        </div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon"/>
           <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>

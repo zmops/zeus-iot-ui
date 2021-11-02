@@ -24,7 +24,7 @@ const platformLogRouter = {
     // },
     {
       path: '/platformLog/linkage',
-      component: () => import('@/views/401'),
+      component: () => import('@/views/analyse/devLog'),
       name: '/platformLog/linkage',
       meta: {
         title: '联动日志',

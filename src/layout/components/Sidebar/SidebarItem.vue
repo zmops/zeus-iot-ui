@@ -130,7 +130,7 @@ export default {
     span{
       display: inline-block;
       width: 100%;
-      padding-left: 47px;
+      padding-left: 52px;
       font-weight: 400;
     }
 

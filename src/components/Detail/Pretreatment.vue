@@ -302,6 +302,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep.zeus-list-conten .zeus-list-item .el-input--mini .el-input__inner{
+  border-radius: 0
+}
 .Pretreatment {
   .add-btn {
     width: 100%;

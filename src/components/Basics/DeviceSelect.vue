@@ -50,13 +50,13 @@
         </el-col>
       </el-row>
     </div>
-<!--    <div class="label zeus-mt-5">-->
-<!--      <div class="radio">-->
-<!--        <div v-for="(item, index) in radioList" :key="index" class="radio-button" :class="type === item ? 'activity' :''" @click="type = item">-->
-<!--          {{ item }}-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div class="label zeus-mt-5">
+      <div class="radio">
+        <div v-for="(item, index) in radioList" :key="index" class="radio-button" :class="type === item ? 'activity' :''" @click="type = item">
+          {{ item }}
+        </div>
+      </div>
+    </div>
     <BusinessTable
       v-if="type === '设备列表'"
       is-radio
@@ -64,10 +64,10 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
-      :h="750"
-      :selection="true"
+      :h="640"
+      :selection="multiple"
       @select="handleSelect"
-      @detail="detail"
+      @selected="selected"
     />
     <baidu-map
       v-if="type === '设备地图'"
@@ -80,10 +80,12 @@
       @ready="mapReady"
     >
       <bml-marker-clusterer :average-center="true" :styles="[{url, size: {width: 68, height: 68}, textColor: '#fff'}]">
-        <bm-marker v-for="(marker, index) of markers" :key="index" :position="{lng: marker.lng, lat: marker.lat}" @click="markerClick"></bm-marker>
+        <bm-marker v-for="(marker, index) of markers" :key="index" :position="{lng: marker.lng, lat: marker.lat}" @click="markerClick(marker.deviceId)">
+          <bm-label :content="marker.name" :offset="{width: 0, height: 30}"/>
+        </bm-marker>
       </bml-marker-clusterer>
     </baidu-map>
-    <el-footer class="dialog-footer-btn">
+    <el-footer v-if="multiple" class="dialog-footer-btn">
       <el-button size="mini" round @click="closeDialog">取 消</el-button>
       <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
     </el-footer>
@@ -96,14 +98,20 @@ import { getDeviceGrpList, getDeviceList } from '@/api/deviceMgr'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import distribute from '@/assets/distribute.png'
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
-import { BmMarker, BmlMarkerClusterer } from 'vue-baidu-map'
+import { BmMarker, BmlMarkerClusterer, BmLabel } from 'vue-baidu-map'
 
 export default {
   name: 'DeviceSelect',
+  provide() {
+    return {
+      farther: this
+    }
+  },
   components: {
     BusinessTable,
     BaiduMap,
     BmMarker,
+    BmLabel,
     BmlMarkerClusterer
   },
   props: {
@@ -112,7 +120,8 @@ export default {
       default() {
         return ''
       }
-    }
+    },
+    multiple: Boolean
   },
   data() {
     return {
@@ -144,7 +153,7 @@ export default {
         {
           label: '设备名称',
           prop: 'name',
-          event: 'detail',
+          event: 'selected',
           show: true
         },
         {
@@ -182,6 +191,21 @@ export default {
           label: '最近在线时间',
           prop: 'latestOnline',
           show: true
+        },
+        {
+          label: '',
+          prop: 'buttons',
+          show: true,
+          width: 100,
+          idName: 'deviceId',
+          fixed: 'right',
+          buttons: [
+            {
+              label: '查看详情',
+              event: 'detail2',
+              icon: 'list_eye'
+            }
+          ]
         }
       ],
       loading: false
@@ -247,12 +271,10 @@ export default {
         }
       })
     },
-    detail(item) {
+    detail2(id) {
       const url = this.$router.resolve({
         path: '/deviceMgr/device/detail',
-        query: {
-          id: item.deviceId
-        },
+        query: { id }
       })
       window.open(url.href, '_blank')
     },
@@ -276,24 +298,22 @@ export default {
     closeDialog() {
       this.$emit('closeDialog')
     },
+    selected(item) {
+      this.$emit('checked', item.deviceId)
+      this.$emit('closeDialog')
+    },
     submit() {
       this.$emit('checked', this.ids)
       this.$emit('closeDialog')
     },
     mapReady({ BMap, map }) {
-      console.log(BMap)
-      console.log(map)
-      this.BMap = BMap
+      // console.log(BMap)
+      // console.log(map)
+      // this.BMap = BMap
     },
-    markerClick(marker) {
-      console.log(marker)
-      // const BMap = this.BMap
-      // console.log(type)
-      // console.log(target)
-      // type.setIcon({url: 'http://developer.baidu.com/map/jsdemo/img/fox.gif', size: {width: 300, height: 157}})
-      // const icon = new BMap.Icon({url: this.url, size: {width: 300, height: 157}})
-      // const point = marker.point
-      // new BMap.Marker(point, { icon })
+    markerClick(deviceId) {
+      this.$emit('checked', deviceId)
+      this.$emit('closeDialog')
     }
   }
 }
@@ -302,7 +322,7 @@ export default {
 <style lang="scss" scoped>
 .DeviceSelect {
   width: 100%;
-  height: calc(100vh - 300px);
+  height: calc(100vh - 350px);
   //padding: 15px;
   background-color: #fff;
 
@@ -312,7 +332,7 @@ export default {
 
   .map {
     width: 100%;
-    height: calc(100vh - 330px);
+    height: calc(100vh - 440px);
   }
 
   .label {

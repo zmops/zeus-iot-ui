@@ -115,6 +115,16 @@ export default {
           show: true
         },
         {
+          label: '创建人',
+          prop: 'createUserName',
+          show: true
+        },
+        {
+          label: '创建时间',
+          prop: 'createTime',
+          show: true
+        },
+        {
           label: '',
           prop: 'buttons',
           width: 100,

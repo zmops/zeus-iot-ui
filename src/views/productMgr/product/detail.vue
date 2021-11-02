@@ -1,7 +1,7 @@
 <!--产品详情页面 -->
 <template>
   <div class="product-detail">
-    <DetailTemplate :up="'产品'" :title="title" :subhead="subhead" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
+    <DetailTemplate :up="'产品'" :title="title" :to="'/productMgr/product'" :subhead="subhead" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
         <info v-if="activity === '基础信息'" :info-data="info" @updata="getDetail" />
         <attributeMgr v-else-if="activity === '属性管理'" />

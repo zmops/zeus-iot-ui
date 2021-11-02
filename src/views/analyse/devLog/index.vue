@@ -247,7 +247,6 @@ export default {
           // }
         }
       })
-
     },
     search() {
       this.page = 1

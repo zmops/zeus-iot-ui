@@ -1,7 +1,7 @@
 <!-- 设备详情页面 -->
 <template>
   <div class="device-detail">
-    <DetailTemplate :up="'设备'" :title="title" :subhead="subhead" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
+    <DetailTemplate :up="'设备'" :title="title" :to="'/deviceMgr/device'" :subhead="subhead" :detail-list="detailList" :tabs="tabs" @changeTabs="changeTabs">
       <template v-slot:main>
         <info v-if="activity === '基础信息'" :info-data="info" @updata="getDetail" />
         <attribute v-else-if="activity === '属性'" />

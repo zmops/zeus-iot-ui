@@ -293,12 +293,16 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 }
 .device_select_dialog{
   .el-dialog{
-    margin: 20px auto!important;
+    margin: 80px auto!important;
+  }
+
+  .el-dialog__body{
+    padding: 0!important;
   }
 
   .dialog-body{
     padding: 6px 14px!important;
-    height: calc(100vh - 165px) !important;
-    max-height: calc(100vh - 165px) !important;
+    height: calc(100vh - 270px) !important;
+    max-height: calc(100vh - 270px) !important;
   }
 }
