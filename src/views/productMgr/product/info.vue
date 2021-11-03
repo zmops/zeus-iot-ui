@@ -1,7 +1,7 @@
 <!-- 产品基础信息页面 -->
 <template>
   <div class="info">
-    <div class="zeus-product basics">
+    <div v-if="!dialogVisible" class="zeus-product basics">
       <div class="left">
         <svg-icon icon-class="bigproduct" style="font-size: 46px"/>
       </div>
@@ -60,38 +60,26 @@
         </el-button>
       </div>
     </div>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon icon-class="dialog_edit"/>
-          编辑基本信息
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
-        </div>
-      </div>
-      <div class="dialog-body">
-        <addForm :prod-id="prodId" @close="dialogVisible = false" @closeDialog="closeDialog" />
-      </div>
-    </el-dialog>
+    <div v-else class="zeus-product basics">
+      <FormTemplate :up="'基本信息'" :state="'编辑基本信息'" :but-loading="butLoading" @submit="submit" @cancel="dialogVisible = false">
+        <template v-slot:main>
+          <addForm ref="ProductForm" :prod-id="prodId" v-model="dialogForm" />
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 
 <script>
 import addForm from '@/views/productMgr/product/addForm'
+import FormTemplate from '@/components/Slots/FormTemplate'
+import { createProduct, UpdateProduct } from '@/api/porductMgr'
 
 export default {
   name: 'DeviceInfo',
   components: {
-    addForm
+    addForm,
+    FormTemplate
   },
   props: {
     infoData: {
@@ -114,7 +102,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      prodId: ''
+      prodId: '',
+      butLoading: false,
     }
   },
   created() {
@@ -124,6 +113,38 @@ export default {
     closeDialog() {
       this.dialogVisible = false
       this.$emit('updata')
+    },
+    submit() {
+      if (this.$refs.ProductForm.validateForm()) {
+        this.butLoading = true
+        if (this.prodId) {
+          UpdateProduct(this.dialogForm).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+              this.closeDialog()
+            }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
+          })
+        } else {
+          createProduct(this.dialogForm).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
+              this.closeDialog()
+            }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
+          })
+        }
+      }
     }
   }
 }

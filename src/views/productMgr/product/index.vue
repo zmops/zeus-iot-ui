@@ -21,7 +21,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'产品列表'" :state="state + '产品'" :but-loading="butLoading" @submit="handleSubmit" @cancel="dialogVisible = false">
         <template v-slot:main>
-          <ProductForm v-model="dialogForm" />
+          <ProductForm ref="ProductForm" v-model="dialogForm" />
         </template>
       </FormTemplate>
     </div>
@@ -224,43 +224,41 @@ export default {
         })
       })
     },
-    async closeDialog() {
+    closeDialog() {
       this.dialogVisible = false
-      await this.getList()
+      this.getList()
     },
     handleSubmit() {
-      this.$refs.productForm.validate(async(valid, errorFields) => {
-        if (valid) {
-          this.butLoading = true
-          if (this.prodId) {
-            UpdateProduct(this.form).then(async(res) => {
-              if (res.code == 200) {
-                this.$message({
-                  message: '修改成功',
-                  type: 'success'
-                })
-                this.$emit('closeDialog')
-              }
-              this.butLoading = false
-            }).catch(() => {
-              this.butLoading = false
-            })
-          } else {
-            createProduct(this.form).then(async(res) => {
-              if (res.code == 200) {
-                this.$message({
-                  message: '添加成功',
-                  type: 'success'
-                })
-                this.$emit('closeDialog')
-              }
-              this.butLoading = false
-            }).catch(() => {
-              this.butLoading = false
-            })
-          }
+      if (this.$refs.ProductForm.validateForm()) {
+        this.butLoading = true
+        if (this.prodId) {
+          UpdateProduct(this.dialogForm).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+              this.closeDialog()
+            }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
+          })
+        } else {
+          createProduct(this.dialogForm).then(async(res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
+              this.closeDialog()
+            }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
+          })
         }
-      })
+      }
     },
   }
 }

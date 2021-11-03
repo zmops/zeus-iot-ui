@@ -46,19 +46,25 @@ export default {
     prodId: {
       type: String,
       default: ''
-    }
+    },
+    value: {
+      type: Object,
+      default() {
+        return {
+          groupId: '',
+          prodCode: '',
+          prodName: '',
+          prodType: '',
+          manufacturer: '',
+          model: '',
+          remark: ''
+        }
+      }
+    },
   },
   data() {
     return {
-      form: {
-        groupId: '',
-        prodCode: '',
-        prodName: '',
-        prodType: '',
-        manufacturer: '',
-        model: '',
-        remark: ''
-      },
+      form: {},
       productRules: {
         prodCode: [
           { required: true, message: '请输入产品ID', trigger: 'blur' }
@@ -80,6 +86,15 @@ export default {
       treeData: [],
       status: false,
       dictlist: []
+    }
+  },
+  watch: {
+    value: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        this.form = val
+      }
     }
   },
   async created() {
@@ -110,6 +125,14 @@ export default {
           this.form = res.data
         }
       })
+    },
+    validateForm() {
+      this.$emit('input', this.form)
+      let flag = false
+      this.$refs.productForm.validate((valid) => {
+        flag = valid
+      })
+      return flag
     },
     handleCancle() {
       this.$emit('close')
