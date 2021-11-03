@@ -1,43 +1,23 @@
 <!--设备详情-属性管理页面 -->
 <template>
   <div class="attribute-mgr">
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
       @detail="detail"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :show-close="false"
-      :width="'700px'"
-      @close="dialogForm = {}"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}属性
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
-        </div>
-      </div>
-      <div class="dialog-body">
-        <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm" :pro-id="proId" is-dev/>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'属性列表'" :state="state + '属性'" :but-loading="butLoading" @submit="submit" @cancel="close">
+        <template v-slot:main>
+          <attributeForm v-if="dialogVisible" ref="attributeForm" v-model="dialogForm" :pro-id="proId" is-dev/>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 
@@ -46,6 +26,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import attributeForm from '@/views/deviceMgr/device/attributeForm'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import {
   createAttrTrapper,
   deleteAttrTrapper,
@@ -65,7 +46,8 @@ export default {
     BusinessTable,
     SearchForm,
     Pagination,
-    attributeForm
+    attributeForm,
+    FormTemplate
   },
   props: {
     proId: {
@@ -281,6 +263,10 @@ export default {
         }
       }
     },
+    close() {
+      this.dialogForm = {}
+      this.dialogVisible = false
+    }
   }
 }
 </script>

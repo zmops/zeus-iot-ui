@@ -1,42 +1,22 @@
 <!--详情-告警页面 -->
 <template>
   <div class="alarm">
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       @detail="detail"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'1150px'"
-      :show-close="false"
-      @close="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}告警规则
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="dialog-body">
-        <alarmForm ref="alarmForm" v-model="dialogForm" />
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'告警规则列表'" :state="state + '告警规则'" :width="1050" :but-loading="butLoading" @submit="submit" @cancel="close">
+        <template v-slot:main>
+          <alarmForm ref="alarmForm" v-model="dialogForm" />
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 
@@ -45,6 +25,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import alarmForm from '@/views/deviceMgr/device/alarmForm'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { getEventByPage, updateEvent, updateEventDev, deleteDevEvent, detailEventDev, createDevAlarm, modifyStatusEventDev} from '@/api/deviceMgr'
 import { detailEvent, createAlarm, deleteEvent, modifyStatusEvent} from '@/api/porductMgr'
 
@@ -59,6 +40,7 @@ export default {
     BusinessTable,
     SearchForm,
     Pagination,
+    FormTemplate,
     alarmForm
   },
   props: {
@@ -229,6 +211,7 @@ export default {
       this.dialogVisible = true
     },
     close() {
+      this.dialogVisible = false
       this.dialogForm = {
         eventRuleName: '',
         eventLevel: '3',

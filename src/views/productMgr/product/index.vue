@@ -8,38 +8,23 @@
       <template v-slot:title>产品</template>
       <template v-slot:subhead>产品是一组具有相同属性、服务、事件等要素的设备集合，比如某品牌的某型号的传感器。创建产品是使用平台的第一步，快速创建产品后才可定义产品下的属性、服务、事件、告警规则等要素，进而添加相应设备。</template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
       @detail="detail"
     />
-    <Pagination :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
-    <el-dialog
-      v-dialogDrag
-      v-if="dialogVisible"
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon icon-class="dialog_add" />
-          {{ state }}产品
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div>
-        <ProductForm @close="dialogVisible = false" @closeDialog="closeDialog" />
-      </div>
-    </el-dialog>
+    <Pagination v-if="!dialogVisible" :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'产品列表'" :state="state + '产品'" :but-loading="butLoading" @submit="handleSubmit" @cancel="dialogVisible = false">
+        <template v-slot:main>
+          <ProductForm v-model="dialogForm" />
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 
@@ -48,8 +33,9 @@ import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import SearchForm from '@/components/Basics/SearchForm'
 import ProductForm from './addForm.vue'
 import BusinessTable from '@/components/Basics/BusinessTable'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import Pagination from '@/components/Basics/Pagination'
-import { getProductByPage, DeleteProduct } from '@/api/porductMgr'
+import { getProductByPage, DeleteProduct, UpdateProduct, createProduct } from '@/api/porductMgr'
 import { getDictListByCode } from '@/api/system'
 export default {
   provide() {
@@ -63,7 +49,8 @@ export default {
     SearchForm,
     ProductForm,
     BusinessTable,
-    Pagination
+    Pagination,
+    FormTemplate
   },
   data() {
     return {
@@ -77,10 +64,12 @@ export default {
       tableData: [],
       loading: false,
       dialogVisible: false,
+      butLoading: false,
       state: '',
       total: 0,
       formParams: [],
       typeList: [],
+      dialogForm: {},
       item: '',
       buttons: [
         {
@@ -238,7 +227,41 @@ export default {
     async closeDialog() {
       this.dialogVisible = false
       await this.getList()
-    }
+    },
+    handleSubmit() {
+      this.$refs.productForm.validate(async(valid, errorFields) => {
+        if (valid) {
+          this.butLoading = true
+          if (this.prodId) {
+            UpdateProduct(this.form).then(async(res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.$emit('closeDialog')
+              }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
+            })
+          } else {
+            createProduct(this.form).then(async(res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: '添加成功',
+                  type: 'success'
+                })
+                this.$emit('closeDialog')
+              }
+              this.butLoading = false
+            }).catch(() => {
+              this.butLoading = false
+            })
+          }
+        }
+      })
+    },
   }
 }
 </script>

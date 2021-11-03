@@ -8,8 +8,9 @@
       <template v-slot:title>角色管理</template>
       <template v-slot:subhead>角色用来实现对操作权限的控制。</template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
@@ -19,42 +20,20 @@
       @detail="detail"
     />
     <!-- <Pagination :total="total" :size="form.size" :current-page="form.page" @handleCurrentChange="handleCurrentChange" /> -->
-    <el-dialog
-      v-dialogDrag
-      v-if="dialogVisible"
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-      @close="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}角色
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="dialog-body">
-        <el-form ref="roleForm" :rules="roleRules" :model="item" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="角色名" prop="name">
-            <el-input v-model="item.name" size="mini" />
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input v-model="item.remark" type="textarea" rows="2" size="mini" />
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'角色列表'" :state="state + '角色'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
+        <template v-slot:main>
+          <el-form ref="roleForm" :rules="roleRules" :model="item" label-width="80px" label-position="top" class="dialog-form">
+            <el-form-item label="角色名" prop="name">
+              <el-input v-model="item.name" size="mini" />
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-input v-model="item.remark" type="textarea" rows="2" size="mini" />
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
     <el-dialog
       v-dialogDrag
       :visible.sync="dialogMenu"
@@ -89,6 +68,7 @@
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import SearchForm from '@/components/Basics/SearchForm'
 import BusinessTable from '@/components/Basics/BusinessTable'
+import FormTemplate from '@/components/Slots/FormTemplate'
 // import Pagination from '@/components/Basics/Pagination'
 import { getRoleList, createRole, updateRole, deleteRole, roleBoundMenu, roleBindMenu } from '@/api/system'
 export default {
@@ -101,7 +81,8 @@ export default {
   components: {
     ListHeadTemplate,
     SearchForm,
-    BusinessTable
+    BusinessTable,
+    FormTemplate
     // Pagination
   },
   data() {
@@ -219,6 +200,7 @@ export default {
       this.ids = selection.map((i) => { return i.roleId })
     },
     close() {
+      this.dialogVisible = false
       this.item = {
         roleId: '',
         groupName: '',

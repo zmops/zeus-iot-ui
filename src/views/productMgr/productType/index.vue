@@ -1,15 +1,16 @@
 <!-- 产品分类页面 -->
 <template>
   <div class="product-type">
-    <ListHeadTemplate>
+    <ListHeadTemplate v-if="!dialogVisible">
       <template v-slot:logo>
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>
       <template v-slot:title>产品分类</template>
       <template v-slot:subhead>产品分类用来对产品进行分组。当产品比较多时，合理利用产品分类会使产品的管理工作更加高效。</template>
     </ListHeadTemplate>
-    <SearchForm :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" @cancel="ids = []" />
+    <SearchForm v-if="!dialogVisible" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" @cancel="ids = []" />
     <el-table
+      v-if="!dialogVisible"
       ref="businessTable"
       v-loading="loading"
       :data="tableData"
@@ -21,6 +22,16 @@
         <template slot-scope="props">
           <svg-icon :icon-class="$route.meta.icon24" class="icon24" :style="{marginLeft: props.row.childrenNodes === null && props.row.pid === '0' ? '23px' : '0' }" />
           <span class="event" @click="edit(props.row)">{{ props.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createUserName" label="创建人">
+        <template slot-scope="scope">
+          {{scope.row.createUserName ? scope.row.createUserName : '-'}}
+        </template>
+      </el-table-column>
+      <el-table-column prop="createTime" label="创建时间">
+        <template slot-scope="scope">
+          {{scope.row.createTime ? scope.row.createTime : '-'}}
         </template>
       </el-table-column>
       <el-table-column width="180">
@@ -49,53 +60,33 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-      @close="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}产品分类
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="dialog-body">
-        <el-form ref="userForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="名称" prop="name">
-            <el-input v-model="dialogForm.name" size="mini" />
-          </el-form-item>
-          <el-form-item label="上级分类" prop="pIds">
-            <el-cascader
-              v-model="dialogForm.pIds"
-              clearable
-              size="mini"
-              class="zeus-w100"
-              :options="tableData"
-              :props="{ checkStrictly: true, value:'nodeId', label:'name', children:'childrenNodes' }"
-            />
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'产品分类列表'" :state="state + '产品分类'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
+        <template v-slot:main>
+          <el-form ref="userForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
+            <el-form-item label="名称" prop="name">
+              <el-input v-model="dialogForm.name" size="mini" />
+            </el-form-item>
+            <el-form-item label="上级分类" prop="pIds">
+              <el-cascader
+                v-model="dialogForm.pIds"
+                clearable
+                size="mini"
+                class="zeus-w100"
+                :options="tableData"
+                :props="{ checkStrictly: true, value:'nodeId', label:'name', children:'childrenNodes' }"
+              />
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 <script>
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import SearchForm from '@/components/Basics/SearchForm'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { deleteProductType, updateProductType, createProductType, getProductTypeTree } from '@/api/porductMgr'
 
 export default {
@@ -107,7 +98,8 @@ export default {
   },
   components: {
     ListHeadTemplate,
-    SearchForm
+    SearchForm,
+    FormTemplate
   },
   data() {
     return {
@@ -165,6 +157,7 @@ export default {
 
     /* 关闭弹窗的回调 */
     close() {
+      this.dialogVisible = false
       this.dialogForm = {
         name: '',
         pIds: null,

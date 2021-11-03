@@ -1,6 +1,6 @@
 <!--上下线规则-->
 <template>
-  <div class="offLineRule zeus-relative">
+  <div v-if="!dialogVisible" class="offLineRule zeus-relative">
     <div v-if="state === '编辑'">
       <el-divider content-position="left">上线规则</el-divider>
       <el-card v-if="ruleData.ruleFunctionRecovery === 'nodata'" class="box-card zeus-mb-25" shadow="hover">
@@ -38,100 +38,86 @@
       <svg-icon icon-class="dialog_edit" style="margin-right: 5px" />
       {{ state }}
     </el-button>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'800px'"
-      :show-close="false"
-      @close="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon icon-class="dialog_edit" />
-          {{ state }}上下线规则
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="dialog-body">
-        <el-form ref="attrForm" :model="dialogForm" :rules="rules" label-width="80px" label-position="top">
-          <el-form-item label="上线规则" prop="onLine">
-            <el-select v-model="dialogForm.onLine.depAttrId" size="mini" placeholder="请选择属性" class="w3" @change="changeOnLineAttr">
-              <el-option
-                v-for="item in attrList"
-                :key="item.attrId"
-                :label="item.attrName"
-                :value="item.attrId"
-              />
-            </el-select>
-            <el-select v-model="dialogForm.onLine.type" size="mini" class="w1 zeus-ml-10">
-              <el-option label="在" value="nodata" />
-              <el-option label="最新值符合" value="last" />
-            </el-select>
-            <el-input v-if="dialogForm.onLine.type === 'nodata'" v-model="dialogForm.onLine.num" size="mini" class="w1 zeus-ml-10" />
-            <el-select v-if="dialogForm.onLine.type === 'nodata'" v-model="dialogForm.onLine.timeType" size="mini" class="w1 zeus-ml-10 zeus-mr-10">
-              <el-option v-for="(item, index) in units" :key="index" :label="item.label" :value="item.value" />
-            </el-select>
-            <span v-if="dialogForm.onLine.type === 'nodata'">内有值</span>
-            <el-select v-if="dialogForm.onLine.type === 'last'" v-model="dialogForm.onLine.exp" size="mini" class="w1 zeus-ml-10">
-              <el-option label="=" value="=" />
-              <el-option label=">" value=">" />
-              <el-option label="<" value="<" />
-              <el-option label="<>" value="<>" />
-              <el-option label="<=" value="<=" />
-              <el-option label=">=" value=">=" />
-            </el-select>
-            <el-input v-if="dialogForm.onLine.type === 'last'" v-model="dialogForm.onLine.num" size="mini" class="w1 zeus-ml-10 zeus-mr-10" />
-            <span v-if="dialogForm.onLine.type === 'last'">{{ dialogForm.onLine.unit }}</span>
-          </el-form-item>
-          <el-form-item label="下线规则" prop="offLine">
-            <el-select v-model="dialogForm.offLine.depAttrId" size="mini" placeholder="请选择属性" class="w3" @change="changeOffLineAttr">
-              <el-option
-                v-for="item in attrList"
-                :key="item.attrId"
-                :label="item.attrName"
-                :value="item.attrId"
-              />
-            </el-select>
-            <el-select v-model="dialogForm.offLine.type" size="mini" class="w1 zeus-ml-10">
-              <el-option label="在" value="nodata" />
-              <el-option label="最新值符合" value="last" />
-            </el-select>
-            <el-input v-if="dialogForm.offLine.type === 'nodata'" v-model="dialogForm.offLine.num" size="mini" class="w1 zeus-ml-10" />
-            <el-select v-if="dialogForm.offLine.type === 'nodata'" v-model="dialogForm.offLine.timeType" size="mini" class="w1 zeus-ml-10 zeus-mr-10">
-              <el-option v-for="(item, index) in units" :key="index" :label="item.label" :value="item.value" />
-            </el-select>
-            <span v-if="dialogForm.offLine.type === 'nodata'">内无值</span>
-            <el-select v-if="dialogForm.offLine.type === 'last'" v-model="dialogForm.offLine.exp" size="mini" class="w1 zeus-ml-10">
-              <el-option label="=" value="=" />
-              <el-option label=">" value=">" />
-              <el-option label="<" value="<" />
-              <el-option label="<>" value="<>" />
-              <el-option label="<=" value="<=" />
-              <el-option label=">=" value=">=" />
-            </el-select>
-            <el-input v-if="dialogForm.offLine.type === 'last'" v-model="dialogForm.offLine.num" size="mini" class="w1 zeus-ml-10 zeus-mr-10"/>
-            <span v-if="dialogForm.offLine.type === 'last'">{{ dialogForm.offLine.unit }}</span>
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+  </div>
+  <div v-else class="offLineRule zeus-relative">
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'上下线规则列表'" :state="state + '上下线规则'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
+        <template v-slot:main>
+          <el-form ref="attrForm" :model="dialogForm" :rules="rules" label-width="80px" label-position="top">
+            <el-form-item label="上线规则" prop="onLine">
+              <el-select v-model="dialogForm.onLine.depAttrId" size="mini" placeholder="请选择属性" class="w3" @change="changeOnLineAttr">
+                <el-option
+                  v-for="item in attrList"
+                  :key="item.attrId"
+                  :label="item.attrName"
+                  :value="item.attrId"
+                />
+              </el-select>
+              <el-select v-model="dialogForm.onLine.type" size="mini" class="w1 zeus-ml-10">
+                <el-option label="在" value="nodata" />
+                <el-option label="最新值符合" value="last" />
+              </el-select>
+              <el-input v-if="dialogForm.onLine.type === 'nodata'" v-model="dialogForm.onLine.num" size="mini" class="w1 zeus-ml-10" />
+              <el-select v-if="dialogForm.onLine.type === 'nodata'" v-model="dialogForm.onLine.timeType" size="mini" class="w1 zeus-ml-10 zeus-mr-10">
+                <el-option v-for="(item, index) in units" :key="index" :label="item.label" :value="item.value" />
+              </el-select>
+              <span v-if="dialogForm.onLine.type === 'nodata'">内有值</span>
+              <el-select v-if="dialogForm.onLine.type === 'last'" v-model="dialogForm.onLine.exp" size="mini" class="w1 zeus-ml-10">
+                <el-option label="=" value="=" />
+                <el-option label=">" value=">" />
+                <el-option label="<" value="<" />
+                <el-option label="<>" value="<>" />
+                <el-option label="<=" value="<=" />
+                <el-option label=">=" value=">=" />
+              </el-select>
+              <el-input v-if="dialogForm.onLine.type === 'last'" v-model="dialogForm.onLine.num" size="mini" class="w1 zeus-ml-10 zeus-mr-10" />
+              <span v-if="dialogForm.onLine.type === 'last'">{{ dialogForm.onLine.unit }}</span>
+            </el-form-item>
+            <el-form-item label="下线规则" prop="offLine">
+              <el-select v-model="dialogForm.offLine.depAttrId" size="mini" placeholder="请选择属性" class="w3" @change="changeOffLineAttr">
+                <el-option
+                  v-for="item in attrList"
+                  :key="item.attrId"
+                  :label="item.attrName"
+                  :value="item.attrId"
+                />
+              </el-select>
+              <el-select v-model="dialogForm.offLine.type" size="mini" class="w1 zeus-ml-10">
+                <el-option label="在" value="nodata" />
+                <el-option label="最新值符合" value="last" />
+              </el-select>
+              <el-input v-if="dialogForm.offLine.type === 'nodata'" v-model="dialogForm.offLine.num" size="mini" class="w1 zeus-ml-10" />
+              <el-select v-if="dialogForm.offLine.type === 'nodata'" v-model="dialogForm.offLine.timeType" size="mini" class="w1 zeus-ml-10 zeus-mr-10">
+                <el-option v-for="(item, index) in units" :key="index" :label="item.label" :value="item.value" />
+              </el-select>
+              <span v-if="dialogForm.offLine.type === 'nodata'">内无值</span>
+              <el-select v-if="dialogForm.offLine.type === 'last'" v-model="dialogForm.offLine.exp" size="mini" class="w1 zeus-ml-10">
+                <el-option label="=" value="=" />
+                <el-option label=">" value=">" />
+                <el-option label="<" value="<" />
+                <el-option label="<>" value="<>" />
+                <el-option label="<=" value="<=" />
+                <el-option label=">=" value=">=" />
+              </el-select>
+              <el-input v-if="dialogForm.offLine.type === 'last'" v-model="dialogForm.offLine.num" size="mini" class="w1 zeus-ml-10 zeus-mr-10"/>
+              <span v-if="dialogForm.offLine.type === 'last'">{{ dialogForm.offLine.unit }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 <script>
 import { getAttrTrapperList, getTrigger, createTrigger, updateTrigger } from '@/api/deviceMgr'
 import { getProductAttrTrapperList } from '@/api/porductMgr'
+import FormTemplate from '@/components/Slots/FormTemplate'
 
 export default {
   name: 'offLineRule',
+  components: {
+    FormTemplate
+  },
   props: {
     isDev: Boolean
   },
@@ -198,6 +184,7 @@ export default {
   },
   methods: {
     close() {
+      this.dialogVisible = false
       // this.form = {
       //   onLine: {
       //     depAttrId: '',

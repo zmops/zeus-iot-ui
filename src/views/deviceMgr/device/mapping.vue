@@ -1,5 +1,5 @@
 <template>
-  <div class="mapping">
+  <div v-if="!dialogVisible" class="mapping">
     <el-card v-for="(item, index) in mapList" :key="index" class="box-card zeus-mb-10" shadow="hover">
       <el-row>
         <el-col :span="8">
@@ -34,69 +34,52 @@
       </el-row>
     </el-card>
     <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="add">增加</el-button>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'750px'"
-      :show-close="false"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon icon-class="dialog_edit" />
-          {{ state }}值映射
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="tips">
-        <svg-icon icon-class="tips" class="icon" />
-        <span>供产品内的属性选用。若属性上进行了配置，则实际保存的依然是原始值。只是让展现数据的可读性更好。</span>
-      </div>
-      <div class="dialog-body">
-        <el-form ref="mappingForm" :rules="mapRules" :model="mapItem" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="方案名称" prop="valueMapName">
-            <el-input v-model="mapItem.valueMapName" size="mini" />
-          </el-form-item>
-          <el-form-item label="映射" prop="valueMaps">
-            <div v-for="(i,index) in mapItem.valueMaps" :key="'map'+index" class="zeus-list-conten zeus-flex-between">
-              <div class="left zeus-flex-default">
-                <div class="zeus-list-item">
-                  <el-input v-model="i.value" size="mini">
-                    <template slot="prepend">原始值</template>
-                  </el-input>
+  </div>
+  <div v-else class="mapping">
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'值映射列表'" :state="state + '值映射'" :but-loading="butLoading" @submit="handleSubmit" @cancel="dialogVisible = false">
+        <template v-slot:main>
+          <el-form ref="mappingForm" :rules="mapRules" :model="mapItem" label-width="80px" label-position="top" class="dialog-form">
+            <el-form-item label="方案名称" prop="valueMapName">
+              <el-input v-model="mapItem.valueMapName" size="mini" />
+            </el-form-item>
+            <el-form-item label="映射" prop="valueMaps">
+              <div v-for="(i,index) in mapItem.valueMaps" :key="'map'+index" class="zeus-list-conten zeus-flex-between">
+                <div class="left zeus-flex-default">
+                  <div class="zeus-list-item">
+                    <el-input v-model="i.value" size="mini">
+                      <template slot="prepend">原始值</template>
+                    </el-input>
+                  </div>
+                  <div class="zeus-list-item">
+                    <el-input v-model="i.newvalue" size="mini">
+                      <template slot="prepend">映射为</template>
+                    </el-input>
+                  </div>
                 </div>
-                <div class="zeus-list-item">
-                  <el-input v-model="i.newvalue" size="mini">
-                    <template slot="prepend">映射为</template>
-                  </el-input>
-                </div>
+                <el-button type="text" class=" zeus-icon" @click="mapItem.valueMaps.splice(index, 1)">
+                  <svg-icon icon-class="but_del"></svg-icon>
+                </el-button>
               </div>
-              <el-button type="text" class=" zeus-icon" @click="mapItem.valueMaps.splice(index, 1)">
-                <svg-icon icon-class="but_del"></svg-icon>
-              </el-button>
-            </div>
-            <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="mapAdd">增加</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+              <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="mapAdd">增加</el-button>
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 
 <script>
 import {getDevValueMapList, deleteDevValueMap, updateDevValuemap} from '@/api/deviceMgr'
 import {getValueMapList, deleteValueMap, updateValuemap} from '@/api/porductMgr'
+import FormTemplate from '@/components/Slots/FormTemplate'
 export default {
   props: {
     isDev: Boolean
+  },
+  components: {
+    FormTemplate
   },
   data() {
     return {

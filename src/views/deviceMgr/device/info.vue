@@ -1,7 +1,7 @@
 <!-- 设备基础信息页面 -->
 <template>
   <div class="info">
-    <div class="zeus-product basics">
+    <div v-if="!dialogVisible" class="zeus-product basics">
       <div class="left">
         <svg-icon icon-class="big-device" style="font-size: 46px"/>
       </div>
@@ -65,6 +65,13 @@
         </el-button>
       </div>
     </div>
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'设备详情'" :state="'编辑基本信息'" :but-loading="butLoading" @submit="submit" @cancel="dialogVisible = false">
+        <template v-slot:main>
+          <deviceForm ref="deviceForm" v-model="dialogForm" :state="'编辑'" :product-list="productList" :device-group="deviceGroup"/>
+        </template>
+      </FormTemplate>
+    </div>
     <el-dialog
       v-dialogDrag
       v-if="dialogMap"
@@ -109,37 +116,12 @@
         </baidu-map>
       </div>
     </el-dialog>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon icon-class="dialog_edit"/>
-          编辑基本信息
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
-        </div>
-      </div>
-      <div class="dialog-body">
-        <deviceForm ref="deviceForm" v-model="dialogForm" :state="'编辑'" :product-list="productList" :device-group="deviceGroup"/>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { BmMarker } from 'vue-baidu-map'
 import deviceForm from '@/views/deviceMgr/device/deviceForm'
 import { getProductList } from '@/api/porductMgr'
@@ -152,7 +134,8 @@ export default {
     BaiduMap,
     // marker控件
     BmMarker,
-    deviceForm
+    deviceForm,
+    FormTemplate
   },
   props: {
     infoData: {

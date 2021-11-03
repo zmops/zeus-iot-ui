@@ -1,62 +1,42 @@
 <!--详情-服务页面 -->
 <template>
   <div class="serve">
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :columns="columns" @search="search" />
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
       @detail="detail"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-      @closed="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}服务
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="dialog-body">
-        <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="服务名称" prop="name">
-            <el-input v-model="dialogForm.name" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
-          </el-form-item>
-          <el-form-item label="标识符" prop="mark">
-            <el-input v-model="dialogForm.mark" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
-          </el-form-item>
-          <el-form-item label="调用方式" prop="async">
-            <el-select v-model="dialogForm.async" placeholder="请选择调用方式" size="mini" :disabled="isDev && dialogForm.inherit == '1'">
-              <el-option label="同步" value="0" />
-              <el-option label="异步" value="1" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="输入参数" prop="productServiceParamList">
-            <Variable ref="variable" v-model="dialogForm.productServiceParamList" :name="'输入参数'" :read="isDev && dialogForm.inherit == '1'" />
-          </el-form-item>
-          <el-form-item label="描述" prop="remark">
-            <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'服务列表'" :state="state + '服务'" :but-loading="butLoading" @submit="submit" @cancel="close">
+        <template v-slot:main>
+          <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
+            <el-form-item label="服务名称" prop="name">
+              <el-input v-model="dialogForm.name" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
+            </el-form-item>
+            <el-form-item label="标识符" prop="mark">
+              <el-input v-model="dialogForm.mark" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
+            </el-form-item>
+            <el-form-item label="调用方式" prop="async">
+              <el-select v-model="dialogForm.async" placeholder="请选择调用方式" size="mini" :disabled="isDev && dialogForm.inherit == '1'">
+                <el-option label="同步" value="0" />
+                <el-option label="异步" value="1" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="输入参数" prop="productServiceParamList">
+              <Variable ref="variable" v-model="dialogForm.productServiceParamList" :name="'输入参数'" :read="isDev && dialogForm.inherit == '1'" />
+            </el-form-item>
+            <el-form-item label="描述" prop="remark">
+              <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 
@@ -65,6 +45,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import Variable from '@/components/Detail/Variable'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { getServiceByPage, createService, updateService, deleteService } from '@/api/porductMgr'
 
 export default {
@@ -78,7 +59,8 @@ export default {
     BusinessTable,
     SearchForm,
     Pagination,
-    Variable
+    Variable,
+    FormTemplate
   },
   props: {
     isDev: Boolean
@@ -263,6 +245,7 @@ export default {
       this.dialogVisible = true
     },
     close() {
+      this.dialogVisible = false
       this.dialogForm = {
         name: '',
         mark: '',

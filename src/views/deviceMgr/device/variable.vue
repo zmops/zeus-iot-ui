@@ -1,62 +1,40 @@
 <!-- 详情-变量页面 -->
 <template>
   <div class="variable">
-    <SearchForm :buttons="buttons" :columns="columns"/>
+    <SearchForm v-if="!dialogVisible" :buttons="buttons" :columns="columns"/>
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       @detail="detail"
     />
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-      @closed="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon icon-class="dialog_edit"/>
-          {{ state }}变量
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
-        </div>
-      </div>
-      <div class="tips">
-        <svg-icon icon-class="tips" class="icon" />
-        <span>可设置自定义变量，适用于同一产品不同设备下，键相同而值可能不同的情况，以方便取用。</span>
-      </div>
-      <div class="dialog-body">
-        <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="form">
-          <el-form-item label="键" prop="key">
-            <span class="zeus-bold">{$ </span>
-            <el-input v-model="dialogForm.key" size="mini" class="macro" />
-            <span class="zeus-bold"> }</span>
-          </el-form-item>
-          <el-form-item label="值" prop="value">
-            <el-input v-model="dialogForm.value" size="mini"/>
-          </el-form-item>
-          <el-form-item label="描述" prop="description">
-            <el-input v-model="dialogForm.description" type="textarea" rows="2" size="mini"/>
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'变量列表'" :state="state + '变量'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
+        <template v-slot:main>
+          <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="form">
+            <el-form-item label="键" prop="key">
+              <span class="zeus-bold">{$ </span>
+              <el-input v-model="dialogForm.key" size="mini" class="macro" />
+              <span class="zeus-bold"> }</span>
+            </el-form-item>
+            <el-form-item label="值" prop="value">
+              <el-input v-model="dialogForm.value" size="mini"/>
+            </el-form-item>
+            <el-form-item label="描述" prop="description">
+              <el-input v-model="dialogForm.description" type="textarea" rows="2" size="mini"/>
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 
 <script>
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { deleteMacro, getMacroByPage, createMacro, updateMacro } from '@/api/deviceMgr'
 
 export default {
@@ -68,6 +46,7 @@ export default {
   },
   components: {
     BusinessTable,
+    FormTemplate,
     SearchForm
   },
   props: {
@@ -251,6 +230,7 @@ export default {
       })
     },
     close() {
+      this.dialogVisible = false
       this.dialogForm = {
         description: '',
         value: '',

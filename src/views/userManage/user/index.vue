@@ -8,8 +8,9 @@
       <template v-slot:title>用户管理</template>
       <template v-slot:subhead>用户可以属于多个用户组，以方便对数据权限进行管理。</template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
@@ -18,70 +19,49 @@
       @select="handleSelect"
       @detail="detail"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-      @closed="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}用户
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="dialog-body">
-        <el-form ref="userForm" :rules="rules" :model="item" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="帐号" prop="account">
-            <el-input v-model="item.account" size="mini" :disabled="state === '编辑'" />
-          </el-form-item>
-          <el-form-item label="昵称" prop="name">
-            <el-input v-model="item.name" size="mini" />
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="item.email" size="mini" />
-          </el-form-item>
-          <el-form-item label="电话" prop="phone">
-            <el-input v-model.number="item.phone" size="mini" />
-          </el-form-item>
-          <el-form-item label="状态" prop="status">
-            <el-select v-model="item.status" placeholder="请选择" size="mini" class="zeus-w100">
-              <el-option label="启用" value="ENABLE" />
-              <el-option label="禁用" value="DISABLE" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="角色" prop="roleId">
-            <el-select v-model="item.roleId" placeholder="请选择角色" size="mini" class="zeus-w100">
-              <el-option v-for="( i, index) in roleData" :key="index" :label="i.name" :value="i.roleId" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="用户组" prop="userGroupId">
-            <el-select v-model="item.userGroupId" placeholder="请选择用户组" size="mini" class="zeus-w100">
-              <el-option v-for="( i, index) in groupData" :key="index" :label="i.groupName" :value="i.userGroupId" />
-            </el-select>
-          </el-form-item>
-          <el-form-item v-if="!item.userId" label="密码" prop="pass">
-            <el-input v-model="item.pass" type="password" size="mini" />
-          </el-form-item>
-          <el-form-item v-if="!item.userId" label="确认密码" prop="password1">
-            <el-input v-model="item.password1" type="password" size="mini" />
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'用户列表'" :state="state + '用户'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
+        <template v-slot:main>
+          <el-form ref="userForm" :rules="rules" :model="item" label-width="80px" label-position="top" class="dialog-form">
+            <el-form-item label="帐号" prop="account">
+              <el-input v-model="item.account" size="mini" :disabled="state === '编辑'" />
+            </el-form-item>
+            <el-form-item label="昵称" prop="name">
+              <el-input v-model="item.name" size="mini" />
+            </el-form-item>
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="item.email" size="mini" />
+            </el-form-item>
+            <el-form-item label="电话" prop="phone">
+              <el-input v-model.number="item.phone" size="mini" />
+            </el-form-item>
+            <el-form-item label="状态" prop="status">
+              <el-select v-model="item.status" placeholder="请选择" size="mini" class="zeus-w100">
+                <el-option label="启用" value="ENABLE" />
+                <el-option label="禁用" value="DISABLE" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="角色" prop="roleId">
+              <el-select v-model="item.roleId" placeholder="请选择角色" size="mini" class="zeus-w100">
+                <el-option v-for="( i, index) in roleData" :key="index" :label="i.name" :value="i.roleId" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="用户组" prop="userGroupId">
+              <el-select v-model="item.userGroupId" placeholder="请选择用户组" size="mini" class="zeus-w100">
+                <el-option v-for="( i, index) in groupData" :key="index" :label="i.groupName" :value="i.userGroupId" />
+              </el-select>
+            </el-form-item>
+            <el-form-item v-if="!item.userId" label="密码" prop="pass">
+              <el-input v-model="item.pass" type="password" size="mini" />
+            </el-form-item>
+            <el-form-item v-if="!item.userId" label="确认密码" prop="password1">
+              <el-input v-model="item.password1" type="password" size="mini" />
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 <script>
@@ -89,6 +69,7 @@ import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { deleteUser, updateUser, createUser, getUserList, getUsrGrpList, getRoleList, resetPass } from '@/api/system'
 
 export default {
@@ -102,7 +83,8 @@ export default {
     ListHeadTemplate,
     BusinessTable,
     SearchForm,
-    Pagination
+    Pagination,
+    FormTemplate
   },
   data() {
     const validatePass2 = (rule, value, callback) => {
@@ -282,6 +264,7 @@ export default {
     },
     /* 关闭弹窗的回调 */
     close() {
+      this.dialogVisible = false
       this.item = {
         account: '',
         name: '',

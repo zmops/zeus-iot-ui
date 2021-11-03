@@ -1,5 +1,5 @@
 <template>
-  <div class="tag zeus-relative">
+  <div v-if="!dialogVisible" class="tag zeus-relative">
     <div v-for="(item, index) in viewList" :key="index" class="tag-item zeus-inline-block">
       <span class="tag-item-l zeus-inline-block">{{ item.tag }}</span>
       <span class="tag-item-r zeus-inline-block">{{ item.value }}</span>
@@ -8,46 +8,25 @@
       <svg-icon icon-class="dialog_edit" style="margin-right: 5px"/>
       编辑
     </el-button>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'750px'"
-      :show-close="false"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon icon-class="dialog_edit" />
-          编辑标签
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="tips">
-        <svg-icon icon-class="tips" class="icon" />
-        <span>可设置自定义标签，以方便统计分析。</span>
-      </div>
-      <div class="dialog-body">
+  </div>
+  <div v-else class="tag zeus-relative">
+    <FormTemplate :up="'标签列表'" :state="'编辑标签'" :width="0" :but-loading="butLoading" @submit="handleSubmit" @cancel="dialogVisible = false">
+      <template v-slot:main>
         <Tag ref="tag" v-model="tagList" />
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+      </template>
+    </FormTemplate>
   </div>
 </template>
 
 <script>
+import Tag from '@/components/Detail/Tag'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { getDeviceTag, updateDevTag } from '@/api/deviceMgr'
 import { getProdTagList, updateProdTag } from '@/api/porductMgr'
-import Tag from '@/components/Detail/Tag'
 export default {
   components: {
-    Tag
+    Tag,
+    FormTemplate
   },
   props: {
     isDev: Boolean

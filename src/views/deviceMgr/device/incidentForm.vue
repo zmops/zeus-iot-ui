@@ -142,6 +142,9 @@ export default {
         // eventLevel: [
         //   { required: true, message: '请选择事件级别', trigger: 'change' }
         // ],
+        source: [
+          { required: true, message: '请选择来源类型', trigger: 'change' }
+        ],
         valueType: [
           { required: true, message: '请选择数据类型', trigger: 'change' }
         ]

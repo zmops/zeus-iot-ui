@@ -8,8 +8,9 @@
       <template v-slot:title>系统字典</template>
       <template v-slot:subhead></template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
@@ -18,7 +19,31 @@
       @select="handleSelect"
       @detail="detail"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
+    <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'字典列表'" :state="state + '字典'" :but-loading="butLoading" @submit="dicTypeSubmit" @cancel="close">
+        <template v-slot:main>
+          <el-form ref="dictTypeForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
+            <el-form-item label="名称" prop="name">
+              <el-input v-model="dialogForm.name" size="mini" />
+            </el-form-item>
+            <el-form-item label="编码" prop="code">
+              <el-input v-model="dialogForm.code" size="mini" />
+            </el-form-item>
+            <el-form-item v-if="state === '编辑字典项' || state === '编辑字典类型'" label="状态" prop="status">
+              <el-select v-model="dialogForm.status" placeholder="请选择" size="mini" class="zeus-w100">
+                <el-option label="启用" value="ENABLE" />
+                <el-option label="禁用" value="DISABLE" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" />
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
+
     <!--字典项列表-->
     <el-drawer :visible.sync="drawerShow" @close="close">
       <div slot="title" class="dialog-title">
@@ -35,7 +60,7 @@
     <!--  字典类型弹窗  -->
     <el-dialog
       v-dialogDrag
-      :visible.sync="dialogVisible"
+      :visible.sync="dialogVisible2"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :width="'700px'"
@@ -50,7 +75,7 @@
         </div>
         <div class="right">
           <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible2 = false" />
         </div>
       </div>
       <div class="dialog-body">
@@ -73,7 +98,7 @@
         </el-form>
       </div>
       <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
+        <el-button size="mini" round @click="dialogVisible2 = false">取 消</el-button>
         <el-button :disabled="butLoading" type="primary" size="mini" round @click="dicTypeSubmit">确 定</el-button>
       </el-footer>
     </el-dialog>
@@ -85,6 +110,7 @@ import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import {
   deleteDictType,
   updateDictType,
@@ -103,7 +129,8 @@ export default {
     ListHeadTemplate,
     BusinessTable,
     SearchForm,
-    Pagination
+    Pagination,
+    FormTemplate
   },
   data() {
     return {
@@ -244,6 +271,7 @@ export default {
       drawerShow: false,
       state: '',
       dialogVisible: false,
+      dialogVisible2: false,
       dictTypeId: null,
       dictTypeName: ''
     }
@@ -300,7 +328,7 @@ export default {
     },
     addDict() {
       this.state = '创建字典项'
-      this.dialogVisible = true
+      this.dialogVisible2 = true
     },
     detail(item){
       this.edit(item.dictTypeId)
@@ -322,7 +350,7 @@ export default {
       })
       this.dialogForm = JSON.parse(JSON.stringify(i))
       this.state = '编辑字典项'
-      this.dialogVisible = true
+      this.dialogVisible2 = true
     },
     /* 删除字典类型 */
     delete() {
@@ -364,6 +392,7 @@ export default {
       })
     },
     close() {
+      this.dialogVisible = false
       this.dialogForm = {
         name: '',
         code: '',
@@ -386,6 +415,7 @@ export default {
                     type: 'success'
                   })
                   this.dialogVisible = false
+                  this.dialogVisible2 = false
                   await this.getList()
                 }
                 this.butLoading = false
@@ -401,6 +431,7 @@ export default {
                     type: 'success'
                   })
                   this.dialogVisible = false
+                  this.dialogVisible2 = false
                   await this.getList()
                 }
                 this.butLoading = false
@@ -417,6 +448,7 @@ export default {
                     type: 'success'
                   })
                   this.dialogVisible = false
+                  this.dialogVisible2 = false
                   await this.allocation(this.dialogForm.dictTypeId)
                 }
                 this.butLoading = false
@@ -432,6 +464,7 @@ export default {
                     type: 'success'
                   })
                   this.dialogVisible = false
+                  this.dialogVisible2 = false
                   await this.allocation(this.dialogForm.dictTypeId)
                 }
                 this.butLoading = false

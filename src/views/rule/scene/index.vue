@@ -8,43 +8,23 @@
       <template v-slot:title>场景联动</template>
       <template v-slot:subhead>对场景联动规则进行管理。可以实现跨设备的业务逻辑。当属性、事件满足设定规则时，自动实现联动功能。</template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :columns="columns" @search="search"/>
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :columns="columns" @search="search"/>
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
       @detail="detail"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'1150px'"
-      :show-close="false"
-      @close="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add"/>
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit"/>
-          {{ state }}场景联动
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="dialog-body">
-        <sceneForm ref="sceneForm" v-model="dialogForm" />
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'场景联动列表'" :state="state + '场景联动'" :width="1050" :but-loading="butLoading" @submit="submit" @cancel="close">
+        <template v-slot:main>
+          <sceneForm ref="sceneForm" v-model="dialogForm" />
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 <script>
@@ -53,6 +33,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import sceneForm from '@/views/rule/scene/sceneForm'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { getSceneByPage, createScene, deleteScene, detailScene, modifyStatusScene, updateScene } from '@/api/scene'
 
 export default {
@@ -67,7 +48,8 @@ export default {
     BusinessTable,
     SearchForm,
     Pagination,
-    sceneForm
+    sceneForm,
+    FormTemplate
   },
   data() {
     return {
@@ -317,6 +299,7 @@ export default {
       }
     },
     close() {
+      this.dialogVisible = false
       this.dialogForm = {
         eventRuleName: '',
         eventLevel: '3',

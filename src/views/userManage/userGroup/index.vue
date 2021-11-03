@@ -8,8 +8,9 @@
       <template v-slot:title>用户组管理</template>
       <template v-slot:subhead>用户组用来对用户进行分组。可以与设备组相结合，一起对数据权限进行精确控制。</template>
     </ListHeadTemplate>
-    <SearchForm :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :selected="ids.length > 0" :columns="columns" @search="search" @cancel="ids = []" />
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
@@ -18,54 +19,32 @@
       @select="handleSelect"
       @detail="detail"
     />
-    <Pagination :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :width="'700px'"
-      :show-close="false"
-      @close="close"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}用户组
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon" />
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false" />
-        </div>
-      </div>
-      <div class="dialog-body">
-        <el-form ref="groupNameForm" :rules="groupNameRules" :model="item" label-width="80px" label-position="top" class="dialog-form">
-          <el-form-item label="用户组名" prop="groupName">
-            <el-input v-model="item.groupName" size="mini" />
-          </el-form-item>
-          <el-form-item label="设备组" prop="deviceGroupIds">
-            <el-select v-model="item.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini">
-              <el-option
-                v-for="i in deviceGroup"
-                :key="i.deviceGroupId"
-                :label="i.name"
-                :value="i.deviceGroupId.toString()"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input v-model="item.remark" type="textarea" rows="2" size="mini" />
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="handleSubmit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <Pagination v-if="!dialogVisible" :total="total" :size="form.maxRow" :current-page="form.page" @handleCurrentChange="handleCurrentChange" />
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'用户组列表'" :state="state + '用户组'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
+        <template v-slot:main>
+          <el-form ref="groupNameForm" :rules="groupNameRules" :model="item" label-width="80px" label-position="top" class="dialog-form">
+            <el-form-item label="用户组名" prop="groupName">
+              <el-input v-model="item.groupName" size="mini" />
+            </el-form-item>
+            <el-form-item label="设备组" prop="deviceGroupIds">
+              <el-select v-model="item.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini">
+                <el-option
+                  v-for="i in deviceGroup"
+                  :key="i.deviceGroupId"
+                  :label="i.name"
+                  :value="i.deviceGroupId.toString()"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-input v-model="item.remark" type="textarea" rows="2" size="mini" />
+            </el-form-item>
+          </el-form>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
-
 </template>
 
 <script>
@@ -73,6 +52,7 @@ import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import SearchForm from '@/components/Basics/SearchForm'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import Pagination from '@/components/Basics/Pagination'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import { getUsrGrpByPage, createUserGroup, updateUserGroup, deleteUserGroup } from '@/api/system'
 import { getDeviceGrpList } from '@/api/deviceMgr'
 export default {
@@ -86,7 +66,8 @@ export default {
     ListHeadTemplate,
     SearchForm,
     BusinessTable,
-    Pagination
+    Pagination,
+    FormTemplate
   },
   data() {
     return {
@@ -206,6 +187,7 @@ export default {
       this.ids = selection.map((i) => { return i.userGroupId })
     },
     close() {
+      this.dialogVisible = false
       this.item = {
         userGroupId: '',
         groupName: '',

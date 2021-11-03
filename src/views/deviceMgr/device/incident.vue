@@ -1,43 +1,23 @@
 <!--详情-事件页面 -->
 <template>
   <div class="incident">
-    <SearchForm :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
+    <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :columns="columns" @search="search"/>
     <BusinessTable
+      v-if="!dialogVisible"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
       @detail="detail"
     />
-    <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
-    <el-dialog
-      v-dialogDrag
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :show-close="false"
-      :width="'700px'"
-      @close="dialogForm = { eventLevel: '1'}"
-    >
-      <div slot="title" class="dialog-title zeus-flex-between">
-        <div class="left">
-          <svg-icon v-if="state === '创建'" icon-class="dialog_add" />
-          <svg-icon v-if="state === '编辑'" icon-class="dialog_edit" />
-          {{ state }}事件
-        </div>
-        <div class="right">
-          <svg-icon icon-class="dialog_close" class="closeicon"/>
-          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible = false"/>
-        </div>
-      </div>
-      <div class="dialog-body">
-        <incidentForm v-if="dialogVisible" ref="incidentForm" v-model="dialogForm" :is-dev="isDev"/>
-      </div>
-      <el-footer class="dialog-footer-btn">
-        <el-button size="mini" round @click="dialogVisible = false">取 消</el-button>
-        <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
-      </el-footer>
-    </el-dialog>
+    <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
+    <div v-if="dialogVisible">
+      <FormTemplate :up="'事件列表'" :state="state + '事件'" :but-loading="butLoading" @submit="submit" @cancel="close">
+        <template v-slot:main>
+          <incidentForm v-if="dialogVisible" ref="incidentForm" v-model="dialogForm" :is-dev="isDev"/>
+        </template>
+      </FormTemplate>
+    </div>
   </div>
 </template>
 
@@ -46,6 +26,7 @@ import BusinessTable from '@/components/Basics/BusinessTable'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import incidentForm from '@/views/deviceMgr/device/incidentForm'
+import FormTemplate from '@/components/Slots/FormTemplate'
 import {
   createAttrEvent,
   detailAttrEvent,
@@ -65,7 +46,8 @@ export default {
     BusinessTable,
     SearchForm,
     Pagination,
-    incidentForm
+    incidentForm,
+    FormTemplate
   },
   props: {
     isDev: Boolean
@@ -271,7 +253,10 @@ export default {
           })
         }
       }
-
+    },
+    close() {
+      this.dialogForm = { eventLevel: '1' }
+      this.dialogVisible = false
     }
   }
 }
