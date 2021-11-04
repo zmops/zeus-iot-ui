@@ -226,8 +226,13 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   .el-select-dropdown__empty{
     background: #242E42;
   }
+  .popper__arrow{
+    border-top-color: #242e42!important;
+    border-bottom-color: #242e42!important;
+  }
   .popper__arrow::after{
     border-bottom-color: #242E42 !important;
+    border-top-color: #242e42!important;
   }
   .el-select-dropdown__item.selected.hover{
     background: #242E42;
@@ -235,6 +240,9 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   .el-select-dropdown__item.selected{
     color: #ffffff !important;
     background: #36435C !important;
+  }
+  .el-scrollbar__wrap{
+    background-color: #242E42;
   }
 }
 .el-dropdown-menu{

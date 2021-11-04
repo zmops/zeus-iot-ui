@@ -15,7 +15,7 @@
       <slot name="main" />
     </div>
     <div class="foot zeus-pt-10 zeus-pb-10" :class="width === 0 ? 'zeus-text-align-c' : ''" :style="{paddingLeft: width === 0 ? 0 :(width / 2 - 52.58) + 'px'}">
-      <el-button size="mini" round @click="cancel">取 消</el-button>
+      <el-button size="mini" style="background-color: #EFF4F9" round @click="cancel">取 消</el-button>
       <el-button :disabled="butLoading" type="primary" size="mini" round @click="submit">确 定</el-button>
     </div>
   </div>
@@ -70,6 +70,7 @@ $width:600px;
     background-color: #F9FBFD;
     box-shadow: 1px 0 0 #EFF4F9;
     padding: 11px 20px;
+    border-bottom: #EFF4F9 1px solid;
 
     .back {
       padding: 0 24px 0 16px;
@@ -107,6 +108,7 @@ $width:600px;
   .foot{
     width: 100%;
     background-color: #F9FBFD;
+    border-top: 1px #EFF4F9 solid;
   }
 }
 </style>

@@ -3,7 +3,8 @@
   <div class="info">
     <div v-if="!dialogVisible" class="zeus-product basics">
       <div class="left">
-        <svg-icon icon-class="bigproduct" style="font-size: 46px"/>
+        <img v-if="infoData.icon" :src="infoData.icon" alt="" width="46px">
+        <svg-icon v-else icon-class="bigproduct" style="font-size: 46px"/>
       </div>
       <div class="content">
         <el-row :gutter="18" class="row">

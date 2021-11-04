@@ -28,7 +28,7 @@
               class="setting-button"
               round
               size="mini"
-              @click="affirm(scope.row.eventid)"
+              @click="affirm(scope.row.eventId)"
             >
               <svg-icon icon-class="list_affirm" />
               确认
@@ -39,7 +39,7 @@
               class="setting-button"
               round
               size="mini"
-              @click="solve(scope.row.eventid)"
+              @click="solve(scope.row.eventId)"
             >
               <svg-icon icon-class="list_affirm" />
               解决
@@ -226,7 +226,7 @@ export default {
     /* 解决 */
     solve(eventId) {
       const i = this.tableData.find((item) => {
-        return item.eventid === eventId
+        return item.eventId === eventId
       })
       if (i.statusName === '已解决') {
         this.$message({

@@ -30,6 +30,23 @@
       <el-form-item label="描述">
         <el-input v-model="form.remark" type="textarea" rows="2" size="mini" />
       </el-form-item>
+      <el-form-item label="图标" prop="icon">
+        <el-upload
+          class="upload-demo"
+          action=""
+          :auto-upload="false"
+          :on-change="imgChange"
+          accept=".jpg, .png"
+          :show-file-list="false">
+          <el-button size="small" style="background-color: #EFF4F9" round><svg-icon icon-class="upload" /> {{ form.icon ? '替换图标' : '上传图标' }} </el-button>
+          <!--          <div slot="tip" class="el-upload__tip el-form-item-tips">建议长宽比为1:1,只能上传jpg/png文件，且不超过2MB</div>-->
+        </el-upload>
+        <div v-if="form.icon" class="icon-div zeus-relative zeus-mt-10">
+          <img width="100%" height="100%" :src="form.icon" alt="">
+          <svg-icon icon-class="close" class="icon-close zeus-absolute zeus-cursor-pointer" @click="form.icon = ''" />
+        </div>
+        <img v-else width="91px" height="91px" src="@/assets/zwsc.png" alt="">
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -57,7 +74,8 @@ export default {
           prodType: '',
           manufacturer: '',
           model: '',
-          remark: ''
+          remark: '',
+          icon: ''
         }
       }
     },
@@ -139,7 +157,63 @@ export default {
     },
     changeGroupId(id) {
       this.form.groupId = id
+    },
+    imgChange(file) {
+      if (file.size && file.size > 2 * 1024 * 1024) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+        return false
+      }
+      this.getBase64(file.raw).then((res) => {
+        this.$set(this.form, 'icon', res.imgResult)
+      })
+    },
+    /* 获取图片转base64 */
+    getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        let imgResult = ''
+        let imageSize = ''
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          imgResult = reader.result
+        }
+        reader.onerror = (error) => {
+          reject(error)
+        }
+        reader.onloadend = () => {
+          // 获取上传图片的尺寸
+          const img = new Image()
+          img.src = imgResult
+          img.onload = () => {
+            imageSize = img.width + ',' + img.height
+            resolve({ imgResult, imageSize })
+          }
+        }
+      })
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.icon-div{
+  width: 92px;
+  height: 92px;
+  padding: 12px;
+  border: 1px #F1F5FA solid;
+  border-radius: 4px;
+
+  &:hover{
+    border-color: #D0E6FF;
+    .icon-close{
+      display: block;
+    }
+  }
+
+  .icon-close{
+    display: none;
+    top: 2px;
+    right: 2px;
+    font-size: 12px;
+  }
+}
+</style>
