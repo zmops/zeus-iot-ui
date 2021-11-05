@@ -1,5 +1,5 @@
 <template>
-  <div class="DeviceSelect">
+  <div class="DeviceSelect" ref="DeviceSelect">
     <div class="zeus-pt-15 zeus-pb-15 zeus-pl-10 zeus-pr-10 screen">
       <el-row :gutter="10">
         <el-col :span="7">
@@ -35,7 +35,7 @@
           </el-select>
         </el-col>
         <el-col :span="3">
-          <el-button round size="mini" @click="reset"><i class="el-icon-refresh-left"/> 重置</el-button>
+          <el-button round size="mini" class="but" @click="reset"><i class="el-icon-refresh-left"/> 重置</el-button>
         </el-col>
       </el-row>
       <el-row :gutter="10">
@@ -46,7 +46,7 @@
           <el-input v-model="form.deviceId" size="mini" placeholder="请输入设备ID"/>
         </el-col>
         <el-col :span="3" :offset="7" class="zeus-mt-10">
-          <el-button round size="mini" @click="getList"><i class="el-icon-zoom-in"/> 搜索</el-button>
+          <el-button round size="mini" class="but" @click="getList"><i class="el-icon-zoom-in"/> 搜索</el-button>
         </el-col>
       </el-row>
     </div>
@@ -64,7 +64,7 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
-      :h="640"
+      :h="h"
       :selection="multiple"
       @select="handleSelect"
       @selected="selected"
@@ -144,6 +144,7 @@ export default {
       markers: [],
       type: '设备列表',
       ids: [],
+      h: '',
       productTypeList: [],
       productList: [],
       deviceGroup: [],
@@ -214,6 +215,9 @@ export default {
   created() {
     this.init()
     this.getList(true)
+  },
+  mounted() {
+    this.h = this.$refs.DeviceSelect.offsetHeight - 147
   },
   methods: {
     init() {
@@ -322,12 +326,20 @@ export default {
 <style lang="scss" scoped>
 .DeviceSelect {
   width: 100%;
-  height: calc(100vh - 350px);
+  height: calc(100vh - 282px);
   //padding: 15px;
   background-color: #fff;
 
   .screen {
     background-color: #F9FBFD;
+  }
+
+  .but{
+    background-color: #EFF4F9;
+
+    &:hover{
+      background-color: #CCD3DB;
+    }
   }
 
   .map {
