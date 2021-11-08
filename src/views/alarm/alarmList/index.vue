@@ -23,7 +23,7 @@
         <template slot-scope="scope">
           <span v-if="item.prop === 'buttons'" class="setting-buttons">
             <el-button
-              v-if="scope.row.acknowledged === '未确认'"
+              v-if="scope.row.acknowledged === '未确认' && scope.row.statusName !== '已解决'"
               type="text"
               class="setting-button"
               round

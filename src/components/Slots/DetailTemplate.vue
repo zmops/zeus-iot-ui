@@ -285,14 +285,16 @@ export default {
               padding: 4px 8px;
               margin-left: 2px;
               border-radius: 2px;
-              max-width: 100px;
+              max-width: 90px;
+              vertical-align: top;
+              margin-top: 3px;
               overflow: hidden;
               text-overflow:ellipsis;
               white-space: nowrap;
             }
 
             .tag-item-r{
-              padding: 6px;
+              padding: 7px 6px 6px 6px;
               color: #242E42;
               max-width: 100px;
               overflow: hidden;

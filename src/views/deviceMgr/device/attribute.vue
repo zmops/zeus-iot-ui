@@ -51,36 +51,12 @@
         <el-empty v-else description="暂无数据"></el-empty>
         <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
       </div>
-      <div v-else v-loading="loading" class="list">
-        <el-row v-if="tableData.length" :gutter="10">
-          <el-col v-for="(item, index) in tableData" :key="index" :span="12" class="zeus-mb-10">
-            <el-card class="box-card" shadow="hover">
-              <el-button class="zeus-right" size="mini" round @click="history(item)">
-                <svg-icon icon-class="attr_history"/>
-                历史数据
-              </el-button>
-              <div class="zeus-bold f13" :title="item.value || '-'+' '+item.units">{{ item.value || '-' }} {{ item.units }}</div>
-              <div class="c-gray zeus-mb-15">{{ item.attrName }}</div>
-              <el-row class="bg-gray">
-                <el-col :span="8" class="zeus-pl-10 blue">
-                  <svg-icon icon-class="attr_key"/>
-                  {{ item.key }}
-                </el-col>
-                <el-col :span="8" class="zeus-pl-10">
-                  <svg-icon icon-class="attr_type"/>
-                  {{ item.valueTypeName }}
-                </el-col>
-                <el-col :span="8" class="zeus-pl-10">
-                  <svg-icon icon-class="attr_time"/>
-                  {{ item.clock }}
-                </el-col>
-              </el-row>
-            </el-card>
-          </el-col>
-        </el-row>
-        <el-empty v-else description="暂无数据"></el-empty>
-        <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
-      </div>
+      <BusinessTable
+        v-else
+        :table-data="tableData"
+        :columns="columns2"
+        :loading="loading"
+      />
       <el-dialog
         v-dialogDrag
         :visible.sync="dialogVisible"
@@ -243,6 +219,48 @@ export default {
           type: 'primary',
           label: '创建',
           event: 'add'
+        }
+      ],
+      columns2: [
+        {
+          label: '属性名称',
+          prop: 'attrName',
+          show: true
+        },
+        {
+          label: '最新值',
+          prop: 'value',
+          show: true
+        },
+        {
+          label: '标识符',
+          prop: 'key',
+          show: true
+        },
+        {
+          label: '数据类型',
+          prop: 'valueTypeName',
+          show: true
+        },
+        {
+          label: '创建时间',
+          prop: 'createTime',
+          show: true
+        },
+        {
+          label: '',
+          prop: 'buttons',
+          show: true,
+          width: 100,
+          idName: 'attrId',
+          fixed: 'right',
+          buttons: [
+            {
+              label: '历史数据',
+              event: 'history2',
+              icon: 'attr_history'
+            }
+          ]
         }
       ],
       columns: [
@@ -471,6 +489,12 @@ export default {
           }
         })
       })
+    },
+    history2(attrId) {
+      const i = this.tableData.find((item) => {
+        return item.attrId === attrId
+      })
+      this.history(i)
     },
     history(item) {
       this.itemData = item

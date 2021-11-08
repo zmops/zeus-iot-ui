@@ -39,7 +39,7 @@
           accept=".jpg, .png"
           :show-file-list="false">
           <el-button size="small" style="background-color: #EFF4F9" round><svg-icon icon-class="upload" /> {{ form.icon ? '替换图标' : '上传图标' }} </el-button>
-          <!--          <div slot="tip" class="el-upload__tip el-form-item-tips">建议长宽比为1:1,只能上传jpg/png文件，且不超过2MB</div>-->
+          <span slot="tip" class="el-upload__tip el-form-item-tips zeus-ml-20">建议长宽比为1:1,只能上传jpg/png文件，且不超过2MB</span>
         </el-upload>
         <div v-if="form.icon" class="icon-div zeus-relative zeus-mt-10">
           <img width="100%" height="100%" :src="form.icon" alt="">

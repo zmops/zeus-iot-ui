@@ -76,6 +76,9 @@
     </el-form-item>
     <el-form-item label="数据预处理">
       <Pretreatment ref="pretreatment" v-model="formData.processStepList" :disabled="disabled" />
+      <div class="el-form-item-tips">
+        <svg-icon icon-class="tips" class="icon" />若配置，则最终保存的是预处理后的数据。
+      </div>
     </el-form-item>
     <el-form-item label="值映射">
       <el-select v-model="formData.valuemapid" size="mini" clearable placeholder="请选择值映射" :disabled="disabled">
@@ -92,6 +95,9 @@
     </el-form-item>
     <el-form-item label="标签">
       <Tag ref="tag" v-model="formData.tags" />
+      <div class="el-form-item-tips">
+        <svg-icon icon-class="tips" class="icon" />可在属性上增加自定义标签，以方便统计分析。
+      </div>
     </el-form-item>
   </el-form>
 </template>
