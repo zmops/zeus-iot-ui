@@ -43,7 +43,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'上下线规则列表'" :state="state + '上下线规则'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
         <template v-slot:main>
-          <el-form ref="attrForm" :model="dialogForm" :rules="rules" label-width="80px" label-position="top">
+          <el-form ref="attrForm" :model="dialogForm" :rules="rules" label-width="80px">
             <el-form-item label="上线规则" prop="onLine">
               <el-select v-model="dialogForm.onLine.depAttrId" size="mini" placeholder="请选择属性" class="w3" @change="changeOnLineAttr">
                 <el-option

@@ -1,6 +1,6 @@
 <!-- 场景联动表单组件 -->
 <template>
-  <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" label-position="top" class="alarm-form">
+  <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" class="alarm-form">
     <el-form-item label="场景联动名称" prop="eventRuleName">
       <el-input v-model="formData.eventRuleName" size="mini"/>
     </el-form-item>

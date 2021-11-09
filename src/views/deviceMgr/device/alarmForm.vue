@@ -1,6 +1,6 @@
 <!-- 告警规则表单组件 -->
 <template>
-  <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" label-position="top" class="alarm-form">
+  <el-form ref="dialogForm" :rules="rules" :model="formData" :validate-on-rule-change="false" label-width="80px" class="alarm-form">
     <el-form-item label="告警名称" prop="eventRuleName">
       <el-input v-model="formData.eventRuleName" :disabled="formData.inherit =='1' && isDev" size="mini"/>
     </el-form-item>

@@ -1,7 +1,7 @@
 <!-- 创建/修改设备表单 -->
 <template>
   <div class="device-form">
-    <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
+    <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" class="dialog-form">
       <el-form-item label="设备ID" prop="deviceId">
         <el-input v-model="dialogForm.deviceId" size="mini" :disabled="state === '编辑'"/>
         <div v-if="state !== '编辑'" class="el-form-item-tips">
@@ -235,7 +235,8 @@ export default {
 <style lang="scss" scoped>
 .device-form {
   .bm-view {
-    width: 600px;
+    margin-left: 80px;
+    width: 520px;
     height: 500px;
     background-color: #F6F7FA;
   }

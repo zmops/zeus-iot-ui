@@ -23,7 +23,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'用户列表'" :state="state + '用户'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
         <template v-slot:main>
-          <el-form ref="userForm" :rules="rules" :model="item" label-width="80px" label-position="top" class="dialog-form">
+          <el-form ref="userForm" :rules="rules" :model="item" label-width="80px" class="dialog-form">
             <el-form-item label="帐号" prop="account">
               <el-input v-model="item.account" size="mini" :disabled="state === '编辑'" />
             </el-form-item>

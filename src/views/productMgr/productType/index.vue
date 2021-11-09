@@ -63,7 +63,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'产品分类列表'" :state="state + '产品分类'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
         <template v-slot:main>
-          <el-form ref="userForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
+          <el-form ref="userForm" :rules="rules" :model="dialogForm" label-width="80px" class="dialog-form">
             <el-form-item label="名称" prop="name">
               <el-input v-model="dialogForm.name" size="mini" />
             </el-form-item>

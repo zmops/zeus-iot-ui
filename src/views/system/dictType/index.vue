@@ -23,7 +23,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'字典列表'" :state="state + '字典'" :but-loading="butLoading" @submit="dicTypeSubmit" @cancel="close">
         <template v-slot:main>
-          <el-form ref="dictTypeForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
+          <el-form ref="dictTypeForm" :rules="rules" :model="dialogForm" label-width="80px" class="dialog-form">
             <el-form-item label="名称" prop="name">
               <el-input v-model="dialogForm.name" size="mini" />
             </el-form-item>
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <el-form ref="dictTypeForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
+        <el-form ref="dictTypeForm" :rules="rules" :model="dialogForm" label-width="80px" class="dialog-form">
           <el-form-item label="名称" prop="name">
             <el-input v-model="dialogForm.name" size="mini" />
           </el-form-item>

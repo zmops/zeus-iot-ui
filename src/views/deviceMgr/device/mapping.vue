@@ -39,7 +39,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'值映射列表'" :state="state + '值映射'" :but-loading="butLoading" @submit="handleSubmit" @cancel="dialogVisible = false">
         <template v-slot:main>
-          <el-form ref="mappingForm" :rules="mapRules" :model="mapItem" label-width="80px" label-position="top" class="dialog-form">
+          <el-form ref="mappingForm" :rules="mapRules" :model="mapItem" label-width="80px" class="dialog-form">
             <el-form-item label="方案名称" prop="valueMapName">
               <el-input v-model="mapItem.valueMapName" size="mini" />
             </el-form-item>

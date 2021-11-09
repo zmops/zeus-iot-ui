@@ -12,7 +12,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'变量列表'" :state="state + '变量'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
         <template v-slot:main>
-          <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="form">
+          <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" class="form">
             <el-form-item label="键" prop="key">
               <span class="zeus-bold">{$ </span>
               <el-input v-model="dialogForm.key" size="mini" class="macro" />
@@ -266,7 +266,7 @@ export default {
   .form{
     width: 600px;
     .macro{
-      width: 572px;
+      width: 492px;
     }
   }
 }

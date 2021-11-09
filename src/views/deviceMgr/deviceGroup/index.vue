@@ -23,7 +23,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'设备组列表'" :state="state + '设备组'" :but-loading="butLoading" @submit="handleSubmit" @cancel="close">
         <template v-slot:main>
-          <el-form ref="deviceGroupForm" :rules="deviceGroupRules" :model="item" label-width="80px" label-position="top" class="dialog-form">
+          <el-form ref="deviceGroupForm" :rules="deviceGroupRules" :model="item" label-width="80px" class="dialog-form">
             <el-form-item label="设备组名" prop="name">
               <el-input v-model="item.name" size="mini" />
             </el-form-item>

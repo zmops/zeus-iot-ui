@@ -14,7 +14,7 @@
     <div v-if="dialogVisible">
       <FormTemplate :up="'服务列表'" :state="state + '服务'" :but-loading="butLoading" @submit="submit" @cancel="close">
         <template v-slot:main>
-          <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" label-position="top" class="dialog-form">
+          <el-form ref="dialogForm" :rules="rules" :model="dialogForm" label-width="80px" class="dialog-form">
             <el-form-item label="服务名称" prop="name">
               <el-input v-model="dialogForm.name" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
             </el-form-item>

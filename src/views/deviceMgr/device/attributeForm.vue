@@ -1,6 +1,6 @@
 <!-- 属性表单 -->
 <template>
-  <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" label-position="top" class="attribute-form">
+  <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="100px" class="attribute-form">
     <el-form-item label="属性名称" prop="attrName">
       <el-input v-model="formData.attrName" size="mini" :disabled="disabled"/>
     </el-form-item>

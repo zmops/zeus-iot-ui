@@ -1,7 +1,7 @@
 <!-- 产品表单页面 -->
 <template>
   <div class="form-content">
-    <el-form ref="productForm" :rules="productRules" :model="form" label-width="80px" label-position="top" class="dialog-form">
+    <el-form ref="productForm" :rules="productRules" :model="form" label-width="80px" class="dialog-form">
       <el-form-item label="产品ID" prop="prodCode">
         <el-input v-model="form.prodCode" size="mini" />
       </el-form-item>
