@@ -308,7 +308,7 @@ export default {
                   message: '创建成功',
                   type: 'success'
                 })
-                this.dialogVisible = false
+                this.close()
                 this.getList()
               }
               this.butLoading = false
@@ -323,7 +323,7 @@ export default {
                   message: '创建成功',
                   type: 'success'
                 })
-                this.dialogVisible = false
+                this.close()
                 this.getList()
               }
               this.butLoading = false
@@ -339,7 +339,7 @@ export default {
                   message: '修改成功',
                   type: 'success'
                 })
-                this.dialogVisible = false
+                this.close()
                 this.getList()
               }
               this.butLoading = false
@@ -354,7 +354,7 @@ export default {
                   message: '修改成功',
                   type: 'success'
                 })
-                this.dialogVisible = false
+                this.close()
                 this.getList()
               }
               this.butLoading = false

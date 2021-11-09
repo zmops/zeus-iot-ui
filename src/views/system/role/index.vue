@@ -258,7 +258,7 @@ export default {
                   message: '修改成功',
                   type: 'success'
                 })
-                this.dialogVisible = false
+                this.close()
                 await this.getList()
               }
               this.butLoading = false
@@ -272,7 +272,7 @@ export default {
                   message: '添加成功',
                   type: 'success'
                 })
-                this.dialogVisible = false
+                this.close()
                 await this.getList()
               }
               this.butLoading = false

@@ -403,20 +403,20 @@ export default {
     },
     /* 提交表单 */
     dicTypeSubmit() {
-      this.$refs.dictTypeForm.validate(async(valid, errorFields) => {
+      this.$refs.dictTypeForm.validate((valid, errorFields) => {
         if (valid) {
           this.butLoading = true
           switch (this.state) {
             case '创建字典类型':
-              createDictType(this.dialogForm).then(async(res) => {
+              createDictType(this.dialogForm).then((res) => {
                 if (res.code == 200) {
                   this.$message({
                     message: '添加成功',
                     type: 'success'
                   })
-                  this.dialogVisible = false
+                  this.close()
                   this.dialogVisible2 = false
-                  await this.getList()
+                  this.getList()
                 }
                 this.butLoading = false
               }).catch(() => {
@@ -424,15 +424,15 @@ export default {
               })
               break
             case '编辑字典类型':
-              updateDictType(this.dialogForm).then(async(res) => {
+              updateDictType(this.dialogForm).then((res) => {
                 if (res.code == 200) {
                   this.$message({
                     message: '修改成功',
                     type: 'success'
                   })
-                  this.dialogVisible = false
+                  this.close()
                   this.dialogVisible2 = false
-                  await this.getList()
+                  this.getList()
                 }
                 this.butLoading = false
               }).catch(() => {
@@ -441,15 +441,15 @@ export default {
               break
             case '创建字典项':
               this.dialogForm.dictTypeId = this.dictTypeId
-              createDict(this.dialogForm).then(async(res) => {
+              createDict(this.dialogForm).then((res) => {
                 if (res.code == 200) {
                   this.$message({
                     message: '添加成功',
                     type: 'success'
                   })
-                  this.dialogVisible = false
+                  // this.close()
                   this.dialogVisible2 = false
-                  await this.allocation(this.dialogForm.dictTypeId)
+                  this.allocation(this.dialogForm.dictTypeId)
                 }
                 this.butLoading = false
               }).catch(() => {
@@ -457,15 +457,15 @@ export default {
               })
               break
             case '编辑字典项':
-              updateDict(this.dialogForm).then(async(res) => {
+              updateDict(this.dialogForm).then((res) => {
                 if (res.code == 200) {
                   this.$message({
                     message: '修改成功',
                     type: 'success'
                   })
-                  this.dialogVisible = false
+                  // this.close()
                   this.dialogVisible2 = false
-                  await this.allocation(this.dialogForm.dictTypeId)
+                  this.allocation(this.dialogForm.dictTypeId)
                 }
                 this.butLoading = false
               }).catch(() => {

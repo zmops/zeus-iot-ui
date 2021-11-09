@@ -271,6 +271,9 @@ export default {
   .el-dropdown-menu__item:hover{
     background: #f5f7fa !important;
   }
+  .popper__arrow::after{
+    border-bottom-color: #fff !important;
+  }
 }
 
 .aboutDialog{
