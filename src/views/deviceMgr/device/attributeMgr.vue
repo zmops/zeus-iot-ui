@@ -7,6 +7,7 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
+      :h="'calc(100% - 115px)'"
       :icon="$route.meta.icon24"
       @detail="detail"
     />
@@ -141,7 +142,6 @@ export default {
           show: true,
           width: 180,
           idName: 'attrId',
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -270,3 +270,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.attribute-mgr{
+  height: 100%;
+}
+</style>

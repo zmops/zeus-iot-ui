@@ -111,7 +111,6 @@ export default {
           width: 100,
           idName: 'userGroupId',
           show: true,
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -271,3 +270,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.user-group{
+  height: 100%;
+}
+</style>

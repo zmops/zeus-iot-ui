@@ -138,7 +138,6 @@ export default {
           show: true,
           width: 160,
           idName: 'deviceId',
-          fixed: 'right',
           buttons: [
             // {
             //   label: '编辑',

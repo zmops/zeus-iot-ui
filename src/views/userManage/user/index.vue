@@ -133,7 +133,6 @@ export default {
           show: true,
           width: 190,
           idName: 'userId',
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -377,7 +376,7 @@ export default {
 <style lang="scss" scoped>
 .user {
   width: 100%;
-  height: calc(100vh - 88px);
+  height: 100%;
 }
 .w100{
   width: 100%;

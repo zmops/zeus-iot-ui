@@ -7,6 +7,7 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
+      :h="'calc(100% - 51px)'"
       @detail="detail"
     />
     <div v-if="dialogVisible">
@@ -101,7 +102,6 @@ export default {
           show: true,
           width: 180,
           idName: 'hostmacroid',
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -243,25 +243,10 @@ export default {
 
 <style lang="scss" scoped>
 .variable {
+  height: calc(100% - 10px);
   width: 100%;
-  min-height: 70px;
-  background-color: #fff;
-  padding: 17px 16px 4px 16px;
+  //background-color: #fff;
   box-shadow: 6px 8px 16px #E2EAF2;
-
-  .tips{
-    width: 100%;
-    height: 32px;
-    line-height: 32px;
-    background-color: #CDE5FF;
-    color: #36435C;
-    font-size: 12px;
-    padding-left: 20px;
-
-    .icon{
-      margin-right: 4px;
-    }
-  }
 
   .form{
     width: 600px;

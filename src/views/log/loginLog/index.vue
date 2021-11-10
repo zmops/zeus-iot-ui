@@ -13,6 +13,8 @@
       v-loading="loading"
       :data="tableData"
       style="width: 100%"
+      size="small"
+      :height="'calc(100% - 242px)'"
       class="table">
       <el-table-column width="48">
         <template>
@@ -154,6 +156,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.business-log{
+  height: 100%;
+}
 .table{
   padding: 0 12px;
   font-size: 12px;

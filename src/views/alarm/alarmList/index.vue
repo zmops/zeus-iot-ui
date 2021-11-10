@@ -13,6 +13,7 @@
       v-loading="loading"
       :data="tableData"
       style="width: 100%"
+      :height="'calc(100% - 242px)'"
       class="table">
       <el-table-column width="48">
         <template>
@@ -277,6 +278,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.alarmList{
+  height: 100%;
+}
 .setting-buttons .setting-button {
   padding: 5px 10px;
   font-size: 12px;

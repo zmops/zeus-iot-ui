@@ -14,6 +14,7 @@
       ref="businessTable"
       v-loading="loading"
       :data="tableData"
+      :height="'calc(100% - 185px)'"
       stripe
       row-key="nodeId"
       :tree-props="{children: 'childrenNodes'}"

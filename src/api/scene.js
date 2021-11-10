@@ -9,6 +9,15 @@ export function getSceneByPage(data) {
   })
 }
 
+// 场景联动列表-不分页
+export function getSceneList(data) {
+  return request({
+    url: '/multiple/device/event/trigger/list',
+    method: 'post',
+    data
+  })
+}
+
 // 场景联动创建
 export function createScene(data) {
   return request({

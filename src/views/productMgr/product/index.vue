@@ -1,6 +1,6 @@
 <!-- 产品页面 -->
 <template>
-  <div class="business-log">
+  <div class="product">
     <ListHeadTemplate>
       <template v-slot:logo>
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
@@ -131,7 +131,6 @@ export default {
           width: 100,
           idName: 'productId',
           show: true,
-          fixed: 'right',
           buttons: [
             {
               label: '删除',
@@ -263,3 +262,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.product{
+  height: 100%;
+}
+</style>

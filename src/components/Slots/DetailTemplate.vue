@@ -143,7 +143,7 @@ export default {
 
 .detail-template {
   width: 100%;
-  height: calc(100vh - 94px);
+  height: calc(100% - 20px);
   padding: 0 20px 10px 0;
   background-color: #EFF4F9;
   display: flex;
@@ -345,6 +345,9 @@ export default {
           color: #1A84F9;
         }
       }
+    }
+    .detail-template-main{
+      height: calc(100% - 48px);
     }
   }
 }

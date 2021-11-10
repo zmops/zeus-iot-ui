@@ -7,6 +7,7 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
+      :h="'calc(100% - 115px)'"
       @detail="detail"
     />
     <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
@@ -135,7 +136,6 @@ export default {
           show: true,
           width: 270,
           idName: 'eventRuleId',
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -368,3 +368,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.alarm{
+  height: 100%;
+}
+</style>

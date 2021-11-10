@@ -123,7 +123,6 @@ export default {
           width: 200,
           show: true,
           idName: 'roleId',
-          fixed: 'right',
           buttons: [
             {
               label: '授权菜单',
@@ -348,3 +347,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.role{
+  height: 100%;
+}
+</style>

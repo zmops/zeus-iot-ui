@@ -1,6 +1,6 @@
 <!-- 设备组页面 -->
 <template>
-  <div class="business-log">
+  <div class="deviceGroup">
     <ListHeadTemplate>
       <template v-slot:logo>
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
@@ -105,7 +105,6 @@ export default {
           width: 100,
           show: true,
           idName: 'deviceGroupId',
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -250,3 +249,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.deviceGroup{
+  height: 100%;
+}
+</style>

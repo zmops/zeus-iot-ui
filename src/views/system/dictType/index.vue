@@ -203,7 +203,6 @@ export default {
           show: true,
           width: 180,
           idName: 'dictTypeId',
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -246,7 +245,6 @@ export default {
           prop: 'buttons',
           show: true,
           idName: 'dictId',
-          fixed: 'right',
           width: 180,
           buttons: [
             {
@@ -479,3 +477,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.dict-type{
+  height: 100%;
+}
+</style>

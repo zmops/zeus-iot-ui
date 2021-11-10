@@ -9,6 +9,15 @@ export function getUserList(data) {
   })
 }
 
+// 用户列表-不分页
+export function getUserList2(data) {
+  return request({
+    url: '/sys/user/list',
+    method: 'post',
+    data
+  })
+}
+
 // 用户新增
 export function createUser(data) {
   return request({

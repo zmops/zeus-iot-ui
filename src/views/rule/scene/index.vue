@@ -104,7 +104,6 @@ export default {
           show: true,
           width: 270,
           idName: 'eventRuleId',
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -328,4 +327,8 @@ export default {
   }
 }
 </script>
-
+<style lang="scss" scoped>
+.scene{
+  height: 100%;
+}
+</style>

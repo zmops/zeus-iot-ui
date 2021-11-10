@@ -119,7 +119,7 @@
             <el-col :span="12" class="zeus-mt-5">
               <div class="bg stat">
                 <svg-icon icon-class="zlssjkj" class="zeus-mr-5"/>
-                <span>总历史数据空间</span>
+                <span>场景触发次数</span>
                 <span class="zeus-right">{{ statistics.sceneTriggerNum || '-' }}</span>
               </div>
             </el-col>

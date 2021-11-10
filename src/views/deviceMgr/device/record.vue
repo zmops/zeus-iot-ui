@@ -17,6 +17,7 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
+      :h="'calc(100% - 115px)'"
       :icon="$route.meta.icon24"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
@@ -142,6 +143,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.record{
+  height: 100%;
+}
 .search{
   background-color: #F9FBFD;
   display: flex;

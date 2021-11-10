@@ -8,6 +8,7 @@
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
+      :h="'calc(100% - 115px)'"
       @detail="detail"
     />
     <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
@@ -130,7 +131,6 @@ export default {
           show: true,
           width: 180,
           idName: 'attrId',
-          fixed: 'right',
           buttons: [
             {
               label: '编辑',
@@ -261,3 +261,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.incident{
+  height: 100%;
+}
+</style>

@@ -64,7 +64,7 @@
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
-      :h="h"
+      :h="'calc(100% - 147px)'"
       :selection="multiple"
       @select="handleSelect"
       @selected="selected"
@@ -199,7 +199,6 @@ export default {
           show: true,
           width: 100,
           idName: 'deviceId',
-          fixed: 'right',
           buttons: [
             {
               label: '查看详情',
@@ -215,9 +214,12 @@ export default {
   created() {
     this.init()
     this.getList(true)
+    this.$nextTick(() => {
+      this.h = this.$refs.DeviceSelect.offsetHeight - 147
+    })
   },
   mounted() {
-    this.h = this.$refs.DeviceSelect.offsetHeight - 147
+
   },
   methods: {
     init() {

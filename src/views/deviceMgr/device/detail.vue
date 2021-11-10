@@ -182,3 +182,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.device-detail{
+  height: 100%;
+}
+</style>

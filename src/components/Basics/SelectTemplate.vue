@@ -4,7 +4,7 @@
     <el-select
       v-model="farther.form[keyName]"
       size="mini"
-      :placeholder="'请选择'+label"
+      :placeholder="placeholder ? placeholder : '请选择'+label"
       :style="{width:w +'px'}"
       :multiple="multiple"
       clearable
@@ -63,6 +63,11 @@ export default {
     multiple: {
       type: Boolean,
       default: false
+    },
+    /* 占位符 */
+    placeholder: {
+      type: String,
+      default: null
     }
   },
   data() {

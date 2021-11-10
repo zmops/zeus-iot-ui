@@ -1,6 +1,6 @@
 <!-- 设备页面 -->
 <template>
-  <div class="business-log">
+  <div class="device">
     <ListHeadTemplate>
       <template v-slot:logo>
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px"/>
@@ -147,7 +147,6 @@ export default {
           show: true,
           width: 160,
           idName: 'deviceId',
-          fixed: 'right',
           buttons: [
             {
               label: '删除',
@@ -170,7 +169,7 @@ export default {
       tableData: [],
       loading: false,
       total: 0,
-      size: 10,
+      size: 20,
       page: 1,
       typeList: [],
       state: '创建',
@@ -366,3 +365,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.device{
+  height: 100%;
+}
+</style>

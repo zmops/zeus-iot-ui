@@ -6,9 +6,8 @@
     :data="tableData"
     :header-cell-class-name="'business-table-header'"
     class="BusinessTable"
-    :max-height="h"
+    :height="h"
     :class="isRadio ? 'isRadio' : ''"
-    style="width: 100%"
     @select="handleSelect"
     @select-all="handleSelectAll"
     @row-click="handleRowClick"
@@ -89,6 +88,9 @@
             {{ scope.row[ item.prop ] ? '是' : '否' }}
           </span>
         </template>
+        <template v-else-if="item.device">
+          <div v-for="(i, ind) in scope.row[item.prop]" :key="ind" class="event" @click="toDev(i.deviceId)">{{ i.name }}</div>
+        </template>
         <template v-else>
           <span v-if="scope.row[item.prop]" :class="{event: item.event,weight: item.bold}" @click="detail(scope.row,item.event)">
             {{ scope.row[item.prop] }}
@@ -153,7 +155,7 @@ export default {
     h: {
       type: [Number, String],
       default() {
-        return 'aotu'
+        return 'calc(100% - 242px)'
       }
     },
     icon: {
@@ -225,6 +227,14 @@ export default {
     /* 设置表格选中 */
     setSelection(row) {
       this.$refs.businessTable.toggleRowSelection(row)
+    },
+    /* 跳转到详情页 */
+    toDev(id) {
+      const url = this.$router.resolve({
+        path: '/deviceMgr/device/detail',
+        query: { id }
+      })
+      window.open(url.href, '_blank')
     }
   }
 }
@@ -237,6 +247,7 @@ export default {
 .BusinessTable {
   //min-height: 550px;
   //height: 100%;
+  width: 100%;
   padding: 0 12px 12px 12px;
 
   .event {

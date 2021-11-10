@@ -185,7 +185,6 @@ export default {
           show: true,
           width: 160,
           idName: 'id',
-          fixed: 'right',
           buttons: [
             {
               label: '生成token',

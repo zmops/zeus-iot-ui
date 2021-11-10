@@ -253,7 +253,6 @@ export default {
           show: true,
           width: 100,
           idName: 'attrId',
-          fixed: 'right',
           buttons: [
             {
               label: '历史数据',
