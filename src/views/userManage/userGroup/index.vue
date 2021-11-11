@@ -235,7 +235,7 @@ export default {
       this.$refs.groupNameForm.validate(async(valid, errorFields) => {
         if (valid) {
           this.butLoading = true
-          if (this.item.userGroupId) {
+          if (this.state === '编辑') {
             updateUserGroup(this.item).then(async(res) => {
               if (res.code == 200) {
                 this.$message({

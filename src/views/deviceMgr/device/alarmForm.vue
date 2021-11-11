@@ -259,7 +259,7 @@ export default {
 
 <style lang="scss" scoped>
 .alarm-form {
-  width: 1050px;
+  width: 1100px;
   .add-btn {
     width: 100%;
     border-style: dashed;

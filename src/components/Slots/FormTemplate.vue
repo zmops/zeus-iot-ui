@@ -76,7 +76,7 @@ $width:600px;
       padding: 0 24px 0 16px;
       height: 33px;
       line-height: 33px;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
       font-style: normal;
       font-stretch: normal;

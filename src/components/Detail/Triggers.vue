@@ -29,7 +29,7 @@
         :value="i.attrId"
       />
     </el-select>
-    <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-mt-5 zeus-mb-5 zeus-inline-block">
+    <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-inline-block">
       <span class="zeus-mr-5">在</span>
       <el-select v-model="item.period" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
         <el-option label="时间" value="时间"/>
@@ -44,7 +44,7 @@
       <span v-else class="zeus-mr-5">次</span>
       <span class="zeus-mr-5">内</span>
     </div>
-    <div v-if="item.function ==='nodata'" class="zeus-mt-5 zeus-mb-5 zeus-inline-block">
+    <div v-if="item.function ==='nodata'" class="zeus-inline-block">
       <span class="zeus-mr-5">在</span>
       <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
       <el-select v-model="item.unit" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
@@ -54,7 +54,7 @@
       </el-select>
       <span class="zeus-mr-5">内</span>
     </div>
-    <div class="zeus-mt-5 zeus-inline-block">
+    <div class="zeus-inline-block">
       <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5"
                  @change="functionChange">
         <el-option label="最新值" value="last"/>
@@ -68,11 +68,11 @@
     </div>
     <el-select
       v-if="item.function === 'nodata' || (item.function === 'change' && (item.attrValueType == '1' || item.attrValueType == '4'))"
-      v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5 zeus-mt-5">
+      v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
       <el-option label="为真" value="1"/>
       <el-option label="为假" value="0"/>
     </el-select>
-    <div v-else class="zeus-mt-5 zeus-inline-block">
+    <div v-else class="zeus-inline-block">
       <el-select v-model="item.condition" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
         <el-option
           v-for="(i, index) in conditionList"
@@ -329,12 +329,12 @@ export default {
 
 <style lang="scss" scoped>
 .Triggers {
-  background-color: #E6EDF4;
+  background-color: #EFF4F9;
   padding: 8px;
   margin-bottom: 6px;
 
   .delete {
-    top: 10px;
+    top: 4px;
     right: 8px;
   }
 

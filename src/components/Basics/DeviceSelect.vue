@@ -6,7 +6,6 @@
           <el-cascader
             class="zeus-w100"
             size="mini"
-            clearable
             placeholder="请选择产品分类"
             v-model="prodTypes"
             :options="productTypeList"
@@ -15,7 +14,7 @@
           ></el-cascader>
         </el-col>
         <el-col :span="7">
-          <el-select v-model="form.productIds" multiple clearable filterable size="mini" placeholder="请选择产品" class="zeus-w100">
+          <el-select v-model="form.productIds" multiple filterable size="mini" placeholder="请选择产品" class="zeus-w100">
             <el-option
               v-for="(item, index) in productList"
               :key="index"
@@ -25,7 +24,7 @@
           </el-select>
         </el-col>
         <el-col :span="7">
-          <el-select v-model="form.deviceGroupIds" multiple clearable filterable size="mini" placeholder="请选择设备组" class="zeus-w100">
+          <el-select v-model="form.deviceGroupIds" multiple filterable size="mini" placeholder="请选择设备组" class="zeus-w100">
             <el-option
               v-for="item in deviceGroup"
               :key="item.deviceGroupId"
@@ -197,7 +196,7 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 100,
+          width: 120,
           idName: 'deviceId',
           buttons: [
             {

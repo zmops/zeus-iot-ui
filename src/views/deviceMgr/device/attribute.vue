@@ -1,6 +1,6 @@
 <!-- 设备详情-属性页面 -->
 <template>
-  <div>
+  <div style="height: 100%">
     <div class="zeus-mb-10 zeus-text-align-r">
       <a class="but" :class="switchover ? 'activity' : ''" @click="switchover = true"><svg-icon :icon-class="switchover ? 'attr_mode_activity' : 'attr_mode'" /></a>
       <a class="but zeus-ml-5" :class="switchover ? '' : 'activity'" @click="switchover = false"><svg-icon :icon-class="switchover ? 'attr_list' : 'attr_list_activity'" /></a>
@@ -49,14 +49,15 @@
           </el-col>
         </el-row>
         <el-empty v-else description="暂无数据"></el-empty>
-        <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
       </div>
       <BusinessTable
         v-else
         :table-data="tableData"
         :columns="columns2"
         :loading="loading"
+        :h="'calc(100% - 50px)'"
       />
+      <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
       <el-dialog
         v-dialogDrag
         :visible.sync="dialogVisible"
@@ -251,7 +252,7 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 100,
+          width: 130,
           idName: 'attrId',
           buttons: [
             {
@@ -542,6 +543,7 @@ export default {
   color: #1A84F9;
 }
 .attribute {
+  height: calc(100% - 40px);
   width: 100%;
   background-color: #fff;
   padding: 12px;

@@ -28,8 +28,9 @@
       label="序号"
     />
     <el-table-column v-if="icon" width="48">
-      <template>
-        <svg-icon :icon-class="icon" style="font-size: 24px" />
+      <template slot-scope="props">
+        <img v-if="props.row.icon" :src="props.row.icon" width="24px">
+        <svg-icon v-else :icon-class="icon" style="font-size: 24px" />
       </template>
     </el-table-column>
     <el-table-column v-if="openR" type="expand">
