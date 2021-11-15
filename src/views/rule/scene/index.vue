@@ -162,6 +162,7 @@ export default {
         eventLevel: '3',
         eventNotify: '1',
         status: 'ENABLE',
+        triggerType: '0',
         remark: '',
         expLogic: 'or',
         expList: [
@@ -306,6 +307,7 @@ export default {
         status: 'ENABLE',
         remark: '',
         expLogic: 'or',
+        triggerType: '0',
         expList: [
           {
             deviceId: '',

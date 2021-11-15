@@ -1,6 +1,6 @@
 <!-- 场景联动表单组件 -->
 <template>
-  <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="80px" class="alarm-form">
+  <el-form ref="dialogForm" :rules="rules" :model="formData" label-width="120px" class="alarm-form">
     <el-form-item label="场景联动名称" prop="eventRuleName">
       <el-input v-model="formData.eventRuleName" size="mini"/>
     </el-form-item>
@@ -29,14 +29,57 @@
     <el-form-item label="描述" prop="remark">
       <el-input v-model="formData.remark" type="textarea" rows="2" size="mini"/>
     </el-form-item>
-    <el-form-item label="触发条件" prop="expList">
+    <el-form-item label="触发类型" prop="triggerType">
+      <el-select v-model="formData.triggerType" placeholder="" size="mini" >
+        <el-option label="定时触发" value="1" />
+        <el-option label="条件触发" value="0" />
+      </el-select>
+    </el-form-item>
+    <el-form-item v-if="formData.triggerType === '1'" label="触发频率" prop="ds">
+      <el-select v-model="cronData.ds" placeholder="" size="mini" class="zeus-mr-5" style="width: 120px" @change="changeType">
+        <el-option label="每周" value="weekly" />
+        <el-option label="每月" value="month" />
+        <el-option label="一次性" value="disposable" />
+      </el-select>
+      <el-select v-if="cronData.ds === 'weekly'" v-model="cronData.weekly" multiple placeholder="请选择星期几" size="mini" class="zeus-mr-5" style="width: 502px" >
+        <el-option label="星期一" value="MON" />
+        <el-option label="星期二" value="TUE" />
+        <el-option label="星期三" value="WED" />
+        <el-option label="星期四" value="THU" />
+        <el-option label="星期五" value="FRI" />
+        <el-option label="星期六" value="SAT" />
+        <el-option label="星期日" value="SUN" />
+      </el-select>
+      <el-select v-if="cronData.ds === 'month'" v-model="cronData.month" multiple placeholder="请选择每月几号" size="mini" class="zeus-mr-5" style="width: 400px" >
+        <el-option v-for="num in 31" :key="num" :label="num" :value="num" />
+      </el-select>
+      <el-time-picker
+        v-if="cronData.ds === 'weekly' || cronData.ds === 'month'"
+        v-model="cronData.time"
+        size="mini"
+        value-format="s m H"
+        class="time"
+        placeholder="选择时间">
+      </el-time-picker>
+      <el-date-picker
+        v-else
+        v-model="cronData.time"
+        size="mini"
+        value-format="s m H d M yyyy"
+        type="datetime"
+        class="time"
+        placeholder="选择日期时间">
+      </el-date-picker>
+
+    </el-form-item>
+    <el-form-item v-if="formData.triggerType === '0'" label="触发条件" prop="expList">
       <div class="zeus-mb-10">
-        满足下列
+        <span style="color: #606266">满足下列</span>
         <el-select v-model="formData.expLogic" placeholder="" size="mini" class="select-w50">
           <el-option label="任意" value="or" />
           <el-option label="所有" value="and" />
         </el-select>
-        条件时,触发场景联动
+        <span style="color: #606266">条件时,触发场景联动</span>
       </div>
       <Triggers v-for="(item, index) in formData.expList" :key="item.guid" v-model="formData.expList[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="del" />
       <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
@@ -68,12 +111,59 @@ export default {
       }
     }
   },
+  computed: {
+    secondsText() {
+      const date = this.cronData.time
+      return date.split(' ')[0]
+    },
+    minutesText() {
+      const date = this.cronData.time
+      return date.split(' ')[1]
+    },
+    hoursText() {
+      const date = this.cronData.time
+      return date.split(' ')[2]
+    },
+    daysText() {
+      let days = ''
+      if (this.cronData.ds === 'disposable') {
+        const date = this.cronData.time
+        days = date.split(' ')[3]
+      }
+      return days
+    },
+    weeksText() {
+      return this.cronData.weekly.toString()
+    },
+    monthsText() {
+      let months = ''
+      if (this.cronData.ds === 'month') {
+        months = this.cronData.month.toString()
+      } else if (this.cronData.ds === 'disposable') {
+        const date = this.cronData.time
+        months = date.split(' ')[4]
+      }
+      return months
+    },
+    yearsText() {
+      let years = ''
+      if (this.cronData.ds === 'disposable') {
+        const date = this.cronData.time
+        years = date.split(' ')[5]
+      }
+      return years
+    },
+    cron() {
+      return `${this.secondsText || '*'} ${this.minutesText || '*'} ${this.hoursText || '*'} ${this.daysText || '*'} ${this.monthsText || '*'} ${this.weeksText || '?'} ${this.yearsText || '*'}`
+    },
+  },
   watch: {
     value: {
       deep: true,
       immediate: true,
       handler(val) {
         this.formData = val
+        this.rest()
       }
     }
   },
@@ -122,7 +212,13 @@ export default {
         { label: '高级', value: '4' },
         { label: '紧急', value: '5' }
       ],
-      deviceList: []
+      deviceList: [],
+      cronData: {
+        month: [],
+        weekly: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+        ds: 'weekly',
+        time: ''
+      }
     }
   },
   created() {
@@ -149,6 +245,7 @@ export default {
       })
     },
     validateForm() {
+      this.formData.scheduleConf = this.cron
       let flag = false
       this.$refs.dialogForm.validate((valid) => {
         flag = valid
@@ -191,6 +288,36 @@ export default {
         }
       }
       return true
+    },
+    changeType() {
+      this.cronData.month = []
+      this.cronData.weekly = []
+      this.cronData.time = ''
+    },
+    rest() {
+      let data = '* * * * * SUN,MON,TUE,WED,THU,FRI,SAT *'.split(' ')
+      if (this.formData.scheduleConf) {
+        data = this.formData.scheduleConf.split(' ')
+      }
+      let time = ''
+      if (data[0] !== '*' && data[1] !== '*' && data[2] !== '*') {
+        time = data[0] + ' ' + data[1] + ' ' + data[2]
+      }
+      if (data[0] !== '*' && data[1] !== '*' && data[2] !== '*' && data[3] !== '*' && data[4] !== '*' && data[6] !== '*') {
+        time = data[0] + ' ' + data[1] + ' ' + data[2] + ' ' + data[3] + ' ' + data[4] + ' ' + data[6]
+      }
+      this.cronData.time = time
+      if (data[5] !== '?') {
+        this.cronData.ds = 'weekly'
+        this.cronData.weekly = data[5].split(',')
+      } else {
+        if (data[6] !== '*') {
+          this.cronData.ds = 'disposable'
+        } else {
+          this.cronData.month = data[4].split(',')
+          this.cronData.ds = 'month'
+        }
+      }
     }
   }
 }
@@ -198,7 +325,7 @@ export default {
 
 <style lang="scss" scoped>
 .alarm-form {
-  width: 1050px;
+  width: 1100px;
   .add-btn {
     width: 100%;
     border-style: dashed;
@@ -209,7 +336,10 @@ export default {
       font-size: 12px!important;
     }
   }
-
+  .time ::v-deep.el-input__inner{
+    padding-left: 30px!important;
+    padding-right: 30px!important;
+  }
   .select-w50{
     width: 50px;
   }
