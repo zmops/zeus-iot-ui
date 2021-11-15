@@ -35,7 +35,7 @@
         <el-option label="条件触发" value="0" />
       </el-select>
     </el-form-item>
-    <el-form-item v-if="formData.triggerType === '1'" label="触发频率" prop="ds">
+    <el-form-item v-if="formData.triggerType === '1'" label="触发频率" prop="scheduleConf">
       <el-select v-model="cronData.ds" placeholder="" size="mini" class="zeus-mr-5" style="width: 120px" @change="changeType">
         <el-option label="每周" value="weekly" />
         <el-option label="每月" value="month" />
@@ -163,7 +163,6 @@ export default {
       immediate: true,
       handler(val) {
         this.formData = val
-        this.rest()
       }
     }
   },
@@ -188,6 +187,18 @@ export default {
       }
       callback()
     }
+    const checkData2 = (rule, value, callback) => {
+      if (this.cronData.time === '' || this.cronData.time === null) {
+        callback(new Error('请选择时间!'))
+      }
+      if (this.cronData.ds === 'weekly' && this.cronData.weekly.length === 0) {
+        callback(new Error('请选择星期!'))
+      }
+      if (this.cronData.ds === 'month' && this.cronData.month.length === 0) {
+        callback(new Error('请选择月份!'))
+      }
+      callback()
+    }
     return {
       formData: {},
       rules: {
@@ -195,8 +206,12 @@ export default {
           { required: true, message: '请输入告警名称', trigger: 'blur' }
         ],
         expList: [
-          { required: true, message: '请选择触发条件' },
+          { required: true, message: '请选择触发条件', trigger: 'xiaoyao' },
           { validator: checkData }
+        ],
+        scheduleConf: [
+          { required: true, message: '请选择触发频率', trigger: 'xiaoyao' },
+          { validator: checkData2 }
         ],
         deviceServices: [
           { required: true, message: '请选择执行动作' }
@@ -215,7 +230,7 @@ export default {
       deviceList: [],
       cronData: {
         month: [],
-        weekly: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+        weekly: [],
         ds: 'weekly',
         time: ''
       }
@@ -229,6 +244,9 @@ export default {
         this.deviceList = res.data
       }
     })
+  },
+  mounted() {
+    this.rest()
   },
   methods: {
     addTrigger() {
@@ -295,9 +313,11 @@ export default {
       this.cronData.time = ''
     },
     rest() {
-      let data = '* * * * * SUN,MON,TUE,WED,THU,FRI,SAT *'.split(' ')
+      let data = []
       if (this.formData.scheduleConf) {
         data = this.formData.scheduleConf.split(' ')
+      } else {
+        data = '* * * * * SUN,MON,TUE,WED,THU,FRI,SAT *'.split(' ')
       }
       let time = ''
       if (data[0] !== '*' && data[1] !== '*' && data[2] !== '*') {
@@ -311,6 +331,7 @@ export default {
         this.cronData.ds = 'weekly'
         this.cronData.weekly = data[5].split(',')
       } else {
+        this.cronData.weekly = []
         if (data[6] !== '*') {
           this.cronData.ds = 'disposable'
         } else {

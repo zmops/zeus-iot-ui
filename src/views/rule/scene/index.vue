@@ -219,10 +219,10 @@ export default {
       detailScene({ eventRuleId, deviceId: this.form.prodId }).then((res) => {
         if (res.code == 200) {
           this.dialogForm = res.data
+          this.state = '编辑'
+          this.dialogVisible = true
         }
       })
-      this.state = '编辑'
-      this.dialogVisible = true
     },
     add() {
       this.state = '创建'
