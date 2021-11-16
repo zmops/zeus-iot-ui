@@ -70,6 +70,7 @@
         class="time"
         placeholder="选择日期时间">
       </el-date-picker>
+      <div>{{cron}}</div>
     </el-form-item>
     <el-form-item v-if="formData.triggerType === '0'" label="触发条件" prop="expList">
       <div class="zeus-mb-10">
@@ -306,10 +307,13 @@ export default {
       }
       return true
     },
-    changeType() {
+    changeType(val) {
       this.cronData.month = []
       this.cronData.weekly = []
       this.cronData.time = ''
+      if (val === 'weekly') {
+        this.cronData.weekly = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+      }
     },
     rest() {
       let data = []
