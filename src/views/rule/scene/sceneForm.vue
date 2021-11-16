@@ -70,7 +70,6 @@
         class="time"
         placeholder="选择日期时间">
       </el-date-picker>
-
     </el-form-item>
     <el-form-item v-if="formData.triggerType === '0'" label="触发条件" prop="expList">
       <div class="zeus-mb-10">
@@ -126,7 +125,9 @@ export default {
     },
     daysText() {
       let days = ''
-      if (this.cronData.ds === 'disposable') {
+      if (this.cronData.ds === 'month') {
+        days = this.cronData.month.toString()
+      } else if (this.cronData.ds === 'disposable') {
         const date = this.cronData.time
         days = date.split(' ')[3]
       }
@@ -137,9 +138,7 @@ export default {
     },
     monthsText() {
       let months = ''
-      if (this.cronData.ds === 'month') {
-        months = this.cronData.month.toString()
-      } else if (this.cronData.ds === 'disposable') {
+      if (this.cronData.ds === 'disposable') {
         const date = this.cronData.time
         months = date.split(' ')[4]
       }
@@ -195,7 +194,7 @@ export default {
         callback(new Error('请选择星期!'))
       }
       if (this.cronData.ds === 'month' && this.cronData.month.length === 0) {
-        callback(new Error('请选择月份!'))
+        callback(new Error('请选择每月几号!'))
       }
       callback()
     }
@@ -335,7 +334,7 @@ export default {
         if (data[6] !== '*') {
           this.cronData.ds = 'disposable'
         } else {
-          this.cronData.month = data[4].split(',')
+          this.cronData.month = data[3].split(',')
           this.cronData.ds = 'month'
         }
       }

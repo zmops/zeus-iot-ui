@@ -164,6 +164,7 @@ export default {
         status: 'ENABLE',
         triggerType: '0',
         remark: '',
+        scheduleConf: '',
         expLogic: 'or',
         expList: [
           {
@@ -308,6 +309,7 @@ export default {
         remark: '',
         expLogic: 'or',
         triggerType: '0',
+        scheduleConf: '',
         expList: [
           {
             deviceId: '',
