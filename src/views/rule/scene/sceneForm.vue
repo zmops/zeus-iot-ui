@@ -70,7 +70,6 @@
         class="time"
         placeholder="选择日期时间">
       </el-date-picker>
-      <div>{{cron}}</div>
     </el-form-item>
     <el-form-item v-if="formData.triggerType === '0'" label="触发条件" prop="expList">
       <div class="zeus-mb-10">
@@ -207,7 +206,7 @@ export default {
         ],
         expList: [
           { required: true, message: '请选择触发条件', trigger: 'xiaoyao' },
-          { validator: checkData }
+          { validator: checkData, trigger: 'xiaoyao' }
         ],
         scheduleConf: [
           { required: true, message: '请选择触发频率', trigger: 'xiaoyao' },
