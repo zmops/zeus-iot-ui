@@ -90,7 +90,10 @@
           </span>
         </template>
         <template v-else-if="item.device">
-          <div v-for="(i, ind) in scope.row[item.prop]" :key="ind" class="event" @click="toDev(i.deviceId)">{{ i.name }}</div>
+          <div v-if="scope.row[item.prop] && scope.row[item.prop].length">
+            <div v-for="(i, ind) in scope.row[item.prop]" :key="ind" class="event" @click="toDev(i.deviceId)">{{ i.name }}</div>
+          </div>
+          <div v-else>-</div>
         </template>
         <template v-else>
           <span v-if="scope.row[item.prop]" :class="{event: item.event,weight: item.bold}" @click="detail(scope.row,item.event)">

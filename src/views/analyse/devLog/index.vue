@@ -19,7 +19,7 @@
           <SelectTemplate v-if="form.triggerType === '手动'" class="zeus-mr-5" :key-name="'triggerUser'" :label="'触发主体'" :option-id="'userId'" :option-name="'name'" :options="triggerList" />
           <DeviceSelectTemplate v-if="$route.meta.title === '联动日志'" class="zeus-mr-5" :key-name="'triggerDeviceId'" :label="'触发设备'" :option-id="'deviceId'" :option-name="'name'" :options="devTemplate" />
           <DeviceSelectTemplate class="zeus-mr-5" :key-name="'deviceId'" :label="$route.meta.title === '联动日志'?'执行设备':'设备名称'" :option-id="'deviceId'" :option-name="'name'" :options="devTemplate" />
-          <SelectTemplate v-if="$route.meta.title === '服务日志'" class="zeus-mr-5" :key-name="'content'" :label="'服务名称'" :option-id="'id'" :option-name="'name'" :options="serviceList" />
+          <SelectTemplate v-if="$route.meta.title === '服务日志'" class="zeus-mr-5" :key-name="'content'" :label="'服务名称'" :option-id="'name'" :option-name="'name'" :options="serviceList" />
           <SelectTemplate v-if="$route.meta.title === '事件日志'" class="zeus-mr-5" :key-name="'content'" :label="'事件名称'" :option-id="'attrName'" :option-name="'attrName'" :options="eventList" />
           <el-button size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_search" /></el-button>
         </div>
@@ -95,10 +95,14 @@ export default {
       handler(val) {
         if (val === '手动') {
           this.triggerList = this.userList
+          if (this.$route.meta.title === '服务日志') {
+            this.form.eventRuleId = ''
+          }
         } else if (val === '自动' || val === '') {
           this.triggerList = []
         } else if (val === '场景联动') {
           this.triggerList = this.sceneList
+          this.form.triggerUser = ''
         } else {
           this.form.triggerUser = ''
         }

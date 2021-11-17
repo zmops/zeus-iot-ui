@@ -55,13 +55,17 @@
       <span class="zeus-mr-5">内</span>
     </div>
     <div class="zeus-inline-block">
-      <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5"
-                 @change="functionChange">
+      <el-select v-if="item.attrValueType != '3' && item.attrValueType != '0'" v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
         <el-option label="最新值" value="last"/>
-        <el-option label="平均值" value="avg" :disabled="item.attrValueType != '3' && item.attrValueType != '0'"/>
-        <el-option label="最大值" value="max" :disabled="item.attrValueType != '3' && item.attrValueType != '0'"/>
-        <el-option label="最小值" value="min" :disabled="item.attrValueType != '3' && item.attrValueType != '0'"/>
-        <el-option label="和值" value="sum" :disabled="item.attrValueType != '3' && item.attrValueType != '0'"/>
+        <el-option label="值有变化" value="change"/>
+        <el-option label="无值" value="nodata"/>
+      </el-select>
+      <el-select v-else v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
+        <el-option label="最新值" value="last"/>
+        <el-option label="平均值" value="avg"/>
+        <el-option label="最大值" value="max"/>
+        <el-option label="最小值" value="min"/>
+        <el-option label="和值" value="sum"/>
         <el-option label="值有变化" value="change"/>
         <el-option label="无值" value="nodata"/>
       </el-select>
