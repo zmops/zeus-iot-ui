@@ -83,6 +83,30 @@
       <Triggers v-for="(item, index) in formData.expList" :key="item.guid" v-model="formData.expList[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="del" />
       <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
     </el-form-item>
+    <el-form-item v-if="formData.triggerType === '0'" label="生效时间段" prop="time">
+      <div class="el-form-item-tips">
+        <svg-icon icon-class="tips" class="icon" />
+        <span>规则在以下时间段内生效。若时间段为空，则永久生效。</span>
+      </div>
+      <div v-for="(item, index) in formData.timeIntervals2" :key="item.guid">
+        <el-time-picker
+          v-model="formData.timeIntervals2[index]"
+          is-range
+          range-separator="-"
+          size="mini"
+          value-format="Hms"
+          class="zeus-mr-5"
+          :clearable="false"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          placeholder="选择时间范围">
+        </el-time-picker>
+        <el-button type="text" @click="delTime(index)">
+          <svg-icon icon-class="but_del"></svg-icon>
+        </el-button>
+      </div>
+      <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addTime">增加生效时间段</el-button>
+    </el-form-item>
     <el-form-item label="执行动作" prop="deviceServices">
       <action v-for="(item, index) in formData.deviceServices" :key="item.guid" v-model="formData.deviceServices[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="delAction"></action>
       <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addAction">增加执行动作</el-button>
@@ -275,6 +299,9 @@ export default {
     del(index) {
       this.formData.expList.splice(index, 1)
     },
+    delTime(index) {
+      this.formData.timeIntervals2.splice(index, 1)
+    },
     delAction(index) {
       this.formData.deviceServices.splice(index, 1)
     },
@@ -286,6 +313,18 @@ export default {
           serviceId: ''
         })
       }
+    },
+    addTime() {
+      for (const item of this.formData.timeIntervals2) {
+        if (item[0] === '' || item[1] === '') {
+          this.$message({
+            message: '请填写完整当前生效时间段',
+            type: 'warning'
+          })
+          return false
+        }
+      }
+      this.formData.timeIntervals2.push(['', ''])
     },
     verification() {
       for (const item of this.formData.deviceServices) {
@@ -325,7 +364,7 @@ export default {
       if (data[0] !== '*' && data[1] !== '*' && data[2] !== '*') {
         time = data[0] + ' ' + data[1] + ' ' + data[2]
       }
-      if (data[0] !== '*' && data[1] !== '*' && data[2] !== '*' && data[3] !== '*' && data[4] !== '*' && data[6] !== '*') {
+      if (data[0] !== '*' && data[1] !== '*' && data[2] !== '*' && data[3] !== '?' && data[4] !== '*' && data[6] !== '*') {
         time = data[0] + ' ' + data[1] + ' ' + data[2] + ' ' + data[3] + ' ' + data[4] + ' ' + data[6]
       }
       this.cronData.time = time

@@ -166,6 +166,8 @@ export default {
         remark: '',
         scheduleConf: '',
         expLogic: 'or',
+        timeIntervals: null,
+        timeIntervals2: [],
         expList: [
           {
             deviceId: '',
@@ -268,6 +270,13 @@ export default {
       if (this.$refs.sceneForm.validateForm()) {
         this.butLoading = true
         this.dialogForm.classify = '1'
+        const arr = []
+        this.dialogForm.timeIntervals2.forEach((item) => {
+          if (item[0] !== '' && item[1] !== '') {
+            arr.push({ start: item[0], end: item[1] })
+          }
+        })
+        this.dialogForm.timeIntervals = arr
         if (this.state === '创建') {
           createScene(this.dialogForm).then((res) => {
             if (res.code == 200) {
@@ -310,6 +319,8 @@ export default {
         expLogic: 'or',
         triggerType: '0',
         scheduleConf: '',
+        timeIntervals: null,
+        timeIntervals2: [],
         expList: [
           {
             deviceId: '',
