@@ -222,6 +222,12 @@ export default {
       detailScene({ eventRuleId, deviceId: this.form.prodId }).then((res) => {
         if (res.code == 200) {
           this.dialogForm = res.data
+          if (this.dialogForm.timeExpList && this.dialogForm.timeExpList.length){
+            const arr = this.dialogForm.timeExpList.map((i) => {
+              return [i.startTime, i.endTime]
+            })
+            this.$set(this.dialogForm, 'timeIntervals2', arr)
+          }
           this.state = '编辑'
           this.dialogVisible = true
         }
@@ -273,7 +279,7 @@ export default {
         const arr = []
         this.dialogForm.timeIntervals2.forEach((item) => {
           if (item[0] !== '' && item[1] !== '') {
-            arr.push({ start: item[0], end: item[1] })
+            arr.push({ startTime: item[0], endTime: item[1] })
           }
         })
         this.dialogForm.timeIntervals = arr

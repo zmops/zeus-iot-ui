@@ -15,12 +15,12 @@
           <SelectTemplate v-if="$route.meta.title === '联动日志'" class="zeus-mr-5" :key-name="'eventRuleId'" :label="'场景联动'" :option-id="'eventRuleId'" :option-name="'eventRuleName'" :options="sceneList" />
           <SelectTemplate v-if="$route.meta.title === '联动日志'" class="zeus-mr-5" :key-name="'triggerType'" :label="'触发类型'" :options="['手动', '自动']" />
           <SelectTemplate v-if="$route.meta.title === '服务日志'" class="zeus-mr-5" :key-name="'triggerType'" :label="'触发类型'" :options="['场景联动', '手动']" />
-          <SelectTemplate v-if="form.triggerType === '场景联动'" class="zeus-mr-5" :key-name="'triggerUser'" :label="'触发主体'" :option-id="'eventRuleId'" :option-name="'eventRuleName'" :options="triggerList" />
+          <SelectTemplate v-if="form.triggerType === '场景联动'" class="zeus-mr-5" :key-name="'eventRuleId'" :label="'触发主体'" :option-id="'eventRuleId'" :option-name="'eventRuleName'" :options="triggerList" />
           <SelectTemplate v-if="form.triggerType === '手动'" class="zeus-mr-5" :key-name="'triggerUser'" :label="'触发主体'" :option-id="'userId'" :option-name="'name'" :options="triggerList" />
           <DeviceSelectTemplate v-if="$route.meta.title === '联动日志'" class="zeus-mr-5" :key-name="'triggerDeviceId'" :label="'触发设备'" :option-id="'deviceId'" :option-name="'name'" :options="devTemplate" />
           <DeviceSelectTemplate class="zeus-mr-5" :key-name="'deviceId'" :label="$route.meta.title === '联动日志'?'执行设备':'设备名称'" :option-id="'deviceId'" :option-name="'name'" :options="devTemplate" />
           <SelectTemplate v-if="$route.meta.title === '服务日志'" class="zeus-mr-5" :key-name="'content'" :label="'服务名称'" :option-id="'id'" :option-name="'name'" :options="serviceList" />
-          <SelectTemplate v-if="$route.meta.title === '事件日志'" class="zeus-mr-5" :key-name="'content'" :label="'事件名称'" :option-id="'attrId'" :option-name="'attrName'" :options="eventList" />
+          <SelectTemplate v-if="$route.meta.title === '事件日志'" class="zeus-mr-5" :key-name="'content'" :label="'事件名称'" :option-id="'attrName'" :option-name="'attrName'" :options="eventList" />
           <el-button size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_search" /></el-button>
         </div>
       </div>
