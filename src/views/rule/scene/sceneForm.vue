@@ -153,7 +153,7 @@ export default {
       return years
     },
     cron() {
-      return `${this.secondsText || '*'} ${this.minutesText || '*'} ${this.hoursText || '*'} ${this.daysText || '*'} ${this.monthsText || '*'} ${this.weeksText || '?'} ${this.yearsText || '*'}`
+      return `${this.secondsText || '*'} ${this.minutesText || '*'} ${this.hoursText || '*'} ${this.daysText || '?'} ${this.monthsText || '*'} ${this.weeksText || '?'} ${this.yearsText || '*'}`
     },
   },
   watch: {
