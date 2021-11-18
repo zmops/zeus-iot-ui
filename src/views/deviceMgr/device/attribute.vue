@@ -142,11 +142,12 @@
               <img class="chart-img" :src="img">
               <div class="zeus-absolute img-title"></div>
             </div>
-            <div v-if="dialogRadio === '表格' || !(itemData.valueType == 3 || itemData.valueType == 0)">
+            <div v-if="dialogRadio === '表格' || !(itemData.valueType == 3 || itemData.valueType == 0)" style="height: 560px">
               <BusinessTable
                 :table-data="tableData2"
                 :columns="columns"
                 :loading="loading2"
+                :h="'calc(100% - 42px)'"
               />
               <Pagination :total="total2" :size="size2" :current-page="page2" @handleCurrentChange="handleCurrentChange2"/>
             </div>

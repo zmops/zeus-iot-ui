@@ -19,7 +19,7 @@
       @proDetail="proDetail"
     />
     <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
-    <div v-if="dialogVisible">
+    <div v-if="dialogVisible" style="padding-bottom: 12px">
       <FormTemplate :up="'设备列表'" :state="state + '设备'" :but-loading="butLoading" @submit="submit" @cancel="close">
         <template v-slot:main>
           <deviceForm v-if="dialogVisible" ref="deviceForm" v-model="dialogForm" :state="state" :product-list="productList" :device-group="deviceGroup"/>
@@ -145,7 +145,7 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 160,
+          width: 180,
           idName: 'deviceId',
           buttons: [
             {

@@ -34,7 +34,7 @@
           </el-select>
         </el-col>
         <el-col :span="3">
-          <el-button round size="mini" class="but" @click="reset"><i class="el-icon-refresh-left"/> 重置</el-button>
+          <el-button round size="mini" class="but" @click="reset"><svg-icon icon-class="list_reset" /> 重置</el-button>
         </el-col>
       </el-row>
       <el-row :gutter="10">
@@ -45,7 +45,7 @@
           <el-input v-model="form.deviceId" size="mini" placeholder="请输入设备ID"/>
         </el-col>
         <el-col :span="3" :offset="7" class="zeus-mt-10">
-          <el-button round size="mini" class="but" @click="getList"><i class="el-icon-zoom-in"/> 搜索</el-button>
+          <el-button round size="mini" class="but" @click="getList"><svg-icon icon-class="list_search" /> 搜索</el-button>
         </el-col>
       </el-row>
     </div>
@@ -360,6 +360,7 @@ export default {
       padding: 2px;
       border-radius: 25px;
       border: 1px #CCD3DB solid;
+      background-color: #F9FBFD;
       display: flex;
 
       .radio-button {

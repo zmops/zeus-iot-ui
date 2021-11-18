@@ -171,7 +171,7 @@ export default {
         {
           label: '联动服务',
           prop: 'buttons',
-          width: 100,
+          width: 120,
           show: true,
           idName: 'eventRuleId',
           buttons: [

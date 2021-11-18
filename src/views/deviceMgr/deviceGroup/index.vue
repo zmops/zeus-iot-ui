@@ -102,7 +102,7 @@ export default {
         {
           label: '',
           prop: 'buttons',
-          width: 100,
+          width: 120,
           show: true,
           idName: 'deviceGroupId',
           buttons: [

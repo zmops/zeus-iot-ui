@@ -7,6 +7,7 @@
         type="datetimerange"
         clearable
         size="mini"
+        popper-class="globalOverviewDate"
         prefix-icon="el-icon-date"
         value-format="timestamp"
         range-separator="-"
@@ -364,6 +365,12 @@ export default {
   .data-size {
     height: 255px;
   }
+}
 
+</style>
+<style lang="scss">
+.globalOverviewDate{
+  right: 30px!important;
+  left: unset!important;
 }
 </style>

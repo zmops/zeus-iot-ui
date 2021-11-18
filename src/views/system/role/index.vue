@@ -120,7 +120,7 @@ export default {
         {
           label: '',
           prop: 'buttons',
-          width: 200,
+          width: 220,
           show: true,
           idName: 'roleId',
           buttons: [

@@ -128,7 +128,7 @@ export default {
         {
           label: '',
           prop: 'buttons',
-          width: 100,
+          width: 120,
           idName: 'productId',
           show: true,
           buttons: [
