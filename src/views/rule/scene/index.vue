@@ -227,6 +227,8 @@ export default {
               return [i.startTime, i.endTime]
             })
             this.$set(this.dialogForm, 'timeIntervals2', arr)
+          } else {
+            this.$set(this.dialogForm, 'timeIntervals2', [])
           }
           this.state = '编辑'
           this.dialogVisible = true
