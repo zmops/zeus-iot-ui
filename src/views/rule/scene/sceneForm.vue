@@ -94,7 +94,7 @@
           is-range
           range-separator="-"
           size="mini"
-          value-format="Hms"
+          value-format="HHmmss"
           class="zeus-mr-5"
           :clearable="false"
           start-placeholder="开始时间"
