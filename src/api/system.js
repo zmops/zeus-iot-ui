@@ -266,6 +266,31 @@ export function getMediaTypeList() {
     method: 'get'
   })
 }
+// 通知方式-查询邮件
+export function getMailSetting() {
+  return request({
+    url: '/mailSetting/get',
+    method: 'get'
+  })
+}
+
+/* 测试邮件设置 */
+export function testEmailSettings(data) {
+  return request({
+    url: '/mailSetting/test',
+    method: 'post',
+    data
+  })
+}
+
+/* 更新邮件设置 */
+export function updateEmailSettings(data) {
+  return request({
+    url: '/mailSetting/update',
+    method: 'post',
+    data
+  })
+}
 
 // 通知方式-修改
 export function updateMediaType(data) {
