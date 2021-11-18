@@ -1,7 +1,7 @@
 <!-- 产品分类页面 -->
 <template>
   <div class="product-type">
-    <ListHeadTemplate v-if="!dialogVisible">
+    <ListHeadTemplate>
       <template v-slot:logo>
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px" />
       </template>

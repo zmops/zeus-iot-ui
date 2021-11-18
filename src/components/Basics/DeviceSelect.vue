@@ -34,7 +34,7 @@
           </el-select>
         </el-col>
         <el-col :span="3">
-          <el-button round size="mini" class="but" @click="reset"><svg-icon icon-class="list_reset" /> 重置</el-button>
+          <el-button round size="mini" class="but" @click="reset"><svg-icon icon-class="cz" /> 重置</el-button>
         </el-col>
       </el-row>
       <el-row :gutter="10">

@@ -12,7 +12,7 @@
     <el-table
       v-loading="loading"
       :data="tableData"
-      style="width: 100%"
+      style="width: 100%;padding: 0 12px 12px 12px;"
       :height="'calc(100% - 242px)'"
       class="table">
       <el-table-column width="48">
