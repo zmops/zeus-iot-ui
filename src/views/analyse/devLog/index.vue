@@ -110,6 +110,7 @@ export default {
     },
     'form.deviceId': {
       handler(prodId) {
+        this.form.content = ''
         if (prodId) {
           if (this.$route.meta.title === '服务日志') {
             getServiceList({ prodId }).then((res) => {

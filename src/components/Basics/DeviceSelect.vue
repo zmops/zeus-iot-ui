@@ -7,6 +7,7 @@
             class="zeus-w100"
             size="mini"
             placeholder="请选择产品分类"
+            popper-class="device-cascader"
             v-model="prodTypes"
             :options="productTypeList"
             :show-all-levels="false"
@@ -378,6 +379,31 @@ export default {
       }
 
     }
+  }
+}
+</style>
+<style lang="scss">
+.device-cascader{
+  background-color: #242E42;
+
+  .el-checkbox__input.is-checked .el-checkbox__inner{
+    background-color: #1A84F9!important;
+    border-color: #1A84F9!important;
+  }
+
+  .el-cascader-node__label{
+    color: #fff;
+  }
+
+  .el-cascader-node{
+
+    &:hover{
+      background-color: #36435C;
+    }
+  }
+
+  .popper__arrow:after{
+    border-bottom-color: #242E42!important;
   }
 }
 </style>
