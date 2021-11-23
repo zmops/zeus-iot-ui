@@ -1,7 +1,7 @@
 <!-- 触发条件组件 -->
 <template>
   <div class="Triggers zeus-relative">
-    <el-select v-if="isDev" v-model="item.deviceId" :disabled="disabled" size="mini" placeholder="请选择设备" :popper-class="'xlk'" @focus="dialogVisible = true" clearable class="select1 zeus-mr-5">
+    <el-select v-if="isDev" v-model="item.deviceId" :disabled="disabled" size="mini" placeholder="请选择设备" :popper-class="'xlk'" @focus="dialogVisible = true" clearable class="select2 zeus-mr-5">
       <el-option
         v-for="(i, index) in deviceList"
         :key="index"
@@ -13,7 +13,7 @@
       <el-option label="属性" value="属性"/>
       <el-option label="事件" value="事件"/>
     </el-select>
-    <el-select v-if="item.productAttrType === '属性'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择属性" size="mini" class="select2 zeus-mr-5" @change="attrChange">
+    <el-select v-if="item.productAttrType === '属性'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择属性" size="mini" class="select1 zeus-mr-5" @change="attrChange">
       <el-option
         v-for="(i, index) in deviceAttribute"
         :key="index"
@@ -21,7 +21,7 @@
         :value="i.attrId"
       />
     </el-select>
-    <el-select v-if="item.productAttrType === '事件'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择事件" size="mini" class="select2 zeus-mr-5" @change="eventChange">
+    <el-select v-if="item.productAttrType === '事件'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择事件" size="mini" class="select1 zeus-mr-5" @change="eventChange">
       <el-option
         v-for="(i, index) in incidentList"
         :key="index"
@@ -347,11 +347,11 @@ export default {
   }
 
   .select2 {
-    width: 130px;
+    width: 150px;
   }
 
   .select3 {
-    width: 60px;
+    width: 70px;
   }
 
   .input {

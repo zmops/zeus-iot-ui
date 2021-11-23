@@ -46,7 +46,7 @@
               解决
             </el-button>
           </span>
-          <span v-else-if="item.prop === 'deviceName'" class="event" @click="detail(scope.row.deviceId)">
+          <span v-else-if="item.prop === 'deviceIdName'" class="event" @click="detail(scope.row.deviceId)">
             {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
           </span>
           <span v-else>
@@ -113,7 +113,7 @@ export default {
         {
           label: '设备',
           prop: 'deviceIdName',
-          event: true,
+          event: 'detail',
           show: true
         },
         {
@@ -199,6 +199,9 @@ export default {
       if (this.form.time && this.form.time.length) {
         this.form.timeFrom = this.form.time[0] / 1000
         this.form.timeTill = this.form.time[1] / 1000
+      } else {
+        this.form.timeFrom = ''
+        this.form.timeTill = ''
       }
       getAlarmByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
         this.loading = false

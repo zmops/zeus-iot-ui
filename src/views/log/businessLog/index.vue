@@ -129,6 +129,9 @@ export default {
       if (this.form.time && this.form.time.length) {
         this.form.beginTime = this.form.time[0]
         this.form.endTime = this.form.time[1]
+      } else {
+        this.form.beginTime = ''
+        this.form.endTime = ''
       }
       this.getList()
     },

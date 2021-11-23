@@ -74,7 +74,7 @@
     <el-form-item v-if="formData.triggerType === '0'" label="触发条件" prop="expList">
       <div class="zeus-mb-10">
         <span style="color: #606266">满足下列</span>
-        <el-select v-model="formData.expLogic" placeholder="" size="mini" class="select-w50">
+        <el-select v-model="formData.expLogic" placeholder="" size="mini" class="select-w50 zeus-ml-5 zeus-mr-5">
           <el-option label="任意" value="or" />
           <el-option label="所有" value="and" />
         </el-select>
@@ -387,7 +387,7 @@ export default {
 
 <style lang="scss" scoped>
 .alarm-form {
-  width: 1100px;
+  width: 1175px;
   .add-btn {
     width: 100%;
     border-style: dashed;
