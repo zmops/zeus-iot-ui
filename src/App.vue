@@ -48,14 +48,15 @@ export default {
           obj = {}
         }
         self.msgObj = obj
+        console.log(obj)
         if (show && obj.msg) {
           self.$notify.closeAll()
           self.$notify({
-            title: '设备告警提醒',
+            title: obj.body['${alarmStatus}'] + '提醒',
             iconClass: 'el-icon-warning-outline',
             customClass: 'msg-pop',
             duration: 20000,
-            type: 'warning',
+            type: obj.body['${alarmStatus}'] === '告警恢复' ? 'success' : 'warning',
             dangerouslyUseHTMLString: true,
             message: `<div>${obj.msg}</div>`,
             onClose() {

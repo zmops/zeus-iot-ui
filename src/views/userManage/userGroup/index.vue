@@ -142,6 +142,7 @@ export default {
       dialogVisible: false,
       item: {
         userGroupId: '',
+        deviceGroupIds: [],
         groupName: '',
         remark: ''
       },
@@ -203,7 +204,7 @@ export default {
         }
       }
       if (this.item.groupIds) {
-        this.item.deviceGroupIds = this.item.groupIds.split(',')
+        this.$set(this.item, 'deviceGroupIds', this.item.groupIds.split(','))
       }
       this.state = '编辑'
       this.dialogVisible = true
@@ -235,6 +236,7 @@ export default {
       this.$refs.groupNameForm.validate(async(valid, errorFields) => {
         if (valid) {
           this.butLoading = true
+          this.$delete(this.item, 'groupIds')
           if (this.state === '编辑') {
             updateUserGroup(this.item).then(async(res) => {
               if (res.code == 200) {

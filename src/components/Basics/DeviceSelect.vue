@@ -395,6 +395,10 @@ export default {
     color: #fff;
   }
 
+  .el-cascader-node:not(.is-disabled):hover, .el-cascader-node:not(.is-disabled):focus{
+    background: #36435C!important;
+  }
+
   .el-cascader-node{
 
     &:hover{

@@ -73,6 +73,7 @@
                 v-model="dialogForm.pIds"
                 clearable
                 size="mini"
+                popper-class="device-cascader"
                 class="zeus-w100"
                 :options="tableData"
                 :props="{ checkStrictly: true, value:'nodeId', label:'name', children:'childrenNodes' }"

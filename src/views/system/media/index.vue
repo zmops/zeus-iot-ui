@@ -193,9 +193,11 @@ export default {
       //   severity,
       //   silent
       // }
-      this.form = res
-      if (this.form.silent === undefined) {
-        this.form.silent = '3'
+      if (res.code == '200') {
+        this.form = res.data
+        if (this.form.silent === undefined) {
+          this.form.silent = '3'
+        }
       }
     })
     this.getList()
@@ -287,8 +289,8 @@ export default {
         if (valid) {
           if (!this.form.receiver) {
             this.$message({
-              type: 'success',
-              message: '请输入测试收件人邮箱',
+              type: 'error',
+              message: '请输入测试收件人邮箱'
             })
             return false
           }
@@ -303,12 +305,12 @@ export default {
               if (res.data.status === 'success') {
                 this.$message({
                   type: 'success',
-                  message: '测试连接成功',
+                  message: '测试连接成功'
                 })
               } else {
                 this.$message({
                   type: 'error',
-                  message: res.data.msg,
+                  message: res.data.msg
                 })
               }
 
