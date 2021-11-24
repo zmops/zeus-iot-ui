@@ -7,6 +7,7 @@
       :columns="columns"
       :loading="loading"
       :icon="$route.meta.icon24"
+      :h="'calc(100% - 115px)'"
     />
     <Pagination :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange" />
     <el-dialog
@@ -281,3 +282,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.alarm {
+  height: 100%;
+  .bm-view {
+    width: 600px;
+    height: 500px;
+  }
+}
+</style>
