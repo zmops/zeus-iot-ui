@@ -1,93 +1,121 @@
 <!-- 触发条件组件 -->
 <template>
   <div class="Triggers zeus-relative">
-    <el-select v-if="isDev" v-model="item.deviceId" :disabled="disabled" size="mini" placeholder="请选择设备" :popper-class="'xlk'" @focus="dialogVisible = true" clearable class="select2 zeus-mr-5">
-      <el-option
-        v-for="(i, index) in deviceList"
-        :key="index"
-        :label="i.name"
-        :value="i.deviceId"
-      />
-    </el-select>
-    <el-select v-model="item.productAttrType" :disabled="disabled" size="mini" class="select3 zeus-mr-5" @change="item.productAttrId = ''">
-      <el-option label="属性" value="属性"/>
-      <el-option label="事件" value="事件"/>
-    </el-select>
-    <el-select v-if="item.productAttrType === '属性'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择属性" size="mini" class="select1 zeus-mr-5" @change="attrChange">
-      <el-option
-        v-for="(i, index) in deviceAttribute"
-        :key="index"
-        :label="i.attrName"
-        :value="i.attrId"
-      />
-    </el-select>
-    <el-select v-if="item.productAttrType === '事件'" v-model="item.productAttrId" :disabled="disabled" placeholder="请选择事件" size="mini" class="select1 zeus-mr-5" @change="eventChange">
-      <el-option
-        v-for="(i, index) in incidentList"
-        :key="index"
-        :label="i.attrName"
-        :value="i.attrId"
-      />
-    </el-select>
-    <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-inline-block">
-      <span class="zeus-mr-5">在</span>
-      <el-select v-model="item.period" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
-        <el-option label="时间" value="时间"/>
-        <el-option label="周期" value="周期"/>
-      </el-select>
-      <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
-      <el-select v-if="item.period === '时间' " :disabled="disabled" v-model="item.unit" size="mini" class="select3 zeus-mr-5">
-        <el-option label="秒" value="s"/>
-        <el-option label="分钟" value="m"/>
-        <el-option label="小时" value="h"/>
-      </el-select>
-      <span v-else class="zeus-mr-5">次</span>
-      <span class="zeus-mr-5">内</span>
-    </div>
-    <div v-if="item.function ==='nodata'" class="zeus-inline-block">
-      <span class="zeus-mr-5">在</span>
-      <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
-      <el-select v-model="item.unit" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
-        <el-option label="秒" value="s"/>
-        <el-option label="分钟" value="m"/>
-        <el-option label="小时" value="h"/>
-      </el-select>
-      <span class="zeus-mr-5">内</span>
-    </div>
-    <div class="zeus-inline-block">
-      <el-select v-if="item.attrValueType != '3' && item.attrValueType != '0'" v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
-        <el-option label="最新值" value="last"/>
-        <el-option label="值有变化" value="change"/>
-        <el-option label="无值" value="nodata"/>
-      </el-select>
-      <el-select v-else v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
-        <el-option label="最新值" value="last"/>
-        <el-option label="平均值" value="avg"/>
-        <el-option label="最大值" value="max"/>
-        <el-option label="最小值" value="min"/>
-        <el-option label="和值" value="sum"/>
-        <el-option label="值有变化" value="change"/>
-        <el-option label="无值" value="nodata"/>
-      </el-select>
-    </div>
-    <el-select
-      v-if="item.function === 'nodata' || (item.function === 'change' && (item.attrValueType == '1' || item.attrValueType == '4'))"
-      v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
-      <el-option label="为真" value="1"/>
-      <el-option label="为假" value="0"/>
-    </el-select>
-    <div v-else class="zeus-inline-block">
-      <el-select v-model="item.condition" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
-        <el-option
-          v-for="(i, index) in conditionList"
-          :key="index"
-          :label="i.label"
-          :value="i.value"
-        />
-      </el-select>
-      <el-input v-model="item.value" :disabled="disabled" size="mini" class="input zeus-mr-10"/>
-      <span>{{ units }}</span>
-    </div>
+    <el-form ref="triggersForm" :rules="rules" :model="item" label-width="0px" class="alarm-form">
+      <el-form-item v-if="isDev" prop="deviceId">
+        <el-select v-model="item.deviceId" :disabled="disabled" size="mini" placeholder="请选择设备" :popper-class="'xlk'" @focus="dialogVisible = true" clearable class="select2 zeus-mr-5">
+          <el-option
+            v-for="(i, index) in deviceList"
+            :key="index"
+            :label="i.name"
+            :value="i.deviceId"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-select v-model="item.productAttrType" :disabled="disabled" size="mini" class="select3 zeus-mr-5" @change="item.productAttrId = ''">
+          <el-option label="属性" value="属性"/>
+          <el-option label="事件" value="事件"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="item.productAttrType === '属性'" prop="productAttrId">
+        <el-select v-model="item.productAttrId" :disabled="disabled" placeholder="请选择属性" size="mini" class="select1 zeus-mr-5" @change="attrChange">
+          <el-option
+            v-for="(i, index) in deviceAttribute"
+            :key="index"
+            :label="i.attrName"
+            :value="i.attrId"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="item.productAttrType === '事件'" prop="productAttrId">
+        <el-select v-model="item.productAttrId" :disabled="disabled" placeholder="请选择事件" size="mini" class="select1 zeus-mr-5" @change="eventChange">
+          <el-option
+            v-for="(i, index) in incidentList"
+            :key="index"
+            :label="i.attrName"
+            :value="i.attrId"
+          />
+        </el-select>
+      </el-form-item>
+      <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-inline-block">
+        <span class="zeus-mr-5 vt">在</span>
+        <el-form-item prop="period">
+          <el-select v-model="item.period" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
+            <el-option label="时间" value="时间"/>
+            <el-option label="周期" value="周期"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="scope">
+          <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
+        </el-form-item>
+        <el-form-item v-if="item.period === '时间' " prop="unit">
+          <el-select :disabled="disabled" v-model="item.unit" size="mini" class="select3 zeus-mr-5">
+            <el-option label="秒" value="s"/>
+            <el-option label="分钟" value="m"/>
+            <el-option label="小时" value="h"/>
+          </el-select>
+        </el-form-item>
+        <span v-else class="zeus-mr-5 vt">次</span>
+        <span class="zeus-mr-5 vt">内</span>
+      </div>
+      <div v-if="item.function ==='nodata'" class="zeus-inline-block">
+        <span class="zeus-mr-5 vt">在</span>
+        <el-form-item prop="scope">
+          <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
+        </el-form-item>
+        <el-form-item prop="unit">
+          <el-select v-model="item.unit" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
+            <el-option label="秒" value="s"/>
+            <el-option label="分钟" value="m"/>
+            <el-option label="小时" value="h"/>
+          </el-select>
+        </el-form-item>
+        <span class="zeus-mr-5 vt">内</span>
+      </div>
+      <div class="zeus-inline-block">
+        <el-form-item v-if="item.attrValueType != '3' && item.attrValueType != '0'" prop="function">
+          <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
+            <el-option label="最新值" value="last"/>
+            <el-option label="值有变化" value="change"/>
+            <el-option label="无值" value="nodata"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-else prop="function">
+          <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
+            <el-option label="最新值" value="last"/>
+            <el-option label="平均值" value="avg"/>
+            <el-option label="最大值" value="max"/>
+            <el-option label="最小值" value="min"/>
+            <el-option label="和值" value="sum"/>
+            <el-option label="值有变化" value="change"/>
+            <el-option label="无值" value="nodata"/>
+          </el-select>
+        </el-form-item>
+      </div>
+      <el-form-item v-if="item.function === 'nodata' || (item.function === 'change' && (item.attrValueType == '1' || item.attrValueType == '4'))" prop="value">
+        <el-select v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
+          <el-option label="为真" value="1"/>
+          <el-option label="为假" value="0"/>
+        </el-select>
+      </el-form-item>
+      <div v-else class="zeus-inline-block">
+        <el-form-item prop="condition">
+          <el-select v-model="item.condition" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
+            <el-option
+              v-for="(i, index) in conditionList"
+              :key="index"
+              :label="i.label"
+              :value="i.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="value">
+          <el-input v-model="item.value" :disabled="disabled" size="mini" class="input zeus-mr-10"/>
+        </el-form-item>
+        <span class="vt">{{ units }}</span>
+      </div>
+    </el-form>
     <el-button type="text" :disabled="disabled" class="zeus-absolute delete" @click="del()">
       <svg-icon icon-class="but_del"></svg-icon>
     </el-button>
@@ -182,7 +210,39 @@ export default {
         { label: '<>', value: '<>' },
         { label: '>=', value: '>=' },
         { label: '<=', value: '<=' }
-      ]
+      ],
+      rules: {
+        deviceId: [
+          { required: true, message: '请选择设备', trigger: 'change' }
+        ],
+        productAttrId: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        // productAttrId2: [
+        //   { required: true, message: '请选择事件', trigger: 'change' }
+        // ],
+        period: [
+          { required: true, message: '请选择时间或者周期', trigger: 'change' }
+        ],
+        scope: [
+          { required: true, message: '请输入值', trigger: 'blur' }
+        ],
+        unit: [
+          { required: true, message: '请选择单位', trigger: 'change' }
+        ],
+        function: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        value: [
+          { required: true, message: '当前值不能为空', trigger: 'change' }
+        ],
+        // value: [
+        //   { required: true, message: '请输入值', trigger: 'change' }
+        // ],
+        condition: [
+          { required: true, message: '请选择运算符', trigger: 'change' }
+        ]
+      }
     }
   },
   watch: {
@@ -326,6 +386,13 @@ export default {
     },
     del() {
       this.$emit('del', this.ind)
+    },
+    validateForm() {
+      let flag = false
+      this.$refs.triggersForm.validate((valid) => {
+        flag = valid
+      })
+      return flag
     }
   }
 }
@@ -342,16 +409,32 @@ export default {
     right: 8px;
   }
 
+  .vt{
+    vertical-align:top;
+  }
+
   .select1 {
     width: 130px;
   }
 
   .select2 {
     width: 150px;
+
+    ::v-deep.el-input__inner{
+      width: 150px!important;
+      text-overflow: ellipsis!important;
+      white-space: nowrap!important;
+      overflow: hidden!important;
+    }
+  }
+
+  ::v-deep.el-form-item{
+    display: inline-block!important;
+    vertical-align: top;
   }
 
   .select3 {
-    width: 70px;
+    width: 75px;
   }
 
   .input {

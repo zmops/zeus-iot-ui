@@ -341,11 +341,13 @@ export default {
       }
       this.$refs.mainRuleForm.validate(async (valid, errorFields) => {
         if (valid) {
-          updateEmailSettings(this.form).then(() => {
-            this.$message({
-              type: 'success',
-              message: '消息设置保存成功',
-            })
+          updateEmailSettings(this.form).then((res) => {
+            if (res.code == '200') {
+              this.$message({
+                type: 'success',
+                message: '消息设置保存成功'
+              })
+            }
           })
         } else {
           setTimeout(() => {
@@ -358,7 +360,7 @@ export default {
           return false
         }
       })
-    },
+    }
   }
 }
 </script>

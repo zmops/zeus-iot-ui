@@ -27,44 +27,49 @@
         inactive-color="#AB2F29">
       </el-switch>
       <div class="el-form-item-tips zeu s-inline-block">
-        <svg-icon icon-class="tips" class="icon" />
+        <svg-icon icon-class="tips" class="icon"/>
         <span>包括平台内部和外部的所有通知。</span>
       </div>
     </el-form-item>
-<!--    <el-form-item label="启用告警规则" prop="status">-->
-<!--      <el-switch-->
-<!--        v-model="formData.status"-->
-<!--        :disabled="formData.inherit =='1' && isDev"-->
-<!--        size="mini"-->
-<!--        active-value="ENABLE"-->
-<!--        inactive-value="DISABLE"-->
-<!--        active-text="启用"-->
-<!--        inactive-text="禁用"-->
-<!--        active-color="#55BC8A"-->
-<!--        inactive-color="#AB2F29">-->
-<!--      </el-switch>-->
-<!--    </el-form-item>-->
+    <!--    <el-form-item label="启用告警规则" prop="status">-->
+    <!--      <el-switch-->
+    <!--        v-model="formData.status"-->
+    <!--        :disabled="formData.inherit =='1' && isDev"-->
+    <!--        size="mini"-->
+    <!--        active-value="ENABLE"-->
+    <!--        inactive-value="DISABLE"-->
+    <!--        active-text="启用"-->
+    <!--        inactive-text="禁用"-->
+    <!--        active-color="#55BC8A"-->
+    <!--        inactive-color="#AB2F29">-->
+    <!--      </el-switch>-->
+    <!--    </el-form-item>-->
     <el-form-item label="描述" prop="remark">
       <el-input v-model="formData.remark" :disabled="formData.inherit =='1' && isDev" type="textarea" rows="2" size="mini"/>
     </el-form-item>
-    <el-form-item label="触发条件" prop="expList">
+    <el-form-item label="触发条件">
       <div class="zeus-mb-10">
         满足下列
         <el-select v-model="formData.expLogic" :disabled="formData.inherit =='1' && isDev" placeholder="" size="mini" class="select-w50 zeus-ml-5 zeus-mr-5">
-          <el-option label="任意" value="or" />
-          <el-option label="所有" value="and" />
+          <el-option label="任意" value="or"/>
+          <el-option label="所有" value="and"/>
         </el-select>
         条件时,触发告警
       </div>
-      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" :disabled="formData.inherit =='1' && isDev" :productId="formData.inheritProductId" v-model="formData.expList[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" :inherit="formData.inherit" @del="del" />
-      <el-button class="add-btn" :disabled="formData.inherit =='1' && isDev" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
+      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" :disabled="formData.inherit =='1' && isDev" :productId="formData.inheritProductId" v-model="formData.expList[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" :inherit="formData.inherit" @del="del" ref="triggers"/>
+      <el-button class="add-btn" :disabled="formData.inherit =='1' && isDev" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件
+      </el-button>
     </el-form-item>
     <el-form-item label="执行动作">
-      <action v-for="(item, index) in formData.deviceServices" :key="item.guid" :disabled="formData.inherit =='1' && isDev" v-model="formData.deviceServices[index]" :ind="index" :is-dev="isDev" :device-list="deviceList" @del="delAction"></action>
-      <el-button class="add-btn" :disabled="formData.inherit =='1' && isDev" plain icon="el-icon-plus" size="mini" @click="addAction">增加执行动作</el-button>
+      <action v-for="(item, index) in formData.deviceServices" :key="item.guid"
+              :disabled="formData.inherit =='1' && isDev" v-model="formData.deviceServices[index]" :ind="index"
+              :is-dev="isDev" :device-list="deviceList" @del="delAction"></action>
+      <el-button class="add-btn" :disabled="formData.inherit =='1' && isDev" plain icon="el-icon-plus" size="mini"
+                 @click="addAction">增加执行动作
+      </el-button>
     </el-form-item>
     <el-form-item label="标签">
-      <Tag ref="tag" v-model="formData.tags" />
+      <Tag ref="tag" v-model="formData.tags"/>
     </el-form-item>
   </el-form>
 </template>
@@ -148,10 +153,10 @@ export default {
         eventRuleName: [
           { required: true, message: '请输入告警名称', trigger: 'blur' }
         ],
-        expList: [
-          { required: true, message: '请选择触发条件', trigger: 'blur' },
-          { validator: checkData, trigger: 'blur' }
-        ],
+        // expList: [
+        //   { required: true, message: '请选择触发条件', trigger: 'blur' },
+        //   { validator: checkData, trigger: 'blur' }
+        // ],
         eventLevel: [
           { required: true, message: '请选择告警级别', trigger: 'change' }
         ]
@@ -190,24 +195,39 @@ export default {
   },
   methods: {
     addTrigger() {
-      this.formData.expList.push({
-        guid: guid(),
-        deviceId: '',
-        productAttrId: '',
-        condition: '=',
-        value: '',
-        productAttrType: '属性',
-        function: 'last',
-        period: '时间',
-        unit: 'm'
-      })
+      if (this.validateTriggers()) {
+        this.formData.expList.push({
+          guid: guid(),
+          deviceId: '',
+          productAttrId: '',
+          condition: '=',
+          value: '',
+          scope: '',
+          productAttrType: '属性',
+          function: 'last',
+          period: '时间',
+          unit: 'm'
+        })
+      }
+    },
+    validateTriggers() {
+      if (this.$refs.triggers && this.$refs.triggers.length) {
+        for (const i of this.$refs.triggers) {
+          if (!i.validateForm()) {
+            return false
+          }
+        }
+        return true
+      } else {
+        return true
+      }
     },
     validateForm() {
       let flag = false
       this.$refs.dialogForm.validate((valid) => {
         flag = valid
       })
-      return flag && this.$refs.tag.verification() && this.verification()
+      return flag && this.$refs.tag.verification() && this.verification() && this.validateTriggers()
     },
     del(index) {
       this.formData.expList.splice(index, 1)
@@ -260,17 +280,20 @@ export default {
 <style lang="scss" scoped>
 .alarm-form {
   width: 1175px;
+  background-color: #fff;
+
   .add-btn {
     width: 100%;
     border-style: dashed;
   }
 
-  ::v-deep{
-    .el-switch__label *{
-      font-size: 12px!important;
+  ::v-deep {
+    .el-switch__label * {
+      font-size: 12px !important;
     }
   }
-  .select-w50{
+
+  .select-w50 {
     width: 80px;
   }
 }

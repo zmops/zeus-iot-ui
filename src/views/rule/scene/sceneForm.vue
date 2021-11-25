@@ -71,7 +71,7 @@
         placeholder="选择日期时间">
       </el-date-picker>
     </el-form-item>
-    <el-form-item v-if="formData.triggerType === '0'" label="触发条件" prop="expList">
+    <el-form-item v-if="formData.triggerType === '0'" label="触发条件">
       <div class="zeus-mb-10">
         <span style="color: #606266">满足下列</span>
         <el-select v-model="formData.expLogic" placeholder="" size="mini" class="select-w50 zeus-ml-5 zeus-mr-5">
@@ -80,7 +80,7 @@
         </el-select>
         <span style="color: #606266">条件时,触发场景联动</span>
       </div>
-      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" v-model="formData.expList[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="del" />
+      <Triggers v-for="(item, index) in formData.expList" :key="item.guid" v-model="formData.expList[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="del" ref="triggers" />
       <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addTrigger">增加触发条件</el-button>
     </el-form-item>
     <el-form-item v-if="formData.triggerType === '0'" label="生效时间段" prop="time">
@@ -273,17 +273,32 @@ export default {
   },
   methods: {
     addTrigger() {
-      this.formData.expList.push({
-        guid: guid(),
-        deviceId: '',
-        productAttrId: '',
-        incident: '',
-        condition: '=',
-        productAttrType: '属性',
-        function: 'last',
-        period: '时间',
-        unit: 'm'
-      })
+      if (this.validateTriggers()) {
+        this.formData.expList.push({
+          guid: guid(),
+          deviceId: '',
+          productAttrId: '',
+          condition: '=',
+          value: '',
+          scope: '',
+          productAttrType: '属性',
+          function: 'last',
+          period: '时间',
+          unit: 'm'
+        })
+      }
+    },
+    validateTriggers() {
+      if (this.$refs.triggers && this.$refs.triggers.length) {
+        for (const i of this.$refs.triggers) {
+          if (!i.validateForm()) {
+            return false
+          }
+        }
+        return true
+      } else {
+        return true
+      }
     },
     validateForm() {
       this.formData.scheduleConf = this.cron
@@ -291,7 +306,7 @@ export default {
       this.$refs.dialogForm.validate((valid) => {
         flag = valid
       })
-      return flag && this.verification()
+      return flag && this.verification() && this.validateTriggers()
     },
     reset() {
       this.$refs.dialogForm.resetFields()
@@ -388,6 +403,7 @@ export default {
 <style lang="scss" scoped>
 .alarm-form {
   width: 1175px;
+  background-color: #fff;
   .add-btn {
     width: 100%;
     border-style: dashed;
