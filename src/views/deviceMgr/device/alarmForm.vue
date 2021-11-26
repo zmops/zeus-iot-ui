@@ -279,7 +279,7 @@ export default {
 
 <style lang="scss" scoped>
 .alarm-form {
-  width: 1175px;
+  width: 1250px;
   background-color: #fff;
 
   .add-btn {

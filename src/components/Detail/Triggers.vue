@@ -1,8 +1,8 @@
 <!-- 触发条件组件 -->
 <template>
   <div class="Triggers zeus-relative">
-    <el-form ref="triggersForm" :rules="rules" :model="item" label-width="0px" class="alarm-form">
-      <el-form-item v-if="isDev" prop="deviceId">
+    <el-form ref="triggersForm" :model="item" label-width="0px" class="alarm-form">
+      <el-form-item v-if="isDev" prop="deviceId" :rules="{ required: true, message: '请选择设备', trigger: 'change' }">
         <el-select v-model="item.deviceId" :disabled="disabled" size="mini" placeholder="请选择设备" :popper-class="'xlk'" @focus="dialogVisible = true" clearable class="select2 zeus-mr-5">
           <el-option
             v-for="(i, index) in deviceList"
@@ -18,7 +18,7 @@
           <el-option label="事件" value="事件"/>
         </el-select>
       </el-form-item>
-      <el-form-item v-if="item.productAttrType === '属性'" prop="productAttrId">
+      <el-form-item v-if="item.productAttrType === '属性'" prop="productAttrId" :rules="{ required: true, message: '请选择属性', trigger: 'change' }">
         <el-select v-model="item.productAttrId" :disabled="disabled" placeholder="请选择属性" size="mini" class="select1 zeus-mr-5" @change="attrChange">
           <el-option
             v-for="(i, index) in deviceAttribute"
@@ -28,7 +28,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item v-if="item.productAttrType === '事件'" prop="productAttrId">
+      <el-form-item v-if="item.productAttrType === '事件'" prop="productAttrId" :rules="{ required: true, message: '请选择事件', trigger: 'change' }">
         <el-select v-model="item.productAttrId" :disabled="disabled" placeholder="请选择事件" size="mini" class="select1 zeus-mr-5" @change="eventChange">
           <el-option
             v-for="(i, index) in incidentList"
@@ -40,16 +40,16 @@
       </el-form-item>
       <div v-if="item.function ==='avg'||item.function ==='max'||item.function ==='min'||item.function ==='sum'" class="zeus-inline-block">
         <span class="zeus-mr-5 vt">在</span>
-        <el-form-item prop="period">
+        <el-form-item prop="period" :rules="{ required: true, message: '请选择', trigger: 'change' }">
           <el-select v-model="item.period" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
             <el-option label="时间" value="时间"/>
             <el-option label="周期" value="周期"/>
           </el-select>
         </el-form-item>
-        <el-form-item prop="scope">
+        <el-form-item prop="scope" :rules="{ required: true, message: '请输入', trigger: 'blur' }">
           <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
         </el-form-item>
-        <el-form-item v-if="item.period === '时间' " prop="unit">
+        <el-form-item v-if="item.period === '时间' " prop="unit" :rules="{ required: true, message: '请选择单位', trigger: 'change' }">
           <el-select :disabled="disabled" v-model="item.unit" size="mini" class="select3 zeus-mr-5">
             <el-option label="秒" value="s"/>
             <el-option label="分钟" value="m"/>
@@ -61,10 +61,10 @@
       </div>
       <div v-if="item.function ==='nodata'" class="zeus-inline-block">
         <span class="zeus-mr-5 vt">在</span>
-        <el-form-item prop="scope">
+        <el-form-item prop="scope" :rules="{ required: true, message: '请输入', trigger: 'blur' }">
           <el-input v-model="item.scope" :disabled="disabled" size="mini" class="input zeus-mr-5"/>
         </el-form-item>
-        <el-form-item prop="unit">
+        <el-form-item prop="unit" :rules="{ required: true, message: '请选择单位', trigger: 'change' }">
           <el-select v-model="item.unit" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
             <el-option label="秒" value="s"/>
             <el-option label="分钟" value="m"/>
@@ -74,14 +74,14 @@
         <span class="zeus-mr-5 vt">内</span>
       </div>
       <div class="zeus-inline-block">
-        <el-form-item v-if="item.attrValueType != '3' && item.attrValueType != '0'" prop="function">
+        <el-form-item v-if="item.attrValueType != '3' && item.attrValueType != '0'" prop="function" :rules="{ required: true, message: '请选择', trigger: 'change' }">
           <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
             <el-option label="最新值" value="last"/>
             <el-option label="值有变化" value="change"/>
             <el-option label="无值" value="nodata"/>
           </el-select>
         </el-form-item>
-        <el-form-item v-else prop="function">
+        <el-form-item v-else prop="function" :rules="{ required: true, message: '请选择', trigger: 'change' }">
           <el-select v-model="item.function" :disabled="disabled" size="mini" class="select1 zeus-mr-5" @change="functionChange">
             <el-option label="最新值" value="last"/>
             <el-option label="平均值" value="avg"/>
@@ -93,14 +93,14 @@
           </el-select>
         </el-form-item>
       </div>
-      <el-form-item v-if="item.function === 'nodata' || (item.function === 'change' && (item.attrValueType == '1' || item.attrValueType == '4'))" prop="value">
+      <el-form-item v-if="item.function === 'nodata' || (item.function === 'change' && (item.attrValueType == '1' || item.attrValueType == '4'))" prop="value" :rules="{ required: true, message: '请选择', trigger: 'change' }">
         <el-select v-model="item.value" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
           <el-option label="为真" value="1"/>
           <el-option label="为假" value="0"/>
         </el-select>
       </el-form-item>
       <div v-else class="zeus-inline-block">
-        <el-form-item prop="condition">
+        <el-form-item prop="condition" :rules="{ required: true, message: '请选择运算符', trigger: 'change' }">
           <el-select v-model="item.condition" :disabled="disabled" size="mini" class="select3 zeus-mr-5">
             <el-option
               v-for="(i, index) in conditionList"
@@ -110,7 +110,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item prop="value">
+        <el-form-item prop="value" :rules="{ required: true, message: '请输入', trigger: 'change' }">
           <el-input v-model="item.value" :disabled="disabled" size="mini" class="input zeus-mr-10"/>
         </el-form-item>
         <span class="vt">{{ units }}</span>
@@ -291,12 +291,12 @@ export default {
       this.deviceChange(ids)
     },
     functionChange(val) {
+      this.$refs.triggersForm.clearValidate()
       if (val === 'last' || val === 'change') {
         this.item.scope = ''
       }
     },
     deviceChange(val) {
-      console.log(val)
       this.item.productAttrId = ''
       this.item.condition = '='
       this.item.productAttrType = '属性'
