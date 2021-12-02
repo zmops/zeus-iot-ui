@@ -92,7 +92,7 @@ export default {
         },
         {
           label: '产品分类',
-          prop: 'groupIdName',
+          prop: 'groupName',
           show: true
         },
         {

@@ -193,7 +193,7 @@ export default {
         },
         {
           label: '设备名称',
-          prop: 'deviceIdName',
+          prop: 'deviceName',
           event: 'detail',
           show: true
         },
@@ -229,7 +229,7 @@ export default {
         },
         {
           label: '设备名称',
-          prop: 'deviceIdName',
+          prop: 'deviceName',
           event: 'detail',
           show: true
         },

@@ -9,7 +9,7 @@
         <el-input v-model="form.prodName" size="mini" />
       </el-form-item>
       <el-form-item label="产品分类" prop="groupId">
-        <TreeSelect :id="prodId ? form.groupId : ''" ref="tree" :name="prodId ? form.groupIdName : ''" :default-props="treeProps" :data="treeData" @changeGroupId="changeGroupId" />
+        <TreeSelect :id="prodId ? form.groupId : ''" ref="tree" :name="prodId ? form.groupName : ''" :default-props="treeProps" :data="treeData" @changeGroupId="changeGroupId" />
       </el-form-item>
       <el-form-item label="设备类型" prop="prodType">
         <el-select v-model="form.prodType" placeholder="请选择设备类型" size="mini">

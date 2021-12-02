@@ -127,7 +127,7 @@ export default {
             },
             {
               key: '产品分类',
-              value: res.data.groupIdName
+              value: res.data.groupName
             },
             {
               key: '设备类型',

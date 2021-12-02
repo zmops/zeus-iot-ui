@@ -22,7 +22,7 @@
           </el-col>
           <el-col :span="6">
             <div class="info_i">
-              <div class="con">{{ infoData.groupIdName || '-' }}</div>
+              <div class="con">{{ infoData.groupName || '-' }}</div>
               <div class="tit">产品分类</div>
             </div>
           </el-col>

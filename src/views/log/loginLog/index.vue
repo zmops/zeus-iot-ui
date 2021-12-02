@@ -83,7 +83,7 @@ export default {
         },
         {
           label: '操作人',
-          prop: 'userIdName',
+          prop: 'userName',
           show: true
         },
         {
