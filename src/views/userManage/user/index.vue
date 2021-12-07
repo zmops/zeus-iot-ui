@@ -58,6 +58,9 @@
             <el-form-item v-if="!item.userId" label="确认密码" prop="password1">
               <el-input v-model="item.password1" type="password" size="mini" />
             </el-form-item>
+            <el-form-item label="备注">
+              <el-input v-model="item.remark" type="textarea" rows="2" size="mini" />
+            </el-form-item>
           </el-form>
         </template>
       </FormTemplate>
@@ -203,7 +206,8 @@ export default {
         status: 'ENABLE',
         password1: '',
         pass: '',
-        userGroupId: ''
+        userGroupId: '',
+        remark: ''
       },
       roleData: [],
       groupData: [],
@@ -273,7 +277,8 @@ export default {
         password1: '',
         status: 'ENABLE',
         pass: '',
-        userGroupId: ''
+        userGroupId: '',
+        remark: ''
       }
       this.$refs.userForm.resetFields()
     },
