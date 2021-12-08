@@ -1,12 +1,12 @@
 <!--操作系统-->
 <template>
   <div class="os">
-    <div class="title zeus-pt-5">
+    <div class="title zeus-mt-10 zeus-mb-10">
       <svg-icon icon-class="proxy_os" style="font-size: 25px" />
       <span class="zeus-ml-10">操作系统</span>
     </div>
     <el-row :gutter="20">
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>内存信息</span>
           <div class="zeus-mt-10 zeus-relative">
@@ -30,7 +30,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>CPU负载</span>
           <div class="zeus-mt-10 zeus-relative">
@@ -54,7 +54,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>运行中进程数</span>
           <div class="zeus-mt-10 zeus-relative">
@@ -78,7 +78,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>CPU jumps</span>
           <div class="zeus-mt-10 zeus-relative">
@@ -98,7 +98,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>CPU使用率</span>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
@@ -106,7 +106,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card data-size" shadow="hover">
           <span>交换空间</span>
           <el-row :gutter="6" class="zeus-mt-15">

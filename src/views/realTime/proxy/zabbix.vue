@@ -1,12 +1,12 @@
 <!--Zabbix代理-->
 <template>
   <div class="os">
-    <div class="title zeus-pt-5">
+    <div class="title zeus-mt-10 zeus-mb-10">
       <svg-icon icon-class="proxy_zabbix" style="font-size: 25px" />
       <span class="zeus-ml-10">Zabbix代理</span>
     </div>
     <el-row :gutter="20">
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>值处理速率(个/s)</span>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
@@ -14,7 +14,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>主动上报采集器进程使用率</span>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
@@ -22,7 +22,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>缓存使用率</span>
           <div class="zeus-mt-10 zeus-relative">
@@ -46,7 +46,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>值缓存有效性</span>
           <div class="zeus-mt-10 zeus-relative">

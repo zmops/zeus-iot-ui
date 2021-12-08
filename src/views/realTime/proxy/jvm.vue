@@ -1,12 +1,12 @@
 <!--JVM-->
 <template>
   <div class="os">
-    <div class="title zeus-pt-5">
+    <div class="title zeus-mt-10 zeus-mb-10">
       <svg-icon icon-class="proxy_jvm" style="font-size: 25px" />
       <span class="zeus-ml-10">JVM</span>
     </div>
     <el-row :gutter="20">
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card data-size" shadow="hover">
           <span>基础信息</span>
           <el-row :gutter="6" class="zeus-mt-15">
@@ -34,7 +34,7 @@
           </el-row>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card data-size" shadow="hover">
           <span>JVM 内存</span>
           <el-row :gutter="6" class="zeus-mt-15">

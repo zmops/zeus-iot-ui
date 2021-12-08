@@ -1,12 +1,12 @@
 <!--PostgreSQL-->
 <template>
   <div class="os">
-    <div class="title zeus-pt-5">
+    <div class="title zeus-mt-10 zeus-mb-10">
       <svg-icon icon-class="proxy_sql" style="font-size: 25px" />
       <span class="zeus-ml-10">PostgreSQL</span>
     </div>
     <el-row :gutter="20">
-      <el-col :span="24" class="zeus-mt-20">
+      <el-col :span="24" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>基础信息</span>
           <el-row :gutter="6" class="zeus-mt-15">
@@ -27,7 +27,7 @@
           </el-row>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>连接使用率</span>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
@@ -35,7 +35,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12" class="zeus-mt-20">
+      <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
           <span>死锁产生速率(个/s)</span>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">

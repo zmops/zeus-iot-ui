@@ -386,9 +386,23 @@ export default {
 .device-cascader{
   background-color: #242E42;
 
+  .el-radio__inner{
+    background-color: #B6C2CD!important;
+    border-color: #B6C2CD!important;
+  }
+
+  .is-checked .el-radio__inner{
+    background-color: #1f7cd2 !important;
+    border-color: #2990ef !important;
+  }
+
   .el-checkbox__input.is-checked .el-checkbox__inner{
     background-color: #1A84F9!important;
     border-color: #1A84F9!important;
+  }
+  .el-checkbox__inner{
+    background-color: #B6C2CD!important;
+    border-color: #B6C2CD!important;
   }
 
   .el-cascader-node__label{
