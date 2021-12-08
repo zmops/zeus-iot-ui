@@ -13,7 +13,7 @@
         <el-input v-model="dialogForm.name" size="mini"/>
       </el-form-item>
       <el-form-item label="产品" prop="productId">
-        <el-select v-model="dialogForm.productId" :disabled="state === '编辑' || isProduct" filterable placeholder="请选择产品" size="mini">
+        <el-select v-model="dialogForm.productId" :disabled="state === '编辑' || isProduct" filterable placeholder="请选择产品" size="mini" @change="changePro">
           <el-option
             v-for="item in productList"
             :key="item.productId"
@@ -21,6 +21,15 @@
             :value="item.productId"
           />
         </el-select>
+      </el-form-item>
+      <el-form-item v-if="apiShow" label="采集接口" prop="interface">
+<!--        <el-radio-group v-model="dialogForm.deviceInterface.useip" size="small" class="zeus-mr-5 radio">-->
+<!--          <el-radio-button label="1">IP</el-radio-button>-->
+<!--          <el-radio-button label="0">DNS</el-radio-button>-->
+<!--        </el-radio-group>-->
+        <el-input v-if="dialogForm.deviceInterface.useip == '1'" v-model="dialogForm.deviceInterface.ip" placeholder="请输入IP" size="mini" class="w390 zeus-mr-5"/>
+<!--        <el-input v-if="dialogForm.deviceInterface.useip == '0'" v-model="dialogForm.deviceInterface.dns" placeholder="请输入DNS" size="mini" class="w390 zeus-mr-5"/>-->
+        <el-input v-model="dialogForm.deviceInterface.port" placeholder="请输入端口号" size="mini" class="w100"/>
       </el-form-item>
       <el-form-item label="设备组" prop="deviceGroupIds">
         <el-select v-model="dialogForm.deviceGroupIds" multiple filterable placeholder="请选择设备组" size="mini" @change="changeDevGroup">
@@ -34,6 +43,16 @@
         <div class="el-form-item-tips">
           <svg-icon icon-class="tips" class="icon" />帮助对数据权限进行精确控制。
         </div>
+      </el-form-item>
+      <el-form-item label="代理" prop="proxyId">
+        <el-select v-model="dialogForm.proxyId" clearable filterable placeholder="请选择代理" size="mini">
+          <el-option
+            v-for="item in proxyList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="描述" prop="remark">
         <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini"/>
@@ -86,6 +105,7 @@
 
 <script>
 import BaiduMap from 'vue-baidu-map/components/map/Map'
+import { getProxyList } from '@/api/system'
 import { BmAutoComplete, BmControl, BmGeolocation, BmLocalSearch, BmMarker, BmNavigation } from 'vue-baidu-map/index'
 import { getProductAttrTrapperList } from '@/api/porductMgr'
 
@@ -154,7 +174,9 @@ export default {
       point: {},
       position: '',
       keyword: '',
-      center: null
+      center: null,
+      proxyList: [],
+      apiShow: false
     }
   },
   watch: {
@@ -167,7 +189,11 @@ export default {
     }
   },
   created() {
-
+    getProxyList({}).then((res) => {
+      if (res.code == '200') {
+        this.proxyList = res.data
+      }
+    })
   },
   beforeDestroy() {
     this.keyword = ''
@@ -227,6 +253,29 @@ export default {
     },
     changeDevGroup(val) {
       this.$forceUpdate()
+    },
+    changePro(prodId) {
+      getProductAttrTrapperList({ prodId, source: 0 }).then((res) => {
+        if (res.code == '200' && res.data.length) {
+          this.apiShow = true
+          this.dialogForm.deviceInterface = {
+            useip: '1',
+            port: '10050',
+            main: '1',
+            type: '1',
+            ip: '127.0.0.1'
+          }
+        } else {
+          this.apiShow = false
+          this.dialogForm.deviceInterface = {
+            useip: '1',
+            port: '10050',
+            main: '1',
+            type: '1',
+            ip: '127.0.0.1'
+          }
+        }
+      })
     }
   }
 }
@@ -251,7 +300,7 @@ export default {
     }
   }
   .w390{
-    width: 390px;
+    width: 495px;
   }
   .w100{
     width: 100px;

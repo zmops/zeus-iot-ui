@@ -40,6 +40,16 @@ const deviceMgrRouter = {
         icon24: 'device24',
         icon48: 'device48'
       }
+    },
+    {
+      path: '/deviceMgr/debug',
+      component: () => import('@/views/deviceMgr/debug'),
+      name: '/deviceMgr/debug',
+      meta: {
+        title: '设备调试',
+        icon24: 'device24',
+        icon48: 'device48'
+      }
     }
   ]
 }

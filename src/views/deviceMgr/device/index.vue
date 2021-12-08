@@ -178,7 +178,14 @@ export default {
         name: '',
         productId: '',
         deviceGroupIds: [],
-        remark: ''
+        remark: '',
+        deviceInterface: {
+          useip: '1',
+          port: '10050',
+          main: '1',
+          type: '1',
+          ip: '127.0.0.1'
+        }
       },
       rules: {
         name: [

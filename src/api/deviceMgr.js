@@ -225,6 +225,16 @@ export function deleteDevValueMap(data) {
   })
 }
 
+// 设备调试
+export function sendData(data) {
+  return request({
+    url: '/device/api/sendData',
+    method: 'post',
+    data
+  })
+}
+
+
 // 上下线规则创建
 export function createTrigger(data) {
   return request({

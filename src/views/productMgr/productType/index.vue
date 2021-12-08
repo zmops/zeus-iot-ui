@@ -25,6 +25,7 @@
           <span class="event" @click="edit(props.row)">{{ props.row.name }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="tenantName" label="租户"></el-table-column>
       <el-table-column prop="createUserName" label="创建人">
         <template slot-scope="scope">
           {{scope.row.createUserName ? scope.row.createUserName : '-'}}

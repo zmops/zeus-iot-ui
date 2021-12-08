@@ -167,6 +167,7 @@ export default {
       padding: 5px 24px;
       margin-left: 5px;
       border: none;
+      height: 32px;
       background: #f9fbfd;
     }
     .is-round:hover{

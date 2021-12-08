@@ -21,6 +21,22 @@ const visualizationRouter = {
         icon24: 'device24',
         icon48: 'device48'
       }
+    },
+    {
+      path: '/visualization/grafana',
+      component: () => import('@/views/analyse/grafana'),
+      name: '/visualization/grafana',
+      meta: {
+        title: 'Grafana[示例]'
+      }
+    },
+    {
+      path: '/visualization/building',
+      component: () => import('@/views/visualization/building'),
+      name: '/visualization/building',
+      meta: {
+        title: '楼宇场景[示例]'
+      }
     }
   ]
 }

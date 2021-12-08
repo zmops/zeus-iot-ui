@@ -9,6 +9,7 @@ import '@/icons' // icon
 import './utils/directives.js'
 import '@/permission' // permission control
 import VueSocketIO from 'vue-socket.io'
+import moment from 'dayjs'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -23,6 +24,7 @@ Vue.use(new VueSocketIO({
   //   transports: ['websocket']
   // }
 }))
+Vue.prototype.moment = moment
 Vue.config.productionTip = false
 Vue.prototype.$stringToHex = function (str) {
   const arr = []

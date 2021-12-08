@@ -300,3 +300,145 @@ export function updateMediaType(data) {
     data
   })
 }
+
+// proxy-列表
+export function getProxyByPage(data) {
+  return request({
+    url: '/proxy/getProxyByPage',
+    method: 'post',
+    data
+  })
+}
+
+// proxy-列表-不分页
+export function getProxyList(data) {
+  return request({
+    url: '/proxy/list',
+    method: 'post',
+    data
+  })
+}
+
+// proxy-新增
+export function createProxy(data) {
+  return request({
+    url: '/proxy/create',
+    method: 'post',
+    data
+  })
+}
+
+// proxy-修改
+export function updateProxy(data) {
+  return request({
+    url: '/proxy/update',
+    method: 'post',
+    data
+  })
+}
+
+// proxy-删除
+export function deleteProxy(data) {
+  return request({
+    url: '/proxy/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 数据转换-列表
+export function getTransfer() {
+  return request({
+    url: '/transfer/list',
+    method: 'get'
+  })
+}
+
+// 数据转换-创建
+export function createTransfer() {
+  return request({
+    url: '/transfer/create',
+    method: 'post'
+  })
+}
+
+// 数据转换-启动/停止
+export function runTransfer(data) {
+  return request({
+    url: '/transfer/run',
+    method: 'post',
+    data
+  })
+}
+
+// 数据转换-删除
+export function deleteTransfer(data) {
+  return request({
+    url: '/transfer/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 租户管理-列表
+export function getTenantByPage(data) {
+  return request({
+    url: '/tenant/getTenantByPage',
+    method: 'post',
+    data
+  })
+}
+
+// 租户管理-新增
+export function createTenant(data) {
+  return request({
+    url: '/tenant/create',
+    method: 'post',
+    data
+  })
+}
+
+// 租户管理-修改
+export function updateTenant(data) {
+  return request({
+    url: '/tenant/update',
+    method: 'post',
+    data
+  })
+}
+
+// 租户管理-删除
+export function deleteTenant(data) {
+  return request({
+    url: '/tenant/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 租户管理-详情
+export function detailTenant(params) {
+  return request({
+    url: '/tenant/detail',
+    method: 'get',
+    params
+  })
+}
+
+// 租户管理-重置密码
+export function resetTenantPass(params) {
+  return request({
+    url: '/tenant/reset',
+    method: 'get',
+    params
+  })
+}
+
+// 租户管理-启用禁用
+export function statusTenant(params) {
+  return request({
+    url: '/tenant/status',
+    method: 'get',
+    params
+  })
+}

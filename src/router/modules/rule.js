@@ -21,6 +21,16 @@ const ruleRouter = {
         icon24: 'scene24',
         icon48: 'scene48'
       }
+    },
+    {
+      path: '/rule/process',
+      component: () => import('@/views/rule/process'),
+      name: '/rule/process',
+      meta: {
+        title: '流程配置',
+        icon24: 'scene24',
+        icon48: 'scene48'
+      }
     }
   ]
 }

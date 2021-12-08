@@ -120,6 +120,11 @@ export default {
           show: true
         },
         {
+          label: '租户',
+          prop: 'tenantName',
+          show: true
+        },
+        {
           label: '状态',
           prop: 'status',
           status: true,

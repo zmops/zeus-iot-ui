@@ -48,6 +48,21 @@
     <div class="detail-template-right">
       <div class="detail-template-head">
         <el-button v-for="(item, index) in tabs" :key="index" :class="item.name === activity ? 'activity' : ''" class="but" type="primary" plain @click="change(item.name)">{{ item.label }}</el-button>
+        <div v-if="showTime" class="date">
+          <el-date-picker
+            v-model="time"
+            class="zeus-right"
+            type="datetimerange"
+            clearable
+            size="mini"
+            prefix-icon="el-icon-date"
+            value-format="timestamp"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            @change="changeTime"
+          />
+        </div>
       </div>
       <div class="detail-template-main">
         <slot name="main" />
@@ -74,11 +89,11 @@ export default {
     },
     title: {
       type: String,
-      default: 'ks-controller-manager'
+      default: ''
     },
     subhead: {
       type: String,
-      default: 'ks-controller-manager'
+      default: ''
     },
     detailList: {
       type: Array,
@@ -91,7 +106,8 @@ export default {
       default() {
         return []
       }
-    }
+    },
+    showTime: Boolean
   },
   data() {
     return {
@@ -125,10 +141,13 @@ export default {
         }
       })
     },
+    changeTime(val) {
+      this.$emit('changeTime', val)
+    },
     onCopy() {
       this.$message({
         message: '复制成功',
-        type: 'success',
+        type: 'success'
       })
     },
     onError() {
@@ -318,6 +337,28 @@ export default {
       border-radius: 4px;
       background-color: #242e42;
       margin: 0 0 12px;
+
+      .date{
+        flex: 1;
+        ::v-deep.el-input__inner{
+          border-radius: 20px!important;
+          height: 32px!important;
+          background: #4A5C6E;
+          border: 1px solid #4A5C6E;
+          .el-range-input{
+            background: #4A5C6E;
+          }
+          .el-range-input::placeholder{
+            color: #fff;
+          }
+          .el-range-separator,.el-icon-date{
+            color: #fff!important;
+          }
+        }
+        ::v-deep.el-input__inner:hover{
+          border: 1px solid #79879C;
+        }
+      }
 
       ::v-deep.el-button{
         padding: 8px 0;

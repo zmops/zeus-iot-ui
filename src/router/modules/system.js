@@ -22,6 +22,26 @@ const systemRouter = {
       }
     },
     {
+      path: '/system/tenant',
+      component: () => import('@/views/system/tenant'),
+      name: '/system/tenant',
+      meta: {
+        title: '租户管理',
+        icon24: 'tenant24',
+        icon48: 'tenant48'
+      }
+    },
+    {
+      path: '/system/tenant/detail',
+      component: () => import('@/views/system/tenant/detail'),
+      name: '/system/tenant/detail',
+      hidden: true,
+      meta: {
+        title: '租户详情',
+        hiddenMenu: true
+      }
+    },
+    {
       path: '/system/dictType',
       component: () => import('@/views/system/dictType'),
       name: '/system/dictType',
@@ -41,6 +61,16 @@ const systemRouter = {
         icon48: 'sysParam48'
       }
     },
+    // {
+    //   path: '/system/transfer',
+    //   component: () => import('@/views/system/transfer'),
+    //   name: '/system/transfer',
+    //   meta: {
+    //     title: 'Transfer 采集器',
+    //     icon24: 'sysParam24',
+    //     icon48: 'sysParam48'
+    //   }
+    // },
     {
       path: '/system/thirdAuth',
       component: () => import('@/views/system/thirdAuth'),
@@ -59,6 +89,26 @@ const systemRouter = {
         title: '通知配置',
         icon24: 'media24',
         icon48: 'media48'
+      }
+    },
+    {
+      path: '/system/proxyInfo',
+      component: () => import('@/views/system/proxyInfo'),
+      name: '/system/proxyInfo',
+      meta: {
+        title: '代理配置',
+        icon24: 'media24',
+        icon48: 'media48'
+      }
+    },
+    {
+      path: '/system/auth',
+      component: () => import('@/views/system/release'),
+      name: '/system/auth',
+      meta: {
+        title: '平台授权',
+        icon24: 'auth24',
+        icon48: 'auth48'
       }
     }
   ]

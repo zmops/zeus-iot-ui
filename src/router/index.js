@@ -22,6 +22,8 @@ import productMgrRouter from '@/router/modules/productMgr'
 import ruleRouter from '@/router/modules/rule'
 /* 告警管理 */
 import alarmRouter from '@/router/modules/alarm'
+/* 平台监控 */
+import realTimeRouter from '@/router/modules/realTime'
 /* 日志查询 */
 import logRouter from '@/router/modules/log'
 /* 用户管理 */
@@ -42,6 +44,7 @@ export const asyncRoutes = [
   productMgrRouter,
   ruleRouter,
   alarmRouter,
+  realTimeRouter,
   platformLogRouter,
   logRouter,
   userRouter,

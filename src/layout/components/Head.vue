@@ -3,7 +3,7 @@
   <div>
     <div class="Head zeus-flex-between">
       <router-link key="expand" class="sidebar-logo-link" to="/">
-        <img src="@/assets/logo-.png" width="147">
+        <img src="@/assets/logo-pro.png" width="250">
         <!-- <svg-icon class="" icon-class="logo" style="font-size: 30px" /> -->
         <!-- <span class="head-title zeus-bold zeus-ml-10 ">Zeus IOT</span> -->
       </router-link>
