@@ -13,19 +13,19 @@
             <div class="chunk1 bg zeus-inline-block">
               <el-row class="hang">
                 <el-col :span="12" class="label">内存使用率:</el-col>
-                <el-col :span="12">{{ memoryData.online || '--' }}</el-col>
+                <el-col :span="12">{{ Number(memoryData.memoryUtilization).toFixed(2) + '%' || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">总内存 :</el-col>
-                <el-col :span="12">{{ memoryData.total || '--' }}</el-col>
+                <el-col :span="12">{{ memoryData.memoryTotal || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">可用内存 : </el-col>
-                <el-col :span="12">{{ memoryData.disable || '--' }}</el-col>
+                <el-col :span="12">{{ memoryData.memoryAvailable || '--' }}</el-col>
               </el-row>
             </div>
             <div class="chart1 bg zeus-inline-block zeus-absolute">
-              <LineChart :title="'内存使用率'" :line-data="memoryChartData" :is-to-fixed="0" :height="'100%'" />
+              <LineChart :title="'内存使用率'" :line-data="memoryChartData" :unit="'%'" :is-to-fixed="0" :height="'100%'" />
             </div>
           </div>
         </el-card>
@@ -37,15 +37,15 @@
             <div class="chunk1 bg zeus-inline-block">
               <el-row class="hang">
                 <el-col :span="12" class="label">1m:</el-col>
-                <el-col :span="12">{{ capacityData.online || '--' }}</el-col>
+                <el-col :span="12">{{ capacityData.cpuLoadAvg1 + '%' || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">2m :</el-col>
-                <el-col :span="12">{{ capacityData.total || '--' }}</el-col>
+                <el-col :span="12">{{ capacityData.cpuLoadAvg5 + '%' || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">10m : </el-col>
-                <el-col :span="12">{{ capacityData.disable || '--' }}</el-col>
+                <el-col :span="12">{{ capacityData.cpuLoadAvg15+ '%' || '--' }}</el-col>
               </el-row>
             </div>
             <div class="chart1 bg zeus-inline-block zeus-absolute">
@@ -61,15 +61,15 @@
             <div class="chunk1 bg zeus-inline-block">
               <el-row class="hang">
                 <el-col :span="12" class="label">运行进程数:</el-col>
-                <el-col :span="12">{{ processData.online || '--' }}</el-col>
+                <el-col :span="12">{{ processData.run || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">进程总数 :</el-col>
-                <el-col :span="12">{{ processData.total || '--' }}</el-col>
+                <el-col :span="12">{{ processData.num || '--' }}</el-col>
               </el-row>
               <el-row class="hang">
                 <el-col :span="12" class="label">最大进程数 : </el-col>
-                <el-col :span="12">{{ processData.disable || '--' }}</el-col>
+                <el-col :span="12">{{ processData.max || '--' }}</el-col>
               </el-row>
             </div>
             <div class="chart1 bg zeus-inline-block zeus-absolute">
@@ -80,51 +80,10 @@
       </el-col>
       <el-col :span="12" class="zeus-mb-20">
         <el-card class="box-card" shadow="hover">
-          <span>CPU jumps</span>
-          <div class="zeus-mt-10 zeus-relative">
-            <div class="chunk1 bg zeus-inline-block">
-              <el-row class="hang">
-                <el-col :span="24" class="label">运行上下文切换速率:</el-col>
-                <el-col :span="24">{{ processData.online || '--' }}</el-col>
-              </el-row>
-              <el-row class="hang">
-                <el-col :span="24" class="label">CPU中断频率 :</el-col>
-                <el-col :span="24">{{ processData.total || '--' }}</el-col>
-              </el-row>
-            </div>
-            <div class="chart1 bg zeus-inline-block zeus-absolute">
-              <LineChart :title="'CPU jumps'" :line-data="processChartData" :is-to-fixed="0" :height="'100%'" />
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12" class="zeus-mb-20">
-        <el-card class="box-card" shadow="hover">
           <span>CPU使用率</span>
           <div class="bg zeus-pt-10 zeus-pb-10 zeus-mt-15">
-            <LineChart :title="'26%'" :line-data="memoryUsageChartData" :line-show="false" :height="'152px'" />
+            <LineChart :title="'26%'" :line-data="memoryUsageChartData" :line-show="false" :height="'170px'" />
           </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12" class="zeus-mb-20">
-        <el-card class="box-card data-size" shadow="hover">
-          <span>交换空间</span>
-          <el-row :gutter="6" class="zeus-mt-15">
-            <el-col :span="12">
-              <div class="bg stat">
-                <svg-icon icon-class="jrlssj" class="zeus-mr-5" />
-                <span>总交换空间</span>
-                <span class="zeus-right">{{ swapSpace.todayRecordNum || '-' }}</span>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <div class="bg stat">
-                <svg-icon icon-class="zlssjts" class="zeus-mr-5" />
-                <span>可用交换空间</span>
-                <span class="zeus-right">{{ swapSpace.totalRecordNum || '-' }}</span>
-              </div>
-            </el-col>
-          </el-row>
         </el-card>
       </el-col>
     </el-row>
@@ -133,6 +92,7 @@
 
 <script>
 import LineChart from '@/components/Basics/LineChart'
+import { cpuLoad, cpuUtilization, process, memory } from '@/api/realTime'
 export default {
   name: 'os',
   components: {
@@ -151,9 +111,79 @@ export default {
     }
   },
   created() {
-
+    this.init()
   },
-  methods: {}
+  methods: {
+    init() {
+      cpuLoad().then((res) => {
+        if (res.code == 200) {
+          this.capacityData = res.data
+          if (res.data.trends) {
+            const chart = res.data.trends.map((i) => {
+              return [i.date, Number(i.val)]
+            })
+            this.capacityChartData = [
+              {
+                type: 'line',
+                showSymbol: false,
+                data: chart
+              }
+            ]
+          }
+        }
+      })
+      cpuUtilization().then((res) => {
+        if (res.code == 200) {
+          if (res.data) {
+            const chart = res.data.map((i) => {
+              return [i.date, Number(i.val)]
+            })
+            this.memoryUsageChartData = [
+              {
+                type: 'line',
+                showSymbol: false,
+                data: chart
+              }
+            ]
+          }
+        }
+      })
+      process().then((res) => {
+        if (res.code == 200) {
+          this.processData = res.data
+          if (res.data.trends) {
+            const chart = res.data.trends.map((i) => {
+              return [i.date, Number(i.val)]
+            })
+            this.processChartData = [
+              {
+                type: 'line',
+                showSymbol: false,
+                data: chart
+              }
+            ]
+          }
+        }
+      })
+      memory().then((res) => {
+        if (res.code == 200) {
+          this.memoryData = res.data
+          if (res.data.trends) {
+            const chart = res.data.trends.map((i) => {
+              return [i.date, Number(i.val)]
+            })
+            this.memoryChartData = [
+              {
+                type: 'line',
+                showSymbol: false,
+                data: chart
+              }
+            ]
+          }
+        }
+      })
+    }
+  }
 }
 </script>
 

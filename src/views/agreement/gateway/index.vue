@@ -1,12 +1,12 @@
-<!--协议组件页面-->
+<!--协议网关页面-->
 <template>
   <div class="module">
     <ListHeadTemplate>
       <template v-slot:logo>
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px"/>
       </template>
-      <template v-slot:title>协议组件</template>
-      <template v-slot:subhead>协议组件是对设备与本平台数据通信方式的详细定义。</template>
+      <template v-slot:title>协议网关</template>
+      <template v-slot:subhead>协议网关控制着每个通信服务可以用哪些设备协议进行解析。</template>
     </ListHeadTemplate>
     <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :columns="columns" @search="search"/>
     <el-table
@@ -25,68 +25,48 @@
         <template slot-scope="scope">
           <span v-if="item.prop === 'buttons'" class="setting-buttons">
             <el-button
-              v-if="scope.row.status == 0"
-              type="text"
-              class="setting-button"
-              round
-              size="mini"
-              @click="upload(scope.row.protocolComponentId)"
-            >
-              <svg-icon icon-class="list_upload"/>
-              上传
-            </el-button>
-            <el-button
-              v-if="scope.row.status == 2"
-              type="text"
-              class="setting-button"
-              round
-              size="mini"
-              @click="republish(scope.row.protocolComponentId)"
-            >
-              <svg-icon icon-class="list_republish"/>
-              重新发布
-            </el-button>
-            <el-button
-              v-if="scope.row.status == 2"
-              type="text"
-              class="setting-button"
-              round
-              size="mini"
-              @click="unpublish(scope.row.protocolComponentId)"
-            >
-              <svg-icon icon-class="list_unpublish"/>
-              取消发布
-            </el-button>
-            <el-button
               v-if="scope.row.status == 1"
               type="text"
               class="setting-button"
               round
               size="mini"
-              @click="publish(scope.row.protocolComponentId)"
+              @click="stop(scope.row.protocolGatewayId)"
             >
-              <svg-icon icon-class="list_publish"/>
-              发布
+              <svg-icon icon-class="list_stop"/>
+              停止
             </el-button>
             <el-button
-              v-if="scope.row.status == 0 || scope.row.status == 1"
+              v-if="scope.row.status == 0"
               type="text"
               class="setting-button"
               round
               size="mini"
-              @click="del(scope.row.protocolComponentId)"
+              @click="start(scope.row.protocolGatewayId)"
+            >
+              <svg-icon icon-class="list_start"/>
+              启动
+            </el-button>
+            <el-button
+              v-if="scope.row.status == 0"
+              type="text"
+              class="setting-button"
+              round
+              size="mini"
+              @click="del(scope.row.protocolGatewayId)"
             >
               <svg-icon icon-class="list-del"/>
               删除
             </el-button>
           </span>
           <div v-else-if="item.prop === 'status'">
-            <span v-if="scope.row.status == 0" style="color: #F1C232">待上传</span>
-            <span v-if="scope.row.status == 1" style="color: #CC3333">未发布</span>
-            <span v-if="scope.row.status == 2" style="color: #128E75">已发布</span>
+            <span v-if="scope.row.status == 0" style="color: #CC3333">已停止</span>
+            <span v-if="scope.row.status == 1" style="color: #128E75">已启动</span>
           </div>
-          <span v-else-if="item.event" class="event" @click="upload(scope.row.protocolComponentId)">
+          <span v-else-if="item.event" class="event" @click="upload(scope.row.protocolGatewayId)">
             {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
+          </span>
+          <span v-else-if="item.prop === 'protocolService'" class="event" @click="toService(scope.row.protocolServiceName)">
+            {{ scope.row.protocolServiceName ? scope.row.protocolServiceName : '-' }}
           </span>
           <span v-else>
             {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
@@ -96,7 +76,7 @@
     </el-table>
     <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     <div v-if="dialogVisible">
-      <FormTemplate :up="'协议组件列表'" :state="state + '协议组件'" :but-loading="butLoading" @submit="submit" @cancel="close">
+      <FormTemplate :up="'协议网关列表'" :state="state + '协议网关'" :but-loading="butLoading" @submit="submit" @cancel="close">
         <template v-slot:main>
           <moduleForm ref="moduleForm" v-model="dialogForm"/>
         </template>
@@ -108,15 +88,15 @@
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import moduleForm from '@/views/agreement/module/form'
+import moduleForm from '@/views/agreement/gateway/form'
 import FormTemplate from '@/components/Slots/FormTemplate'
 import {
-  createComponent,
-  getProtocolComponentByPage,
-  deleteComponent,
-  updateComponent,
-  unPublish,
-  publish
+  updateGateway,
+  getProtocolGatewayByPage,
+  deleteGateway,
+  createGateway,
+  startGateway,
+  stopGateway
 } from '@/api/agreement'
 
 export default {
@@ -138,36 +118,39 @@ export default {
       formParams: [
         {
           componentName: 'SelectTemplate',
-          keyName: 'status',
-          label: '发布状态',
-          optionId: 'value',
-          optionName: 'label',
+          keyName: 'protocolType',
+          label: '协议网关类型',
+          optionId: 'code',
+          optionName: 'name',
           options: [
-            { label: '待上传', value: '0' },
-            { label: '未发布', value: '1' },
-            { label: '已发布', value: '2' }
+            { name: 'MQTT 客户端', code: '1' }
           ]
         },
         {
           componentName: 'InputTemplate',
           keyName: 'name',
-          label: '设备协议名称'
+          label: '协议网关名称'
         }
       ],
       columns: [
         {
-          label: '设备协议名称',
+          label: '协议网关名称',
           prop: 'name',
           event: 'detail',
           show: true
         },
         {
-          label: '设备协议ID',
-          prop: 'protocolComponentId',
+          label: '协议网关类型',
+          prop: 'protocolTypeName',
           show: true
         },
         {
-          label: '发布状态',
+          label: '通讯服务',
+          prop: 'protocolService',
+          show: true
+        },
+        {
+          label: '运行状态',
           prop: 'status',
           show: true
         },
@@ -201,7 +184,7 @@ export default {
       size: 10,
       page: 1,
       form: {
-        status: '',
+        protocolType: '',
         name: ''
       },
       devList: [],
@@ -224,10 +207,16 @@ export default {
       state: '',
       dialogForm: {
         name: '',
-        effectProxy: '',
-        source: '1',
+        protocolType: '',
+        protocolServiceId: '',
         remark: '',
-        protocolComponentId: ''
+        qos: '',
+        protocolGatewayMqttList: [
+          {
+            topic: '',
+            protocolComponentId: ''
+          }
+        ]
       }
     }
   },
@@ -245,7 +234,7 @@ export default {
     },
     getList() {
       this.loading = true
-      getProtocolComponentByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
+      getProtocolGatewayByPage({ ...this.form, maxRow: this.size, page: this.page}).then((res) => {
         this.loading = false
         if (res.code == 200) {
           this.tableData = res.data
@@ -260,26 +249,19 @@ export default {
         return i.id
       })
     },
-    detail(item) {
-
-    },
-    add() {
-      this.$prompt('请输入设备协议名称', '新增', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /\S/,
-        inputErrorMessage: '设备协议名称不能为空'
-      }).then(({ value }) => {
-        createComponent({ name: value }).then((res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '创建成功',
-              type: 'success'
-            })
-            this.getList()
+    toService(name) {
+      if (name) {
+        this.$router.push({
+          path: '/agreement/communication',
+          query: {
+            name
           }
         })
-      })
+      }
+    },
+    add() {
+      this.state = '创建'
+      this.dialogVisible = true
     },
     del(id) {
       this.$confirm('是否确认删除该数据?', '提示', {
@@ -287,7 +269,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteComponent({ protocolComponentIds: [id] }).then(async(res) => {
+        deleteGateway({ protocolGatewayIds: [id] }).then(async(res) => {
           if (res.code == 200) {
             this.$message({
               message: '删除成功',
@@ -302,47 +284,69 @@ export default {
     submit() {
       if (this.$refs.moduleForm.validateForm()) {
         this.butLoading = true
-        updateComponent(this.dialogForm).then((res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            })
-            this.close()
-            this.getList()
-          }
-          this.butLoading = false
-        }).catch(() => {
-          this.butLoading = false
-        })
+        if (this.state === '创建') {
+          createGateway(this.dialogForm).then((res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+              this.close()
+              this.getList()
+            }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
+          })
+        } else {
+          updateGateway(this.dialogForm).then((res) => {
+            if (res.code == 200) {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+              this.close()
+              this.getList()
+            }
+            this.butLoading = false
+          }).catch(() => {
+            this.butLoading = false
+          })
+        }
       }
     },
     close() {
       this.dialogVisible = false
       this.dialogForm = {
         name: '',
-        effectProxy: '',
-        source: '1',
+        protocolType: '',
+        protocolServiceId: '',
         remark: '',
-        protocolComponentId: ''
+        qos: '',
+        protocolGatewayMqttList: [
+          {
+            topic: '',
+            protocolComponentId: ''
+          }
+        ]
       }
     },
     upload(id) {
       const i = this.tableData.find((item) => {
-        return item.protocolComponentId === id
+        return item.protocolGatewayId === id
       })
       this.dialogForm = JSON.parse(JSON.stringify(i))
       this.dialogForm.source = '1'
       this.state = '编辑'
       this.dialogVisible = true
     },
-    republish(id) {
-      this.$confirm('是否确认重新发布?', '提示', {
+    start(id) {
+      this.$confirm('是否确认启动?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        publish({ protocolComponentId: id }).then(async(res) => {
+        startGateway({ protocolGatewayId: id }).then(async(res) => {
           if (res.code == 200) {
             this.$message({
               message: '操作成功',
@@ -354,31 +358,13 @@ export default {
         })
       })
     },
-    unpublish(id) {
-      this.$confirm('是否确认取消发布?', '提示', {
+    stop(id) {
+      this.$confirm('是否确认停止?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        unPublish({ protocolComponentId: id }).then(async(res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            // 删除后重新请求数据
-            await this.getList()
-          }
-        })
-      })
-    },
-    publish(id) {
-      this.$confirm('是否确认发布?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        publish({ protocolComponentId: id }).then(async(res) => {
+        stopGateway({ protocolGatewayId: id }).then(async(res) => {
           if (res.code == 200) {
             this.$message({
               message: '操作成功',

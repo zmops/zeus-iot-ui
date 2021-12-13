@@ -7,19 +7,19 @@
         </div>
       </el-col>
       <el-col :span="12">
-        <el-date-picker
-          v-model="time"
-          class="zeus-right date"
-          type="datetimerange"
-          clearable
-          size="mini"
-          prefix-icon="el-icon-date"
-          value-format="timestamp"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          @change="init()"
-        />
+<!--        <el-date-picker-->
+<!--          v-model="time"-->
+<!--          class="zeus-right date"-->
+<!--          type="datetimerange"-->
+<!--          clearable-->
+<!--          size="mini"-->
+<!--          prefix-icon="el-icon-date"-->
+<!--          value-format="timestamp"-->
+<!--          range-separator="-"-->
+<!--          start-placeholder="开始日期"-->
+<!--          end-placeholder="结束日期"-->
+<!--          @change="init()"-->
+<!--        />-->
       </el-col>
     </el-row>
     <os v-if="radio === '操作系统'" />

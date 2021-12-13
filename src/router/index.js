@@ -18,6 +18,8 @@ import platformLogRouter from '@/router/modules/platformLog'
 import deviceMgrRouter from '@/router/modules/deviceMgr'
 /* 产品管理 */
 import productMgrRouter from '@/router/modules/productMgr'
+/* 协议管理 */
+import agreementRouter from '@/router/modules/agreement'
 /* 规则引擎 */
 import ruleRouter from '@/router/modules/rule'
 /* 告警管理 */
@@ -42,6 +44,7 @@ export const asyncRoutes = [
   visualizationRouter,
   deviceMgrRouter,
   productMgrRouter,
+  agreementRouter,
   ruleRouter,
   alarmRouter,
   realTimeRouter,

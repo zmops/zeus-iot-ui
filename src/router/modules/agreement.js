@@ -33,7 +33,7 @@ const authRouter = {
     },
     {
       path: '/agreement/gateway',
-      component: () => import('@/views/401'),
+      component: () => import('@/views/agreement/gateway'),
       name: '/agreement/gateway',
       meta: {
         title: '协议网关',

@@ -1,6 +1,6 @@
 <!--通信服务页面-->
 <template>
-  <div class="module">
+  <div class="communication">
     <ListHeadTemplate>
       <template v-slot:logo>
         <svg-icon :icon-class="$route.meta.icon48" style="font-size: 48px"/>
@@ -9,91 +9,19 @@
       <template v-slot:subhead>通信服务对本平台各类通信服务进行统一管理。</template>
     </ListHeadTemplate>
     <SearchForm v-if="!dialogVisible" :params="formParams" :buttons="buttons" :batch-buttons="batchButtons" :columns="columns" @search="search"/>
-    <el-table
+    <BusinessTable
       v-if="!dialogVisible"
-      v-loading="loading"
-      :data="tableData"
-      style="width: 100%;padding: 0 12px 12px 12px;"
-      :height="'calc(100% - 242px)'"
-      class="table">
-      <el-table-column width="48">
-        <template>
-          <svg-icon :icon-class="$route.meta.icon24" style="font-size: 24px" />
-        </template>
-      </el-table-column>
-      <el-table-column v-for="(item, index) in columns" :key="index" :label="item.label">
-        <template slot-scope="scope">
-          <span v-if="item.prop === 'buttons'" class="setting-buttons">
-            <el-button
-              v-if="scope.row.acknowledged === '未确认' && scope.row.statusName !== '已解决'"
-              type="text"
-              class="setting-button"
-              round
-              size="mini"
-              @click="upload(scope.row.eventId)"
-            >
-              <svg-icon icon-class="list_affirm" />
-              上传
-            </el-button>
-            <el-button
-              v-if="scope.row.statusName === '未解决'"
-              type="text"
-              class="setting-button"
-              round
-              size="mini"
-              @click="del(scope.row.eventId)"
-            >
-              <svg-icon icon-class="list_affirm" />
-              删除
-            </el-button>
-            <el-button
-              v-if="scope.row.statusName === '未解决'"
-              type="text"
-              class="setting-button"
-              round
-              size="mini"
-              @click="republish(scope.row.eventId)"
-            >
-              <svg-icon icon-class="list_affirm" />
-              重新发布
-            </el-button>
-            <el-button
-              v-if="scope.row.statusName === '未解决'"
-              type="text"
-              class="setting-button"
-              round
-              size="mini"
-              @click="unpublish(scope.row.eventId)"
-            >
-              <svg-icon icon-class="list_affirm" />
-              取消发布
-            </el-button>
-            <el-button
-              v-if="scope.row.statusName === '未解决'"
-              type="text"
-              class="setting-button"
-              round
-              size="mini"
-              @click="publish(scope.row.eventId)"
-            >
-              <svg-icon icon-class="list_affirm" />
-              发布
-            </el-button>
-          </span>
-          <span v-else-if="item.event" class="event" @click="detail(scope.row.deviceId)">
-            {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
-          </span>
-          <span v-else>
-            {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
-          </span>
-        </template>
-      </el-table-column>
-    </el-table>
+      :table-data="tableData"
+      :columns="columns"
+      :loading="loading"
+      :icon="$route.meta.icon24"
+      @detail="detail"
+    />
     <Pagination v-if="!dialogVisible" :total="total" :size="size" :current-page="page" @handleCurrentChange="handleCurrentChange"/>
     <div v-if="dialogVisible">
-      <FormTemplate :up="'协议组件列表'" :state="state + '协议组件'" :but-loading="butLoading" @submit="submit" @cancel="close">
+      <FormTemplate :up="'通信服务列表'" :state="state + '通信服务'" :but-loading="butLoading" @submit="submit" @cancel="close">
         <template v-slot:main>
-          <moduleForm ref="moduleForm" v-model="dialogForm" />
+          <moduleForm ref="moduleForm" v-model="dialogForm"/>
         </template>
       </FormTemplate>
     </div>
@@ -103,12 +31,18 @@
 import ListHeadTemplate from '@/components/Slots/ListHeadTemplate'
 import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
-import moduleForm from '@/views/agreement/module/form'
+import moduleForm from '@/views/agreement/communication/form'
 import FormTemplate from '@/components/Slots/FormTemplate'
-import { getSceneByPage, createScene, deleteScene, detailScene, modifyStatusScene, updateScene } from '@/api/scene'
+import BusinessTable from '@/components/Basics/BusinessTable'
+import {
+  createService,
+  updateService,
+  getProtocolServiceByPage,
+  deleteService
+} from '@/api/agreement'
 
 export default {
-  name: 'module',
+  name: 'communication',
   provide() {
     return {
       farther: this
@@ -119,39 +53,38 @@ export default {
     SearchForm,
     Pagination,
     moduleForm,
-    FormTemplate
+    FormTemplate,
+    BusinessTable
   },
   data() {
     return {
       formParams: [
         {
           componentName: 'SelectTemplate',
-          keyName: 'productId',
+          keyName: 'protocolType',
           label: '通信服务类型',
-          options: ['待上传', '未发布', '已发布']
+          optionId: 'code',
+          optionName: 'name',
+          options: [
+            { name: 'MQTT 客户端', code: '1' },
+          ]
         },
         {
           componentName: 'InputTemplate',
-          keyName: 'eventRuleName',
+          keyName: 'name',
           label: '通信服务名称'
         }
       ],
       columns: [
         {
           label: '通信服务名称',
-          prop: 'eventRuleName',
+          prop: 'name',
           event: 'detail',
           show: true
         },
         {
           label: '通信服务类型',
-          prop: 'triggerDevice',
-          show: true
-        },
-        {
-          label: '运行状态',
-          prop: 'status',
-          status: true,
+          prop: 'protocolTypeName',
           show: true
         },
         {
@@ -161,12 +94,12 @@ export default {
         },
         {
           label: '创建人',
-          prop: 'remark',
+          prop: 'createUserName',
           show: true
         },
         {
           label: '创建时间',
-          prop: 'remark',
+          prop: 'createTime',
           show: true
         },
         {
@@ -174,7 +107,14 @@ export default {
           prop: 'buttons',
           show: true,
           width: 270,
-          idName: 'eventRuleId'
+          idName: 'protocolServiceId',
+          buttons: [
+            {
+              label: '删除',
+              event: 'delete',
+              icon: 'list-del'
+            }
+          ]
         }
       ],
       tableData: [],
@@ -184,8 +124,7 @@ export default {
       size: 10,
       page: 1,
       form: {
-        // prodId: null,
-        // attrId: '',
+        protocolType: '',
         name: ''
       },
       devList: [],
@@ -207,35 +146,21 @@ export default {
       dialogVisible: false,
       state: '',
       dialogForm: {
-        eventRuleName: '',
-        eventLevel: '3',
-        eventNotify: '1',
-        status: 'ENABLE',
-        triggerType: '0',
+        name: '',
+        effectProxy: '',
+        protocolType: '',
         remark: '',
-        scheduleConf: '',
-        expLogic: 'or',
-        timeIntervals: null,
-        timeIntervals2: [],
-        expList: [
-          {
-            deviceId: '',
-            productAttrId: '',
-            incident: '',
-            condition: '=',
-            productAttrType: '属性',
-            function: 'last',
-            value: '',
-            period: '时间',
-            unit: 'm',
-            scope: ''
-          }
-        ],
-        deviceServices: []
+        clientId: '',
+        ip: '',
+        port: '',
+        msgLength: ''
       }
     }
   },
   async created() {
+    if (this.$route.query.name) {
+      this.form.name = this.$route.query.name
+    }
     await this.getList()
   },
   methods: {
@@ -249,7 +174,7 @@ export default {
     },
     getList() {
       this.loading = true
-      getSceneByPage({ ...this.form, maxRow: this.size, page: this.page, classify: '1' }).then((res) => {
+      getProtocolServiceByPage({ ...this.form, maxRow: this.size, page: this.page}).then((res) => {
         this.loading = false
         if (res.code == 200) {
           this.tableData = res.data
@@ -265,62 +190,21 @@ export default {
       })
     },
     detail(item) {
-      this.edit(item.eventRuleId)
-    },
-    edit(eventRuleId) {
-      detailScene({ eventRuleId, deviceId: this.form.prodId }).then((res) => {
-        if (res.code == 200) {
-          this.dialogForm = res.data
-          if (this.dialogForm.timeExpList && this.dialogForm.timeExpList.length){
-            const arr = this.dialogForm.timeExpList.map((i) => {
-              return [i.startTime, i.endTime]
-            })
-            this.$set(this.dialogForm, 'timeIntervals2', arr)
-          } else {
-            this.$set(this.dialogForm, 'timeIntervals2', [])
-          }
-          this.state = '编辑'
-          this.dialogVisible = true
-        }
-      })
+      this.dialogForm = JSON.parse(JSON.stringify(item))
+      this.state = '编辑'
+      this.dialogVisible = true
     },
     add() {
-      this.$prompt('请输入设备协议名称', '新增', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /\S/,
-        inputErrorMessage: '设备协议名称不能为空'
-      }).then(({ value }) => {
-        this.$message({
-          type: 'success',
-          message: '协议名称是: ' + value
-        })
-      })
+      this.state = '创建'
+      this.dialogVisible = true
     },
-    disable(id) {
-      this.modifyStatus(id, 'DISABLE')
-    },
-    enable(id) {
-      this.modifyStatus(id, 'ENABLE')
-    },
-    modifyStatus(eventRuleId, status) {
-      modifyStatusScene({ eventRuleId, status, deviceId: this.form.prodId }).then((res) => {
-        if (res.code == 200) {
-          this.$message({
-            message: '修改成功',
-            type: 'success'
-          })
-          this.getList()
-        }
-      })
-    },
-    del(eventRuleId) {
+    delete(id) {
       this.$confirm('是否确认删除该数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteScene({ eventRuleId, deviceId: this.form.prodId }).then(async(res) => {
+        deleteService({ protocolServiceIds: [id] }).then(async(res) => {
           if (res.code == 200) {
             this.$message({
               message: '删除成功',
@@ -335,18 +219,8 @@ export default {
     submit() {
       if (this.$refs.moduleForm.validateForm()) {
         this.butLoading = true
-        this.dialogForm.classify = '1'
-        if (this.dialogForm.timeIntervals2 && this.dialogForm.timeIntervals2.length) {
-          const arr = []
-          this.dialogForm.timeIntervals2.forEach((item) => {
-            if (item[0] !== '' && item[1] !== '') {
-              arr.push({ startTime: item[0], endTime: item[1] })
-            }
-          })
-          this.dialogForm.timeIntervals = arr
-        }
         if (this.state === '创建') {
-          createScene(this.dialogForm).then((res) => {
+          createService(this.dialogForm).then((res) => {
             if (res.code == 200) {
               this.$message({
                 message: '创建成功',
@@ -360,7 +234,7 @@ export default {
             this.butLoading = false
           })
         } else {
-          updateScene(this.dialogForm).then((res) => {
+          updateService(this.dialogForm).then((res) => {
             if (res.code == 200) {
               this.$message({
                 message: '修改成功',
@@ -379,53 +253,24 @@ export default {
     close() {
       this.dialogVisible = false
       this.dialogForm = {
-        eventRuleName: '',
-        eventLevel: '3',
-        eventNotify: '1',
-        status: 'ENABLE',
+        name: '',
+        effectProxy: '',
+        protocolType: '',
         remark: '',
-        expLogic: 'or',
-        triggerType: '0',
-        scheduleConf: '',
-        timeIntervals: null,
-        timeIntervals2: [],
-        expList: [
-          {
-            deviceId: '',
-            productAttrId: '',
-            incident: '',
-            condition: '=',
-            productAttrType: '属性',
-            function: 'last',
-            value: '',
-            period: '时间',
-            unit: 'm',
-            scope: ''
-          }
-        ],
-        deviceServices: []
+        clientId: '',
+        ip: '',
+        port: '',
+        msgLength: ''
       }
-      this.$refs.sceneForm.reset()
-    },
-    upload(id) {
-
-    },
-    republish(id) {
-
-    },
-    unpublish(id) {
-
-    },
-    publish(id) {
-
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.module{
+.communication {
   height: 100%;
 }
+
 .setting-buttons .setting-button {
   padding: 5px 10px;
   font-size: 12px;
@@ -436,11 +281,13 @@ export default {
   background: #eff4f9;
   border: 1px solid #ccd3db;
 }
+
 .event {
   color: #409eff;
   cursor: pointer;
 }
-.table{
+
+.table {
   font-size: 12px;
 }
 </style>

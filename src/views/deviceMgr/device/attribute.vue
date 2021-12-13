@@ -133,9 +133,9 @@
               />
             </el-select>
             <div v-if="itemData.valueType == 3 || itemData.valueType == 0" class="zeus-right radio">
-              <div class="radio-button" :class="dialogRadio === '趋势图' ? 'activity' :''" @click="dialogRadio = '趋势图'">趋势图
-              </div>
               <div class="radio-button" :class="dialogRadio === '表格' ? 'activity' :''" @click="dialogRadio = '表格'">表格
+              </div>
+              <div class="radio-button" :class="dialogRadio === '趋势图' ? 'activity' :''" @click="dialogRadio = '趋势图'">趋势图
               </div>
             </div>
             <div v-if="dialogRadio === '趋势图' && (itemData.valueType == 3 || itemData.valueType == 0)" v-loading="loading2" class="zeus-relative">
@@ -215,7 +215,7 @@ export default {
         this.ftimestampToData(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
         this.ftimestampToData(new Date().getTime())
       ],
-      dialogRadio: '趋势图',
+      dialogRadio: '表格',
       buttons: [
         {
           type: 'primary',
