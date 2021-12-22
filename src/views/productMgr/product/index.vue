@@ -92,12 +92,12 @@ export default {
         },
         {
           label: '产品分类',
-          prop: 'groupIdName',
+          prop: 'groupName',
           show: true
         },
         {
           label: '设备类型',
-          prop: 'prodTypeName',
+          prop: 'typeName',
           show: true
         },
         {
