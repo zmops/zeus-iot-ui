@@ -92,7 +92,7 @@ export default {
         },
         {
           label: '租户',
-          prop: 'tenantIdName',
+          prop: 'tenantName',
           show: true
         },
         {
