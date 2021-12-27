@@ -167,6 +167,11 @@ export default {
           show: true
         },
         {
+          label: '协议识别ID',
+          prop: 'uniqueId',
+          show: true
+        },
+        {
           label: '发布状态',
           prop: 'status',
           show: true

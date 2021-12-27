@@ -59,8 +59,8 @@
             </el-button>
           </span>
           <div v-else-if="item.prop === 'status'">
-            <span v-if="scope.row.status == 0" style="color: #CC3333">已停止</span>
-            <span v-if="scope.row.status == 1" style="color: #128E75">已启动</span>
+            <span v-if="scope.row.status == 1" style="color: #CC3333">已停止</span>
+            <span v-if="scope.row.status == 0" style="color: #128E75">已启动</span>
           </div>
           <span v-else-if="item.event" class="event" @click="upload(scope.row.protocolGatewayId)">
             {{ scope.row[item.prop] ? scope.row[item.prop] : '-' }}
