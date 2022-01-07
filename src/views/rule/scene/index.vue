@@ -167,7 +167,10 @@ export default {
         scheduleConf: '',
         expLogic: 'or',
         timeIntervals: null,
-        timeIntervals2: [],
+        timeIntervals2: [{
+          time: ['', ''],
+          dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7']
+        }],
         expList: [
           {
             deviceId: '',
@@ -224,11 +227,14 @@ export default {
           this.dialogForm = res.data
           if (this.dialogForm.timeExpList && this.dialogForm.timeExpList.length){
             const arr = this.dialogForm.timeExpList.map((i) => {
-              return [i.startTime, i.endTime]
+              return {time: [i.startTime, i.endTime], dayOfWeeks: i.dayOfWeeks.split(',')}
             })
             this.$set(this.dialogForm, 'timeIntervals2', arr)
           } else {
-            this.$set(this.dialogForm, 'timeIntervals2', [])
+            this.$set(this.dialogForm, 'timeIntervals2', [{
+              time: ['', ''],
+              dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7']
+            }])
           }
           this.state = '编辑'
           this.dialogVisible = true
@@ -280,9 +286,11 @@ export default {
         this.dialogForm.classify = '1'
         if (this.dialogForm.timeIntervals2 && this.dialogForm.timeIntervals2.length) {
           const arr = []
-          this.dialogForm.timeIntervals2.forEach((item) => {
+          this.dialogForm.timeIntervals2.forEach((i) => {
+            const item = i.time
+            const week = i.dayOfWeeks
             if (item[0] !== '' && item[1] !== '') {
-              arr.push({ startTime: item[0], endTime: item[1] })
+              arr.push({ startTime: item[0], endTime: item[1], dayOfWeeks: week.join(',') })
             }
           })
           this.dialogForm.timeIntervals = arr
@@ -330,7 +338,10 @@ export default {
         triggerType: '0',
         scheduleConf: '',
         timeIntervals: null,
-        timeIntervals2: [],
+        timeIntervals2: [{
+          time: ['', ''],
+          dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7']
+        }],
         expList: [
           {
             deviceId: '',

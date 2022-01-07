@@ -89,8 +89,17 @@
         <span>规则在以下时间段内生效。若时间段为空，则永久生效。</span>
       </div>
       <div v-for="(item, index) in formData.timeIntervals2" :key="item.guid">
+        <el-select v-model="formData.timeIntervals2[index].dayOfWeeks" multiple placeholder="请选择星期" size="mini" class="zeus-mr-5" style="width: 502px" >
+          <el-option label="星期一" value="1" />
+          <el-option label="星期二" value="2" />
+          <el-option label="星期三" value="3" />
+          <el-option label="星期四" value="4" />
+          <el-option label="星期五" value="5" />
+          <el-option label="星期六" value="6" />
+          <el-option label="星期日" value="7" />
+        </el-select>
         <el-time-picker
-          v-model="formData.timeIntervals2[index]"
+          v-model="formData.timeIntervals2[index].time"
           is-range
           range-separator="-"
           size="mini"
@@ -331,7 +340,7 @@ export default {
     },
     addTime() {
       for (const item of this.formData.timeIntervals2) {
-        if (item[0] === '' || item[1] === '') {
+        if (item.time[0] === '' || item.time[1] === '') {
           this.$message({
             message: '请填写完整当前生效时间段',
             type: 'warning'
@@ -339,7 +348,7 @@ export default {
           return false
         }
       }
-      this.formData.timeIntervals2.push(['', ''])
+      this.formData.timeIntervals2.push({ time: ['', ''], dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7'] })
     },
     verification() {
       for (const item of this.formData.deviceServices) {
