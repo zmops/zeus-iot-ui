@@ -92,7 +92,8 @@ export default {
           borderColor: '#fc0c0c'
         },
         legend: {
-          icon: 'circle'
+          icon: 'circle',
+          right: '10'
           // data: [
           //   'character','avg','log','not supported','numeric (float)','text','numeric (unsigned)'
           // ]
@@ -184,16 +185,22 @@ export default {
             }
           }
         ],
+        color: ['#D14643', '#F5A623', '#FFE400', '#50ABD5', '#6EC59C'],
         series: this.lineData
       }
       chart.clear()
       chart.setOption(option)
+      window.addEventListener('resize', () => {
+        if (chart) {
+          chart.resize()
+        }
+      });
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.myChart {
-}
-</style>
+<!--<style lang="scss" scoped>-->
+<!--.myChart {-->
+<!--}-->
+<!--</style>-->

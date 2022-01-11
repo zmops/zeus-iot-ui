@@ -388,7 +388,7 @@ export default {
       }
     }
     .detail-template-main{
-      height: calc(100% - 48px);
+      height: calc(100% - 60px);
     }
   }
 }
