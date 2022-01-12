@@ -61,7 +61,8 @@ export default {
           { required: true, message: '请选择', trigger: 'change' }
         ]
       },
-      proxyList: []
+      proxyList: [],
+      uploaded: false
     }
   },
   watch: {
@@ -83,6 +84,10 @@ export default {
   methods: {
     validateForm() {
       this.$emit('input', this.dialogForm)
+      if (!this.uploaded) {
+        this.$message.error('请上传协议包')
+        return false
+      }
       let flag = false
       this.$refs.form.validate((valid) => {
         flag = valid
@@ -96,6 +101,7 @@ export default {
           type: 'success',
           message: '上传成功!'
         })
+        this.uploaded = true
       } else {
         this.$message.error('上传失败,请重试')
       }

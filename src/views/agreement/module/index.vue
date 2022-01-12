@@ -21,7 +21,7 @@
           <svg-icon :icon-class="$route.meta.icon24" style="font-size: 24px"/>
         </template>
       </el-table-column>
-      <el-table-column v-for="(item, index) in columns" :key="index" :label="item.label">
+      <el-table-column v-for="(item, index) in columns" :key="index" :label="item.label" :width="item.width">
         <template slot-scope="scope">
           <span v-if="item.prop === 'buttons'" class="setting-buttons">
             <el-button
