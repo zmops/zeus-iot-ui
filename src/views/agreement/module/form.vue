@@ -21,7 +21,7 @@
     <el-form-item label="协议包地址" prop="url">
 <!--      <el-input v-model="dialogForm.url" size="mini"/>-->
       <el-upload
-        class="upload-demo"
+        class="upload-demo zeus-inline-block"
         :show-file-list="false"
         :action="uploadUrlT"
         name="file"
@@ -31,6 +31,7 @@
         accept=".jar">
         <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
+      <span class="zeus-ml-20 file-name">{{fileName}}</span>
     </el-form-item>
     <el-form-item label="描述" prop="remark">
       <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini"/>
@@ -62,7 +63,8 @@ export default {
         ]
       },
       proxyList: [],
-      uploaded: false
+      uploaded: false,
+      fileName: ''
     }
   },
   watch: {
@@ -101,6 +103,7 @@ export default {
           type: 'success',
           message: '上传成功!'
         })
+        this.fileName = '已上传文件:' + file.name
         this.uploaded = true
       } else {
         this.$message.error('上传失败,请重试')

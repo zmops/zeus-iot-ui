@@ -289,8 +289,8 @@ export default {
     getList() {
       this.loading = true
       if (this.form.time && this.form.time.length) {
-        this.form.timeFrom = this.form.time[0] / 1000
-        this.form.timeTill = this.form.time[1] / 1000
+        this.form.timeFrom = this.form.time[0]
+        this.form.timeTill = this.form.time[1]
       } else {
         this.form.timeFrom = ''
         this.form.timeTill = ''
