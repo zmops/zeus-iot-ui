@@ -267,7 +267,8 @@ export default {
           if (this.$route.query.id) {
             if (this.$route.meta.title === '服务日志') {
               this.form.triggerType = '场景联动'
-              this.form.triggerUser = this.$route.query.id
+              // this.form.triggerUser = this.$route.query.id
+              this.form.eventRuleId = this.$route.query.id
               this.triggerList = this.sceneList
             } else if (this.$route.meta.title === '联动日志') {
               this.form.eventRuleId = this.$route.query.id
