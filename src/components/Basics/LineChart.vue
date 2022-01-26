@@ -74,6 +74,7 @@ export default {
         title: {
           text: this.title,
           left: 20,
+          top: 0,
           textStyle: {
             fontSize: 12
           }
@@ -93,7 +94,8 @@ export default {
         },
         legend: {
           icon: 'circle',
-          right: '10'
+          right: '10',
+          top: this.title ? '12' : 0
           // data: [
           //   'character','avg','log','not supported','numeric (float)','text','numeric (unsigned)'
           // ]
