@@ -11,7 +11,7 @@
           </el-input>
         </div>
         <div class="zeus-list-item">
-          <el-input v-model="item.value" size="mini" :disabled="read">
+          <el-input v-model="item.value" size="mini">
             <template slot="prepend">值</template>
           </el-input>
         </div>

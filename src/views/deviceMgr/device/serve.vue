@@ -32,7 +32,7 @@
               <Variable ref="variable" v-model="dialogForm.productServiceParamList" :name="'输入参数'" :read="isDev && dialogForm.inherit == '1'" />
             </el-form-item>
             <el-form-item label="描述" prop="remark">
-              <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" :disabled="isDev && dialogForm.inherit == '1'" />
+              <el-input v-model="dialogForm.remark" type="textarea" rows="2" size="mini" />
             </el-form-item>
           </el-form>
         </template>
