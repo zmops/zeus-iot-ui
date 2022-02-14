@@ -71,7 +71,7 @@ export default {
         eventNotify: '1',
         status: 'ENABLE',
         remark: '',
-        expLogic: 'or',
+        expLogic: 'and',
         expList: [
           {
             deviceId: '',
@@ -218,7 +218,7 @@ export default {
         eventNotify: '1',
         status: 'ENABLE',
         remark: '',
-        expLogic: 'or',
+        expLogic: 'and',
         expList: [
           {
             deviceId: '',

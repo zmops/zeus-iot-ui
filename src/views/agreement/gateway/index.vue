@@ -25,7 +25,7 @@
         <template slot-scope="scope">
           <span v-if="item.prop === 'buttons'" class="setting-buttons">
             <el-button
-              v-if="scope.row.status == 1"
+              v-if="scope.row.status == 0"
               type="text"
               class="setting-button"
               round
@@ -36,7 +36,7 @@
               停止
             </el-button>
             <el-button
-              v-if="scope.row.status == 0"
+              v-if="scope.row.status == 1"
               type="text"
               class="setting-button"
               round
@@ -47,7 +47,7 @@
               启动
             </el-button>
             <el-button
-              v-if="scope.row.status == 0"
+              v-if="scope.row.status == 1"
               type="text"
               class="setting-button"
               round

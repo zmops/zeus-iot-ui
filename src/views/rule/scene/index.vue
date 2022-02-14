@@ -165,7 +165,7 @@ export default {
         triggerType: '0',
         remark: '',
         scheduleConf: '',
-        expLogic: 'or',
+        expLogic: 'and',
         timeIntervals: null,
         timeIntervals2: [{
           time: ['', ''],
@@ -334,7 +334,7 @@ export default {
         eventNotify: '1',
         status: 'ENABLE',
         remark: '',
-        expLogic: 'or',
+        expLogic: 'and',
         triggerType: '0',
         scheduleConf: '',
         timeIntervals: null,
