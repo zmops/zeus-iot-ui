@@ -106,7 +106,7 @@ export default {
         },
         {
           label: '告警级别',
-          prop: 'eventLevelName',
+          prop: 'severityName',
           show: true
         },
         {
