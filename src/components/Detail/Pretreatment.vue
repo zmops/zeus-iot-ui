@@ -20,7 +20,7 @@
           </el-select>
         </div>
         <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21' && item.type !== '13'" class="zeus-list-item">
-          <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)" :disabled="disabled"/>
+          <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)" :disabled="disabled || item.type === '19'"/>
         </div>
         <div v-if="item.type === '25'" class="zeus-list-item">
           <el-input v-model="item.value" size="mini" placeholder="被替换文本" :disabled="disabled"/>
@@ -148,7 +148,7 @@ export default {
             if (item.type === '25' || item.type === '13') {
               obj.params.push(item.value)
               obj.params.push(item.value2)
-            } else if (item.type === '7' || item.type === '8') {
+            } else if (item.type === '7' || item.type === '8' || item.type === '19') {
               obj.params = []
             } else {
               obj.params.push(item.value)
@@ -181,7 +181,7 @@ export default {
             value: Number(a[0]),
             value2: Number(a[1])
           })
-        } else if (item.type === '7' || item.type === '8') {
+        } else if (item.type === '7' || item.type === '8' || item.type === '19') {
           arr.push({
             type: item.type,
             value: '',
@@ -213,6 +213,8 @@ export default {
           return 'XPath'
         case '12':
           return '$.path.to.node'
+        case '20':
+          return '秒'
         case '':
           return '选中方法的参数说明'
       }
@@ -260,7 +262,7 @@ export default {
     },
     verification() {
       for (const item of this.formData) {
-        if (item.type !== '7' && item.type !== '8') {
+        if (item.type !== '7' && item.type !== '8' && item.type !== '19') {
           if (item.type === '' || item.value === '') {
             this.$message({
               message: '请填写完整当前预处理步骤',
