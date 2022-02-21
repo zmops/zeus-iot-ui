@@ -106,9 +106,9 @@ export default {
           idName: 'eventRuleId',
           buttons: [
             {
-              label: '编辑',
-              event: 'edit',
-              icon: 'list-edit'
+              label: '复制',
+              event: 'copy',
+              icon: 'list_copy'
             },
             {
               label: '删除',
@@ -227,7 +227,11 @@ export default {
           this.dialogForm = res.data
           if (this.dialogForm.timeExpList && this.dialogForm.timeExpList.length){
             const arr = this.dialogForm.timeExpList.map((i) => {
-              return {time: [i.startTime, i.endTime], dayOfWeeks: i.dayOfWeeks.split(',')}
+              let dayOfWeeks = []
+              if (i.dayOfWeeks) {
+                dayOfWeeks = i.dayOfWeeks.split(',')
+              }
+              return { time: [i.startTime, i.endTime], dayOfWeeks }
             })
             this.$set(this.dialogForm, 'timeIntervals2', arr)
           } else {
@@ -244,6 +248,33 @@ export default {
     add() {
       this.state = '创建'
       this.dialogVisible = true
+    },
+    copy(eventRuleId) {
+      detailScene({ eventRuleId, deviceId: this.form.prodId }).then((res) => {
+        if (res.code == 200) {
+          this.dialogForm = res.data
+          if (this.dialogForm.timeExpList && this.dialogForm.timeExpList.length){
+            const arr = this.dialogForm.timeExpList.map((i) => {
+              let dayOfWeeks = []
+              if (i.dayOfWeeks) {
+                dayOfWeeks = i.dayOfWeeks.split(',')
+              }
+              this.$delete(i, 'eventRuleId')
+              return { time: [i.startTime, i.endTime], dayOfWeeks }
+            })
+            this.$set(this.dialogForm, 'timeIntervals2', arr)
+          } else {
+            this.$set(this.dialogForm, 'timeIntervals2', [{
+              time: ['', ''],
+              dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7']
+            }])
+          }
+
+          this.$delete(this.dialogForm, 'eventRuleId')
+          this.state = '复制'
+          this.dialogVisible = true
+        }
+      })
     },
     disable(id) {
       this.modifyStatus(id, 'DISABLE')
@@ -295,7 +326,7 @@ export default {
           })
           this.dialogForm.timeIntervals = arr
         }
-        if (this.state === '创建') {
+        if (this.state === '创建' || this.state === '复制') {
           createScene(this.dialogForm).then((res) => {
             if (res.code == 200) {
               this.$message({
