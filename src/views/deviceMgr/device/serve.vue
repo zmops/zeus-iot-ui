@@ -38,6 +38,30 @@
         </template>
       </FormTemplate>
     </div>
+    <el-dialog
+      v-dialogDrag
+      :visible.sync="dialogVisible2"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :show-close="false"
+      :width="'700px'"
+      @close="serviceParams = []"
+    >
+      <div slot="title" class="dialog-title zeus-flex-between">
+        <div class="left">触发服务</div>
+        <div class="right">
+          <svg-icon icon-class="dialog_close" class="closeicon"/>
+          <svg-icon icon-class="dialog_onclose" class="closeicon" @click="dialogVisible2 = false"/>
+        </div>
+      </div>
+      <div class="dialog-body">
+        <Variable ref="variable" v-model="serviceParams" :name="'输入参数'" read />
+      </div>
+      <el-footer class="dialog-footer-btn">
+        <el-button size="mini" round @click="dialogVisible2 = false">取 消</el-button>
+        <el-button type="primary" size="mini" round @click="triggerService">触 发</el-button>
+      </el-footer>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,7 +71,7 @@ import SearchForm from '@/components/Basics/SearchForm'
 import Pagination from '@/components/Basics/Pagination'
 import Variable from '@/components/Detail/Variable'
 import FormTemplate from '@/components/Slots/FormTemplate'
-import { getServiceByPage, createService, updateService, deleteService } from '@/api/porductMgr'
+import { getServiceByPage, createService, updateService, deleteService, executeService } from '@/api/porductMgr'
 
 export default {
   name: 'Serve',
@@ -88,6 +112,9 @@ export default {
       loading: false,
       butLoading: false,
       dialogVisible: false,
+      dialogVisible2: false,
+      serviceParams: [],
+      serviceId: '',
       state: '',
       total: 0,
       size: 10,
@@ -144,9 +171,14 @@ export default {
           label: '',
           prop: 'buttons',
           show: true,
-          width: 180,
+          width: 250,
           idName: 'id',
           buttons: [
+            {
+              label: '触发',
+              event: 'trigger',
+              icon: 'list-edit'
+            },
             {
               label: '编辑',
               event: 'edit',
@@ -198,9 +230,14 @@ export default {
               label: '',
               prop: 'buttons',
               show: true,
-              width: 180,
+              width: 250,
               idName: 'id',
               buttons: [
+                {
+                  label: '触发',
+                  event: 'trigger',
+                  icon: 'list-trigger'
+                },
                 {
                   label: '编辑',
                   event: 'edit',
@@ -257,6 +294,35 @@ export default {
     },
     detail(item) {
       this.edit(item.id)
+    },
+    /* 触发 */
+    trigger(id) {
+      this.serviceId = id
+      const i = this.tableData.find((item) => {
+        return item.id === id
+      })
+      if (i.productServiceParamList && i.productServiceParamList.length) {
+        this.serviceParams = i.productServiceParamList
+        this.dialogVisible2 = true
+      } else {
+        this.serviceParams = []
+        this.triggerService()
+      }
+    },
+    triggerService() {
+      executeService({ deviceId: this.$route.query.id, serviceId: this.serviceId, serviceParams: this.serviceParams }).then((res)=>{
+        if (res.code == 200){
+          this.$message({
+            message: '服务触发成功',
+            type: 'success'
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          message: '服务触发失败',
+          type: 'error'
+        })
+      })
     },
     edit(id) {
       const i = this.tableData.find((item) => {

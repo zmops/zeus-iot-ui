@@ -233,6 +233,15 @@ export function deleteService(data) {
   })
 }
 
+// 产品服务触发
+export function executeService(data) {
+  return request({
+    url: '/device/service/execute',
+    method: 'post',
+    data
+  })
+}
+
 // 产品服务获取输入参数
 export function getServiceData(params) {
   return request({
