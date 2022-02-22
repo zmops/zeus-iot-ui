@@ -19,8 +19,8 @@
             </el-option-group>
           </el-select>
         </div>
-        <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21' && item.type !== '13'" class="zeus-list-item">
-          <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)" :disabled="disabled || item.type === '19'"/>
+        <div v-if="item.type !== '7' && item.type !== '8' && item.type !== '25' && item.type !== '21' && item.type !== '13' && item.type !== '19'" class="zeus-list-item">
+          <el-input v-model="item.value" size="mini" :placeholder="tipsText(item.type)" :disabled="disabled"/>
         </div>
         <div v-if="item.type === '25'" class="zeus-list-item">
           <el-input v-model="item.value" size="mini" placeholder="被替换文本" :disabled="disabled"/>

@@ -302,7 +302,7 @@ export default {
         return item.id === id
       })
       if (i.productServiceParamList && i.productServiceParamList.length) {
-        this.serviceParams = i.productServiceParamList
+        this.serviceParams = JSON.parse(JSON.stringify(i.productServiceParamList))
         this.dialogVisible2 = true
       } else {
         this.serviceParams = []
