@@ -177,7 +177,7 @@ export default {
             {
               label: '触发',
               event: 'trigger',
-              icon: 'list-edit'
+              icon: 'list-trigger'
             },
             {
               label: '编辑',
@@ -316,12 +316,14 @@ export default {
             message: '服务触发成功',
             type: 'success'
           })
+          this.dialogVisible2 = false
         }
       }).catch(() => {
         this.$message({
           message: '服务触发失败',
           type: 'error'
         })
+        this.dialogVisible2 = false
       })
     },
     edit(id) {
