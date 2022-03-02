@@ -156,7 +156,8 @@ export default {
       this.$emit('close')
     },
     changeGroupId(id) {
-      this.form.groupId = id
+      // this.form.groupId = id
+      this.$set(this.form, 'groupId', id)
     },
     imgChange(file) {
       if (file.size && file.size > 2 * 1024 * 1024) {
