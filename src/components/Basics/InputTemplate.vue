@@ -1,7 +1,7 @@
 <!-- 搜索栏输入框组件 -->
 <template>
   <div class="InputTemplate">
-    <el-input v-model.trim="farther.form[keyName]" class="" size="mini" :placeholder="'请输入' + label" clearable @keyup.enter.native="onSubmit">
+    <el-input v-model="farther.form[keyName]" class="" size="mini" :placeholder="'请输入' + label" clearable @keyup.enter.native="onSubmit">
       <svg-icon slot="prefix" icon-class="search" class="icon" />
     </el-input>
   </div>
