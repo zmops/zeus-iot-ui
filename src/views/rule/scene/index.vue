@@ -167,10 +167,7 @@ export default {
         scheduleConf: '',
         expLogic: 'and',
         timeIntervals: null,
-        timeIntervals2: [{
-          time: ['', ''],
-          dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7']
-        }],
+        timeIntervals2: [],
         expList: [
           {
             deviceId: '',
@@ -235,10 +232,7 @@ export default {
             })
             this.$set(this.dialogForm, 'timeIntervals2', arr)
           } else {
-            this.$set(this.dialogForm, 'timeIntervals2', [{
-              time: ['', ''],
-              dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7']
-            }])
+            this.$set(this.dialogForm, 'timeIntervals2', [])
           }
           this.state = '编辑'
           this.dialogVisible = true
@@ -264,10 +258,7 @@ export default {
             })
             this.$set(this.dialogForm, 'timeIntervals2', arr)
           } else {
-            this.$set(this.dialogForm, 'timeIntervals2', [{
-              time: ['', ''],
-              dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7']
-            }])
+            this.$set(this.dialogForm, 'timeIntervals2', [])
           }
 
           this.$delete(this.dialogForm, 'eventRuleId')
@@ -369,10 +360,7 @@ export default {
         triggerType: '0',
         scheduleConf: '',
         timeIntervals: null,
-        timeIntervals2: [{
-          time: ['', ''],
-          dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7']
-        }],
+        timeIntervals2: [],
         expList: [
           {
             deviceId: '',

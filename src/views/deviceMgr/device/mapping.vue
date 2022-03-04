@@ -250,7 +250,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mapping{
-  padding: 20px;
+  //padding: 20px;
   background-color: #fff;
 
   .add-btn{

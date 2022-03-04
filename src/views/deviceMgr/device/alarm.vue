@@ -52,7 +52,7 @@ export default {
       formParams: [
         {
           componentName: 'InputTemplate',
-          keyName: 'name',
+          keyName: 'eventRuleName',
           label: '告警规则名称'
         }
       ],

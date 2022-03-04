@@ -348,7 +348,7 @@ export default {
           return false
         }
       }
-      this.formData.timeIntervals2.push({ time: ['', ''], dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7'] })
+      this.formData.timeIntervals2.push({ time: ['083000', '180000'], dayOfWeeks: ['1', '2', '3', '4', '5', '6', '7'] })
     },
     verification() {
       for (const item of this.formData.deviceServices) {

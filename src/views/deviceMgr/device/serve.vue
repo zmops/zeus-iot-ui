@@ -175,11 +175,6 @@ export default {
           idName: 'id',
           buttons: [
             {
-              label: '触发',
-              event: 'trigger',
-              icon: 'list-trigger'
-            },
-            {
               label: '编辑',
               event: 'edit',
               icon: 'list-edit'
