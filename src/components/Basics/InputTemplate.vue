@@ -1,7 +1,7 @@
 <!-- 搜索栏输入框组件 -->
 <template>
   <div class="InputTemplate">
-    <el-input v-model.trim="farther.form[keyName]" class="" size="mini" :placeholder="'请输入' + label" clearable>
+    <el-input v-model.trim="farther.form[keyName]" class="" size="mini" :placeholder="'请输入' + label" clearable @keyup.enter.native="onSubmit">
       <svg-icon slot="prefix" icon-class="search" class="icon" />
     </el-input>
   </div>
@@ -19,6 +19,11 @@ export default {
     label: {
       type: String,
       default: '内容'
+    }
+  },
+  methods: {
+    onSubmit() {
+      this.$emit('onSubmit')
     }
   }
 }

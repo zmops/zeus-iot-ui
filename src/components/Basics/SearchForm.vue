@@ -25,7 +25,7 @@
 <!--      </el-form>-->
       <div class="form">
         <div v-for="(item, index) in params" :key="index" :style="{flex:item.componentName==='InputTemplate'? 1 : ''}" class="zeus-mr-5">
-          <component :is="item.componentName" v-bind="item" />
+          <component :is="item.componentName" v-bind="item" @onSubmit="search"/>
         </div>
         <el-button v-if="params && params.length" size="mini" class="setting-button" round @click.prevent="search"><svg-icon icon-class="list_search" /></el-button>
       </div>
