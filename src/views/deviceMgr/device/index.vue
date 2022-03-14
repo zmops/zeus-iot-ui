@@ -44,7 +44,7 @@ import {
   getDeviceGrpList, modifyStatusDev
 } from '@/api/deviceMgr'
 import { getDictListByCode } from '@/api/system'
-import { getProductList } from '@/api/porductMgr'
+import { getProductList, getProductTypeTree } from '@/api/porductMgr'
 
 export default {
   provide() {
@@ -66,11 +66,14 @@ export default {
       formParams: [],
       deviceGroup: [],
       productList: [],
+      treeData: [],
       butLoading: false,
       form: {
         name: '',
         productId: '',
         prodType: '',
+        prodTypeNames: [],
+        prodTypeName: '',
         deviceGroupId: ''
       },
       buttons: [
@@ -221,6 +224,12 @@ export default {
           this.productList = res.data
         }
       })
+      // 获取产品分类数据
+      await getProductTypeTree().then((res) => {
+        if (res.code == 200) {
+          this.treeData = res.data
+        }
+      })
       this.formParams = [
         {
           componentName: 'SelectTemplate',
@@ -239,12 +248,26 @@ export default {
           options: this.typeList
         },
         {
+          componentName: 'CascaderTemplate',
+          keyName: 'prodTypeNames',
+          label: '产品分类',
+          optionId: 'name',
+          optionName: 'name',
+          childrenName: 'childrenNodes',
+          options: this.treeData
+        },
+        {
           componentName: 'SelectTemplate',
           keyName: 'productId',
           label: '产品',
           optionId: 'productId',
           optionName: 'name',
           options: this.productList
+        },
+        {
+          componentName: 'KeyValueTemplate',
+          keyName: 'tag',
+          label: '标签'
         },
         {
           componentName: 'InputTemplate',
@@ -259,6 +282,9 @@ export default {
     },
     getList() {
       this.loading = true
+      if (this.form.prodTypeNames && this.form.prodTypeNames.length){
+        this.form.prodTypeName = this.form.prodTypeNames[this.form.prodTypeNames.length - 1]
+      }
       getDeviceByPage({ ...this.form, maxRow: this.size, page: this.page }).then((res) => {
         this.loading = false
         if (res.code == 200) {

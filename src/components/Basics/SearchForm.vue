@@ -61,6 +61,7 @@
 
 <script>
 import SelectTemplate from '@/components/Basics/SelectTemplate'
+import CascaderTemplate from '@/components/Basics/CascaderTemplate'
 import InputTemplate from '@/components/Basics/InputTemplate'
 import DateTimePickerTemplate from '@/components/Basics/DateTimePickerTemplate'
 import KeyValueTemplate from '@/components/Basics/KeyValueTemplate'
@@ -73,7 +74,8 @@ export default {
     InputTemplate,
     DateTimePickerTemplate,
     KeyValueTemplate,
-    DeviceSelectTemplate
+    DeviceSelectTemplate,
+    CascaderTemplate
   },
   props: {
     /* 搜索栏左侧表单 */

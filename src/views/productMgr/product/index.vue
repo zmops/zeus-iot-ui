@@ -35,7 +35,7 @@ import ProductForm from './addForm.vue'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import FormTemplate from '@/components/Slots/FormTemplate'
 import Pagination from '@/components/Basics/Pagination'
-import { getProductByPage, DeleteProduct, UpdateProduct, createProduct } from '@/api/porductMgr'
+import { getProductByPage, DeleteProduct, UpdateProduct, createProduct, getProductTypeTree } from '@/api/porductMgr'
 import { getDictListByCode } from '@/api/system'
 export default {
   provide() {
@@ -57,6 +57,8 @@ export default {
       form: {
         prodName: '',
         prodType: '',
+        prodTypeNames: [],
+        prodTypeName: '',
         groupId: '',
         maxRow: 20,
         page: 1
@@ -69,6 +71,7 @@ export default {
       total: 0,
       formParams: [],
       typeList: [],
+      treeData: [],
       dialogForm: {},
       item: '',
       buttons: [
@@ -154,7 +157,21 @@ export default {
           this.typeList = res.data
         }
       })
+      await getProductTypeTree().then((res) => {
+        if (res.code == 200) {
+          this.treeData = res.data
+        }
+      })
       this.formParams = [
+        {
+          componentName: 'CascaderTemplate',
+          keyName: 'prodTypeNames',
+          label: '产品分类',
+          optionId: 'name',
+          optionName: 'name',
+          childrenName: 'childrenNodes',
+          options: this.treeData
+        },
         {
           componentName: 'SelectTemplate',
           keyName: 'prodType',
@@ -175,6 +192,9 @@ export default {
       this.getList()
     },
     getList() {
+      if (this.form.prodTypeNames && this.form.prodTypeNames.length){
+        this.form.prodTypeName = this.form.prodTypeNames[this.form.prodTypeNames.length - 1]
+      }
       getProductByPage(this.form).then((res) => {
         this.loading = false
         if (res.code == 200) {
