@@ -16,6 +16,7 @@
             v-model="loginForm.username"
             placeholder="请输入账号"
             name="用户名"
+            :autofocus="true"
             type="text"
             tabindex="1"
             auto-complete="on"
