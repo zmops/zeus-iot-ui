@@ -371,6 +371,7 @@ export default {
             })
             this.dialogVisible = false
             await this.getList()
+            this.close()
           }
           this.butLoading = false
         }).catch(() => {
