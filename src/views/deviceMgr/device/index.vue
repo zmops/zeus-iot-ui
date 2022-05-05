@@ -201,6 +201,10 @@ export default {
     }
   },
   created() {
+    // 从url中获取搜索条件
+    if (this.$route.query.form) {
+      this.form = JSON.parse(this.$route.query.form)
+    }
     this.getList()
     this.searchInit()
   },
@@ -277,6 +281,14 @@ export default {
       ]
     },
     search() {
+      // 获取搜索条件并保存在url内
+      const form = JSON.stringify(this.form)
+      this.$router.push({
+        path: '/deviceMgr/device',
+        query: {
+          form
+        }
+      })
       this.page = 1
       this.getList()
     },

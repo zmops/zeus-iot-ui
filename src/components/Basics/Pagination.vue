@@ -36,9 +36,17 @@ export default {
       }
     }
   },
+  watch: {
+    currentPage: {
+      immediate: true,
+      handler(val) {
+        this.page = val
+      }
+    }
+  },
   data() {
     return {
-      page: this.currentPage
+      page: 1
     }
   },
   computed: {
