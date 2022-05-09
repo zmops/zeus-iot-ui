@@ -211,10 +211,11 @@ export default {
       itemData: {},
       item: {},
       dialogForm: {},
-      dialogTime: [
-        this.ftimestampToData(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-        this.ftimestampToData(new Date().getTime())
-      ],
+      // dialogTime: [
+      //   this.ftimestampToData(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+      //   this.ftimestampToData(new Date().getTime())
+      // ],
+      dialogTime: ['now-24h', 'now'],
       dialogRadio: '表格',
       buttons: [
         {
@@ -293,7 +294,7 @@ export default {
           label: '属性标识'
         }
       ],
-      shortcuts: [],
+      shortcuts: '最近一天',
       shortcutsList: [
         {
           key: '最近5分钟',
