@@ -130,7 +130,7 @@ import Action from '@/views/deviceMgr/device/action'
 import { guid } from '@/utils'
 
 export default {
-  name: 'AlarmForm',
+  name: 'SceneForm',
   components: {
     Triggers,
     Action

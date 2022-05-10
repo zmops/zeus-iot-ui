@@ -46,7 +46,7 @@
           <el-input v-model="form.deviceId" size="mini" placeholder="请输入设备ID"/>
         </el-col>
         <el-col :span="3" :offset="7" class="zeus-mt-10">
-          <el-button round size="mini" class="but" @click="getList"><svg-icon icon-class="list_search" /> 搜索</el-button>
+          <el-button round size="mini" class="but" @click="search"><svg-icon icon-class="list_search" /> 搜索</el-button>
         </el-col>
       </el-row>
     </div>
@@ -212,6 +212,13 @@ export default {
     }
   },
   created() {
+    // 获取搜索条件
+    if (localStorage.getItem('prodTypes')) {
+      this.prodTypes = JSON.parse(localStorage.getItem('prodTypes'))
+    }
+    if (localStorage.getItem('devForm')) {
+      this.form = JSON.parse(localStorage.getItem('devForm'))
+    }
     this.init()
     this.getList(true)
     this.$nextTick(() => {
@@ -222,6 +229,12 @@ export default {
 
   },
   methods: {
+    search() {
+      // 保存搜索条件
+      localStorage.setItem('prodTypes', JSON.stringify(this.prodTypes))
+      localStorage.setItem('devForm', JSON.stringify(this.form))
+      this.getList()
+    },
     init() {
       getProductTypeTree().then(res => {
         if (res.code == 200) {
@@ -293,6 +306,7 @@ export default {
       this.ids = row.deviceId
     },
     reset() {
+      this.prodTypes = []
       this.form = {
         prodTypes: [],
         productIds: [],

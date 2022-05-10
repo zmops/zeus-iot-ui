@@ -86,10 +86,16 @@ export default {
     }
   },
   watch: {
-    item: {
+    // item: {
+    //   deep: true,
+    //   handler(val) {
+    //     this.$emit('input', val)
+    //   }
+    // },
+    value: {
       deep: true,
       handler(val) {
-        this.$emit('input', val)
+        this.item = val
       }
     }
   },
