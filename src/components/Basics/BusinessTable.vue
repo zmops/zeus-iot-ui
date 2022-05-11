@@ -11,6 +11,8 @@
     @select="handleSelect"
     @select-all="handleSelectAll"
     @row-click="handleRowClick"
+    v-el-table-infinite-scroll="load"
+    :infinite-scroll-disabled="!scroll"
   >
     <el-table-column
       v-if="selection"
@@ -113,8 +115,12 @@
 <script>
 import OperationButtons from '@/components/Basics/OperationButtons'
 import EventBus from '@/utils/event-bus'
+import elTableInfiniteScroll from 'el-table-infinite-scroll'
 export default {
   name: 'BusinessTable',
+  directives: {
+    'el-table-infinite-scroll': elTableInfiniteScroll
+  },
   components: {
     OperationButtons
   },
@@ -169,7 +175,8 @@ export default {
       type: String,
       default: ''
     },
-    isRadio: Boolean
+    isRadio: Boolean,
+    scroll: Boolean
   },
   data() {
     return {}
@@ -187,6 +194,10 @@ export default {
     })
   },
   methods: {
+    /* 滚动加载 */
+    load() {
+      this.$emit('load')
+    },
     /* 排序 */
     sortMethod(a, b) {
       this.$emit('sortMethod', a, b)

@@ -117,7 +117,7 @@
       <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addTime">增加生效时间段</el-button>
     </el-form-item>
     <el-form-item label="执行动作" prop="deviceServices">
-      <action v-for="(item, index) in formData.deviceServices" :key="item.guid" v-model="formData.deviceServices[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="delAction"></action>
+      <action v-for="(item, index) in formData.deviceServices" :key="item.guid" v-model="formData.deviceServices[index]" :ind="index" :is-dev="true" :device-list="deviceList" @del="delAction" @batch="batchSelect"></action>
       <el-button class="add-btn" plain icon="el-icon-plus" size="mini" @click="addAction">增加执行动作</el-button>
     </el-form-item>
   </el-form>
@@ -337,6 +337,20 @@ export default {
           serviceId: ''
         })
       }
+    },
+    // 批量添加执行动作
+    batchSelect(ids) {
+      // 防止出现空白选择框
+      if (this.formData.deviceServices[this.formData.deviceServices.length - 1].executeDeviceId === ''){
+        this.formData.deviceServices.pop()
+      }
+      ids.forEach((id) => {
+        this.formData.deviceServices.push({
+          guid: guid(),
+          executeDeviceId: id,
+          serviceId: ''
+        })
+      })
     },
     addTime() {
       for (const item of this.formData.timeIntervals2) {

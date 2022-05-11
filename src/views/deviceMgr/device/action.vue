@@ -9,7 +9,7 @@
         :value="i.deviceId"
       />
     </el-select>
-    <el-select v-model="item.serviceId" :disabled="disabled" placeholder="服务列表" size="mini" class="select2 zeus-mr-5">
+    <el-select v-model="item.serviceId" :disabled="disabled" placeholder="服务列表" size="mini" class="select2 zeus-mr-5" @focus="getSer">
       <el-option
         v-for="(i, index) in serviceList"
         :key="index"
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="dialog-body">
-        <DeviceSelect :deviceIds="item.executeDeviceId" @closeDialog="dialogVisible = false" @checked="checked"></DeviceSelect>
+        <DeviceSelect multiple :deviceIds="item.executeDeviceId" @closeDialog="dialogVisible = false" @checked="checked"></DeviceSelect>
       </div>
     </el-dialog>
   </div>
@@ -103,14 +103,22 @@ export default {
     if (this.$route.query.id) {
       this.getService(this.$route.query.id)
     }
-    if (this.item.executeDeviceId) {
+    if (this.item.executeDeviceId && this.item.serviceId) {
       this.getService(this.item.executeDeviceId)
     }
   },
   methods: {
     checked(ids) {
-      this.item.executeDeviceId = ids
-      this.deviceChange(ids)
+      // 判断是多选还是单选
+      if (ids.constructor === Array) {
+        this.$emit('batch', ids)
+      } else {
+        this.item.executeDeviceId = ids
+        this.deviceChange(ids)
+      }
+    },
+    getSer() {
+      this.getService(this.item.executeDeviceId)
     },
     getService(prodId) {
       getServiceList({ prodId }).then((res) => {

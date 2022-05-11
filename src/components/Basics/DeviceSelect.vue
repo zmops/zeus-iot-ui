@@ -57,17 +57,28 @@
         </div>
       </div>
     </div>
+<!--    <el-table-->
+<!--      v-if="type === '设备列表'"-->
+<!--      :data="tableData"-->
+<!--      :loading="loading"-->
+<!--      ref="DeviceSelectTable"-->
+<!--      style="width: 100%">-->
+<!--      <el-table-column prop="name" label="设备名称"></el-table-column>-->
+<!--      <el-table-column prop="deviceId" label="设备ID"></el-table-column>-->
+<!--      <el-table-column prop="status" label="状态"></el-table-column>-->
+<!--    </el-table>-->
     <BusinessTable
       v-if="type === '设备列表'"
-      is-radio
       ref="DeviceSelectTable"
       :table-data="tableData"
       :columns="columns"
       :loading="loading"
       :h="'calc(100% - 147px)'"
       :selection="multiple"
+      scroll
       @select="handleSelect"
-      @selected="selected"
+      @selectedItem="selectedItem"
+      @load="load"
     />
     <baidu-map
       v-if="type === '设备地图'"
@@ -87,14 +98,14 @@
     </baidu-map>
     <el-footer v-if="multiple" class="dialog-footer-btn">
       <el-button size="mini" round @click="closeDialog">取 消</el-button>
-      <el-button type="primary" size="mini" round @click="submit">确 定</el-button>
+      <el-button type="primary" size="mini" :loading="submitLoading" round @click="submit">确 定</el-button>
     </el-footer>
   </div>
 </template>
 
 <script>
 import { getProductTypeTree, getProductList } from '@/api/porductMgr'
-import { getDeviceGrpList, getDeviceList } from '@/api/deviceMgr'
+import { getDeviceGrpList, getDeviceByPage } from '@/api/deviceMgr'
 import BusinessTable from '@/components/Basics/BusinessTable'
 import distribute from '@/assets/distribute.png'
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
@@ -133,6 +144,7 @@ export default {
         deviceGroupIds: []
       },
       BMap: null,
+      submitLoading: false,
       prodTypes: [],
       selfKey: 'bG3Dzof798yBGM7BzzF1uANWriBPOT5x',
       zoom: 6,
@@ -154,7 +166,7 @@ export default {
         {
           label: '设备名称',
           prop: 'name',
-          event: 'selected',
+          event: 'selectedItem',
           show: true
         },
         {
@@ -208,7 +220,9 @@ export default {
           ]
         }
       ],
-      loading: false
+      loading: false,
+      page: 0,
+      count: 1
     }
   },
   created() {
@@ -220,7 +234,7 @@ export default {
       this.form = JSON.parse(localStorage.getItem('devForm'))
     }
     this.init()
-    this.getList(true)
+    // this.getList(true)
     this.$nextTick(() => {
       this.h = this.$refs.DeviceSelect.offsetHeight - 147
     })
@@ -233,6 +247,9 @@ export default {
       // 保存搜索条件
       localStorage.setItem('prodTypes', JSON.stringify(this.prodTypes))
       localStorage.setItem('devForm', JSON.stringify(this.form))
+      this.page = 1
+      this.tableData = []
+      console.log('search')
       this.getList()
     },
     init() {
@@ -264,9 +281,12 @@ export default {
       } else {
         this.form.prodTypes = []
       }
-      getDeviceList(this.form).then((res) => {
+      this.form.page = this.page
+      this.form.maxRow = 50
+      getDeviceByPage(this.form).then((res) => {
         if (res.code == 200) {
-          this.tableData = res.data
+          this.tableData = this.tableData.concat(res.data)
+          this.count = res.count
           if (tage) {
             const dev = this.tableData.find((i) => {
               return i.deviceId === this.deviceIds
@@ -298,12 +318,13 @@ export default {
       window.open(url.href, '_blank')
     },
     handleSelect(selection, row) {
-      if (row === undefined) {
-        return false
-      }
-      this.$refs.DeviceSelectTable.clearSelection()
-      this.$refs.DeviceSelectTable.setSelection(row)
-      this.ids = row.deviceId
+      // if (row === undefined) {
+      //   return false
+      // }
+      // this.$refs.DeviceSelectTable.clearSelection()
+      // this.$refs.DeviceSelectTable.setSelection(row)
+      // this.ids = row.deviceId
+      this.ids = selection.map((i) => { return i.deviceId })
     },
     reset() {
       this.prodTypes = []
@@ -318,11 +339,19 @@ export default {
     closeDialog() {
       this.$emit('closeDialog')
     },
-    selected(item) {
+    selectedItem(item) {
       this.$emit('checked', item.deviceId)
       this.$emit('closeDialog')
     },
+    load() {
+      if (this.tableData.length < this.count) {
+        console.log('加载....')
+        this.page++
+        this.getList()
+      }
+    },
     submit() {
+      this.submitLoading = true
       this.$emit('checked', this.ids)
       this.$emit('closeDialog')
     },
@@ -437,5 +466,8 @@ export default {
   .popper__arrow:after{
     border-bottom-color: #242E42!important;
   }
+}
+.dialog-footer-btn{
+  bottom: -57px!important;
 }
 </style>
