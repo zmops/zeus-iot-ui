@@ -283,7 +283,7 @@ export default {
   methods: {
     addTrigger() {
       if (this.validateTriggers()) {
-        this.formData.expList.push({
+        let obj = {
           guid: guid(),
           deviceId: '',
           productAttrId: '',
@@ -294,7 +294,23 @@ export default {
           function: 'last',
           period: '时间',
           unit: 'm'
-        })
+        }
+        if (this.formData.expList.length){
+          const dev = this.formData.expList[this.formData.expList.length - 1]
+          obj = {
+            guid: guid(),
+            deviceId: dev.deviceId,
+            productAttrId: '',
+            condition: '=',
+            value: '',
+            scope: '',
+            productAttrType: '属性',
+            function: 'last',
+            period: '时间',
+            unit: 'm'
+          }
+        }
+        this.formData.expList.push(obj)
       }
     },
     validateTriggers() {
