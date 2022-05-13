@@ -70,7 +70,7 @@ export default {
       butLoading: false,
       form: {
         name: '',
-        productId: '',
+        productIds: [],
         prodType: '',
         prodTypeNames: [],
         prodTypeName: '',
@@ -262,10 +262,11 @@ export default {
         },
         {
           componentName: 'SelectTemplate',
-          keyName: 'productId',
+          keyName: 'productIds',
           label: '产品',
           optionId: 'productId',
           optionName: 'name',
+          multiple: true,
           options: this.productList
         },
         {
