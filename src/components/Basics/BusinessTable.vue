@@ -11,11 +11,13 @@
     @select="handleSelect"
     @select-all="handleSelectAll"
     @row-click="handleRowClick"
+    :row-key="getRowKey"
     v-el-table-infinite-scroll="load"
     :infinite-scroll-disabled="!scroll"
   >
     <el-table-column
       v-if="selection"
+      :reserve-selection="true"
       header-align="center"
       align="center"
       type="selection"
@@ -194,6 +196,8 @@ export default {
     })
   },
   methods: {
+    /* 优化显示多选框 */
+    getRowKey(row) { return row.deviceId },
     /* 滚动加载 */
     load() {
       this.$emit('load')
