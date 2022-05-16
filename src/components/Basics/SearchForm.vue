@@ -17,7 +17,7 @@
     <el-button round size="mini" type="primary" @click="cancel">取消选择</el-button>
   </div>
   <div v-else class="setting-form setting-form-light">
-    <div class="condition zeus-flex-between">
+    <div class="condition zeus-flex-between2">
 <!--      <el-form :inline="true" :model="farther.form">-->
 <!--        <el-form-item v-for="(item, index) in params" :key="index" size="mini" class="zeus-mt-10">-->
 <!--          <component :is="item.componentName" v-bind="item" />-->
@@ -143,7 +143,7 @@ export default {
 <style lang="scss" scoped>
 .setting-form{
   display: flex;
-  align-items: center;
+  //align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
   box-shadow: 0 1px 0 0 #eff4f9;
