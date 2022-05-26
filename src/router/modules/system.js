@@ -61,6 +61,16 @@ const systemRouter = {
         icon48: 'sysParam48'
       }
     },
+    {
+      path: '/system/Holidays',
+      component: () => import('@/views/system/Holidays'),
+      name: '/system/Holidays',
+      meta: {
+        title: '节假日管理',
+        icon24: 'sysParam24',
+        icon48: 'sysParam48'
+      }
+    },
     // {
     //   path: '/system/transfer',
     //   component: () => import('@/views/system/transfer'),

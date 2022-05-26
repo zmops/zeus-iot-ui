@@ -442,3 +442,22 @@ export function statusTenant(params) {
     params
   })
 }
+
+// 节假日管理-获取数据
+export function vacationList(params) {
+  return request({
+    url: '/vacation/list',
+    method: 'get',
+    params
+  })
+}
+
+// 节假日管理-更新数据
+export function vacationUpdate(data) {
+  return request({
+    url: '/vacation/update',
+    method: 'post',
+    data
+  })
+}
+
