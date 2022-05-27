@@ -40,10 +40,10 @@
       </el-row>
       <el-row :gutter="10">
         <el-col :span="7" class="zeus-mt-10">
-          <el-input v-model="form.name" size="mini" placeholder="请输入设备名称"/>
+          <el-input v-model="form.name" size="mini" placeholder="请输入设备名称" @keyup.enter.native="search"/>
         </el-col>
         <el-col :span="7" class="zeus-mt-10">
-          <el-input v-model="form.deviceId" size="mini" placeholder="请输入设备ID"/>
+          <el-input v-model="form.deviceId" size="mini" placeholder="请输入设备ID" @keyup.enter.native="search"/>
         </el-col>
         <el-col :span="3" :offset="7" class="zeus-mt-10">
           <el-button round size="mini" class="but" @click="search"><svg-icon icon-class="list_search" /> 搜索</el-button>
