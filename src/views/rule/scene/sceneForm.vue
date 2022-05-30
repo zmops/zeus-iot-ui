@@ -70,6 +70,7 @@
         class="time"
         placeholder="选择日期时间">
       </el-date-picker>
+      <el-checkbox v-model="formData.isVacationStrategy" class="zeus-ml-20">是否启用节假日</el-checkbox>
     </el-form-item>
     <el-form-item v-if="formData.triggerType === '0'" label="触发条件">
       <div class="zeus-mb-10">
@@ -87,6 +88,7 @@
       <div class="el-form-item-tips">
         <svg-icon icon-class="tips" class="icon" />
         <span>规则在以下时间段内生效。若时间段为空，则永久生效。</span>
+        <el-checkbox v-model="formData.isVacationStrategy" class="zeus-ml-20">是否启用节假日</el-checkbox>
       </div>
       <div v-for="(item, index) in formData.timeIntervals2" :key="item.guid">
         <el-select v-model="formData.timeIntervals2[index].dayOfWeeks" multiple placeholder="请选择星期" size="mini" class="zeus-mr-5" style="width: 502px" >

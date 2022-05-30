@@ -168,6 +168,7 @@ export default {
         expLogic: 'and',
         timeIntervals: null,
         timeIntervals2: [],
+        isVacationStrategy: true,
         expList: [
           {
             deviceId: '',
@@ -361,6 +362,7 @@ export default {
         scheduleConf: '',
         timeIntervals: null,
         timeIntervals2: [],
+        isVacationStrategy: true,
         expList: [
           {
             deviceId: '',
