@@ -203,7 +203,11 @@ export default {
   created() {
     // 从url中获取搜索条件
     if (this.$route.query.form) {
-      this.form = JSON.parse(this.$route.query.form)
+      const form = JSON.parse(this.$route.query.form)
+      if (form.deviceGroupIds){
+        form.deviceGroupId = form.deviceGroupIds[0]
+      }
+      this.form = form
     }
     this.getList()
     this.searchInit()
@@ -283,6 +287,9 @@ export default {
     },
     search() {
       // 获取搜索条件并保存在url内
+      if (this.form.deviceGroupId){
+        this.$set(this.form, 'deviceGroupIds', [this.form.deviceGroupId])
+      }
       const form = JSON.stringify(this.form)
       this.$router.push({
         path: '/deviceMgr/device',
